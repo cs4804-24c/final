@@ -109,4 +109,16 @@ GitHub Details
 - Name your submission using the following scheme: 
 ```
 a3-FirstLastnameMember1-FirstLastnameMember2-FirstLastnameMember3-...
+
+2/2/24 Experiment Plan:
+
+WE NEED 10 PARTICIPANTS OF VARIED BACKGROUNDS AND 20 TRIALS PER PARTICIPANT.
+We are going to use icon charts for our data visualizations in our experiments.
+Do not use JUST university students for our experiment.
+Look at Chartwells employees in the CC.
+Consider talk-analysis, but know this is laborius.
+Consider talking to Price Chopper employees.
+Consider talking to family outside of WPI.
+
+
 ```
