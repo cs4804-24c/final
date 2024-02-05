@@ -112,13 +112,35 @@ a3-FirstLastnameMember1-FirstLastnameMember2-FirstLastnameMember3-...
 
 2/2/24 Experiment Plan:
 
-WE NEED 10 PARTICIPANTS OF VARIED BACKGROUNDS AND 20 TRIALS PER PARTICIPANT.
+Preliminaries:
+
+WE NEED 10 PARTICIPANTS OF VARIED BACKGROUNDS AND 20 TRIALS PER VISUALIZATION TYPE, PER PARTICIPANT (60 TRIALS PER PARTICIPANT).
 We are going to use icon charts for our data visualizations in our experiments.
 Do not use JUST university students for our experiment.
 Look at Chartwells employees in the CC.
 Consider talk-analysis, but know this is laborius.
 Consider talking to Price Chopper employees.
 Consider talking to family outside of WPI.
+
+Application and Experiment Ideas:
+
+I think for the sake of time we should implement an experiment that has a similar structure to Cleveland-McGill and asks a similar question.
+I read through the medical/hospital visualization papers; I couldn't piece together a clear idea for an experiment we could do based on those experiments specifically.
+A good goal for us can be to have the web application built by Friday 2/9 (which should be doable), and then conduct the necessary experiments the following week and write up the README with the master csv file attached.
+
+Application:
+    - Use basic Javascript/HTML/CSS frameworks to build the frontend (we only need 3 different visualizations for this experiment, so the application navigation is relatively short-lived). We could also consider using React to streamline the frontend; I will see if React is a good fit for the project on 2/6.
+    - Have a user registration/login that will allow us to keep track of experiment results for the current user. The master csv file we update periodically throughout the second week can reflect each username and the corresponding experiment results.
+    - Use an Express.js server with a persistant database (either Firebase or MongoDB; I know how to hook up MongoDB to web apps pretty easily). This backend setup will allow us to have a more robust way of storing and accessing user data that will be shown in the master csv file.
+
+Experiment:
+    - Key question we can ask the user: "How many times larger is the larger than the smaller?" (variant of the Cleveland-McGill question).
+    - 3 Visualization types:
+        - Horizontal Bar chart
+        - Pie Chart
+        - Horizontal Stacked Bar Chart
+
+    - We could visualize data (loosely without tick marks that are too revealing) about COVID-19 as suggested in the README. Musical cateogrical data is another idea!
 
 
 ```
