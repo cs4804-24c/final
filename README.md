@@ -129,9 +129,9 @@ I read through the medical/hospital visualization papers; I couldn't piece toget
 A good goal for us can be to have the web application built by Friday 2/9 (which should be doable), and then conduct the necessary experiments the following week and write up the README with the master csv file attached.
 
 Application:
-    - Use basic Javascript/HTML/CSS frameworks to build the frontend (we only need 3 different visualizations for this experiment, so the application navigation is relatively short-lived). We could also consider using React to streamline the frontend; I will see if React is a good fit for the project on 2/6.
+    - Use basic Javascript/HTML/CSS frameworks to build the frontend (we only need 3 different visualizations for this experiment, so the application navigation is relatively short-lived). React should be a good fit for the project.
     - Have a user registration/login that will allow us to keep track of experiment results for the current user. The master csv file we update periodically throughout the second week can reflect each username and the corresponding experiment results.
-    - Use an Express.js server with a persistant database (either Firebase or MongoDB; I know how to hook up MongoDB to web apps pretty easily). This backend setup will allow us to have a more robust way of storing and accessing user data that will be shown in the master csv file.
+    - Use Firebase for a relatively easy persistent database instead of having a server.
 
 Experiment:
     - Key question we can ask the user: "How many times larger is the larger than the smaller?" (variant of the Cleveland-McGill question).
