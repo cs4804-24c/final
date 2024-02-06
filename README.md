@@ -130,6 +130,7 @@ A good goal for us can be to have the web application built by Friday 2/9 (which
 
 Application:
     - Use basic Javascript/HTML/CSS frameworks to build the frontend (we only need 3 different visualizations for this experiment, so the application navigation is relatively short-lived). React should be a good fit for the project.
+    - We can use Bulma CSS to style the applicaton; very quick and easy to implement.
     - Have a user registration/login that will allow us to keep track of experiment results for the current user. The master csv file we update periodically throughout the second week can reflect each username and the corresponding experiment results.
     - Use Firebase for a relatively easy persistent database instead of having a server.
 
