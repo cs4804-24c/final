@@ -2,9 +2,10 @@
   "name": "a3-experiment",
   "version": "1.0.0",
   "description": "Assignment 3 - Replicating a Classic Experiment   ===",
-  "main": "index.js",
+  "main": "index.html",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "react-scripts start"
   },
   "keywords": [],
   "author": "Joe Dobbelaar, Priyanka Narasimhan, Randy Huang, Matthew McAlarney",
