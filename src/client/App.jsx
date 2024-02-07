@@ -1,10 +1,10 @@
 import React from "react"
-import VisualizationDisplay from "./visualization_display/visualization_display"
+import VisualizationProblemDisplay from "./visualization_problem_display/visualization_problem_display"
 
 function App() {
   return (
     <>
-      <VisualizationDisplay />
+      <VisualizationProblemDisplay />
       <footer class="footer">
         <div class="content has-text-centered is-family-code">
           <strong>

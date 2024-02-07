@@ -126,7 +126,7 @@ Application and Experiment Ideas:
 
 I think for the sake of time we should implement an experiment that has a similar structure to Cleveland-McGill and asks a similar question.
 I read through the medical/hospital visualization papers; I couldn't piece together a clear idea for an experiment we could do based on those experiments specifically.
-A good goal for us can be to have the web application built by Friday 2/9 (which should be doable), and then conduct the necessary experiments the following week and write up the README with the master csv file attached.
+A good goal for us can be to have the web application built by mid-Sunday 2/11 (which should be doable), and then conduct the necessary experiments the following week and write up the README with the master csv file attached.
 
 Application:
     - Use basic Javascript/HTML/CSS frameworks to build the frontend (we only need 3 different visualizations for this experiment, so the application navigation is relatively short-lived). React should be a good fit for the project.
