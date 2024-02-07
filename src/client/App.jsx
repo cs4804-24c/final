@@ -8,7 +8,7 @@ function App() {
       <footer class="footer">
         <div class="content has-text-centered is-family-code">
           <strong>
-            A3-Experiment - Joe Dobbelaar, Priyanka Narasimhan, Randy Huang,
+            A3-Icon Array Data Visualization Experiment - Joe Dobbelaar, Priyanka Narasimhan, Randy Huang,
             Matthew McAlarney
           </strong>
         </div>

@@ -133,15 +133,16 @@ Application:
     - We can use Bulma CSS to style the applicaton; very quick and easy to implement.
     - Have a user registration/login that will allow us to keep track of experiment results for the current user. The master csv file we update periodically throughout the second week can reflect each username and the corresponding experiment results.
     - Use Firebase for a relatively easy persistent database instead of having a server.
+    - Goal should be to get app done by Friday night 2/9 or Saturday 2/10.
 
 Experiment:
-    - Key question we can ask the user: "How many times larger is the larger than the smaller?" (variant of the Cleveland-McGill question).
-    - 3 Visualization types:
-        - Horizontal Bar chart
-        - Pie Chart
-        - Horizontal Stacked Bar Chart
-
-    - We could visualize data (loosely without tick marks that are too revealing) about COVID-19 as suggested in the README. Musical cateogrical data is another idea!
+    - Icon Array experiment:
+        - Each of the three visualizations is an icon array.
+        - The test hypothesis is that the average user cannot accurately interpret an icon array across trials and three different data visualizations.
+            - Consider replicating a prior study using icon arrays.
+        - Link: https://cbssm.med.umich.edu/how-we-can-help/tools-and-resources/pictographs-icon-arrays
+        - https://depictdatastudio.com/nested-donuts-to-icon-array/
+    - Final project proposal due Thursday 2/8 at 11:59 PM; should be brief.
 
 
 ```
