@@ -1,16 +1,32 @@
 import React, { useState, useEffect } from "react"
 
 function VisualizationProblemDisplay() {
+  const testURL1 = "https://media.geeksforgeeks.org/wp-content/uploads/20220221132017/download-200x200.png"
+  const testURL2 = "https://media.geeksforgeeks.org/wp-content/uploads/20210915115837/gfg3-300x300.png"
+  const testURL3 = "https://media.geeksforgeeks.org/wp-content/cdn-uploads/20190710102234/download3.png"
+  
   const [visualizationTitle, setVisualizationTitle] = useState("First") //First is a placeholder here.
-  const [imagePath, setImagePath] = useState("") //Will come into use once we have icon array images.
+  const [imagePath, setImagePath] = useState(testURL3) //Will come into use once we have icon array images.
   const [submittedAnswer, setSubmittedAnswer] = useState("")
+
+  useEffect(() => {
+    const answerSubmissionButton = document.getElementById("submissionButton")
+    answerSubmissionButton.addEventListener("click", async function() {
+      
+    })
+  })
+
+  useEffect(() => {
+
+  })
+
   return (
     <section class = "section">
         <h1 class = "is-size-1 is-family-primary has-text-weight-bold">{visualizationTitle} Icon Array</h1>
         <div class = "box mt-1">
           <div class = "media">
             <div class = "media-left">
-              <img width="400" height="400" src="https://media.geeksforgeeks.org/wp-content/uploads/20220221132017/download-200x200.png"/>
+              <img width="400" height="400" src={imagePath}/>
             </div> 
             <div class = "media-content">
               <div class = "content">
