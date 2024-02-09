@@ -124,8 +124,6 @@ Consider talking to family outside of WPI.
 
 Application and Experiment Ideas:
 
-I think for the sake of time we should implement an experiment that has a similar structure to Cleveland-McGill and asks a similar question.
-I read through the medical/hospital visualization papers; I couldn't piece together a clear idea for an experiment we could do based on those experiments specifically.
 A good goal for us can be to have the web application built by mid-Sunday 2/11 (which should be doable), and then conduct the necessary experiments the following week and write up the README with the master csv file attached.
 
 Application:
@@ -133,7 +131,6 @@ Application:
     - We can use Bulma CSS to style the applicaton; very quick and easy to implement.
     - Have a user registration/login that will allow us to keep track of experiment results for the current user. The master csv file we update periodically throughout the second week can reflect each username and the corresponding experiment results.
     - Use Firebase for a relatively easy persistent database instead of having a server.
-    - Goal should be to get app done by Friday night 2/9 or Saturday 2/10.
 
 Experiment:
     - Icon Array experiment:
@@ -142,7 +139,6 @@ Experiment:
             - Consider replicating a prior study using icon arrays.
         - Link: https://cbssm.med.umich.edu/how-we-can-help/tools-and-resources/pictographs-icon-arrays
         - https://depictdatastudio.com/nested-donuts-to-icon-array/
-    - Final project proposal due Thursday 2/8 at 11:59 PM; should be brief.
 
 
 ```
