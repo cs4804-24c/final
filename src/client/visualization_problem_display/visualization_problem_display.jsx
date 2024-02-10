@@ -14,15 +14,16 @@ function VisualizationProblemDisplay() {
   const [questionText, setQuestionText] = useState(questions[0])
   const [submittedAnswer, setSubmittedAnswer] = useState(null)
   const [answerFeedback, setAnswerFeedback] = useState("")
+  const [questionNavigationError, setQuestionNavigationError] = useState("")
 
   useEffect(() => {
     const answerSubmissionButton = document.getElementById("submissionButton")
     answerSubmissionButton.addEventListener("click", async function() {
       const submission = document.getElementById("userAnswer").value
       if (currentQuestionAnswered) {
-        setAnswerFeedback("Can only submit one answer.")
+        setAnswerFeedback("Can only submit one answer")
       } else if (submission.length == 0) {
-        setAnswerFeedback("Cannot submit an empty answer.")
+        setAnswerFeedback("Cannot submit an empty answer")
       } else {
         const answer = parseInt(submission)
         setSubmittedAnswer(answer)
@@ -52,8 +53,9 @@ function VisualizationProblemDisplay() {
         setCurrentQuestionAnswered(false)
         setSubmittedAnswer(null)
         setAnswerFeedback("")
+        setQuestionNavigationError("")
       } else {
-
+        setQuestionNavigationError("Must answer current question before moving to the next question")
       }
     })
   })
@@ -80,7 +82,7 @@ function VisualizationProblemDisplay() {
                   </div>
                 </div>
                 <div class = "block">
-                  <p class = "is-family-monospace">{answerFeedback}</p>
+                  <p class = "is-family-monospace has-text-grey">{answerFeedback}</p>
                 </div>
               </div>
             </div>
@@ -90,6 +92,9 @@ function VisualizationProblemDisplay() {
           <div class = "buttons is-centered">
             <button class = "button is-medium is-warning has-text-black is-family-code" id="nextQuestion">Next Question</button>
           </div>
+        </div>
+        <div class = "block">
+          <p class = "is-family-monospace has-text-centered has-text-danger-dark">{questionNavigationError}</p>
         </div>
     </section>
   )
