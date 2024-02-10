@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 
 function VisualizationProblemDisplay() {
   const testImageURLS = ["https://media.geeksforgeeks.org/wp-content/uploads/20220221132017/download-200x200.png", 
@@ -6,7 +7,7 @@ function VisualizationProblemDisplay() {
                     "https://media.geeksforgeeks.org/wp-content/cdn-uploads/20190710102234/download3.png"]
   const visualizationTitles = ["First", "Second", "Third"] //placeholder titles for now.
   const questions = ["What fraction of people caught COVID-19 in the sample to the left?", "What fraction of men went nine days without showering in the 1999 fraternity sample to the left?", "What fraction of Americans divorced in front of 7-Eleven in the sample to the left?"]
-  
+
   const [questionNumber, setQuestionNumber] = useState(1)
   const [visualizationTitle, setVisualizationTitle] = useState(visualizationTitles[0]) //First is a placeholder here.
   const [imagePath, setImagePath] = useState(testImageURLS[0]) //Will come into use once we have icon array images.
@@ -14,7 +15,8 @@ function VisualizationProblemDisplay() {
   const [questionText, setQuestionText] = useState(questions[0])
   const [submittedAnswer, setSubmittedAnswer] = useState("")
   const [answerFeedback, setAnswerFeedback] = useState("")
-  const [questionNavigationError, setQuestionNavigationError] = useState("")
+  const [navigationError, setNavigationError] = useState("")
+  const navigate = useNavigate()
 
   useEffect(() => {
     const answerSubmissionButton = document.getElementById("submissionButton")
@@ -43,20 +45,25 @@ function VisualizationProblemDisplay() {
   }, [currentQuestionAnswered])
 
   useEffect(() => {
-    const nextQuestionButton = document.getElementById("nextQuestion")
+    const nextQuestionButton = document.getElementById("next")
     nextQuestionButton.addEventListener("click", async function() {
       if (currentQuestionAnswered) {
-        setQuestionNumber(questionNumber + 1)
-        setVisualizationTitle(visualizationTitles[visualizationTitles.indexOf(visualizationTitle) + 1])
-        setImagePath(testImageURLS[testImageURLS.indexOf(imagePath) + 1])
-        setQuestionText(questions[questions.indexOf(questionText) + 1])
-        setCurrentQuestionAnswered(false)
-        setSubmittedAnswer("")
-        setAnswerFeedback("")
-        setQuestionNavigationError("")
-        document.getElementById("userAnswer").value = ""
+        console.log(questionNumber)
+        if (questionNumber == questions.length) {
+          navigate("/thank_you")
+        } else {
+          setQuestionNumber(questionNumber + 1)
+          setVisualizationTitle(visualizationTitles[visualizationTitles.indexOf(visualizationTitle) + 1])
+          setImagePath(testImageURLS[testImageURLS.indexOf(imagePath) + 1])
+          setQuestionText(questions[questions.indexOf(questionText) + 1])
+          setCurrentQuestionAnswered(false)
+          setSubmittedAnswer("")
+          setAnswerFeedback("")
+          setNavigationError("")
+          document.getElementById("userAnswer").value = ""
+        }
       } else {
-        setQuestionNavigationError("Must answer current question before moving to the next question")
+        setNavigationError("Must answer current question before moving forward")
       }
     })
   })
@@ -91,17 +98,14 @@ function VisualizationProblemDisplay() {
         </div>
         <div class = "block">
           <div class = "buttons is-centered">
-            <button class = "button is-medium is-warning has-text-black is-family-code" id="nextQuestion">Next Question</button>
+            <button class = "button is-medium is-warning has-text-black is-family-code" id="next">Next</button>
           </div>
         </div>
         <div class = "block">
-          <p class = "is-family-monospace has-text-centered has-text-danger-dark">{questionNavigationError}</p>
+          <p class = "is-family-monospace has-text-centered has-text-danger-dark">{navigationError}</p>
         </div>
     </section>
   )
 }
-
-//"../../../img/cleveland-equation.png"
-//style={{position: 'relative', marginLeft: 0 + 'em', marginBottom: 0 + 'em'}}
 
 export default VisualizationProblemDisplay
