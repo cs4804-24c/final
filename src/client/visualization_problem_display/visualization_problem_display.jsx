@@ -12,7 +12,7 @@ function VisualizationProblemDisplay() {
   const [imagePath, setImagePath] = useState(testImageURLS[0]) //Will come into use once we have icon array images.
   const [currentQuestionAnswered, setCurrentQuestionAnswered] = useState(false)
   const [questionText, setQuestionText] = useState(questions[0])
-  const [submittedAnswer, setSubmittedAnswer] = useState(null)
+  const [submittedAnswer, setSubmittedAnswer] = useState("")
   const [answerFeedback, setAnswerFeedback] = useState("")
   const [questionNavigationError, setQuestionNavigationError] = useState("")
 
@@ -51,9 +51,10 @@ function VisualizationProblemDisplay() {
         setImagePath(testImageURLS[testImageURLS.indexOf(imagePath) + 1])
         setQuestionText(questions[questions.indexOf(questionText) + 1])
         setCurrentQuestionAnswered(false)
-        setSubmittedAnswer(null)
+        setSubmittedAnswer("")
         setAnswerFeedback("")
         setQuestionNavigationError("")
+        document.getElementById("userAnswer").value = ""
       } else {
         setQuestionNavigationError("Must answer current question before moving to the next question")
       }
