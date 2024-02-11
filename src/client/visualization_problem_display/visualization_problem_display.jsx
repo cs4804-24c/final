@@ -45,10 +45,13 @@ function VisualizationProblemDisplay() {
   }, [currentQuestionAnswered])
 
   useEffect(() => {
+    console.log(questionNumber)
+  }, [questionNumber])
+
+  useEffect(() => {
     const nextQuestionButton = document.getElementById("next")
     nextQuestionButton.addEventListener("click", async function() {
       if (currentQuestionAnswered) {
-        console.log(questionNumber)
         if (questionNumber == questions.length) {
           navigate("/thank_you")
         } else {
