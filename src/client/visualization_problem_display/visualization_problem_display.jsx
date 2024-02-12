@@ -8,13 +8,13 @@ function VisualizationProblemDisplay() {
   const imagePaths = [firstVisualization, 
                     secondVisualization,
                     thirdVisualization]
-  const visualizationTitles = ["Medical Bill Inception", "Surgery Stage", "Third"] //placeholder titles for now.
+  const visualizationTitles = ["Medical Bill Inception", "Surgery", "Inpatient Stay"] 
   const questions = ["There are typically 250 people or more involved in the billing process for one patient's four day stay at a hospital. In the visualization to the left, the icons colored in red are the people said to be involved in the inception stage of the billing process. How many of the total number of people involved in the billing process on the left contribute to the inception of the bill?", 
   "The second stage of the billing process for one patient's four day stay at a hospital involves the fees incurred during surgery. In the visualization to the left, the icons colored in black represent the people involved in the previous inception stage of the billing process. The icons colored in red now represent the people involved in the surgery fees of the billing process. How many of the total number of people involved in the billing process on the left contribute to the surgery fees of the bill?", 
   "The third stage of the billing process for one patient's four day stay at a hospital involves the fees incurred during the inpatient stay. In the visualization to the left, the icons colored in black represent the people involved in the previous inception and surgery stages of the billing process. The icons colored in red now represent the people involved in the inpatient stay fees of the billing process. How many of the total number of people involved in the billing process on the left have contributed to the fees so far?"]
   const [questionNumber, setQuestionNumber] = useState(1)
-  const [visualizationTitle, setVisualizationTitle] = useState(visualizationTitles[0]) //First is a placeholder here.
-  const [imagePath, setImagePath] = useState(imagePaths[0]) //Will come into use once we have icon array images.
+  const [visualizationTitle, setVisualizationTitle] = useState(visualizationTitles[0]) 
+  const [imagePath, setImagePath] = useState(imagePaths[0]) 
   const [currentQuestionAnswered, setCurrentQuestionAnswered] = useState(false)
   const [questionText, setQuestionText] = useState(questions[0])
   const [submittedAnswer, setSubmittedAnswer] = useState("")

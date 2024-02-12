@@ -139,6 +139,11 @@ Experiment:
             - Consider replicating a prior study using icon arrays.
             - Sources:
                 a. We took icon arrays from the following article about medical billing errors and used these visualizations in our experiment: https://www.cleveland.com/healthfit/2012/06/medical_billing_errors_what_ca.html
+    
+    - Answers for questions:
+        1. 23
+        2. 32
+        3. 170
 
 
 ```
