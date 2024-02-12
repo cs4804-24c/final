@@ -124,7 +124,7 @@ Consider talking to family outside of WPI.
 
 Application and Experiment Ideas:
 
-A good goal for us can be to have the web application built by mid-Sunday 2/11 (which should be doable), and then conduct the necessary experiments the following week and write up the README with the master csv file attached.
+A good goal for us can be to have the web application built by Monday night 2/12 (which should be doable), and then conduct the necessary experiments the following week and write up the README with the master csv file attached.
 
 Application:
     - Use basic Javascript/HTML/CSS frameworks to build the frontend (we only need 3 different visualizations for this experiment, so the application navigation is relatively short-lived). React should be a good fit for the project.
@@ -137,8 +137,8 @@ Experiment:
         - Each of the three visualizations is an icon array.
         - The test hypothesis is that the average user cannot accurately interpret an icon array across trials and three different data visualizations.
             - Consider replicating a prior study using icon arrays.
-        - Link: https://cbssm.med.umich.edu/how-we-can-help/tools-and-resources/pictographs-icon-arrays
-        - https://depictdatastudio.com/nested-donuts-to-icon-array/
+            - Sources:
+                a. We took icon arrays from the following article about medical billing errors and used these visualizations in our experiment: https://www.cleveland.com/healthfit/2012/06/medical_billing_errors_what_ca.html
 
 
 ```
