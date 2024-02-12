@@ -9,11 +9,9 @@ function App() {
         <VisualizationProblemDisplay />
       </Router>
       <footer class="footer">
-        <div class="content has-text-centered is-family-code">
-          <strong>
+        <div class="content has-text-centered has-text-weight-normal is-family-sans-serif">
             A3-Icon Array Data Visualization Experiment - Joe Dobbelaar, Priyanka Narasimhan, Randy Huang,
             Matthew McAlarney
-          </strong>
         </div>
       </footer>
     </>

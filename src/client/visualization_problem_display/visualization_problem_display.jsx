@@ -85,7 +85,7 @@ function VisualizationProblemDisplay() {
             </div> 
             <div class = "media-content">
               <div class = "content">
-                <label class="label is-size-6 is-family-monospace">{questionText}</label>
+                <label class="label is-size-6 is-family-monospace has-text-weight-light">{questionText}</label>
                 <div class = "field">
                     <div class="control">
                       <input class="input is-size-6 is-family-sans-serif" type="number" placeholder="Type number answer here" id="userAnswer"/>
@@ -97,7 +97,7 @@ function VisualizationProblemDisplay() {
                   </div>
                 </div>
                 <div class = "block">
-                  <p class = "is-family-monospace has-text-grey">{answerFeedback}</p>
+                  <p class = "is-family-monospace has-text-grey has-text-weight-bold is-size-7">{answerFeedback}</p>
                 </div>
               </div>
             </div>
