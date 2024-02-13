@@ -41,7 +41,6 @@ function App() {
   }
 
   const MainDisplay = () => { if (!currentUser) { return; } return <Router><VisualizationProblemDisplay /></Router>; }
-
   const SignOut = () => { if (!currentUser) { return; } return <SignOutButton />; }
 
   return (
