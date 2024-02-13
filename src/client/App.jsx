@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { BrowserRouter as Router } from "react-router-dom"
 import VisualizationProblemDisplay from "./visualization_problem_display/visualization_problem_display"
-import { auth } from "./api/firebase"
-import { SignInButton, getCurrentUser, signIn } from "./api/auth";
+import { SignInButton, getCurrentUser } from "./api/auth";
 
 function App() {
 
@@ -25,7 +24,7 @@ function App() {
     )
   }
 
-  const SignIn = () => { if (currentUser) { return; } return <SignInButton /> }
+  const SignIn = () => { if (currentUser) { return; } return <SignInButton />; }
 
   const MainDisplay = () => { if (!currentUser) { return; } return <Router><VisualizationProblemDisplay /></Router>; }
 

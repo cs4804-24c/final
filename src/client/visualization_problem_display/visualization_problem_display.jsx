@@ -76,40 +76,40 @@ function VisualizationProblemDisplay() {
   })
 
   return (
-    <section class = "section">
-        <h1 class = "is-size-2 is-family-primary has-text-weight-bold">{visualizationTitle} Icon Array</h1>
-        <div class = "box mt-3">
-          <div class = "media">
-            <div class = "media-left">
+    <section className = "section">
+        <h1 className = "is-size-2 is-family-primary has-text-weight-bold">{visualizationTitle} Icon Array</h1>
+        <div className = "box mt-3">
+          <div className = "media">
+            <div className = "media-left">
               <img width = "550px" height = "300px" src={imagePath}/>
             </div> 
-            <div class = "media-content">
-              <div class = "content">
-                <label class="label is-size-6 is-family-monospace has-text-weight-light">{questionText}</label>
-                <div class = "field">
-                    <div class="control">
-                      <input class="input is-size-6 is-family-sans-serif" type="number" placeholder="Type number answer here" id="userAnswer"/>
+            <div className = "media-content">
+              <div className = "content">
+                <label className="label is-size-6 is-family-monospace has-text-weight-light">{questionText}</label>
+                <div className = "field">
+                    <div className="control">
+                      <input className="input is-size-6 is-family-sans-serif" type="number" placeholder="Type number answer here" id="userAnswer"/>
                     </div>
                 </div>
-                <div class = "field">
-                  <div class = "control">
-                    <button class="button is-small is-link is-family-code" id="submissionButton">Submit</button>
+                <div className = "field">
+                  <div className = "control">
+                    <button className="button is-small is-link is-family-code" id="submissionButton">Submit</button>
                   </div>
                 </div>
-                <div class = "block">
-                  <p class = "is-family-monospace has-text-grey has-text-weight-bold is-size-7">{answerFeedback}</p>
+                <div className = "block">
+                  <p className = "is-family-monospace has-text-grey has-text-weight-bold is-size-7">{answerFeedback}</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class = "block">
-          <div class = "buttons is-centered">
-            <button class = "button is-medium is-warning has-text-black is-family-code" id="next">Next</button>
+        <div className = "block">
+          <div className = "buttons is-centered">
+            <button className = "button is-medium is-warning has-text-black is-family-code" id="next">Next</button>
           </div>
         </div>
-        <div class = "block">
-          <p class = "is-family-monospace has-text-centered has-text-danger-dark">{navigationError}</p>
+        <div className = "block">
+          <p className = "is-family-monospace has-text-centered has-text-danger-dark">{navigationError}</p>
         </div>
     </section>
   )
