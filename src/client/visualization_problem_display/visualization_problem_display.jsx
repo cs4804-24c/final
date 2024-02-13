@@ -29,9 +29,11 @@ function VisualizationProblemDisplay() {
   // useEffect(() => { console.log(questionNumber) }, [questionNumber])
 
   function handleSubmitPress() {
+    // Guard clauses
+    if (currentQuestionAnswered) { setAnswerFeedback("Can only submit one answer"); return; } // Escape if this question has been answered before
     const submission = document.getElementById("userAnswer").value
-    if (currentQuestionAnswered) { setAnswerFeedback("Can only submit one answer"); return; } 
-    if (submission.length == 0) { setAnswerFeedback("Cannot submit an empty answer"); return; }
+    if (submission.length == 0) { setAnswerFeedback("Cannot submit an empty answer"); return; } // Escape if the answer is empty
+    // Handle submission
     const answer = parseInt(submission)
     setSubmittedAnswer(answer)
     setCurrentQuestionAnswered(true)
@@ -40,8 +42,11 @@ function VisualizationProblemDisplay() {
   }
 
   function handleNextPress() {
-    if (!currentQuestionAnswered) { setNavigationError("Must answer current question before moving forward"); return; }
-    if (questionNumber == questions.length) { navigate("/thank_you"); return; }setQuestionNumber(questionNumber + 1)
+    // Guard clauses
+    if (!currentQuestionAnswered) { setNavigationError("Must answer current question before moving forward"); return; } // Escape if the current question has not been answered
+    if (questionNumber == questions.length) { navigate("/thank_you"); return; } // Navigate to /thank_you if there are no more questions
+    // Go to the next question
+    setQuestionNumber(questionNumber + 1)
     setVisualizationTitle(visualizationTitles[visualizationTitles.indexOf(visualizationTitle) + 1])
     setImagePath(imagePaths[imagePaths.indexOf(imagePath) + 1])
     setQuestionText(questions[questions.indexOf(questionText) + 1])
