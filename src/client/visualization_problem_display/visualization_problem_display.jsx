@@ -27,40 +27,29 @@ function VisualizationProblemDisplay() {
   // useEffect(() => { console.log(submittedAnswer) }, [submittedAnswer])
   // useEffect(() => { console.log(currentQuestionAnswered) }, [currentQuestionAnswered])
   // useEffect(() => { console.log(questionNumber) }, [questionNumber])
-  
+
   function handleSubmitPress() {
     const submission = document.getElementById("userAnswer").value
-    if (currentQuestionAnswered) {
-      setAnswerFeedback("Can only submit one answer")
-    } else if (submission.length == 0) {
-      setAnswerFeedback("Cannot submit an empty answer")
-    } else {
-      const answer = parseInt(submission)
-      setSubmittedAnswer(answer)
-      setCurrentQuestionAnswered(true)
-      setAnswerFeedback("Submitted successfully!")
-      sendAnswer(questionNumber, answer, auth.currentUser).then((dbResult) => { console.log(dbResult) })
-    }
+    if (currentQuestionAnswered) { setAnswerFeedback("Can only submit one answer"); return; } 
+    if (submission.length == 0) { setAnswerFeedback("Cannot submit an empty answer"); return; }
+    const answer = parseInt(submission)
+    setSubmittedAnswer(answer)
+    setCurrentQuestionAnswered(true)
+    setAnswerFeedback("Submitted successfully!")
+    sendAnswer(questionNumber, answer, auth.currentUser).then((dbResult) => { console.log(dbResult) })
   }
 
   function handleNextPress() {
-    if (currentQuestionAnswered) {
-      if (questionNumber == questions.length) {
-        navigate("/thank_you")
-      } else {
-        setQuestionNumber(questionNumber + 1)
-        setVisualizationTitle(visualizationTitles[visualizationTitles.indexOf(visualizationTitle) + 1])
-        setImagePath(imagePaths[imagePaths.indexOf(imagePath) + 1])
-        setQuestionText(questions[questions.indexOf(questionText) + 1])
-        setCurrentQuestionAnswered(false)
-        setSubmittedAnswer("")
-        setAnswerFeedback("")
-        setNavigationError("")
-        document.getElementById("userAnswer").value = ""
-      }
-    } else {
-      setNavigationError("Must answer current question before moving forward")
-    }
+    if (!currentQuestionAnswered) { setNavigationError("Must answer current question before moving forward"); return; }
+    if (questionNumber == questions.length) { navigate("/thank_you"); return; }setQuestionNumber(questionNumber + 1)
+    setVisualizationTitle(visualizationTitles[visualizationTitles.indexOf(visualizationTitle) + 1])
+    setImagePath(imagePaths[imagePaths.indexOf(imagePath) + 1])
+    setQuestionText(questions[questions.indexOf(questionText) + 1])
+    setCurrentQuestionAnswered(false)
+    setSubmittedAnswer("")
+    setAnswerFeedback("")
+    setNavigationError("")
+    document.getElementById("userAnswer").value = ""
   }
 
 

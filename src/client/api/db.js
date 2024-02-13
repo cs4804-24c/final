@@ -12,5 +12,4 @@ export async function sendAnswer(questionNumber, answer, user) {
       console.log("Document written with ID: ", user.uid); resolve(true);
     }).catch((error) => { console.error(error); resolve(false); })
   })
-
 }
