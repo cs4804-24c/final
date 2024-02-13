@@ -24,6 +24,10 @@ function VisualizationProblemDisplay() {
   const [navigationError, setNavigationError] = useState("")
   const navigate = useNavigate()
 
+  // useEffect(() => { console.log(submittedAnswer) }, [submittedAnswer])
+  // useEffect(() => { console.log(currentQuestionAnswered) }, [currentQuestionAnswered])
+  // useEffect(() => { console.log(questionNumber) }, [questionNumber])
+  
   function handleSubmitPress() {
     const submission = document.getElementById("userAnswer").value
     if (currentQuestionAnswered) {
@@ -59,17 +63,6 @@ function VisualizationProblemDisplay() {
     }
   }
 
-  useEffect(() => {
-    console.log(submittedAnswer)
-  }, [submittedAnswer])
-
-  useEffect(() => {
-    console.log(currentQuestionAnswered)
-  }, [currentQuestionAnswered])
-
-  useEffect(() => {
-    console.log(questionNumber)
-  }, [questionNumber])
 
   return (
     <section className = "section">

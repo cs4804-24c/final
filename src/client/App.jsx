@@ -24,7 +24,8 @@ function App() {
     return (
       <footer className="footer">
         <Signature />
-        <div className="has-text-centered">Signed in as: {currentUser.displayName}</div>
+        <div className="has-text-centered" style={{marginBottom: 20}}>Signed in as: {currentUser.displayName}</div>
+        <SignOut />
       </footer>
     )
   }
@@ -48,7 +49,6 @@ function App() {
       <MainDisplay />
       <SignIn />
       <Footer />
-      <SignOut />
     </>
   )
 }
