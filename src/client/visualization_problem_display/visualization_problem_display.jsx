@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom"
 import firstVisualization from "../visualization_img/visualization-1-resized.png"
 import secondVisualization from "../visualization_img/visualization-2-resized.png"
 import thirdVisualization from "../visualization_img/visualization-3-resized.png"
+import { sendAnswer } from "../api/db"
+import { auth } from "../api/firebase"
 
 function VisualizationProblemDisplay() {
   const imagePaths = [firstVisualization, 
@@ -22,23 +24,40 @@ function VisualizationProblemDisplay() {
   const [navigationError, setNavigationError] = useState("")
   const navigate = useNavigate()
 
-  useEffect(() => {
-    const answerSubmissionButton = document.getElementById("submissionButton")
-    answerSubmissionButton.addEventListener("click", async function() {
-      const submission = document.getElementById("userAnswer").value
-      if (currentQuestionAnswered) {
-        setAnswerFeedback("Can only submit one answer")
-      } else if (submission.length == 0) {
-        setAnswerFeedback("Cannot submit an empty answer")
+  function handleSubmitPress() {
+    const submission = document.getElementById("userAnswer").value
+    if (currentQuestionAnswered) {
+      setAnswerFeedback("Can only submit one answer")
+    } else if (submission.length == 0) {
+      setAnswerFeedback("Cannot submit an empty answer")
+    } else {
+      const answer = parseInt(submission)
+      setSubmittedAnswer(answer)
+      setCurrentQuestionAnswered(true)
+      setAnswerFeedback("Submitted successfully!")
+      sendAnswer(questionNumber, answer, auth.currentUser).then((dbResult) => { console.log(dbResult) })
+    }
+  }
+
+  function handleNextPress() {
+    if (currentQuestionAnswered) {
+      if (questionNumber == questions.length) {
+        navigate("/thank_you")
       } else {
-        const answer = parseInt(submission)
-        setSubmittedAnswer(answer)
-        setCurrentQuestionAnswered(true)
-        setAnswerFeedback("Submitted successfully!")
-        //Make post request to server with username, question number and answer possibly.
+        setQuestionNumber(questionNumber + 1)
+        setVisualizationTitle(visualizationTitles[visualizationTitles.indexOf(visualizationTitle) + 1])
+        setImagePath(imagePaths[imagePaths.indexOf(imagePath) + 1])
+        setQuestionText(questions[questions.indexOf(questionText) + 1])
+        setCurrentQuestionAnswered(false)
+        setSubmittedAnswer("")
+        setAnswerFeedback("")
+        setNavigationError("")
+        document.getElementById("userAnswer").value = ""
       }
-    })
-  })
+    } else {
+      setNavigationError("Must answer current question before moving forward")
+    }
+  }
 
   useEffect(() => {
     console.log(submittedAnswer)
@@ -51,29 +70,6 @@ function VisualizationProblemDisplay() {
   useEffect(() => {
     console.log(questionNumber)
   }, [questionNumber])
-
-  useEffect(() => {
-    const nextQuestionButton = document.getElementById("next")
-    nextQuestionButton.addEventListener("click", async function() {
-      if (currentQuestionAnswered) {
-        if (questionNumber == questions.length) {
-          navigate("/thank_you")
-        } else {
-          setQuestionNumber(questionNumber + 1)
-          setVisualizationTitle(visualizationTitles[visualizationTitles.indexOf(visualizationTitle) + 1])
-          setImagePath(imagePaths[imagePaths.indexOf(imagePath) + 1])
-          setQuestionText(questions[questions.indexOf(questionText) + 1])
-          setCurrentQuestionAnswered(false)
-          setSubmittedAnswer("")
-          setAnswerFeedback("")
-          setNavigationError("")
-          document.getElementById("userAnswer").value = ""
-        }
-      } else {
-        setNavigationError("Must answer current question before moving forward")
-      }
-    })
-  })
 
   return (
     <section className = "section">
@@ -93,7 +89,7 @@ function VisualizationProblemDisplay() {
                 </div>
                 <div className = "field">
                   <div className = "control">
-                    <button className="button is-small is-link is-family-code" id="submissionButton">Submit</button>
+                    <button className="button is-small is-link is-family-code" onClick={handleSubmitPress}>Submit</button>
                   </div>
                 </div>
                 <div className = "block">
@@ -105,7 +101,7 @@ function VisualizationProblemDisplay() {
         </div>
         <div className = "block">
           <div className = "buttons is-centered">
-            <button className = "button is-medium is-warning has-text-black is-family-code" id="next">Next</button>
+            <button className = "button is-medium is-warning has-text-black is-family-code" onClick={handleNextPress}>Next</button>
           </div>
         </div>
         <div className = "block">
