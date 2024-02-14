@@ -1,12 +1,10 @@
 # Assignment 3 - Replicating a Classic Experiment  
+#### By: Matthew McAlarney, Priyanka Narasimhan, Joe Dobbelaar, and Randy Huang
 
-### README By: Priyanka Narasimhan and Matthew McAlarney
-
-### Firebase By: Joe Dobbelaar
-
-### Main UI By: Matthew McAlarney
-
-### Experiment Questions By: Priyanka Narasimhan and Randy Huang
+README: Priyanka Narasimhan and Matthew McAlarney
+Firebase: Joe Dobbelaar
+Main UI: Matthew McAlarney
+Experiment Questions: Priyanka Narasimhan and Randy Huang
 
 
 Background
