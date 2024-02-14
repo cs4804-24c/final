@@ -12,17 +12,19 @@ The goal of this Assignment was to recreate a basic experiment about data visual
 
 The purpose of our experiment is to gauge just how easy they are to interpret to the every day citizen, and whether or not people can actually conceptualize the ratios presented in them beyond the literal form given in the images. (I hope this makes sense, but if it doesn't please edit as needed)
 
-### Our Hypothesis 
-
+Our Hypothesis 
+==
 > The average citizen is not able to interpret an iconographic array beyond the literal meaning. This means for example, that they are unable to apply any ratios they take away from the picture to a different sample size, etc... 
 
-Procedure:
+Procedure
+==
+>
 1. Have the participant start the survey.
 2. The survey will display a particular iconograph array, before asking the participant to enter an answer to a question.
 3. all questions will have straightforward, numeric answers, or a choice between a small set of answers. No short answer or long answer questions are included.
 4. There are three different visualizations to test, and about two questions per visualization.
 5. The participant will be asked to do the survey about 20 times, and they will be asked to do it two times, at different times of the day, over the course of five days.
-6. We are closely following the Cleveland and McGill experiment in terms of style.
+6. We are closely following the Cleveland and McGill experiment in terms of style. <
 
 (Perhaps we should create additional visualizations with improvements we believe clarify the points made by the icon arrays and then present them to our participants for critiquing. We should do that for the final project so that we have enough time to do a3 to the best of our ability, and so that our work is high quality)
 
