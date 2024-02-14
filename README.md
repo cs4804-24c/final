@@ -8,19 +8,9 @@
 
 Background
 ==
-In 1984, William Cleveland and Robert McGill published the results of several controlled experiments that pitted bar charts against pies and stacked-bar variants. 
-Their paper (http://www.cs.ubc.ca/~tmm/courses/cpsc533c-04-spr/readings/cleveland.pdf) (http://info.slis.indiana.edu/~katy/S637-S11/cleveland84.pdf) is considered a key paper in data visualization.
-In particular, they ran a psychology-style experiment where users were shown a series of randomly-generated charts with two graphical elements marked like this:
+The goal of this Assignment was to recreate a basic experiment about data visualizations. We decided to do an experiment using iconographic arrays, where we'd ask questions about the graphs to participants, record their answers, and based on those answers, determine if the graphs were "easy to read/understand" or not. Iconographic arrays or icon arrays are charts used extensively by the health statisticians to convey stats such as the risk of developing breast cancer in the United States between the ages of 20 and 60. They are the images we use when trying to visualize a stat such as "Only one in ten adults get enough fruits and vegetables daily."
 
-![cleveland bar chart](img/cleveland-bar.png)
-
-Participants were then asked, "What percentage is the smaller of the larger?". 
-This was repeated hundreds of time with varying data and charts. 
-By the end of the study, Cleveland and McGill had amassed a large dataset that looked like this:
-
-![cleveland table](img/cleveland-table.png)
-
-We decided to do an experiment using iconographic arrays, where we'd ask questions about the graphs to participants, record their answers, and based on those answers, determine if the graphs were "easy to read/understand" or not. Iconographic arrays or icon arrays are those charts used extensively by the health statisticians to convey things such as the risk of developing breast cancer in the United States between the ages of 20 and 60. They are the images we use when explaining a stat such as "Only one in ten adults get enough fruits and vegetables daily." We are trying to gauge just how easy they are to interpret to the every day citizen, and whether or not people can actually conceptualize the ratios presented in them beyond the literal form given in the images. (I hope this makes sense, but if it doesn't please edit as needed)
+The purpose of our experiment is to gauge just how easy they are to interpret to the every day citizen, and whether or not people can actually conceptualize the ratios presented in them beyond the literal form given in the images. (I hope this makes sense, but if it doesn't please edit as needed)
 
 ### Our Hypothesis 
 
