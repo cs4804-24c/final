@@ -25,7 +25,7 @@ Procedure
 >5. The participant will be asked to do the survey about 20 times, and they will be asked to do it two times, at different times of the day, over the course of five days.
 >6. We are closely following the Cleveland and McGill experiment in terms of style.
 
-== (Perhaps we should create additional visualizations with improvements we believe clarify the points made by the icon arrays and then present them to our participants for critiquing. We should do that for the final project so that we have enough time to do a3 to the best of our ability, and so that our work is high quality) ==
+(Perhaps we should create additional visualizations with improvements we believe clarify the points made by the icon arrays and then present them to our participants for critiquing. We should do that for the final project so that we have enough time to do a3 to the best of our ability, and so that our work is high quality)
 
 - After each trial, implement code that grades and stores participant’s responses.
   
