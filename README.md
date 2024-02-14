@@ -1,32 +1,8 @@
 Assignment 3 - Replicating a Classic Experiment  
 ===
+Our Topic: Iconographic Arrays, and determining how difficult they are to interpret. Iconographic arrays or icon arrays are those charts used extensively by the health statisticians to convey things such as the risk of developing breast cancer in the United States between the ages of 20 and 60. They are the images we use when explaining a stat such as "Only one in ten adults get enough fruits and vegetables daily." We are trying to gauge just how easy they are to interpret to the every day citizen, and whether or not people can actually conceptualize the ratios presented in them beyond the literal form given in the images. (I hope this makes sense, but if it doesn't please edit as needed)
 
-For the scope of this project, assume the role of a scientist who runs experiments for a living.
-
-For example: 
-
-Q: How do we know that bar charts are "better" than pie charts?  
-A: Controlled experiments!
-
-In this assignment you'll implement a simple controlled experiment using some of the visualizations you’ve been building in this class. 
-You'll need to develop support code for the experiment sequence, results file output, and other experiment components. 
-(These are all simple with Javascript buttons and forms.)
-The main goals for you are to a) test at least three competing visualizations or experiment conditions, b) implement data/stimuli generation and error calculation functions (if following the baseline, use Cleveland and McGill's 1984 paper and Heer and Bostock's 2010 replication), c) run the experiment with 10 participants (or equivalent number of trials), and d) do basic analysis and reporting of the results.
-
-For this assignment you should aim to write everything from scratch. For experimentation it is often necessary to control all elements of the chart.
-You should definitely *reference* demo programs from books or the web, and if you do please provide a References section with links at the end of your Readme.
-
-Going Beyond Cleveland-McGill
----
-
-Several have expressed interest in conducting surveys of various sorts. I encourage you go move beyond Cleveland and McGill if you can think of other interesting visualization experiment designs and corresponding analyses. 
-
-You might study how people interpret COVID visualizations or design an experiment on shapes or color, for example.
-If you decide to go in a custom route, do plan to sync with staff so we can help you set acceptable parameters that would be fair to folks following the original route.
-
-(Basically, we still want you to do a multi-trial study with each participant, to raise the chance that you get solid results.)
-
-How you measure "error" and similar facets also matter. But you can't go wrong with finding a good visualization study online to start from :)
+Our Hypothesis: The average citizen is not able to interpret an iconographic array beyond the literal meaning. This means for example, that they are unable to apply any ratios they take away from the picture to a different sample size, etc... 
 
 Procedure:
 1) Have the participant start the survey.
@@ -36,7 +12,6 @@ Procedure:
 5) The participant will be asked to do the survey about 20 times, and they will be asked to do it two times, at different times of the day, over the course of five days.
 6) We are closely following the Cleveland and McGill experiment in terms of style.
 
-Hypothesis: The average citizen is not able to interpret an iconograph array beyond the literal meaning. This means for example, that they are unable to apply any ratios they take away from the picture to a different sample size, etc... 
 
 (Perhaps we should create additional visualizations with improvements we believe clarify the points made by the icon arrays and then present them to our participants for critiquing. We should do that for the final project so that we have enough time to do a3 to the best of our ability, and so that our work is high quality)
 
