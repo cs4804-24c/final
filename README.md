@@ -18,7 +18,7 @@ The average citizen is not able to interpret an iconographic array beyond the li
 
 Procedure
 ==
->1. Have the participant start the survey.
+>1. Have the participant start the survey.\n
 >2. The survey will display a particular iconograph array, before asking the participant to enter an answer to a question.
 >3. all questions will have straightforward, numeric answers, or a choice between a small set of answers. No short answer or long answer questions are included.
 >4. There are three different visualizations to test, and about two questions per visualization.
