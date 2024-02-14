@@ -3,9 +3,8 @@
 
 - README: Priyanka Narasimhan and Matthew McAlarney
 - Firebase: Joe Dobbelaar
-- Main UI: Matthew McAlarney
+- UI: Matthew McAlarney
 - Experiment Questions: Priyanka Narasimhan and Randy Huang
-
 
 Background
 ==
