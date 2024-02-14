@@ -1,5 +1,13 @@
-Assignment 3 - Replicating a Classic Experiment  
-===
+# Assignment 3 - Replicating a Classic Experiment  
+
+### README By: Priyanka Narasimhan and Matthew McAlarney
+
+### Firebase By: Joe Dobbelaar
+
+### Main UI By: Matthew McAlarney
+
+### Experiment Questions By: Priyanka Narasimhan and Randy Huang
+
 
 Background
 ==
