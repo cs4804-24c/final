@@ -17,7 +17,9 @@ By the end of the study, Cleveland and McGill had amassed a large dataset that l
 
 We decided to do an experiment using iconographic arrays, where we'd ask questions about the graphs to participants, record their answers, and based on those answers, determine if the graphs were "easy to read/understand" or not. Iconographic arrays or icon arrays are those charts used extensively by the health statisticians to convey things such as the risk of developing breast cancer in the United States between the ages of 20 and 60. They are the images we use when explaining a stat such as "Only one in ten adults get enough fruits and vegetables daily." We are trying to gauge just how easy they are to interpret to the every day citizen, and whether or not people can actually conceptualize the ratios presented in them beyond the literal form given in the images. (I hope this makes sense, but if it doesn't please edit as needed)
 
-Our Hypothesis: The average citizen is not able to interpret an iconographic array beyond the literal meaning. This means for example, that they are unable to apply any ratios they take away from the picture to a different sample size, etc... 
+### Our Hypothesis 
+
+> The average citizen is not able to interpret an iconographic array beyond the literal meaning. This means for example, that they are unable to apply any ratios they take away from the picture to a different sample size, etc... 
 
 Procedure:
 1) Have the participant start the survey.
