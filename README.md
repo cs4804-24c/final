@@ -28,28 +28,27 @@ If you decide to go in a custom route, do plan to sync with staff so we can help
 
 How you measure "error" and similar facets also matter. But you can't go wrong with finding a good visualization study online to start from :)
 
-Requirements
----
+Procedure:
+1) Have the participant start the survey.
+2) The survey will display a particular iconograph array, before asking the participant to enter an answer to a question.
+3) all questions will have straightforward, numeric answers, or a choice between a small set of answers. No short answer or long answer questions are included.
+4) There are three different visualizations to test, and about two questions per visualization.
+5) The participant will be asked to do the survey about 20 times, and they will be asked to do it two times, at different times of the day, over the course of five days.
+6) We are closely following the Cleveland and McGill experiment in terms of style.
 
-- Look it over Cleveland and McGill's original experiment (see the section below) and [watch this video](experiment-example.mp4) to get a sense of the experiment structure and where your visualizations will go.
-- When viewing the example experiment video, note the following:
-    - Trials are in random order.  
-    - Each trial has a randomly generated set of 5-10 data points.  
-    - Two of these data points are marked.  
-    - (Note: the experiment UI and User Experience could be better. Plenty of design achievements here).
-- Implement the data generation code **as described in the Cleveland & McGill and Heer & Bostock papers**. 
-    - The goal is to generate a set of random datapoints (usually 5 or 10, with values be between 0 and 100) and to mark two of them for comparison in the trial. 
-- Add 3 visualizations (i.e. conditions) to your experiment. When you are adding these visualizations, think about *why* these visualizations are interesting to test. In other words, keep in mind a *testable hypothesis* for each of the added visualization. Some good options include bar charts, pie charts, stacked-bar charts, and treemaps. You can also rotate your bar chart to be horizontal or upside-down as one of your conditions. You are encouraged to test unorthodox charts -- radar charts come to mind, but there are MANY possibilities here-- feel free to be creative!
-    - Follow the style from Cleveland and McGill closely (e.g. no color, simple lines) unless you are specifically testing a hypothesis (e.g. color versus no color). Pay attention to spacing between elements like bars. Do not mark bars for comparison using color-- this makes the perceptual task too easy.
+Hypothesis: The average citizen is not able to interpret an iconograph array beyond the literal meaning. This means for example, that they are unable to apply any ratios they take away from the picture to a different sample size, etc... 
+
+(Perhaps we should create additional visualizations with improvements we believe clarify the points made by the icon arrays and then present them to our participants for critiquing. We should do that for the final project so that we have enough time to do a3 to the best of our ability, and so that our work is high quality)
+
 - After each trial, implement code that grades and stores participant’s responses.
-- At the end of the experiment, to get the data, one easy option use Javascript to show the data from the current experiment\* (i.e. a comma separated list in a text box) and copy it into your master datafile. See the Background section below for an example of what this file should look like. (\*Alternately implement a server, if you're experienced with that sort of thing.)
+  
+- At the end of the experiment, to get the data, one easy option: use Javascript to show the data from the current experiment\* (i.e. a comma separated list in a text box) and copy it into your master datafile. See the Background section below for an example of what this file should look like. (\*Alternately implement a server, if you're experienced with that sort of thing.)
 
 ** DATA SCIENTISTS! IT IS YOUR TIME TO SHINE **
 
 - Figure out how to calculate "Error", the difference between the true percentage and the reported percentage.
 - Scale this error using Cleveland and McGill’s log-base-2 error equation. For details, see the background section (there’s a figure with the equation). This becomes your “Error” column in the output. Make sure you use whole percentages (not decimal) in the log-base-2 equation. Make sure you handle the case of when a person gets the exact percentage correct (log-base-2 of 1/8 is -3, it is better to set this to 0). 
 - Run your experiment with 10 or more participants, or-- make sure you get at least 200 trials **per visualization type** in total.  
-    - Grab friends or people in the class.   
     - Run at least 20 trials per visualization type, per participant. This is to ensure that you cover the range of possible answers (e.g. 5%, 10%, ..., 95%)
 - Make sure to save the resulting CSV after each participant. Compile the results into a master csv file (all participants, all trials).
 - Produce a README with figures that shows the visualizations you tested and results, ordered by best performance to worst performance. Follow the modern Cleveland-McGill figure below -- though note that using names instead of icons is fine.
