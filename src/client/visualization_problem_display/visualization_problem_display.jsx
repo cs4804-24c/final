@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import firstVisualization from "../visualization_img/visualization-1-resized.png"
 import secondVisualization from "../visualization_img/visualization-2-resized.png"
