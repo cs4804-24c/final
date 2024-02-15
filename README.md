@@ -4,7 +4,7 @@
 - **README**: *Priyanka Narasimhan and Matthew McAlarney*
 - **Firebase, Server and Login**: *Joe Dobbelaar*
 - **UI and React component setup**: *Matthew McAlarney*
-- **Experiment Questions**: *Priyanka Narasimhan and Randy Huang*
+- **Experiment Questions and Visualizations**: *Priyanka Narasimhan, Randy Huang, Matthew McAlarney*
 - **Master csv functionality**: *Randy Huang and ...*
 
 Background
