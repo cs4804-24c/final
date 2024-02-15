@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
-import { BrowserRouter as Router } from "react-router-dom"
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import VisualizationProblemDisplay from "./visualization_problem_display/visualization_problem_display"
+import ThankYou from "./thank_you/thank_you"
 import { SignInButton, SignOutButton, getCurrentUser } from "./api/auth";
 
 function App() {
@@ -40,7 +41,12 @@ function App() {
     );
   }
 
-  const MainDisplay = () => { if (!currentUser) { return; } return <Router><VisualizationProblemDisplay /></Router>; }
+  const MainDisplay = () => { if (!currentUser) { return; } return <Router>
+    <Routes>
+      <Route path = "/" element={<VisualizationProblemDisplay />} />
+      <Route path = "/thank_you" element={<ThankYou />} />
+    </Routes>
+  </Router>; }
   const SignOut = () => { if (!currentUser) { return; } return <SignOutButton />; }
 
   return (
