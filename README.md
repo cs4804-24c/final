@@ -2,9 +2,10 @@
 #### *By: Matthew McAlarney, Priyanka Narasimhan, Joe Dobbelaar, and Randy Huang*
 
 - **README**: *Priyanka Narasimhan and Matthew McAlarney*
-- **Firebase**: *Joe Dobbelaar*
-- **UI**: *Matthew McAlarney*
+- **Firebase, Server and Login**: *Joe Dobbelaar*
+- **UI and React component setup**: *Matthew McAlarney*
 - **Experiment Questions**: *Priyanka Narasimhan and Randy Huang*
+- **Master csv functionality**: *Randy Huang and ...*
 
 Background
 ==
@@ -70,8 +71,6 @@ GitHub Details
 ```
 a3-FirstLastnameMember1-FirstLastnameMember2-FirstLastnameMember3-...
 
-2/2/24 Experiment Plan:
-
 Preliminaries:
 
 WE NEED 10 PARTICIPANTS OF VARIED BACKGROUNDS AND 20 TRIALS PER VISUALIZATION TYPE, PER PARTICIPANT (60 TRIALS PER PARTICIPANT).
@@ -82,28 +81,10 @@ Consider talk-analysis, but know this is laborius.
 Consider talking to Price Chopper employees.
 Consider talking to family outside of WPI.
 
-Application and Experiment Ideas:
-
-A good goal for us can be to have the web application built by Monday night 2/12 (which should be doable), and then conduct the necessary experiments the following week and write up the README with the master csv file attached.
-
-Application:
-    - Use basic Javascript/HTML/CSS frameworks to build the frontend (we only need 3 different visualizations for this experiment, so the application navigation is relatively short-lived). React should be a good fit for the project.
-    - We can use Bulma CSS to style the applicaton; very quick and easy to implement.
-    - Have a user registration/login that will allow us to keep track of experiment results for the current user. The master csv file we update periodically throughout the second week can reflect each username and the corresponding experiment results.
-    - Use Firebase for a relatively easy persistent database instead of having a server.
-
-Experiment:
-    - Icon Array experiment:
-        - Each of the three visualizations is an icon array.
-        - The test hypothesis is that the average user cannot accurately interpret an icon array across trials and three different data visualizations.
-            - Consider replicating a prior study using icon arrays.
-            - Sources:
-                a. We took icon arrays from the following article about medical billing errors and used these visualizations in our experiment: https://www.cleveland.com/healthfit/2012/06/medical_billing_errors_what_ca.html
+Sources:
+    a. We took icon arrays from the following article about medical billing errors and used these visualizations in our experiment: https://www.cleveland.com/healthfit/2012/06/medical_billing_errors_what_ca.html
     
-    - Answers for questions:
-        1. 23
-        2. 32
-        3. 170
-
-
-```
+Answers for questions:
+    1. 23
+    2. 32
+    3. 170
