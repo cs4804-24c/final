@@ -5,12 +5,19 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 export async function sendAnswer(questionNumber, answer, user) {
   return new Promise(resolve => {
     const userDoc = doc(db, "users", user.uid);
-    let newAnswers = {};
-    getDoc(userDoc, (docSnap) => { if (docSnap.exists()) { const data = docSnap.data; newAnswers = data.answers; } })
-    newAnswers[questionNumber] = answer.toJson();
-    setDoc(userDoc, {displayName: user.displayName, email: user.email, answers: newAnswers}).then(() => {
-      console.log("Document written with ID: ", user.uid); resolve(true);
-    }).catch((error) => { console.error(error); resolve(false); })
+    getDoc(userDoc).then((docSnap) => { 
+      let newAnswers = {};
+      if (docSnap.exists()) { 
+        const data = docSnap.data(); 
+        for (const key in data.answers) {
+          newAnswers = data.answers;
+        }
+      }
+      newAnswers[questionNumber] = answer.toJson();
+      setDoc(userDoc, {displayName: user.displayName, email: user.email, answers: newAnswers}).then(() => {
+        console.log("Document written with ID: ", user.uid); resolve(true);
+      }).catch((error) => { console.error(error); resolve(false); })
+    })
   })
 }
 
