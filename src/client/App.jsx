@@ -4,6 +4,14 @@ import VisualizationProblemDisplay from "./visualization_problem_display/visuali
 import ThankYou from "./thank_you/thank_you"
 import { SignInButton, SignOutButton, getCurrentUser } from "./api/auth";
 
+/** Signature w/ title and authors */
+export const Signature = () => (
+    <div className="content has-text-centered has-text-weight-normal is-family-sans-serif">
+        A3-Icon Array Data Visualization Experiment - Joe Dobbelaar, Priyanka Narasimhan, Randy Huang,
+        Matthew McAlarney
+    </div>
+)
+
 function App() {
 
     /** Currently signed in user */
@@ -11,13 +19,6 @@ function App() {
     /** Get the current user on load */
     useEffect(() => { getCurrentUser(setCurrentUser); }, [])
 
-    /** Signature w/ title and authors */
-    const Signature = () => (
-        <div className="content has-text-centered has-text-weight-normal is-family-sans-serif">
-            A3-Icon Array Data Visualization Experiment - Joe Dobbelaar, Priyanka Narasimhan, Randy Huang,
-            Matthew McAlarney
-        </div>
-    )
 
     /** Footer component displaying credits and current user */
     const Footer = () => {
