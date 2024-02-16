@@ -11,8 +11,10 @@ function ThankYou() {
             <h1 className = "is-size-1 is-family-primary has-text-weight-bold has-text-centered">
                 Thank you!
             </h1>
-            <div className = "buttons is-centered mt-3" style = {{minHeight: "75vh"}}>
-                <button className = "button is-medium is-warning has-text-black is-family-code" onClick={handleClick}>Take survey again</button>
+            <div className = "block mt-6" style={{minHeight: "60vh"}}>
+                <div className = "buttons is-centered">
+                    <button className = "button is-medium is-warning has-text-black is-family-code" onClick={handleClick}>Take survey again</button>
+                </div>
             </div>
         </section>
     )
