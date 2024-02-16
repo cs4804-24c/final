@@ -7,7 +7,7 @@ export async function sendAnswer(questionNumber, answer, user) {
     const userDoc = doc(db, "users", user.uid);
     let newAnswers = {};
     getDoc(userDoc, (docSnap) => { if (docSnap.exists()) { const data = docSnap.data; newAnswers = data.answers; } })
-    newAnswers[questionNumber] = answer;
+    newAnswers[questionNumber] = answer.toJson();
     setDoc(userDoc, {displayName: user.displayName, email: user.email, answers: newAnswers}).then(() => {
       console.log("Document written with ID: ", user.uid); resolve(true);
     }).catch((error) => { console.error(error); resolve(false); })
@@ -40,11 +40,22 @@ export class QuestionStat {
     this.correctAnswer = correctAnswer;
   }
 
-  answer() {
+  answer(userAnswer) {
     this.userAnswer = userAnswer;
     this.endTime = Date.now();
-    this.answerTime = this.endTime - this.startTime;
-    this.actualError = Math.abs(correctAnswer - userAnswer);
-    this.relativeError = 100 * this.actualError / correctAnswer;
+    this.answerTime = (this.endTime - this.startTime) / 1000;
+    this.actualError = Math.abs(this.correctAnswer - userAnswer);
+    this.relativeError = this.actualError / this.correctAnswer;
+  }
+
+  toJson() {
+    return {
+      questionNumber: this.questionNumber,
+      correctAnswer: this.correctAnswer,
+      userAnswer: this.userAnswer,
+      actualError: this.actualError,
+      relativeError: this.relativeError,
+      answerTime: this.answerTime
+    }
   }
 }
