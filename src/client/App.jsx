@@ -6,56 +6,70 @@ import { SignInButton, SignOutButton, getCurrentUser } from "./api/auth";
 
 function App() {
 
-  /** Currently signed in user */
-  const [currentUser, setCurrentUser] = useState(null);
-  /** Get the current user on load */
-  useEffect(() => { getCurrentUser(setCurrentUser); }, [])
+    /** Currently signed in user */
+    const [currentUser, setCurrentUser] = useState(null);
+    /** Get the current user on load */
+    useEffect(() => { getCurrentUser(setCurrentUser); }, [])
 
-  /** Signature w/ title and authors */
-  const Signature = () => (
-    <div className="content has-text-centered has-text-weight-normal is-family-sans-serif">
-      A3-Icon Array Data Visualization Experiment - Joe Dobbelaar, Priyanka Narasimhan, Randy Huang,
-      Matthew McAlarney
-    </div>
-  )
-
-  /** Footer component displaying credits and current user */
-  const Footer = () => {
-    if (!currentUser) { return; }
-    return (
-      <footer className="footer">
-        <Signature />
-        <div className="has-text-centered" style={{marginBottom: 20}}>Signed in as: {currentUser.displayName}</div>
-        <SignOut />
-      </footer>
+    /** Signature w/ title and authors */
+    const Signature = () => (
+        <div className="content has-text-centered has-text-weight-normal is-family-sans-serif">
+            A3-Icon Array Data Visualization Experiment - Joe Dobbelaar, Priyanka Narasimhan, Randy Huang,
+            Matthew McAlarney
+        </div>
     )
-  }
 
-  const SignIn = () => { 
-    if (currentUser) { return; } 
+    /** Footer component displaying credits and current user */
+    const Footer = () => {
+        if (!currentUser) return
+        return (
+            <footer className="footer" style={{ backgroundColor: '#f5f5f5' }}>
+                <Signature />
+                <div className="has-text-centered" style={{ marginBottom: 20 }}>
+                    Signed in as: {currentUser.displayName}
+                </div>
+                <SignOut />
+            </footer>
+        )
+    }
+
+    const SignIn = () => {
+        if (currentUser) { return; }
+        return (
+            <div style={{ height: "100vh", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                <Signature />
+                <SignInButton />
+            </div>
+        );
+    }
+
+    const MainDisplay = () => {
+        if (!currentUser) { return; }
+        return (
+            <Router>
+                <Routes>
+                    <Route path="/" element={<VisualizationProblemDisplay />} />
+                    <Route path="/thank_you" element={<ThankYou />} />
+                </Routes>
+            </Router>
+        )
+    }
+
+    const SignOut = () => {
+        if (!currentUser) return
+        return <SignOutButton />
+    }
+
     return (
-      <div style={{height:"100vh", display: "flex", flexDirection: "column", justifyContent: "center", background: "white"}}>
-        <Signature />
-        <SignInButton />
-      </div>
-    );
-  }
-
-  const MainDisplay = () => { if (!currentUser) { return; } return <Router>
-    <Routes>
-      <Route path = "/" element={<VisualizationProblemDisplay />} />
-      <Route path = "/thank_you" element={<ThankYou />} />
-    </Routes>
-  </Router>; }
-  const SignOut = () => { if (!currentUser) { return; } return <SignOutButton />; }
-
-  return (
-    <>
-      <MainDisplay />
-      <SignIn />
-      <Footer />
-    </>
-  )
+        <div style={{ backgroundColor: '#f5f5f5', height: '100vh', display: 'flex', flexDirection: 'column' }}>
+            <MainDisplay />
+            <SignIn />
+            <Footer style={{
+                position: 'absolute',
+                bottom: 0,
+            }} />
+        </div>
+    )
 }
 
 export default App
