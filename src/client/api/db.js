@@ -1,4 +1,4 @@
-import { db } from "./firebase";
+import { auth, db } from "./firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 
 /** Send an answer to the DB. Return true if successful, false otherwise. */
@@ -14,6 +14,41 @@ export async function sendAnswer(questionNumber, answer, user) {
   })
 }
 
+/** Get the data for the current user */
+export async function getCurrentUserRecord() {
+  return new Promise(resolve => {
+    const currentUserId = auth.currentUser.uid;
+    const userDoc = doc(db, "users", currentUserId);
+    getDoc(userDoc).then((docSnap) => {
+      if (docSnap.exists()) {
+        resolve(docSnap.data());
+      } else {
+        console.log("No such document!");
+        resolve(null);
+      }
+    }).catch((error) => {
+      console.error("Error getting document:", error);
+      resolve(null);
+    });
+  })
+}
+
+/** Get the data of every user who's signed in */
+export async function getAllUserRecords() {
+  return new Promise(resolve => {
+    const usersRef = db.collection("users");
+    usersRef.get().then((querySnapshot) => {
+      let users = [];
+      querySnapshot.forEach((doc) => {
+        users.push(doc.data());
+      });
+      resolve(users);
+    });
+  })
+
+}
+
+/** @class for recording question answers */
 export class QuestionStat {
   
   /** Question that this stat is associated with */
@@ -40,6 +75,7 @@ export class QuestionStat {
     this.correctAnswer = correctAnswer;
   }
 
+  /** Record the user's answer to the question */
   answer(userAnswer) {
     this.userAnswer = userAnswer;
     this.endTime = Date.now();
@@ -48,6 +84,7 @@ export class QuestionStat {
     this.relativeError = this.actualError / this.correctAnswer;
   }
 
+  /** Make this {@link QuestionStat} JSON serializable for Firestore Database */
   toJson() {
     return {
       questionNumber: this.questionNumber,
