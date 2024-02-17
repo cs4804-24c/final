@@ -2,7 +2,7 @@ import { auth, db } from "./firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 
 /** Send an answer to the DB. Return true if successful, false otherwise. */
-export async function sendAnswer(questionNumber, answer, user) {
+export async function sendAnswer(answer, user) {
   return new Promise(resolve => {
     const userDoc = doc(db, "users", user.uid);
     getDoc(userDoc).then((docSnap) => { 
@@ -13,7 +13,8 @@ export async function sendAnswer(questionNumber, answer, user) {
           newAnswers = data.answers;
         }
       }
-      newAnswers[questionNumber] = answer.toJson();
+      const answerJson = answer.toJson();
+      newAnswers[answerJson.questionNumber] = answerJson;
       setDoc(userDoc, {displayName: user.displayName, email: user.email, answers: newAnswers}).then(() => {
         console.log("Document written with ID: ", user.uid); resolve(true);
       }).catch((error) => { console.error(error); resolve(false); })

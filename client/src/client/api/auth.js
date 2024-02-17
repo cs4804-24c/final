@@ -11,7 +11,10 @@ export async function signIn() {
     })
 }
 
-/** Return the current user's details */
+/** 
+ * Return the current user's details
+ * @param {Function} setter - React setState function 
+ * */
 export async function getCurrentUser(setter) { auth.onAuthStateChanged((user) => { if (user) { setter(user) } else { setter(null) } }); }
 
 /** SignIn button component */
