@@ -1,13 +1,14 @@
 # Assignment 3 - Replicating a Classic Experiment  
-#### *By: Matthew McAlarney, Priyanka Narasimhan, Joe Dobbelaar, and Randy Huang*
+*By: Matthew McAlarney, Priyanka Narasimhan, Joe Dobbelaar, and Randy Huang*
 
+## Division of Labor
 - **README**: *Priyanka Narasimhan and Matthew McAlarney*
-- **Firebase, Server and Login**: *Joe Dobbelaar*
-- **UI, React component setup and refactors**: *Matthew McAlarney and Joe Dobbelaar*
+- **Database, authentication, and web server**: *Joe Dobbelaar*
+- **UI, React component setup, and refactors**: *Matthew McAlarney and Joe Dobbelaar*
 - **Experiment Question Setup and Visualizations**: *Priyanka Narasimhan, Matthew McAlarney, Randy Huang*
 - **Master csv functionality**: *Randy Huang and ...*
 
-Background
+## Background
 ==
 The goal of this Assignment was to recreate a basic experiment about data visualizations. We decided to do an experiment using iconographic arrays, where we'd ask questions about the graphs to participants, record their answers, and based on those answers, determine if the graphs were "easy to read/understand" or not. Iconographic arrays or icon arrays are charts used extensively by the health statisticians to convey stats such as the risk of developing breast cancer in the United States between the ages of 20 and 60. They are the images we use when trying to visualize a stat such as "Only one in ten adults get enough fruits and vegetables daily."
 
@@ -17,7 +18,7 @@ Our Hypothesis
 ==
 The average citizen is not able to interpret an iconographic array beyond the literal meaning. This means for example, that they are unable to apply any ratios they take away from the picture to a different sample size, etc... 
 
-Procedure
+## Procedure
 ==
 >1. Have the participant start the survey.
 >2. The survey will display a particular iconograph array, before asking the participant to enter an answer to a question.
@@ -28,63 +29,78 @@ Procedure
 
 (Perhaps we should create additional visualizations with improvements we believe clarify the points made by the icon arrays and then present them to our participants for critiquing. We should do that for the final project so that we have enough time to do a3 to the best of our ability, and so that our work is high quality)
 
-- After each trial, implement code that grades and stores participant’s responses.
-  
-- At the end of the experiment, to get the data, one easy option: use Javascript to show the data from the current experiment\* (i.e. a comma separated list in a text box) and copy it into your master datafile. See the Background section below for an example of what this file should look like. (\*Alternately implement a server, if you're experienced with that sort of thing.)
-
-** DATA SCIENTISTS! IT IS YOUR TIME TO SHINE **
-
-- Figure out how to calculate "Error", the difference between the true percentage and the reported percentage.
-- Scale this error using Cleveland and McGill’s log-base-2 error equation. For details, see the background section (there’s a figure with the equation). This becomes your “Error” column in the output. Make sure you use whole percentages (not decimal) in the log-base-2 equation. Make sure you handle the case of when a person gets the exact percentage correct (log-base-2 of 1/8 is -3, it is better to set this to 0). 
-- Run your experiment with 10 or more participants, or-- make sure you get at least 200 trials **per visualization type** in total.  
-    - Run at least 20 trials per visualization type, per participant. This is to ensure that you cover the range of possible answers (e.g. 5%, 10%, ..., 95%)
-- Make sure to save the resulting CSV after each participant. Compile the results into a master csv file (all participants, all trials).
-- Produce a README with figures that shows the visualizations you tested and results, ordered by best performance to worst performance. Follow the modern Cleveland-McGill figure below -- though note that using names instead of icons is fine.
-- To obtain the ranking, calculate and report the average log2Error for each visualization across all trials and participants. This should be straightforward to do in a spreadsheet.
-- Use Bootstrapped 95\% confidence intervals for your error upper and lower bounds. Include these in your figures. Bootstrapped confidence intervals are easily implemented in R + ggplot2 using the `stat_summary` geom. You can also use Excel, Python, or many many other tools. Bootstrapped 95% CIs are **very** useful in modern experiment practice.
-- Include example images of each visualization as they appeared in your experiment (i.e. if you used a pie chart show the actual pie chart you used in the experiment along with the markings, not an example from Google Images).
-
-## General Requirements
-
-0. Your code should be forked from the GitHub repo and linked using GitHub pages.
-2. Your project should use d3 to build visualizations. 
-3. Your writeup (readme.md in the repo) should contain the following:
-
-- Working link to the experiment hosted on gh-pages or some other site.
-- Concise description and screenshot of your experiment.
-- Description of the technical achievements you attempted with this project.
-- Description of the design achievements you attempted with this project.
-
-Background
----
-
-GitHub Details
----
-
-- Fork the GitHub Repository. You now have a copy associated with your username.
-- Make changes to index.html to fulfill the project requirements. 
-- Make sure your "master" branch matches your "gh-pages" branch. See the GitHub Guides referenced above if you need help.
-- Edit this README.md with a link to your gh-pages site: e.g. http://YourUsernameGoesHere.github.io/Experiment/index.html
-- Replace this file (README.md) with your writeup and Design/Technical achievements.
-- To submit, make a [Pull Request](https://help.github.com/articles/using-pull-requests/) on the original repository.
-- Name your submission using the following scheme: 
+## Firebase: Database & Authenticaton
+User authentication and database are handled by Firebase: Google's mobile and web application development platform. Firebase configuration information is in `api/firebase.js`:
+```javascript
+const firebaseConfig = {
+  apiKey: "AIzaSyAjUR5P2VPVwppe1ukyatg7AuGr0NaCvic",
+  authDomain: "a3-experiment-178d8.firebaseapp.com",
+  projectId: "a3-experiment-178d8",
+  storageBucket: "a3-experiment-178d8.appspot.com",
+  messagingSenderId: "778102749453",
+  appId: "1:778102749453:web:10b109d1a8e823fa0d5844"
+};
 ```
-a3-FirstLastnameMember1-FirstLastnameMember2-FirstLastnameMember3-...
 
-Preliminaries:
+Also included in `firebase.js` is a set of three exports: the authentication service, the database, and the firebase app itself (which is currently not referenced anywhere else).
+```javascript
+export const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app);
+export const db = getFirestore(app);
+```
+`db` is imported to `api/db.js` and `auth` is imported to `api/auth.js`.
 
-WE NEED 10 PARTICIPANTS OF VARIED BACKGROUNDS AND 20 TRIALS PER VISUALIZATION TYPE, PER PARTICIPANT (60 TRIALS PER PARTICIPANT).
-We are going to use icon charts for our data visualizations in our experiments.
-Do not use JUST university students for our experiment.
-Look at Chartwells employees in the CC.
-Consider talk-analysis, but know this is laborius.
-Consider talking to Price Chopper employees.
-Consider talking to family outside of WPI.
+### Authentication
+When a user first reaches the website, they're given the option to sign in with Google. This button displays a popup (or a new tab, if you're a mobile user) that allows the user to select a Google account. Since we use Google for authentication, we don't have to worry about protecting any sensitive user data or encrypting passwords.
 
-Sources:
-    a. We took icon arrays from the following article about medical billing errors and used these visualizations in our experiment: https://www.cleveland.com/healthfit/2012/06/medical_billing_errors_what_ca.html
-    
-Answers for questions:
-    1. 23
-    2. 32
-    3. 170
+`auth.js` contains sign-in logic, a method to get the current user, and React components for sign-in and sign-out buttons.
+
+The `signIn()` function opens the afformentioned popup and updates the `auth` object from `firebase.js`. This method doesn't directly update any React state variables. That's handled by `getCurrentUser()`, which subscribes to changes on `auth` by calling a React `setState()`.
+```javascript
+function getCurrentUser(setter) { 
+    auth.onAuthStateChanged((user) => { 
+        if (user) { 
+            setter(user);
+        } else { 
+            setter(null);
+        } 
+    }); 
+}
+```
+
+In `App.js`, we start this listening process with a `useEffect()`: passing in a `setState()` so that the UI re-renders on `auth` changes.
+```javascript
+useEffect(() => { getCurrentUser(setCurrentUser); }, [])
+```
+
+### Database
+`api/db.js` imports `db`: the Firestore Database reference for this project. It contains methods for sending and fetching data from the database: `sendAnswer()`, `getCurrentUserRecord()`, and `getAllUserRecords()`.
+
+`sendAnswer()` takes in the current user and a `QuestionStat`: an object for recording a user's answer. It tracks several statistics: the correct answer, the user's answer, the actual error, relative error, and time it took to answer (though the timer is hidden from the user, so this statistic may not mean much). A new `QuestionStat` is created whenever the current question changes, starting the hidden timer. When the an answer is submitted, we use `QuestionStat.answer()` to lock in the answer and stop the timer. Then `sendAnswer()` is called on this completed `QuestionStat`.
+```javascript
+export async function sendAnswer(answer, user) {
+  return new Promise(resolve => {
+    const userDoc = doc(db, "users", user.uid);
+    getDoc(userDoc).then((docSnap) => {  // First, we get the user's document
+      let newAnswers = {};
+      if (docSnap.exists()) { // If this user's document exists: i.e. they've submitted an answer before, collect their previous answers
+        const data = docSnap.data(); 
+        for (const key in data.answers) {
+          newAnswers = data.answers;
+        }
+      }
+      const answerJson = answer.toJson(); // Add this new answer to the map
+      newAnswers[answerJson.questionNumber] = answerJson;
+      // Now push that to the database
+      setDoc(userDoc, {displayName: user.displayName, email: user.email, answers: newAnswers}).then(() => {
+        console.log("Document written with ID: ", user.uid); resolve(true);
+      }).catch((error) => { console.error(error); resolve(false); })
+    })
+  })
+}
+```
+
+`getCurrentUserRecord()` simply returns the document associated with the currently signed-in user, and `getAllUserRecords()` returns an array of every user record in the database.
+
+## The Server
+The React client is hosted by a simple express server in the root directory. The server listens on port `4804` ;)You can visit the page at www.icons.joed.dev
