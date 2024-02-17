@@ -1,23 +1,5 @@
-.media-left {
-    /* Assuming the parent container has the desired width */
-    width: 100%;
-    /* Or whatever width you want */
-    /* Add any other styling for the parent container */
-}
-
-.curr-img {
-    max-width: 100%;
-    /* Set maximum width to 100% of the parent container */
-    max-height: 100%;
-    /* Set maximum height to 100% of the parent container */
-    width: auto;
-    /* Set width to auto to maintain aspect ratio */
-    height: auto;
-    /* Set height to auto to maintain aspect ratio */
-}
-
 /* mobile styling */
-@media (max-width: 767px) {
+@media (max-width: 900px) {
     .media {
         flex-direction: column;
     }
@@ -26,5 +8,23 @@
         margin-right: 0;
         margin-bottom: 20px;
         /* Optional: Add some spacing between image and content */
+    }
+
+    .media-left {
+        /* Assuming the parent container has the desired width */
+        width: 100%;
+        /* Or whatever width you want */
+        /* Add any other styling for the parent container */
+    }
+
+    .curr-img {
+        max-width: 100%;
+        /* Set maximum width to 100% of the parent container */
+        max-height: 100%;
+        /* Set maximum height to 100% of the parent container */
+        width: auto;
+        /* Set width to auto to maintain aspect ratio */
+        height: auto;
+        /* Set height to auto to maintain aspect ratio */
     }
 }
