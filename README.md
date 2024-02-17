@@ -16,7 +16,7 @@ The purpose of our experiment is to gauge just how easy they are to interpret to
 
 Our Hypothesis 
 ==
-The average citizen is not able to interpret an iconographic array beyond the literal meaning. This means for example, that they are unable to apply any ratios they take away from the picture to a different sample size, etc... 
+Iconographic arrays are not as effective at communicating proportional data to the average user as textual descriptions of proportional data. In other words, the average user cannot deduce proportions of a sample size and predict proportions for future sample sizes through iconographic arrays as effectively as they can through textual descriptions of data.
 
 ## Procedure
 ==
