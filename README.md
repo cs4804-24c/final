@@ -2,32 +2,27 @@
 *By: Matthew McAlarney, Priyanka Narasimhan, Joe Dobbelaar, and Randy Huang*
 
 ## Division of Labor
-- **README**: *Priyanka Narasimhan and Matthew McAlarney*
+- **README**: *Priyanka Narasimhan, Matthew McAlarney, and Joe Dobbelaar*
 - **Database, authentication, and web server**: *Joe Dobbelaar*
 - **UI, React component setup, and refactors**: *Matthew McAlarney and Joe Dobbelaar*
-- **Experiment Question Setup and Visualizations**: *Priyanka Narasimhan, Matthew McAlarney, Randy Huang*
+- **Experiment Question Setup and Visualizations**: *Priyanka Narasimhan, Matthew McAlarney*
 - **Master csv functionality**: *Randy Huang and ...*
 
 ## Background
 ==
-The goal of this Assignment was to recreate a basic experiment about data visualizations. We decided to do an experiment using iconographic arrays, where we'd ask questions about the graphs to participants, record their answers, and based on those answers, determine if the graphs were "easy to read/understand" or not. Iconographic arrays or icon arrays are charts used extensively by the health statisticians to convey stats such as the risk of developing breast cancer in the United States between the ages of 20 and 60. They are the images we use when trying to visualize a stat such as "Only one in ten adults get enough fruits and vegetables daily."
+We coded and conducted an experiment using iconographic arrays and textual descriptions of proportional data. For each of the three visualizations, we asked one question pertaining to the present proportion and sample size(s) and stored the numerical user answers. Based on the numerical answers, we analyzed to what extent iconographic arrays communicated proportional data effectively compared to textual data description. Iconographic arrays are a type of data visualization chart used extensively in the medical community to convey information such as the risk of developing different types of cancer among certain groups of people.
 
-The purpose of our experiment is to gauge just how easy they are to interpret to the every day citizen, and whether or not people can actually conceptualize the ratios presented in them beyond the literal form given in the images. (I hope this makes sense, but if it doesn't please edit as needed)
-
-Our Hypothesis 
+## Our Hypothesis 
 ==
 Iconographic arrays are not as effective at communicating proportional data to the average user as textual descriptions of proportional data. In other words, the average user cannot deduce proportions of a sample size and predict proportions for future sample sizes through iconographic arrays as effectively as they can through textual descriptions of data.
 
 ## Procedure
 ==
->1. Have the participant start the survey.
->2. The survey will display a particular iconograph array, before asking the participant to enter an answer to a question.
->3. all questions will have straightforward, numeric answers, or a choice between a small set of answers. No short answer or long answer questions are included.
->4. There are three different visualizations to test, and about two questions per visualization.
->5. The participant will be asked to do the survey about 20 times, and they will be asked to do it two times, at different times of the day, over the course of five days.
->6. We are closely following the Cleveland and McGill experiment in terms of style.
-
-(Perhaps we should create additional visualizations with improvements we believe clarify the points made by the icon arrays and then present them to our participants for critiquing. We should do that for the final project so that we have enough time to do a3 to the best of our ability, and so that our work is high quality)
+>1. Participant enters the application and begins the survey. We administered the survey to a total of 10 participants of varying educational and work backgrounds.
+>2. The survey will display a particular iconographic array or textual data description along with a question about the visualization. The participant then enters an answer to the current question. Important: In agreement with Professor Harrison, we have decided that each of the three visualizations in this current a3 experiment should remain the same (we are using static images of the visualizations as a result). Keeping the visualizations the same for a3 ensures that we are able to collect some baseline information about the effectiveness of iconographic arrays compared to textual description, and allows us to transition into the final project experiment more steadily.
+>3. All questions require numeric answers.
+>4. There are 3 different visualizations total (2 icnonographic arrays and one textual data description).
+>5. The participant is asked to repeat the survey 5 times. This means that each participant will move through 5 trials for each question in the survey. Important: In agreement with Professor Harrison, we decided to have each participant move through only 5 trials of the survey as the current experiment is best carried out using the same visualization for each question. This way, we ensure that we have collected a sufficient amount of data but not more than we need.
 
 ## Firebase: Database & Authenticaton
 User authentication and database are handled by Firebase: Google's mobile and web application development platform. Firebase configuration information is in `api/firebase.js`:
