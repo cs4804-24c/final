@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import firstVisualization from "../visualization_img/visualization-1-resized.png"
-import secondVisualization from "../visualization_img/visualization-2-resized.png"
-import thirdVisualization from "../visualization_img/visualization-3-resized.png"
+import firstVisualization from "../visualization_img/ovarian_cancer_visualization_1.png"
+import controlTextForSecondVisualization from "../visualization_img/control_text_for_ovarian_cancer_visualization_2.png"
+import thirdVisualization from "../visualization_img/ovarian_cancer_visualization_3.png"
 import { QuestionStat, sendAnswer } from "../api/db"
 import { auth } from "../api/firebase"
 import "./mobile.css"
@@ -13,12 +13,12 @@ const textImageLocation = ["to the left", "above"]
 
 function VisualizationProblemDisplay() {
     const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-    const imagePaths = [firstVisualization, secondVisualization, thirdVisualization]
-    const visualizationTitles = ["Medical Bill Inception", "Surgery", "Inpatient Stay"]
+    const imagePaths = [firstVisualization, controlTextForSecondVisualization, thirdVisualization]
+    const visualizationTitles = ["Women with an Average Risk of Ovarian Cancer", "Risk of Ovarian Cancer for Women with BRCA1 Gene Changes", "Risk of Ovarian Cancer for Women with BRCA2 Gene Changes"]
     const questions = [
-        `There are typically 250 people or more involved in the billing process for one patient's four day stay at a hospital. In the visualization shown ${screenWidth > 900 ? textImageLocation[0] : textImageLocation[1]}, the icons colored in red are the people said to be involved in the inception stage of the billing process. How many of the total number of people involved in the billing process on the left contribute to the inception of the bill?`,
-        `The second stage of the billing process for one patient's four day stay at a hospital involves the fees incurred during surgery. In the visualization shown ${screenWidth > 900 ? textImageLocation[0] : textImageLocation[1]}, the icons colored in black represent the people involved in the previous inception stage of the billing process. The icons colored in red now represent the people involved in the surgery fees of the billing process. How many of the total number of people involved in the billing process on the left contribute to the surgery fees of the bill?`,
-        `The third stage of the billing process for one patient's four day stay at a hospital involves the fees incurred during the inpatient stay. In the visualization shown ${screenWidth > 900 ? textImageLocation[0] : textImageLocation[1]}, the icons colored in black represent the people involved in the previous inception and surgery stages of the billing process. The icons colored in red now represent the people involved in the inpatient stay fees of the billing process. How many of the total number of people involved in the billing process on the left have contributed to the fees so far?`]
+        `On average, about how many out of the 100 women in the sample ${screenWidth > 900 ? textImageLocation[0] : textImageLocation[1]}, will get ovarian cancer sometime during their lives?`,
+        `By age 80, about how many out of a sample ${screenWidth > 900 ? textImageLocation[0] : textImageLocation[1]}, of 1000 women who have BRCA1 gene changes will get ovarian cancer?`,
+        `For women who have BRCA2 gene changes, by age 80, the risk of ovarian cancer is higher than average. Given that a proportion of women who have BRCA2 gene changes ${screenWidth > 900 ? textImageLocation[0] : textImageLocation[1]}, out of the sample of 100 to the left will get ovarian cancer by age 80, about how many out of a sample of 1000 women who have BRCA2 gene changes will get ovarian cancer?`]
     const [questionNumber, setQuestionNumber] = useState(1)
     const [visualizationTitle, setVisualizationTitle] = useState(visualizationTitles[0])
     const [currentQuestionAnswered, setCurrentQuestionAnswered] = useState(false)

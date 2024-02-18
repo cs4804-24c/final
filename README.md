@@ -5,7 +5,7 @@
 - **README**: *Priyanka Narasimhan, Matthew McAlarney and Joe Dobbelaar*
 - **Database, authentication, and web server**: *Joe Dobbelaar*
 - **UI, React component setup, and refactors**: *Matthew McAlarney, Joe Dobbelaar, and Randy Huang*
-- **Experiment Question Setup and Visualizations**: *Priyanka Narasimhan, Matthew McAlarney*
+- **Experiment Question Setup and Visualizations**: *Priyanka Narasimhan and Matthew McAlarney*
 - **Master csv functionality**: *Randy Huang*
 
 ## Background
@@ -38,15 +38,15 @@ Visualizations:
 
 1:
 
-
+![Women with Average Risk of Ovarian Cancer](img/ovarian_cancer_visualization_1.png)
 
 2:
 
-
+![Risk of Ovarian Cancer for Women with BRCA1 Gene Changes](img/ovarian_cancer_visualization_2.png)
 
 3:
 
-
+![Risk of Ovarian Cancer for Women with BRCA2 Gene Changes](img/ovarian_cancer_visualization_3.png)
 
 Questions (1 per visualization):
 
