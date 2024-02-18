@@ -35,7 +35,7 @@ function VisualizationProblemDisplay() {
         return () => {
             window.removeEventListener("resize", handleResize);
         };
-    }, []);
+    }, []); //Runs only on the first render.
 
     /** Current question statistics— necessary to count how long it takes to answer */
     const [currentQuestionStat, setCurrentQuestionStat] = useState(null);
