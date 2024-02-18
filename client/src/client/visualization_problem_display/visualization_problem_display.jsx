@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import firstVisualization from "../visualization_img/visualization-1-resized.png"
 import secondVisualization from "../visualization_img/visualization-2-resized.png"
@@ -9,19 +9,33 @@ import "./mobile.css"
 
 /** Correct answers to questions in order */
 const correctAnswers = [23, 99, 99]
+const textImageLocation = ["to the left", "above"]
 
 function VisualizationProblemDisplay() {
+    const [screenWidth, setScreenWidth] = useState(window.innerWidth);
     const imagePaths = [firstVisualization, secondVisualization, thirdVisualization]
     const visualizationTitles = ["Medical Bill Inception", "Surgery", "Inpatient Stay"]
     const questions = [
-        "There are typically 250 people or more involved in the billing process for one patient's four day stay at a hospital. In the visualization to the left, the icons colored in red are the people said to be involved in the inception stage of the billing process. How many of the total number of people involved in the billing process on the left contribute to the inception of the bill?",
-        "The second stage of the billing process for one patient's four day stay at a hospital involves the fees incurred during surgery. In the visualization to the left, the icons colored in black represent the people involved in the previous inception stage of the billing process. The icons colored in red now represent the people involved in the surgery fees of the billing process. How many of the total number of people involved in the billing process on the left contribute to the surgery fees of the bill?",
-        "The third stage of the billing process for one patient's four day stay at a hospital involves the fees incurred during the inpatient stay. In the visualization to the left, the icons colored in black represent the people involved in the previous inception and surgery stages of the billing process. The icons colored in red now represent the people involved in the inpatient stay fees of the billing process. How many of the total number of people involved in the billing process on the left have contributed to the fees so far?"]
+        `There are typically 250 people or more involved in the billing process for one patient's four day stay at a hospital. In the visualization shown ${screenWidth > 900 ? textImageLocation[0] : textImageLocation[1]}, the icons colored in red are the people said to be involved in the inception stage of the billing process. How many of the total number of people involved in the billing process on the left contribute to the inception of the bill?`,
+        `The second stage of the billing process for one patient's four day stay at a hospital involves the fees incurred during surgery. In the visualization shown ${screenWidth > 900 ? textImageLocation[0] : textImageLocation[1]}, the icons colored in black represent the people involved in the previous inception stage of the billing process. The icons colored in red now represent the people involved in the surgery fees of the billing process. How many of the total number of people involved in the billing process on the left contribute to the surgery fees of the bill?`,
+        `The third stage of the billing process for one patient's four day stay at a hospital involves the fees incurred during the inpatient stay. In the visualization shown ${screenWidth > 900 ? textImageLocation[0] : textImageLocation[1]}, the icons colored in black represent the people involved in the previous inception and surgery stages of the billing process. The icons colored in red now represent the people involved in the inpatient stay fees of the billing process. How many of the total number of people involved in the billing process on the left have contributed to the fees so far?`]
     const [questionNumber, setQuestionNumber] = useState(1)
     const [visualizationTitle, setVisualizationTitle] = useState(visualizationTitles[0])
     const [currentQuestionAnswered, setCurrentQuestionAnswered] = useState(false)
     const [answerFeedback, setAnswerFeedback] = useState("")
     const [navigationError, setNavigationError] = useState("")
+
+    useEffect(() => {
+        const handleResize = () => {
+            setScreenWidth(window.innerWidth);
+        };
+
+        window.addEventListener("resize", handleResize);
+
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    }, []);
 
     /** Current question statistics— necessary to count how long it takes to answer */
     const [currentQuestionStat, setCurrentQuestionStat] = useState(null);
@@ -106,7 +120,7 @@ function VisualizationProblemDisplay() {
 
     return [
         <StartScreen />,
-        <section key="exam" className={`section ${!currentQuestionStat && "is-hidden"}`} style={{backgroundColor: '#f5f5f5'}}>
+        <section key="exam" className={`section ${!currentQuestionStat && "is-hidden"}`} style={{ backgroundColor: '#f5f5f5' }}>
             <Title />
             <div className="box mt-3">
                 <div className="media">

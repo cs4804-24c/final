@@ -2,11 +2,11 @@
 *By: Matthew McAlarney, Priyanka Narasimhan, Joe Dobbelaar, and Randy Huang*
 
 ## Division of Labor
-- **README**: *Priyanka Narasimhan, Matthew McAlarney, and Joe Dobbelaar*
+- **README**: *Priyanka Narasimhan, Matthew McAlarney and Joe Dobbelaar*
 - **Database, authentication, and web server**: *Joe Dobbelaar*
-- **UI, React component setup, and refactors**: *Matthew McAlarney and Joe Dobbelaar*
+- **UI, React component setup, and refactors**: *Matthew McAlarney, Joe Dobbelaar, and Randy Huang*
 - **Experiment Question Setup and Visualizations**: *Priyanka Narasimhan, Matthew McAlarney*
-- **Master csv functionality**: *Randy Huang and ...*
+- **Master csv functionality**: *Randy Huang*
 
 ## Background
 ==
