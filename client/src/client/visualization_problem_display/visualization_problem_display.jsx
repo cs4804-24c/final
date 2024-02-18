@@ -8,7 +8,7 @@ import { auth } from "../api/firebase"
 import "./mobile.css"
 
 /** Correct answers to questions in order */
-const correctAnswers = [23, 99, 99]
+const correctAnswers = [1, 440, 170]
 const textImageLocation = ["to the left", "above"]
 
 function VisualizationProblemDisplay() {
