@@ -159,3 +159,7 @@ export async function sendAnswer(answer, user) {
 
 ## The Server
 The React client is hosted by a simple express server in the root directory. The server listens on port `4804` ;)You can visit the page at www.icons.joed.dev
+
+## Design Achievements
+
+## Technical Achievements
