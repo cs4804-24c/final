@@ -16,6 +16,21 @@ We coded and conducted an experiment using iconographic arrays and textual descr
 ==
 Iconographic arrays are not as effective at communicating proportional data to the average user as textual descriptions of proportional data. In other words, the average user cannot deduce proportions of a sample size and predict proportions for future sample sizes through iconographic arrays as effectively as they can through textual descriptions of data.
 
+## Outline of the Visualizations and Questions in our Survey
+==
+Resources and research used to influence our visualizations and questions:
+
+How to evaluate data visualizations across different levels of understanding: https://arxiv.org/pdf/2009.01747.pdf
+    Levels and corresponding tasks of the visualization taxonomy we are testing:
+        1. Application: Use a percentage and total population to calculate a number.
+        2. Synthesis: Predict a future value.
+Improving Baysian Reasoning: https://www.cs.tufts.edu/~remco/publications/2015/InfoVis2015-Bayes.pdf
+Visualizations presented from the Healthwise Staff at https://www.nyp.org/healthlibrary/diagnosis/document/abl0344
+    All Healthwise content published to NewYork-Presbyterian is reviewed by a comprehensive Clinical Review Board.
+Visualization 1 originally comes from Seer Cancer Statistics Review (CSR) 1975 - 2017: https://seer.cancer.gov/archive/csr/1975_2017/index.html 
+    More information about the data collection at Seer Cancer Statistics Review: https://seer.cancer.gov/about/overview.html
+Visualizations 2 and 3 originally come from National Library of Medicine - National Center for Biotechnology Information: https://pubmed.ncbi.nlm.nih.gov/28632866/ 
+
 ## Procedure
 ==
 >1. Participant enters the application and begins the survey. We administered the survey to a total of 10 participants of varying educational and work backgrounds.
