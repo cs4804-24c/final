@@ -36,15 +36,15 @@ Resources and research used to influence our visualizations and questions:
 
 Visualizations:
 
-1:
+1: Women with Average Risk of Ovarian Cancer
 
 ![Women with Average Risk of Ovarian Cancer](img/ovarian_cancer_visualization_1.png)
 
-2:
+2: Risk of Ovarian Cancer for Women with BRCA1 Gene Changes
 
 ![Risk of Ovarian Cancer for Women with BRCA1 Gene Changes](img/ovarian_cancer_visualization_2.png)
 
-3:
+3: Risk of Ovarian Cancer for Women with BRCA2 Gene Changes
 
 ![Risk of Ovarian Cancer for Women with BRCA2 Gene Changes](img/ovarian_cancer_visualization_3.png)
 
