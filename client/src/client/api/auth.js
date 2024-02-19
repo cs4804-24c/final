@@ -1,4 +1,4 @@
-import { auth } from "./firebase";
+import { auth } from "./firebase.js";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
 /** Style for a container that centers buttons */
@@ -15,7 +15,15 @@ export async function signIn() {
  * Return the current user's details
  * @param {Function} setter - React setState function 
  * */
-export async function getCurrentUser(setter) { auth.onAuthStateChanged((user) => { if (user) { setter(user) } else { setter(null) } }); }
+export async function getCurrentUser(setter) {
+    auth.onAuthStateChanged((user) => {
+        if (user) {
+            setter(user)
+        } else {
+            setter(null)
+        }
+    });
+}
 
 /** SignIn button component */
 export function SignInButton() {

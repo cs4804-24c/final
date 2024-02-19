@@ -49,8 +49,8 @@ function App() {
         return (
             <Router>
                 <Routes>
-                    <Route path="/" element={<VisualizationProblemDisplay />} />
-                    <Route path="/thank_you" element={<ThankYou />} />
+                    <Route key="home" path="/" element={<VisualizationProblemDisplay />} />
+                    <Route key="thank-you" path="/thank_you" element={<ThankYou />} />
                 </Routes>
             </Router>
         )

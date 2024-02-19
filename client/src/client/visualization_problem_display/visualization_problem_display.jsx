@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"
 import firstVisualization from "../visualization_img/ovarian_cancer_visualization_1.png"
 import controlTextForSecondVisualization from "../visualization_img/control_text_for_ovarian_cancer_visualization_2.png"
 import thirdVisualization from "../visualization_img/ovarian_cancer_visualization_3.png"
-import { QuestionStat, sendAnswer } from "../api/db"
+import { getAllUserRecords, QuestionStat, sendAnswer } from "../api/db"
 import { auth } from "../api/firebase"
 import "./mobile.css"
 
@@ -43,7 +43,9 @@ function VisualizationProblemDisplay() {
     const navigate = useNavigate()
 
     /** Title component */
-    const Title = () => <h1 className="is-size-2 is-family-primary has-text-weight-bold">{visualizationTitle}</h1>;
+    const Title = () => (
+        <h1 className="is-size-2 is-family-primary has-text-weight-bold">{visualizationTitle}</h1>
+    );
     /** Graphic for the current question */
     const CurrentImage = () => (
         <div className="media-left">
@@ -68,7 +70,7 @@ function VisualizationProblemDisplay() {
         function startExam() { setCurrentQuestionStat(new QuestionStat(questionNumber, correctAnswers[questionNumber - 1])); }
 
         return (
-            <section key="start" className={`is-centered has-text-centered section`}>
+            <section className={`is-centered has-text-centered section`}>
                 <Title />
                 <div className="buttons is-centered" style={{ marginTop: "2rem" }}>
                     <button className="button is-medium is-success has-text-black is-family-code" onClick={startExam}>Click To Start</button>
@@ -117,6 +119,7 @@ function VisualizationProblemDisplay() {
 
         return <button className="button is-small is-link is-family-code" onClick={handleSubmitPress}>Submit</button>;
     }
+
 
     return [
         <StartScreen />,

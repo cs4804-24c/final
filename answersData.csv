@@ -1,0 +1,7 @@
+UserID,UserName,QuestionNumber,UserAnswer,CorrectAnswer,ActualError,RelativeError,AnswerTime
+Jec7znQtOfZcKiBzpzLL41vPYWU2,Matthew McAlarney,1,3,1,2,2,5.544
+Jec7znQtOfZcKiBzpzLL41vPYWU2,Matthew McAlarney,2,1,440,439,0.9977272727272727,234.745
+Jec7znQtOfZcKiBzpzLL41vPYWU2,Matthew McAlarney,3,2,170,168,0.9882352941176471,328.8
+hEinx13c2HWQSZwkmY19sOO2cev1,Randy Huang,1,1,1,0,0,2.285
+hEinx13c2HWQSZwkmY19sOO2cev1,Randy Huang,2,1,440,439,0.9977272727272727,1.082
+hEinx13c2HWQSZwkmY19sOO2cev1,Randy Huang,3,2,170,168,0.9882352941176471,1.506
