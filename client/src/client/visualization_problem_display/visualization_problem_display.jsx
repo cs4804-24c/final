@@ -17,8 +17,8 @@ function VisualizationProblemDisplay() {
     const visualizationTitles = ["Women with an Average Risk of Ovarian Cancer", "Risk of Ovarian Cancer for Women with BRCA1 Gene Changes", "Risk of Ovarian Cancer for Women with BRCA2 Gene Changes"]
     const questions = [
         `On average, about how many out of the 100 women in the sample ${screenWidth > 900 ? textImageLocation[0] : textImageLocation[1]}, will get ovarian cancer sometime during their lives?`,
-        `By age 80, about how many out of a sample ${screenWidth > 900 ? textImageLocation[0] : textImageLocation[1]}, of 1000 women who have BRCA1 gene changes will get ovarian cancer?`,
-        `For women who have BRCA2 gene changes, by age 80, the risk of ovarian cancer is higher than average. Given that a proportion of women who have BRCA2 gene changes ${screenWidth > 900 ? textImageLocation[0] : textImageLocation[1]}, out of the sample of 100 to the left will get ovarian cancer by age 80, about how many out of a sample of 1000 women who have BRCA2 gene changes will get ovarian cancer?`]
+        `Based on the proportion described ${screenWidth > 900 ? textImageLocation[0] : textImageLocation[1]}, by age 80, about how many who have BRCA1 gene changes out of 1000 women will get ovarian cancer?`,
+        `For women who have BRCA2 gene changes, by age 80, the risk of ovarian cancer is higher than average. Given that a proportion of women who have BRCA2 gene changes out of the sample of 100 ${screenWidth > 900 ? textImageLocation[0] : textImageLocation[1]} will get ovarian cancer by age 80, about how many who have BRCA2 gene changes out of a sample of 1000 women will get ovarian cancer?`]
     const [questionNumber, setQuestionNumber] = useState(1)
     const [visualizationTitle, setVisualizationTitle] = useState(visualizationTitles[0])
     const [currentQuestionAnswered, setCurrentQuestionAnswered] = useState(false)
@@ -43,7 +43,7 @@ function VisualizationProblemDisplay() {
     const navigate = useNavigate()
 
     /** Title component */
-    const Title = () => <h1 className="is-size-2 is-family-primary has-text-weight-bold">{visualizationTitle} Icon Array</h1>;
+    const Title = () => <h1 className="is-size-2 is-family-primary has-text-weight-bold">{visualizationTitle}</h1>;
     /** Graphic for the current question */
     const CurrentImage = () => (
         <div className="media-left">
