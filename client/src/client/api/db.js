@@ -87,7 +87,7 @@ export class QuestionStat {
         this.endTime = Date.now();
         this.answerTime = (this.endTime - this.startTime) / 1000;
         this.actualError = Math.abs(this.correctAnswer - userAnswer);
-        this.relativeError = this.actualError / this.correctAnswer;
+        this.relativeError = (Math.log2(Math.abs(userAnswer - this.correctAnswer) + (1/8)) === -3) ? 0 : Math.log2(Math.abs(userAnswer - this.correctAnswer) + (1/8))
     }
 
     /** Make this {@link QuestionStat} JSON serializable for Firestore Database */
