@@ -1,5 +1,11 @@
 /* mobile styling */
-@media (max-width: 900px) {
+@media (min-width: 951px) {
+    .media-left {
+        max-width: 600px;
+    }
+}
+
+@media (max-width: 950px) {
     .media {
         flex-direction: column;
     }
