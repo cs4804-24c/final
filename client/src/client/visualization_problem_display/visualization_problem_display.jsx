@@ -112,7 +112,7 @@ function VisualizationProblemDisplay() {
             currentQuestionStat.answer(answer);
             setCurrentQuestionAnswered(true)
             setAnswerFeedback("Submitted successfully!")
-            sendAnswer(questionNumber, currentQuestionStat, auth.currentUser).then((dbResult) => { console.log(dbResult) })
+            sendAnswer(currentQuestionStat, auth.currentUser).then((dbResult) => { console.log(dbResult) })
         }
 
         return <button className="button is-small is-link is-family-code" onClick={handleSubmitPress}>Submit</button>;
