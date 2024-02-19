@@ -62,7 +62,7 @@ Questions (1 per visualization):
     
     Control Text: For women who have BRCA1 gene changes, the risk of ovarian cancer is higher than average. By age 80, about 44 out of 100 women with BRCA1 gene changes will get ovarian cancer. 
     
-    Question: By age 80, about how many out of a sample of 1000 women who have BRCA1 gene changes will get ovarian cancer?
+    Question: Based on the proportion described, by age 80, about how many who have BRCA1 gene changes out of a sample of 1000 women will get ovarian cancer?
     
     What we want to know from this question: Can the user accurately apply a proportion from a textual description to a different sample size?
     
@@ -70,7 +70,7 @@ Questions (1 per visualization):
 
 3 (Icon Array for visualization 3, Taxonomy Mapping: Synthesis: Predict a future value.):
 
-    Question: For women who have BRCA2 gene changes, by age 80, the risk of ovarian cancer is higher than average. By age 80, about how many out of a sample of 1000 women who have BRCA2 gene changes will get ovarian cancer?
+    Question: For women who have BRCA2 gene changes, by age 80, the risk of ovarian cancer is higher than average. Given that a proportion of women who have BRCA2 gene changes out of the sample of 100 will get ovarian cancer by age 80, about how many who have BRCA2 gene changes out of a sample of 1000 women will get ovarian cancer?
 
     What we want to know from this question: Can the user accurately apply a proportion shown in an icon array to a different sample size?
     
