@@ -6,7 +6,8 @@
 - **Database, authentication, and web server**: *Joe Dobbelaar*
 - **UI, React component setup, and refactors**: *Matthew McAlarney, Joe Dobbelaar, and Randy Huang*
 - **Experiment Question Setup and Visualizations**: *Priyanka Narasimhan and Matthew McAlarney*
-- **Master csv functionality**: *Randy Huang*
+- **Master csv functionality and mobile styling**: *Randy Huang*
+- **Excel Data Processing**: *Priyanka Narasimhan and Matthew McAlarney*
 
 ## Background
 
@@ -18,7 +19,7 @@ Iconographic arrays are not as effective at communicating proportional data to t
 
 ## Outline of the Visualizations and Questions in our Survey
 
-Resources and research used to influence our visualizations and questions:
+Resources and research used to influence the experiment setup encompassing our visualizations and questions:
 
 >1. How to evaluate data visualizations across different levels of understanding: https://arxiv.org/pdf/2009.01747.pdf
     
@@ -27,24 +28,30 @@ Resources and research used to influence our visualizations and questions:
             a. Application: Use a percentage and total population to calculate a number.
             b. Synthesis: Predict a future value.
 >2. Improving Baysian Reasoning: https://www.cs.tufts.edu/~remco/publications/2015/InfoVis2015-Bayes.pdf
->3. Visualizations presented from the Healthwise Staff at https://www.nyp.org/healthlibrary/diagnosis/document/abl0344
+>3. Visualizations created and presented by the Healthwise Staff at https://www.nyp.org/healthlibrary/diagnosis/document/abl0344
             
             a. All Healthwise content published to NewYork-Presbyterian is reviewed by a comprehensive Clinical Review Board.
->4. Visualization 1 originally comes from Seer Cancer Statistics Review (CSR) 1975 - 2017: https://seer.cancer.gov/archive/csr/1975_2017/index.html 
+>4. The data used to construct visualization 1 originally comes from Seer Cancer Statistics Review (CSR) 1975 - 2017: https://seer.cancer.gov/archive/csr/1975_2017/index.html 
 >5. More information about the data collection at Seer Cancer Statistics Review: https://seer.cancer.gov/about/overview.html
->6. Visualizations 2 and 3 originally come from National Library of Medicine - National Center for Biotechnology Information: https://pubmed.ncbi.nlm.nih.gov/28632866/
+>6. The data used to construct visualizations 2 and 3 originally come from National Library of Medicine - National Center for Biotechnology Information: https://pubmed.ncbi.nlm.nih.gov/28632866/
 
 Visualizations:
 
 1: Women with Average Risk of Ovarian Cancer
 
+Data used to construct visualization originally comes from Seer Cancer Statistics Review (CSR) 1975 - 2017: https://seer.cancer.gov/archive/csr/1975_2017/index.html
+
 ![Women with Average Risk of Ovarian Cancer](img/ovarian_cancer_visualization_1.png)
 
 2: Risk of Ovarian Cancer for Women with BRCA1 Gene Changes
 
+Data used to construct visualization originally comes from National Library of Medicine - National Center for Biotechnology Information: https://pubmed.ncbi.nlm.nih.gov/28632866/
+
 ![Risk of Ovarian Cancer for Women with BRCA1 Gene Changes](img/ovarian_cancer_visualization_2.png)
 
 3: Risk of Ovarian Cancer for Women with BRCA2 Gene Changes
+
+Data used to construct visualization originally comes from National Library of Medicine - National Center for Biotechnology Information: https://pubmed.ncbi.nlm.nih.gov/28632866/
 
 ![Risk of Ovarian Cancer for Women with BRCA2 Gene Changes](img/ovarian_cancer_visualization_3.png)
 
@@ -78,11 +85,11 @@ Questions (1 per visualization):
 
 ## Procedure
 
->1. Participant enters the application and begins the survey. We administered the survey to a total of 10 participants of varying educational and work backgrounds.
->2. The survey will display a particular iconographic array or textual data description along with a question about the visualization. The participant then enters an answer to the current question. Important: In agreement with Professor Harrison, we have decided that each of the three visualizations in this current a3 experiment should remain the same (we are using static images of the visualizations as a result). Keeping the visualizations the same for a3 ensures that we are able to collect some baseline information about the effectiveness of iconographic arrays compared to textual description, and allows us to transition into the final project experiment more steadily.
+>1. Participant enters the application and begins the survey. We administered the survey to a total of 11 participants of various educational and work backgrounds.
+>2. The survey will display a particular iconographic array or textual data description along with a question about the visualization. The participant then enters an answer to the current question. Very important: In discussion with Professor Harrison about our particular experiment, we have decided that each of the three visualizations in this current a3 experiment should remain the same (we are using static images of the visualizations as a result). Keeping the visualizations the same for a3 ensures that we are able to collect some baseline information about the effectiveness of iconographic arrays compared to textual description. In addition, controlling the data presented in the icongraphic arrays ensures that there is substantial room for our group to iterate on our a3 experiment when transitioning into the final project. For our final project, we plan to implement an extension of our a3 experiment and also extend our hypothesis; this means that for the iconographic arrays we present in the final, we will definitely use D3 and random data generation to change the conditions in which each user answers new questions. For the sake of transitioning from a3 to the final project, we decided to hold off on implementing random data generation and D3 visualizations for now so that there is substantial room remaining to improve and expand the parameters of our experiment.
 >3. All questions require numeric answers.
 >4. There are 3 different visualizations total (2 icnonographic arrays and one textual data description).
->5. The participant is asked to repeat the survey 5 times. This means that each participant will move through 5 trials for each question in the survey. Important: In agreement with Professor Harrison, we decided to have each participant move through only 5 trials of the survey as the current experiment is best carried out using the same visualization for each question. This way, we ensure that we have collected a sufficient amount of data but not more than we need.
+>5. The participant is asked to repeat the survey only once. This means that each participant will move through one trial for each question in the survey. Very important: In discussion with Professor Harrison about our particular experiment, we decided to have each participant move through only one trial of the survey as the current setup, parameters, and hypothesis are most suitably carried out using the same visualization for each question. This way, we ensure that we have collected a sufficient amount of data to test the specifics of our hypothesis without having users unecessarily answer the same question corresponding to the same visualization more than once.
 
 ## Firebase: Database & Authenticaton
 User authentication and database are handled by Firebase: Google's mobile and web application development platform. Firebase configuration information is in `api/firebase.js`:
