@@ -96,11 +96,31 @@ Questions (1 per visualization):
 >2. The survey will display a particular iconographic array or textual data description along with a question about the visualization. The participant then enters an answer to the current question. Very important: In discussion with Professor Harrison about our particular experiment, we have decided that each of the three visualizations in this current a3 experiment should remain the same (we are using static images of the visualizations as a result). Keeping the visualizations the same for a3 ensures that we are able to collect some baseline information about the effectiveness of iconographic arrays compared to textual description. In addition, controlling the data presented in the icongraphic arrays ensures that there is substantial room for our group to iterate on our a3 experiment when transitioning into the final project. For our final project, we plan to implement an extension of our a3 experiment and also extend our hypothesis; this means that for the iconographic arrays we present in the final, we will definitely use D3 and random data generation to change the conditions in which each user answers new questions. For the sake of transitioning from a3 to the final project, we decided to hold off on implementing random data generation and D3 visualizations for now so that there is substantial room remaining to improve and expand the parameters of our experiment.
 >3. All questions require numeric answers.
 >4. There are 3 different visualizations total (2 icnonographic arrays and one textual data description).
->5. The participant is asked to repeat the survey only once. This means that each participant will move through one trial for each question in the survey. Very important: In discussion with Professor Harrison about our particular experiment, we decided to have each participant move through only one trial of the survey as the current setup, parameters, and hypothesis are most suitably carried out using the same visualization for each question. This way, we ensure that we have collected a sufficient amount of data to test the specifics of our hypothesis without having users unecessarily answer the same question corresponding to the same visualization more than once.
+>5. The participant is asked to take the survey only once. This means that each participant will move through one trial for each question in the survey. Very important: In discussion with Professor Harrison about our particular experiment, we decided to have each participant move through only one trial of the survey as the current setup, parameters, and hypothesis are most suitably carried out using the same visualization for each question. This way, we ensure that we have collected a sufficient amount of data to test the specifics of our hypothesis without having users unecessarily answer the same question corresponding to the same visualization more than once.
 
 ## Experiment Results
 
+As shown in the ranked_trials.csv file under the data folder, here is the coded ranking of visualizations (each one identified by the corresponding question number) ranked from best to worst based on the average log2Error for each visualization across all trials and participants:
 
+    ,Mean,Lower,Upper
+    Q1,0.51115802,0.51115802,0.703268075
+    Q3,1.212205373,0.838703149,1.303904075
+    Q2,1.309444164,1.309444164,1.543148586
+
+
+According to the above ranking, we know that the experiment visualizations performed from best to worst in the following order:
+    
+    1. Women with Average Risk of Ovarian Cancer iconographic array
+
+    2. Risk of Ovarian Cancer for Women with BRCA2 Gene Changes iconographic array
+
+    3. Risk of Ovarian Cancer for Women with BRCA1 Gene Changes Control Text (corresponding to question 2 and visualization 2)
+
+Interestingly, users generally performed better when answering questions about the two iconographic arrays and performed worse when answering the question about the control text in the experiment. Although this finding does not support our original hypothesis, there are certain ways that this experiment can be improved and expanded to see if our hypothesis is still unsupported. As of the time of reporting the ranking of visualizations in our experiment, this finding supports the opposite position of our hypothesis; iconographic arrays may actually be more effective at communicating proportional data to the average user than textual descriptions of proportional data.
+
+Below are the Bootstrapped 95% confidence intervals generated for each visualization:
+
+![95% Bootstrapped Confidence Intervals](img/ci.png)
 
 ## Firebase: Database & Authenticaton
 User authentication and database are handled by Firebase: Google's mobile and web application development platform. Firebase configuration information is in `api/firebase.js`:
