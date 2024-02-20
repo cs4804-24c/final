@@ -181,25 +181,37 @@ The React client is hosted by a simple express server in the root directory. The
 ## Design Achievements
 
 1. Added CSS styling for mobile adaptation:
+    
     a. In our mobile.css file, we included media queries that allow our experiment to be completed on all mobile devices.
 2. Implemented consistent text fonts, text sizes, and element colors across all problem interfaces in our experiment:
+    
     a. To keep the user experience of our application as consistent as possible, we used the Bulma CSS framework to apply the same text fonts and font sizes across all three problem interfaces.
 3. Implemented consistent text and button colors across all problem interfaces in our experiment:
+    
     a. We also strived to keep the user experience of our application consistent through applying the same text and button colors for each element across all three problem interfaces.
 4. Implemented an author footer across all user interfaces of the application:
+    
     a. In each user interface of our application there is a footer that lists the title of the assignment experiment and all of the application authors in our group.
 
 ## Technical Achievements
 
 1. Implemented answer entry feedback across all problem interfaces:
+    
     a. For all three problem interfaces in our application, we implemented basic answer entry feedback to inform the user of the following answer statuses:
+        
         I. The answer was successfully submitted.
+        
         II. Since an answer has already been submitted, a subsequent answer cannot also be submitted (can only submit one answer).
 2. Implemented answer submission check on click of the "Next" button across all problem interfaces:
+    
     a. When a user clicks on the "Next" button to navigate to the next problem interface or the final thank you page, there is a check that is executed that determines if the question displayed on the current problem interface has been answered. If the current question has not been answered, a red message will appear below the "Next" button notifying the user that they are not able to move forward in the experiment.
 3. Implemented ability for the user to repeat the experiment if desired:
+    
     a. On the thank you page, we implemented a "Take survey again" button; when this button is clicked, the user is redirected back to the beginning of the experiment from which they can move through all three problem interfaces again.
 4. Implemented Firebase database and user authentication:
+    
     a. Our implementation of a Firebase database connection and user authentication enabled a number of robust capabilities:
+        
         I. When a user lands on our application, they must sign in using a Google account before starting the experiment. This user authentication we implemented through Firebase services is quick and convenient for the user as they avoid the unnecessary steps of creating a custom user account from scratch. In addition, the Firebase user authentication allows us to easily capture and persist user answers to each question.
+        
         II. Our implementation of a database connection ensures that we can persist all user answers to questions to our group's Firebase database. As a result, our group is able to easily view all relevant data associated with each application user; this data includes all question numbers from the experiment, the user's submitted answer to each question, the actual and relative errors for each question, the answer time for each question, and the correct answer for each question. In addition, the storage of and access to this data in our group's Firebase database allows us to quickly generate a corresponding csv containing all relevant question information.
