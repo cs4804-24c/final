@@ -1,6 +1,13 @@
 # Assignment 3 - Replicating a Classic Experiment  
 *By: Matthew McAlarney, Priyanka Narasimhan, Joe Dobbelaar, and Randy Huang*
 
+## Working link to our web/mobile application
+https://www.icons.joed.dev/
+
+## Screenshot of first visualization and question in experiment
+
+![First Question and Visualization in Experiment Screenshot](img/a3_first_experiment_interface.png)
+
 ## Division of Labor
 - **README**: *Priyanka Narasimhan, Matthew McAlarney and Joe Dobbelaar*
 - **Database, authentication, and web server**: *Joe Dobbelaar*
@@ -90,6 +97,10 @@ Questions (1 per visualization):
 >3. All questions require numeric answers.
 >4. There are 3 different visualizations total (2 icnonographic arrays and one textual data description).
 >5. The participant is asked to repeat the survey only once. This means that each participant will move through one trial for each question in the survey. Very important: In discussion with Professor Harrison about our particular experiment, we decided to have each participant move through only one trial of the survey as the current setup, parameters, and hypothesis are most suitably carried out using the same visualization for each question. This way, we ensure that we have collected a sufficient amount of data to test the specifics of our hypothesis without having users unecessarily answer the same question corresponding to the same visualization more than once.
+
+## Experiment Results
+
+
 
 ## Firebase: Database & Authenticaton
 User authentication and database are handled by Firebase: Google's mobile and web application development platform. Firebase configuration information is in `api/firebase.js`:
