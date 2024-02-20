@@ -1,6 +1,6 @@
 import { createWriteStream } from 'fs';
 import { format } from 'fast-csv';
-import { getAllUserRecords } from './client/src/client/api/db.js';
+import { getAllUserRecords } from '../client/src/client/api/db.js';
 
 async function fetchDataForAllUsers() {
     try {
@@ -14,7 +14,7 @@ async function fetchDataForAllUsers() {
 
 async function writeToCSV(usersData) {
     const csvStream = format({ headers: true });
-    const writableStream = createWriteStream('answersData.csv');
+    const writableStream = createWriteStream('raw_data.csv');
 
     csvStream.pipe(writableStream);
 
