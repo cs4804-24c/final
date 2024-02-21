@@ -115,127 +115,160 @@
             <svg width="600" height="600"></svg>
         </div>
     </div>
+    <!-- year input -->
+    <input type="number" id="yearInput" value="2010" min="2010" max="2022">
+    <button id="yearButton">Change Year</button>
+
+
     <script type="text/javascript">
         // Set up dimensions for the map
-        var width = 960;
-        var height = 600;
+        let width = 960;
+        let height = 600;
+
+        let yearMin = 2010;
+        let yearMax = 2014;
+        let numYears = 13;
 
         // Create an SVG element
-        var svg = d3.selectAll("svg");
+        let svg = d3.selectAll("svg");
 
         // Set up projection
-        var projection = d3.geoAlbersUsa()
+        let projection = d3.geoAlbersUsa()
                             .translate([width / 2 - 160, height / 2])
                             .scale(750);
 
         // Create a path generator
-        var path = d3.geoPath().projection(projection);
+        let path = d3.geoPath().projection(projection);
 
         // Define color scale
-        var colorScale = d3.scaleLinear()
+        let colorScale = d3.scaleLinear()
                             .domain([0, 141477787]) // Adjust domain based on your data
                             .range(["lightgreen", "darkgreen"]); // Adjust colors as needed
 
-        // Load the CSV data
-d3.csv("./Data Sources/EPA Data- CO2 Only.csv", function(error, data) {
-    if (error) throw error;
+        //Create 2-dimensional array to store emissions data by state and year
+        let stateTotalsByYear = {};
 
-    // Map state abbreviations to full state names
-    let stateFullNames = {
-                    "AL": "Alabama",
-                    "AK": "Alaska",
-                    "AZ": "Arizona",
-                    "AR": "Arkansas",
-                    "CA": "California",
-                    "CO": "Colorado",
-                    "CT": "Connecticut",
-                    "DE": "Delaware",
-                    "FL": "Florida",
-                    "GA": "Georgia",
-                    "HI": "Hawaii",
-                    "ID": "Idaho",
-                    "IL": "Illinois",
-                    "IN": "Indiana",
-                    "IA": "Iowa",
-                    "KS": "Kansas",
-                    "KY": "Kentucky",
-                    "LA": "Louisiana",
-                    "ME": "Maine",
-                    "MD": "Maryland",
-                    "MA": "Massachusetts",
-                    "MI": "Michigan",
-                    "MN": "Minnesota",
-                    "MS": "Mississippi",
-                    "MO": "Missouri",
-                    "MT": "Montana",
-                    "NE": "Nebraska",
-                    "NV": "Nevada",
-                    "NH": "New Hampshire",
-                    "NJ": "New Jersey",
-                    "NM": "New Mexico",
-                    "NY": "New York",
-                    "NC": "North Carolina",
-                    "ND": "North Dakota",
-                    "OH": "Ohio",
-                    "OK": "Oklahoma",
-                    "OR": "Oregon",
-                    "PA": "Pennsylvania",
-                    "RI": "Rhode Island",
-                    "SC": "South Carolina",
-                    "SD": "South Dakota",
-                    "TN": "Tennessee",
-                    //"TX": "Texas",
-                    "UT": "Utah",
-                    "VT": "Vermont",
-                    "VA": "Virginia",
-                    "WA": "Washington",
-                    "WV": "West Virginia",
-                    "WI": "Wisconsin",
-                    "WY": "Wyoming"
-                };
+        function drawMap(year) {
+            d3.selectAll("path").remove(); // Remove existing paths from the map
+            // Load the GeoJSON data for US states
+            d3.json("us_states.json", function(error, us) {
+                if (error) throw error;
 
-    // Initialize an object to store aggregated emissions data
-    let stateEmissions = {};
+                // Merge aggregated emissions data with GeoJSON
+                us.features.forEach(function(feature) {
+                    let stateName = feature.properties.NAME;
+                    console.log(stateName, stateTotalsByYear[stateName]);
+                    if(stateTotalsByYear[stateName] != undefined && stateTotalsByYear[stateName][year-2010] != undefined){
+                        feature.properties.emission = stateTotalsByYear[stateName][year-2010];
+                    } else {
+                        feature.properties.emission = 0; // Set emission value to 0 if not found
+                    }
+                });
 
-    // Process CSV data and aggregate emissions by state
-    data.forEach(function(d) {
-        let stateAbbreviation = d.STATE;
-        let stateFullName = stateFullNames[stateAbbreviation];
-        let emissionValue = parseFloat(d['GHG QUANTITY (METRIC TONS CO2e)']);
-        // If the state exists in the aggregated data, add emission value to its total
-        if (stateEmissions[stateFullName]) {
-            stateEmissions[stateFullName] += emissionValue;
-        } else {
-            stateEmissions[stateFullName] = emissionValue;
+                // Draw the map based on the merged data
+                svg.selectAll("path")
+                    .data(us.features)
+                    .enter().append("path")
+                    .attr("d", path)
+                    .style("fill", function(d) {
+                        let emission = d.properties.emission;
+                        return emission ? colorScale(emission) : "#ccc"; // If emission value is undefined, use default color
+                    })
+                    .style("stroke", "#fff")
+                    .style("stroke-width", "1");
+            });
         }
-    });
+
+        // Load the CSV data
+        d3.csv("./Data Sources/CO2 Only All Years.csv", function(error, data) {
+            if (error) throw error;
+            // Map state abbreviations to full state names
+            let stateFullNames = {
+                            "AL": "Alabama",
+                            "AK": "Alaska",
+                            "AZ": "Arizona",
+                            "AR": "Arkansas",
+                            "CA": "California",
+                            "CO": "Colorado",
+                            "CT": "Connecticut",
+                            "DE": "Delaware",
+                            "FL": "Florida",
+                            "GA": "Georgia",
+                            "HI": "Hawaii",
+                            "ID": "Idaho",
+                            "IL": "Illinois",
+                            "IN": "Indiana",
+                            "IA": "Iowa",
+                            "KS": "Kansas",
+                            "KY": "Kentucky",
+                            "LA": "Louisiana",
+                            "ME": "Maine",
+                            "MD": "Maryland",
+                            "MA": "Massachusetts",
+                            "MI": "Michigan",
+                            "MN": "Minnesota",
+                            "MS": "Mississippi",
+                            "MO": "Missouri",
+                            "MT": "Montana",
+                            "NE": "Nebraska",
+                            "NV": "Nevada",
+                            "NH": "New Hampshire",
+                            "NJ": "New Jersey",
+                            "NM": "New Mexico",
+                            "NY": "New York",
+                            "NC": "North Carolina",
+                            "ND": "North Dakota",
+                            "OH": "Ohio",
+                            "OK": "Oklahoma",
+                            "OR": "Oregon",
+                            "PA": "Pennsylvania",
+                            "RI": "Rhode Island",
+                            "SC": "South Carolina",
+                            "SD": "South Dakota",
+                            "TN": "Tennessee",
+                            "TX": "Texas",
+                            "UT": "Utah",
+                            "VT": "Vermont",
+                            "VA": "Virginia",
+                            "WA": "Washington",
+                            "WV": "West Virginia",
+                            "WI": "Wisconsin",
+                            "WY": "Wyoming"
+                        };
+
+            // Initialize an object to store aggregated emissions data
+            // let stateEmissions = {};
+
+            // Process CSV data and aggregate emissions by state and year
+            data.forEach(function(d) {
+                let stateAbbreviation = d.STATE;
+                let year = d.YEAR;
+                console.log(year);
+                let stateFullName = stateFullNames[stateAbbreviation];
+                let emissionValue = parseFloat(d['GHG QUANTITY (METRIC TONS CO2e)']);
+                // If the state doesn't exist in the aggregated data, initialize it as an empty object
+                if (!stateTotalsByYear[stateFullName]) {
+                    stateTotalsByYear[stateFullName] = {};
+                }
+                // If the year exists for the state in the aggregated data, add emission value to its total
+                if (stateTotalsByYear[stateFullName][year-2010]) {
+                    stateTotalsByYear[stateFullName][year-2010] += emissionValue;
+                } else {
+                    stateTotalsByYear[stateFullName][year-2010] = emissionValue;
+                }
+            });
+
+            console.log(stateTotalsByYear['Pennsylvania'][12]);
 
 
-    // Load the GeoJSON data for US states
-    d3.json("us_states.json", function(error, us) {
-        if (error) throw error;
-
-        // Merge aggregated emissions data with GeoJSON
-        us.features.forEach(function(feature) {
-            let stateName = feature.properties.NAME;
-            console.log()
-
-            feature.properties.emission = stateEmissions[stateName] || 0; // Set emission value to 0 if not found
+            drawMap(2022);
         });
 
-        // Draw the map based on the merged data
-        svg.selectAll("path")
-            .data(us.features)
-            .enter().append("path")
-            .attr("d", path)
-            .style("fill", function(d) {
-                let emission = d.properties.emission;
-                return emission ? colorScale(emission) : "#ccc"; // If emission value is undefined, use default color
-            })
-            .style("stroke", "#fff")
-            .style("stroke-width", "1");
-    });
-});
+        // Add event listener to the year button
+        document.getElementById("yearButton").addEventListener("click", function() {
+            let year = document.getElementById("yearInput").value;
+            drawMap(year);
+        });
 
     </script>
 </body>
