@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content=
+            "width=device-width, initial-scale=1.0">
+    <title>Final Project</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.min.js" charset="utf-8"></script>
+    <style type="text/css">
+
+        #radialPlots {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            margin-top: 50px;
+            /* make sure the wrapped divs start at the left */
+            justify-content: center;
+            align-items: flex-start;
+
+            /* width: 1920px; */
+            
+            width: 100%;
+            height: 100%;
+
+            margin-left: 20px;
+
+            background-color: aquamarine;
+
+        }
+
+        #radialPlot1, #radialPlot2, #radialPlot3, #radialPlot4 {
+            width: 400px; /* Adjust this value as needed */
+            height: 400px;
+            margin: 100px;
+
+            /* box-sizing: border-box; Include padding and border in element's total width and height */
+        }
+
+        #radialPlot1 {
+            background-color: #af1e1e;
+        }
+
+        #radialPlot2 {
+            background-color: #22aa3d;
+        }
+
+        #radialPlot3 {
+            background-color: #01571f;
+        }
+
+        #radialPlot4 {
+            background-color: #543ecf;
+        }
+
+        #maps {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            margin-top: 50px;
+            /* make sure the wrapped divs start at the left */
+            justify-content: center;
+            align-items: flex-start;
+
+            /* width: 1920px; */
+            
+            width: 100%;
+            height: 100%;
+
+            margin-left: 20px;
+
+            background-color: aquamarine;
+
+        }
+
+        #map1, #map2, #map3, #map4 {
+            width: 600px; /* Adjust this value as needed */
+            height: 600px;
+            margin: 50px;
+            border: 3px solid black;
+            border-radius: 10px;
+
+            /* box-sizing: border-box; Include padding and border in element's total width and height */
+        }
+
+    </style>
+</head>
+<body>
+    <div id = "radialPlots">
+        <div id="radialPlot1">
+
+        </div>
+        <div id="radialPlot2">
+
+        </div>
+        <div id="radialPlot3">
+
+        </div>
+        <div id="radialPlot4">
+
+        </div>
+    </div>
+
+    <div id = "maps">
+        <div id="map1">
+            <svg width="600" height="600"></svg>
+        </div>
+        <div id="map2">
+            <svg width="600" height="600"></svg>
+        </div>
+        <div id="map3">
+            <svg width="600" height="600"></svg>
+        </div>
+        <div id="map4">
+            <svg width="600" height="600"></svg>
+        </div>
+    </div>
+    <script type="text/javascript">
+        // Create some dummy data for the maps {"PA":1000, "NJ":2000, "NY":3000, "DE":4000, "MD":5000}
+        let data = [
+              {"state": "PA", "value": 10000},
+              {"state": "NJ", "value": 20000},
+              {"state": "NY", "value": 54000},
+              {"state": "DE", "value": 20000},
+              {"state": "MD", "value": 900000},
+                {"state": "CT", "value": 100000},
+                {"state": "RI", "value": 200000},
+                {"state": "MA", "value": 300000},
+                {"state": "VT", "value": 400000},
+                {"state": "NH", "value": 500000},
+                {"state": "ME", "value": 600000},
+                {"state": "VA", "value": 700000},
+                {"state": "WV", "value": 800000},
+                {"state": "NC", "value": 900000},
+                {"state": "SC", "value": 1000000},
+                {"state": "GA", "value": 1100000},
+                {"state": "FL", "value": 1200000},
+                {"state": "AL", "value": 1300000},
+                {"state": "TN", "value": 1400000},
+                {"state": "MS", "value": 1500000},
+                {"state": "KY", "value": 1600000},
+                {"state": "OH", "value": 1700000},
+                {"state": "IN", "value": 1800000},
+                {"state": "MI", "value": 1900000},
+                {"state": "WI", "value": 2000000},
+                {"state": "IL", "value": 2100000},
+                {"state": "MN", "value": 2200000},
+                {"state": "IA", "value": 2300000},
+                {"state": "MO", "value": 2400000},
+                {"state": "AR", "value": 2500000},
+                {"state": "LA", "value": 2600000},
+                {"state": "OK", "value": 2700000},
+                {"state": "TX", "value": 2800000},
+                {"state": "NM", "value": 2900000},
+                {"state": "KS", "value": 3000000},
+                {"state": "NE", "value": 3100000},
+                {"state": "SD", "value": 3200000},
+                {"state": "ND", "value": 3300000},
+                {"state": "WY", "value": 3400000},
+                {"state": "MT", "value": 3500000},
+                {"state": "CO", "value": 3600000},
+                {"state": "UT", "value": 3700000},
+                {"state": "AZ", "value": 3800000},
+                {"state": "NV", "value": 3900000},
+                {"state": "OR", "value": 4000000},
+                {"state": "WA", "value": 4100000},
+                {"state": "ID", "value": 4200000},
+                {"state": "CA", "value": 4300000},
+                {"state": "AK", "value": 4400000},
+                {"state": "HI", "value": 4500000}
+         ];
+
+        // Create mapping from every state abbreviation to its full name
+        let stateFullNames = {
+            "AL": "Alabama",
+            "AK": "Alaska",
+            "AZ": "Arizona",
+            "AR": "Arkansas",
+            "CA": "California",
+            "CO": "Colorado",
+            "CT": "Connecticut",
+            "DE": "Delaware",
+            "FL": "Florida",
+            "GA": "Georgia",
+            "HI": "Hawaii",
+            "ID": "Idaho",
+            "IL": "Illinois",
+            "IN": "Indiana",
+            "IA": "Iowa",
+            "KS": "Kansas",
+            "KY": "Kentucky",
+            "LA": "Louisiana",
+            "ME": "Maine",
+            "MD": "Maryland",
+            "MA": "Massachusetts",
+            "MI": "Michigan",
+            "MN": "Minnesota",
+            "MS": "Mississippi",
+            "MO": "Missouri",
+            "MT": "Montana",
+            "NE": "Nebraska",
+            "NV": "Nevada",
+            "NH": "New Hampshire",
+            "NJ": "New Jersey",
+            "NM": "New Mexico",
+            "NY": "New York",
+            "NC": "North Carolina",
+            "ND": "North Dakota",
+            "OH": "Ohio",
+            "OK": "Oklahoma",
+            "OR": "Oregon",
+            "PA": "Pennsylvania",
+            "RI": "Rhode Island",
+            "SC": "South Carolina",
+            "SD": "South Dakota",
+            "TN": "Tennessee",
+            "TX": "Texas",
+            "UT": "Utah",
+            "VT": "Vermont",
+            "VA": "Virginia",
+            "WA": "Washington",
+            "WV": "West Virginia",
+            "WI": "Wisconsin",
+            "WY": "Wyoming"
+        };
+        
+        // Define the dimensions of the map
+        let width = 600;
+        let height = 600;
+
+        // Create SVG element
+        let svg = d3.selectAll("svg");
+
+        // Set up a projection
+        let projection = d3.geoAlbersUsa()
+                            .translate([width / 2 + 20, height / 2])
+                            .scale(750);
+
+        // U.S. States GeoJSON data from: https://eric.clst.org/tech/usgeojson/
+
+        // Load GeoJSON data
+        d3.json("us_states.json", function(us) {
+            // Use dummy data
+            for (let i = 0; i < data.length; i++) {
+                // Grab state name
+                let dataState = data[i].state;
+
+                // Grab data value, and convert from string to float
+                let dataValue = parseFloat(data[i].value);
+
+                // Find the corresponding state inside the GeoJSON
+                for (let j = 0; j < us.features.length; j++) {
+                    // properties name
+                    let usState = us.features[j].properties.NAME;
+                    if (stateFullNames[dataState] == usState) {
+                        // Copy the data value into the JSON
+                        us.features[j].properties.value = dataValue;
+
+                        // Stop looking through the JSON
+                        break;
+                    }
+                }
+            }
+
+            // Bind data and create one path per GeoJSON feature
+            svg.selectAll("path")
+                .data(us.features)
+                .enter()
+                .append("path")
+                .attr("d", path)
+                .style("stroke", "#fff")
+                .style("stroke-width", "1")
+                .style("fill", function(d) {
+                    // Get data value
+                    let value = d.properties.value;
+
+                    if (value) {
+                        // If value exists…
+                        return colorScale(value);
+                    } else {
+                        // If value is undefined…
+                        return "#ccc";
+                    }
+                });
+        });
+
+        // Example color scale function
+        let colorScale = d3.scaleLinear()
+                            .domain([0, 5000000]) // Adjust domain as per your data range
+                            .range(["lightgreen", "darkgreen"]); // Adjust colors as needed
+
+        // Create a path generator
+        let path = d3.geoPath().projection(projection); 
+        
+
+
+
+    </script>
+</body>
