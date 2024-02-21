@@ -129,6 +129,8 @@
         let yearMax = 2014;
         let numYears = 13;
 
+        let firstTimeDrawingMap = true;
+
         // Create an SVG element
         let svg = d3.selectAll("svg");
 
@@ -142,42 +144,56 @@
 
         // Define color scale
         let colorScale = d3.scaleLinear()
-                            .domain([0, 141477787]) // Adjust domain based on your data
-                            .range(["lightgreen", "darkgreen"]); // Adjust colors as needed
+                            .domain([0, 141477787]) // Hard-coded domain for now, excludes Texas because it's an outlier
+                            .range(["lightgreen", "darkgreen"]);
 
         //Create 2-dimensional array to store emissions data by state and year
         let stateTotalsByYear = {};
 
         function drawMap(year) {
-            d3.selectAll("path").remove(); // Remove existing paths from the map
-            // Load the GeoJSON data for US states
-            d3.json("us_states.json", function(error, us) {
-                if (error) throw error;
+            console.log(year);
+    // Load the GeoJSON data for US states
+    d3.json("us_states.json", function(error, us) {
+        if (error) throw error;
 
-                // Merge aggregated emissions data with GeoJSON
-                us.features.forEach(function(feature) {
-                    let stateName = feature.properties.NAME;
-                    console.log(stateName, stateTotalsByYear[stateName]);
-                    if(stateTotalsByYear[stateName] != undefined && stateTotalsByYear[stateName][year-2010] != undefined){
-                        feature.properties.emission = stateTotalsByYear[stateName][year-2010];
-                    } else {
-                        feature.properties.emission = 0; // Set emission value to 0 if not found
-                    }
+        // Merge aggregated emissions data with GeoJSON
+        us.features.forEach(function(feature) {
+            let stateName = feature.properties.NAME;
+            if (stateTotalsByYear[stateName] != undefined && stateTotalsByYear[stateName][year - 2010] != undefined) {
+                feature.properties.emission = stateTotalsByYear[stateName][year - 2010];
+            } else {
+                feature.properties.emission = 0; // Set emission value to 0 if not found
+            }
+        });
+
+        if (firstTimeDrawingMap) {
+            firstTimeDrawingMap = false;
+            // Create the map based on the merged data with smooth color transitions
+            svg.selectAll("path")
+                .data(us.features)
+                .enter().append("path")
+                .attr("d", path)
+                .style("stroke", "#fff")
+                .style("stroke-width", "1")
+                .transition() // Add transition for smooth color change
+                .duration(1) // Duration of the transition in milliseconds
+                .style("fill", function(d) {
+                    let emission = d.properties.emission;
+                    return emission ? colorScale(emission) : "#ccc"; // If emission value is undefined, use default color
                 });
-
-                // Draw the map based on the merged data
-                svg.selectAll("path")
-                    .data(us.features)
-                    .enter().append("path")
-                    .attr("d", path)
-                    .style("fill", function(d) {
-                        let emission = d.properties.emission;
-                        return emission ? colorScale(emission) : "#ccc"; // If emission value is undefined, use default color
-                    })
-                    .style("stroke", "#fff")
-                    .style("stroke-width", "1");
-            });
+        } else {
+            // Update existing paths with smooth color transitions
+            svg.selectAll("path")
+                .data(us.features)
+                .transition() // Add transition for smooth color change
+                .duration(1000) // Duration of the transition in milliseconds
+                .style("fill", function(d) {
+                    let emission = d.properties.emission;
+                    return emission ? colorScale(emission) : "#ccc"; // If emission value is undefined, use default color
+                });
         }
+    });
+}
 
         // Load the CSV data
         d3.csv("./Data Sources/CO2 Only All Years.csv", function(error, data) {
