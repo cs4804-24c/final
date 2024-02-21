@@ -116,184 +116,126 @@
         </div>
     </div>
     <script type="text/javascript">
-        // Create some dummy data for the maps {"PA":1000, "NJ":2000, "NY":3000, "DE":4000, "MD":5000}
-        let data = [
-              {"state": "PA", "value": 10000},
-              {"state": "NJ", "value": 20000},
-              {"state": "NY", "value": 54000},
-              {"state": "DE", "value": 20000},
-              {"state": "MD", "value": 900000},
-                {"state": "CT", "value": 100000},
-                {"state": "RI", "value": 200000},
-                {"state": "MA", "value": 300000},
-                {"state": "VT", "value": 400000},
-                {"state": "NH", "value": 500000},
-                {"state": "ME", "value": 600000},
-                {"state": "VA", "value": 700000},
-                {"state": "WV", "value": 800000},
-                {"state": "NC", "value": 900000},
-                {"state": "SC", "value": 1000000},
-                {"state": "GA", "value": 1100000},
-                {"state": "FL", "value": 1200000},
-                {"state": "AL", "value": 1300000},
-                {"state": "TN", "value": 1400000},
-                {"state": "MS", "value": 1500000},
-                {"state": "KY", "value": 1600000},
-                {"state": "OH", "value": 1700000},
-                {"state": "IN", "value": 1800000},
-                {"state": "MI", "value": 1900000},
-                {"state": "WI", "value": 2000000},
-                {"state": "IL", "value": 2100000},
-                {"state": "MN", "value": 2200000},
-                {"state": "IA", "value": 2300000},
-                {"state": "MO", "value": 2400000},
-                {"state": "AR", "value": 2500000},
-                {"state": "LA", "value": 2600000},
-                {"state": "OK", "value": 2700000},
-                {"state": "TX", "value": 2800000},
-                {"state": "NM", "value": 2900000},
-                {"state": "KS", "value": 3000000},
-                {"state": "NE", "value": 3100000},
-                {"state": "SD", "value": 3200000},
-                {"state": "ND", "value": 3300000},
-                {"state": "WY", "value": 3400000},
-                {"state": "MT", "value": 3500000},
-                {"state": "CO", "value": 3600000},
-                {"state": "UT", "value": 3700000},
-                {"state": "AZ", "value": 3800000},
-                {"state": "NV", "value": 3900000},
-                {"state": "OR", "value": 4000000},
-                {"state": "WA", "value": 4100000},
-                {"state": "ID", "value": 4200000},
-                {"state": "CA", "value": 4300000},
-                {"state": "AK", "value": 4400000},
-                {"state": "HI", "value": 4500000}
-         ];
+        // Set up dimensions for the map
+        var width = 960;
+        var height = 600;
 
-        // Create mapping from every state abbreviation to its full name
-        let stateFullNames = {
-            "AL": "Alabama",
-            "AK": "Alaska",
-            "AZ": "Arizona",
-            "AR": "Arkansas",
-            "CA": "California",
-            "CO": "Colorado",
-            "CT": "Connecticut",
-            "DE": "Delaware",
-            "FL": "Florida",
-            "GA": "Georgia",
-            "HI": "Hawaii",
-            "ID": "Idaho",
-            "IL": "Illinois",
-            "IN": "Indiana",
-            "IA": "Iowa",
-            "KS": "Kansas",
-            "KY": "Kentucky",
-            "LA": "Louisiana",
-            "ME": "Maine",
-            "MD": "Maryland",
-            "MA": "Massachusetts",
-            "MI": "Michigan",
-            "MN": "Minnesota",
-            "MS": "Mississippi",
-            "MO": "Missouri",
-            "MT": "Montana",
-            "NE": "Nebraska",
-            "NV": "Nevada",
-            "NH": "New Hampshire",
-            "NJ": "New Jersey",
-            "NM": "New Mexico",
-            "NY": "New York",
-            "NC": "North Carolina",
-            "ND": "North Dakota",
-            "OH": "Ohio",
-            "OK": "Oklahoma",
-            "OR": "Oregon",
-            "PA": "Pennsylvania",
-            "RI": "Rhode Island",
-            "SC": "South Carolina",
-            "SD": "South Dakota",
-            "TN": "Tennessee",
-            "TX": "Texas",
-            "UT": "Utah",
-            "VT": "Vermont",
-            "VA": "Virginia",
-            "WA": "Washington",
-            "WV": "West Virginia",
-            "WI": "Wisconsin",
-            "WY": "Wyoming"
-        };
-        
-        // Define the dimensions of the map
-        let width = 600;
-        let height = 600;
+        // Create an SVG element
+        var svg = d3.selectAll("svg");
 
-        // Create SVG element
-        let svg = d3.selectAll("svg");
-
-        // Set up a projection
-        let projection = d3.geoAlbersUsa()
-                            .translate([width / 2 + 20, height / 2])
+        // Set up projection
+        var projection = d3.geoAlbersUsa()
+                            .translate([width / 2 - 160, height / 2])
                             .scale(750);
 
-        // U.S. States GeoJSON data from: https://eric.clst.org/tech/usgeojson/
+        // Create a path generator
+        var path = d3.geoPath().projection(projection);
 
-        // Load GeoJSON data
-        d3.json("us_states.json", function(us) {
-            // Use dummy data
-            for (let i = 0; i < data.length; i++) {
-                // Grab state name
-                let dataState = data[i].state;
-
-                // Grab data value, and convert from string to float
-                let dataValue = parseFloat(data[i].value);
-
-                // Find the corresponding state inside the GeoJSON
-                for (let j = 0; j < us.features.length; j++) {
-                    // properties name
-                    let usState = us.features[j].properties.NAME;
-                    if (stateFullNames[dataState] == usState) {
-                        // Copy the data value into the JSON
-                        us.features[j].properties.value = dataValue;
-
-                        // Stop looking through the JSON
-                        break;
-                    }
-                }
-            }
-
-            // Bind data and create one path per GeoJSON feature
-            svg.selectAll("path")
-                .data(us.features)
-                .enter()
-                .append("path")
-                .attr("d", path)
-                .style("stroke", "#fff")
-                .style("stroke-width", "1")
-                .style("fill", function(d) {
-                    // Get data value
-                    let value = d.properties.value;
-
-                    if (value) {
-                        // If value exists…
-                        return colorScale(value);
-                    } else {
-                        // If value is undefined…
-                        return "#ccc";
-                    }
-                });
-        });
-
-        // Example color scale function
-        let colorScale = d3.scaleLinear()
-                            .domain([0, 5000000]) // Adjust domain as per your data range
+        // Define color scale
+        var colorScale = d3.scaleLinear()
+                            .domain([0, 141477787]) // Adjust domain based on your data
                             .range(["lightgreen", "darkgreen"]); // Adjust colors as needed
 
-        // Create a path generator
-        let path = d3.geoPath().projection(projection); 
-        
+        // Load the CSV data
+d3.csv("./Data Sources/EPA Data- CO2 Only.csv", function(error, data) {
+    if (error) throw error;
+
+    // Map state abbreviations to full state names
+    let stateFullNames = {
+                    "AL": "Alabama",
+                    "AK": "Alaska",
+                    "AZ": "Arizona",
+                    "AR": "Arkansas",
+                    "CA": "California",
+                    "CO": "Colorado",
+                    "CT": "Connecticut",
+                    "DE": "Delaware",
+                    "FL": "Florida",
+                    "GA": "Georgia",
+                    "HI": "Hawaii",
+                    "ID": "Idaho",
+                    "IL": "Illinois",
+                    "IN": "Indiana",
+                    "IA": "Iowa",
+                    "KS": "Kansas",
+                    "KY": "Kentucky",
+                    "LA": "Louisiana",
+                    "ME": "Maine",
+                    "MD": "Maryland",
+                    "MA": "Massachusetts",
+                    "MI": "Michigan",
+                    "MN": "Minnesota",
+                    "MS": "Mississippi",
+                    "MO": "Missouri",
+                    "MT": "Montana",
+                    "NE": "Nebraska",
+                    "NV": "Nevada",
+                    "NH": "New Hampshire",
+                    "NJ": "New Jersey",
+                    "NM": "New Mexico",
+                    "NY": "New York",
+                    "NC": "North Carolina",
+                    "ND": "North Dakota",
+                    "OH": "Ohio",
+                    "OK": "Oklahoma",
+                    "OR": "Oregon",
+                    "PA": "Pennsylvania",
+                    "RI": "Rhode Island",
+                    "SC": "South Carolina",
+                    "SD": "South Dakota",
+                    "TN": "Tennessee",
+                    //"TX": "Texas",
+                    "UT": "Utah",
+                    "VT": "Vermont",
+                    "VA": "Virginia",
+                    "WA": "Washington",
+                    "WV": "West Virginia",
+                    "WI": "Wisconsin",
+                    "WY": "Wyoming"
+                };
+
+    // Initialize an object to store aggregated emissions data
+    let stateEmissions = {};
+
+    // Process CSV data and aggregate emissions by state
+    data.forEach(function(d) {
+        let stateAbbreviation = d.STATE;
+        let stateFullName = stateFullNames[stateAbbreviation];
+        let emissionValue = parseFloat(d['GHG QUANTITY (METRIC TONS CO2e)']);
+        // If the state exists in the aggregated data, add emission value to its total
+        if (stateEmissions[stateFullName]) {
+            stateEmissions[stateFullName] += emissionValue;
+        } else {
+            stateEmissions[stateFullName] = emissionValue;
+        }
+    });
 
 
+    // Load the GeoJSON data for US states
+    d3.json("us_states.json", function(error, us) {
+        if (error) throw error;
+
+        // Merge aggregated emissions data with GeoJSON
+        us.features.forEach(function(feature) {
+            let stateName = feature.properties.NAME;
+            console.log()
+
+            feature.properties.emission = stateEmissions[stateName] || 0; // Set emission value to 0 if not found
+        });
+
+        // Draw the map based on the merged data
+        svg.selectAll("path")
+            .data(us.features)
+            .enter().append("path")
+            .attr("d", path)
+            .style("fill", function(d) {
+                let emission = d.properties.emission;
+                return emission ? colorScale(emission) : "#ccc"; // If emission value is undefined, use default color
+            })
+            .style("stroke", "#fff")
+            .style("stroke-width", "1");
+    });
+});
 
     </script>
 </body>
