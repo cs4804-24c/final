@@ -1,125 +1,237 @@
-Final Project - Interactive Data Visualization  
-===
+# Assignment 3 - Replicating a Classic Experiment  
+*By: Matthew McAlarney, Priyanka Narasimhan, Joe Dobbelaar, and Randy Huang*
 
-The key learning experience of this course is the final project. 
-You will design a web site and interactive visualizations that answer questions you have, provide an exploratory interface to some topic of your own choosing, or take on a more ambitious experiment than A3. 
-You will acquire the data, design your visualizations, implement them, and critically evaluate the results. 
+## Working link to our web/mobile application
+https://www.icons.joed.dev/
 
-The path to a good visualization is going to involve mistakes and wrong turns. 
-It is therefore important to recognize that mistakes are valuable in finding the path to a solution, to broadly explore the design space, and to iterate designs to improve possible solutions. 
-To help you explore the design space, we will hold events such as feedback sessions in which you propose your idea and initial designs and receive feedback from the class and staff.
+## Screenshot of first visualization and question in experiment
 
-Proposals / Idea Generation
----
+![First Question and Visualization in Experiment Screenshot](img/a3_first_experiment_interface.png)
 
-Submit project ideas using [this Google Form](https://docs.google.com/forms/d/e/1FAIpQLSc72vId8keotkEvLrB9Ef3Nt0e1uh_-mWmQ5okyPM5_q2a89Q/viewform?usp=sf_link).
+## Division of Labor
+- **README**: *Priyanka Narasimhan, Matthew McAlarney and Joe Dobbelaar*
+- **Database, authentication, and web server**: *Joe Dobbelaar*
+- **UI, React component setup, and refactors**: *Matthew McAlarney, Joe Dobbelaar, and Randy Huang*
+- **Experiment Question Setup and Visualizations**: *Priyanka Narasimhan and Matthew McAlarney*
+- **Master csv functionality and mobile styling**: *Randy Huang*
+- **Excel Data Processing**: *Priyanka Narasimhan, Randy Huang, and Matthew McAlarney*
 
-You're encouraged to submit many ideas-- staff will help you identify the most promising ones and possible roadblocks.
+## Background
 
-Please stick to 1-4 folks per team.
+We coded and conducted an experiment using iconographic arrays and textual descriptions of proportional data. For each of the three visualizations, we asked one question pertaining to the present proportion and sample size(s) and stored the numerical user answers. Based on the numerical answers, we analyzed to what extent iconographic arrays communicated proportional data effectively compared to textual data description. Iconographic arrays are a type of data visualization chart used extensively in the medical community to convey information such as the risk of developing different types of cancer among certain groups of people.
 
-Final Project Materials
----
-For your final project you must hand in the following items.
+## Our Hypothesis 
 
-### Process Book
+Iconographic arrays are not as effective at communicating proportional data to the average user as textual descriptions of proportional data. In other words, the average user cannot deduce proportions of a sample size and predict proportions for future sample sizes through iconographic arrays as effectively as they can through textual descriptions of data.
 
-An important part of your project is your process book. Your process book details your steps in developing your solution, including the alternative designs you tried, and the insights you got. Develop your process book out of the project proposal. Equally important to your final results is how you got there! Your process book is the place you describe and document the space of possibilities you explored at each step of your project. It is not, however, a journal or lab notebook that describes every detail - you should think carefully about the important decisions you made and insights you gained and present your reasoning in a concise way.
+## Outline of the Visualizations and Questions in our Survey
 
-We strongly advise you to include many figures in your process book, including photos of your sketches of potential designs, screen shots from different visualization tools you explored, inspirations of visualizations you found online, etc. Several images illustrating changes in your design or focus over time will be far more informative than text describing those changes. Instead, use text to describe the rationale behind the evolution of your project.
+Resources and research used to influence the experiment setup encompassing our visualizations and questions:
 
-Your process book should include the following topics. Depending on your project type the amount of discussion you devote to each of them will vary:
+>1. How to evaluate data visualizations across different levels of understanding: https://arxiv.org/pdf/2009.01747.pdf
+    
+        Levels and corresponding tasks of the visualization taxonomy we are testing:
+        
+            a. Application: Use a percentage and total population to calculate a number.
+            b. Synthesis: Predict a future value.
+>2. Improving Baysian Reasoning: https://www.cs.tufts.edu/~remco/publications/2015/InfoVis2015-Bayes.pdf
+>3. Visualizations created and presented by the Healthwise Staff at https://www.nyp.org/healthlibrary/diagnosis/document/abl0344
+            
+            a. All Healthwise content published to NewYork-Presbyterian is reviewed by a comprehensive Clinical Review Board.
+>4. The data used to construct visualization 1 originally comes from Seer Cancer Statistics Review (CSR) 1975 - 2017: https://seer.cancer.gov/archive/csr/1975_2017/index.html 
+>5. More information about the data collection at Seer Cancer Statistics Review: https://seer.cancer.gov/about/overview.html
+>6. The data used to construct visualizations 2 and 3 originally come from National Library of Medicine - National Center for Biotechnology Information: https://pubmed.ncbi.nlm.nih.gov/28632866/
 
-- Overview and Motivation: Provide an overview of the project goals and the motivation for it. Consider that this will be read by people who did not see your project proposal.
-- Related Work: Anything that inspired you, such as a paper, a web site, visualizations we discussed in class, etc.
-- Questions: What questions are you trying to answer? How did these questions evolve over the course of the project? What new questions did you consider in the course of your analysis?
-- Data: Source, scraping method, cleanup, etc.
-- Exploratory Data Analysis: What visualizations did you use to initially look at your data? What insights did you gain? How did these insights inform your design?
-- Design Evolution: What are the different visualizations you considered? Justify the design decisions you made using the perceptual and design principles you learned in the course. Did you deviate from your proposal?
-- Implementation: Describe the intent and functionality of the interactive visualizations you implemented. Provide clear and well-referenced images showing the key design and interaction elements.
-- Evaluation: What did you learn about the data by using your visualizations? How did you answer your questions? How well does your visualization work, and how could you further improve it?
+Visualizations:
 
-As this will be your only chance to describe your project in detail make sure that your process book is a standalone document that fully describes your results and the final design. 
-[Here](http://dataviscourse.net/2015/assets/process_books/bansal_cao_hou.pdf) are a [few examples](http://dataviscourse.net/2015/assets/process_books/walsh_trevino_bett.pdf) of process books from a similar course final.
+1: Women with Average Risk of Ovarian Cancer
 
-Tip: Start your process book on Day 1. Make entries after each meeting, and trim / edit as needed towards the end of the project. Many folks use either slides software (like PowerPoint) or Google Docs to make this book, as both allow for flexible layouts and export to PDF.
+Data used to construct visualization originally comes from Seer Cancer Statistics Review (CSR) 1975 - 2017: https://seer.cancer.gov/archive/csr/1975_2017/index.html
+
+![Women with Average Risk of Ovarian Cancer](img/ovarian_cancer_visualization_1.png)
+
+2: Risk of Ovarian Cancer for Women with BRCA1 Gene Changes
+
+Data used to construct visualization originally comes from National Library of Medicine - National Center for Biotechnology Information: https://pubmed.ncbi.nlm.nih.gov/28632866/
+
+![Risk of Ovarian Cancer for Women with BRCA1 Gene Changes](img/ovarian_cancer_visualization_2.png)
+
+3: Risk of Ovarian Cancer for Women with BRCA2 Gene Changes
+
+Data used to construct visualization originally comes from National Library of Medicine - National Center for Biotechnology Information: https://pubmed.ncbi.nlm.nih.gov/28632866/
+
+![Risk of Ovarian Cancer for Women with BRCA2 Gene Changes](img/ovarian_cancer_visualization_3.png)
+
+Questions (1 per visualization):
+
+1 (Icon Array for visualization 1, Taxonomy Mapping: Application: Use a percentage and total population to calculate a number.):
+    
+    Question: On average, about how many out of the 100 women in the sample will get ovarian cancer sometime during their lives?
+    
+    What we want to know from this question: Can the user accurately interpret a proportion shown in an icon array?
+    
+    Answer: 1
+
+2 (Control Text representing visualization 2, Taxonomy Mapping: Synthesis: Predict a future value.): 
+    
+    Control Text: For women who have BRCA1 gene changes, the risk of ovarian cancer is higher than average. By age 80, about 44 out of 100 women with BRCA1 gene changes will get ovarian cancer. 
+    
+    Question: Based on the proportion described, by age 80, about how many who have BRCA1 gene changes out of a sample of 1000 women will get ovarian cancer?
+    
+    What we want to know from this question: Can the user accurately apply a proportion from a textual description to a different sample size?
+    
+    Answer: 440
+
+3 (Icon Array for visualization 3, Taxonomy Mapping: Synthesis: Predict a future value.):
+
+    Question: For women who have BRCA2 gene changes, by age 80, the risk of ovarian cancer is higher than average. Given that a proportion of women who have BRCA2 gene changes out of the sample of 100 will get ovarian cancer by age 80, about how many who have BRCA2 gene changes out of a sample of 1000 women will get ovarian cancer?
+
+    What we want to know from this question: Can the user accurately apply a proportion shown in an icon array to a different sample size?
+    
+    Answer: 170
+
+## Procedure
+
+>1. Participant enters the application and begins the survey. We administered the survey to a total of 11 participants of various educational and work backgrounds.
+>2. The survey will display a particular iconographic array or textual data description along with a question about the visualization. The participant then enters an answer to the current question. Very important: In discussion with Professor Harrison about our particular experiment, we have decided that each of the three visualizations in this current a3 experiment should remain the same (we are using static images of the visualizations as a result). Keeping the visualizations the same for a3 ensures that we are able to collect some baseline information about the effectiveness of iconographic arrays compared to textual description. In addition, controlling the data presented in the icongraphic arrays ensures that there is substantial room for our group to iterate on our a3 experiment when transitioning into the final project. For our final project, we plan to implement an extension of our a3 experiment and also extend our hypothesis; this means that for the iconographic arrays we present in the final, we will definitely use D3 and random data generation to change the conditions in which each user answers new questions. For the sake of transitioning from a3 to the final project, we decided to hold off on implementing random data generation and D3 visualizations for now so that there is substantial room remaining to improve and expand the parameters of our experiment.
+>3. All questions require numeric answers.
+>4. There are 3 different visualizations total (2 icnonographic arrays and one textual data description).
+>5. The participant is asked to take the survey only once. This means that each participant will move through one trial for each question in the survey. Very important: In discussion with Professor Harrison about our particular experiment, we decided to have each participant move through only one trial of the survey as the current setup, parameters, and hypothesis are most suitably carried out using the same visualization for each question. This way, we ensure that we have collected a sufficient amount of data to test the specifics of our hypothesis without having users unecessarily answer the same question corresponding to the same visualization more than once.
+
+## Experiment Results
+
+As shown in the ranked_trials.csv file under the data folder, here is the coded ranking of visualizations (each one identified by the corresponding question number) ranked from best to worst based on the average log2Error for each visualization across all trials and participants:
+
+    ,Mean,Lower,Upper
+    Q1,0.51115802,0.51115802,0.703268075
+    Q3,1.212205373,0.838703149,1.303904075
+    Q2,1.309444164,1.309444164,1.543148586
 
 
-### Project Website
+According to the above ranking, we know that the experiment visualizations performed from best to worst in the following order:
+    
+    1. Women with Average Risk of Ovarian Cancer iconographic array
 
-Create a public website for your project using GitHub pages or another web hosting service of your choice. 
-The web site should contain your interactive visualization, summarize the main results of the project, and tell a story. 
-Consider your audience (the site should be public if possible, unless you're running an experiment, etc.) and keep the level of discussion at the appropriate level. 
-Your process book and data should be linked from the web site as well. 
-Also embed your interactive visualization and your screen-cast in your website. 
-If you are not able to publish your work (e.g., due to confidential data) please let us know in your project proposal.
+    2. Risk of Ovarian Cancer for Women with BRCA2 Gene Changes iconographic array
 
-### Project Screen-Cast
+    3. Risk of Ovarian Cancer for Women with BRCA1 Gene Changes Control Text (corresponding to question 2 and visualization 2)
 
-Each team will create a two minute screen-cast with narration showing a demo of your visualization and/or some slides. 
+Interestingly, users generally performed better when answering questions about the two iconographic arrays and performed worse when answering the question about the control text in the experiment. Although this finding does not support our original hypothesis, there are certain ways that this experiment can be improved and expanded to see if our hypothesis is still unsupported. As of the time of reporting the ranking of visualizations in our experiment, this finding supports the opposite position of our hypothesis; iconographic arrays may actually be more effective at communicating proportional data to the average user than textual descriptions of proportional data.
 
-You can use any screencast tool of your choice, such as Camtasia or Loom (new and recommended). 
-Please make sure that the sound quality of your video is good -- it may be worthwhile to invest in an external USB microphone-- campus IT should have some you can borrow. 
-Upload the video to an online video-platform such as YouTube or Vimeo and embed it into your project web page. 
-For our final project presentation day, we will show as many videos in class as possible, and ask teams to field questions.
+Below are the Bootstrapped 95% confidence intervals generated for each visualization:
 
-We will strictly enforce the two minute time limit for the video, so please make sure you are not running longer. 
-Use principles of good storytelling and presentations to get your key points across. Focus the majority of your screencast on your main contributions rather than on technical details. 
-What do you feel is the best part of your project? 
-What insights did you gain? 
-What is the single most important thing you would like your audience to take away? Make sure it is front and center rather than at the end.
+![95% Bootstrapped Confidence Intervals](img/ci.png)
 
-Outside Libraries/References
----
+## Firebase: Database & Authenticaton
+User authentication and database are handled by Firebase: Google's mobile and web application development platform. Firebase configuration information is in `api/firebase.js`:
+```javascript
+const firebaseConfig = {
+  apiKey: "AIzaSyAjUR5P2VPVwppe1ukyatg7AuGr0NaCvic",
+  authDomain: "a3-experiment-178d8.firebaseapp.com",
+  projectId: "a3-experiment-178d8",
+  storageBucket: "a3-experiment-178d8.appspot.com",
+  messagingSenderId: "778102749453",
+  appId: "1:778102749453:web:10b109d1a8e823fa0d5844"
+};
+```
 
-For this project you *do not* have to write everything from scratch.
+Also included in `firebase.js` is a set of three exports: the authentication service, the database, and the firebase app itself (which is currently not referenced anywhere else).
+```javascript
+export const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app);
+export const db = getFirestore(app);
+```
+`db` is imported to `api/db.js` and `auth` is imported to `api/auth.js`.
 
-You may *reference* demo programs from books or the web, and *include* popular web libraries like Material UI, React, Svelte, etcetera. 
+### Authentication
+When a user first reaches the website, they're given the option to sign in with Google. This button displays a popup (or a new tab, if you're a mobile user) that allows the user to select a Google account. Since we use Google for authentication, we don't have to worry about protecting any sensitive user data or encrypting passwords.
 
-Please *do not* use libraries on top of d3 without consulting staff, however. 
-Libraries like nvd3.js look tempting, but such libraries often have poor defaults and result in poor visualizations.
-There may be exceptions.
-Instead, draw from the numerous existing d3 examples on the web.
+`auth.js` contains sign-in logic, a method to get the current user, and React components for sign-in and sign-out buttons.
 
-If you use outside sources please provide a References section with links at the end of your Readme.
+The `signIn()` function opens the afformentioned popup and updates the `auth` object from `firebase.js`. This method doesn't directly update any React state variables. That's handled by `getCurrentUser()`, which subscribes to changes on `auth` by calling a React `setState()`.
+```javascript
+function getCurrentUser(setter) { 
+    auth.onAuthStateChanged((user) => { 
+        if (user) { 
+            setter(user);
+        } else { 
+            setter(null);
+        } 
+    }); 
+}
+```
 
-Resources
----
-The "[Data is Plural](https://tinyletter.com/data-is-plural/archive)" weekly letter often contains interesting datasets.
+In `App.js`, we start this listening process with a `useEffect()`: passing in a `setState()` so that the UI re-renders on `auth` changes.
+```javascript
+useEffect(() => { getCurrentUser(setCurrentUser); }, [])
+```
 
-KAGGLE IS BANNED! You may propose to use a dataset from there if you really have a deep/cool idea, but please run it by me first.
+### Database
+`api/db.js` imports `db`: the Firestore Database reference for this project. It contains methods for sending and fetching data from the database: `sendAnswer()`, `getCurrentUserRecord()`, and `getAllUserRecords()`.
 
-Think of something you're interested in, go find data on it! Include data collection and processing as part of your work on this project.
+`sendAnswer()` takes in the current user and a `QuestionStat`: an object for recording a user's answer. It tracks several statistics: the correct answer, the user's answer, the actual error, relative error, and time it took to answer (though the timer is hidden from the user, so this statistic may not mean much). A new `QuestionStat` is created whenever the current question changes, starting the hidden timer. When the an answer is submitted, we use `QuestionStat.answer()` to lock in the answer and stop the timer. Then `sendAnswer()` is called on this completed `QuestionStat`.
+```javascript
+export async function sendAnswer(answer, user) {
+  return new Promise(resolve => {
+    const userDoc = doc(db, "users", user.uid);
+    getDoc(userDoc).then((docSnap) => {  // First, we get the user's document
+      let newAnswers = {};
+      if (docSnap.exists()) { // If this user's document exists: i.e. they've submitted an answer before, collect their previous answers
+        const data = docSnap.data(); 
+        for (const key in data.answers) {
+          newAnswers = data.answers;
+        }
+      }
+      const answerJson = answer.toJson(); // Add this new answer to the map
+      newAnswers[answerJson.questionNumber] = answerJson;
+      // Now push that to the database
+      setDoc(userDoc, {displayName: user.displayName, email: user.email, answers: newAnswers}).then(() => {
+        console.log("Document written with ID: ", user.uid); resolve(true);
+      }).catch((error) => { console.error(error); resolve(false); })
+    })
+  })
+}
+```
 
-Requirements
----
+`getCurrentUserRecord()` simply returns the document associated with the currently signed-in user, and `getAllUserRecords()` returns an array of every user record in the database.
 
-Store the following in your GitHub repository:
+## The Server
+The React client is hosted by a simple express server in the root directory. The server listens on port `4804` ;)You can visit the page at www.icons.joed.dev
 
-- Code - All web site files and libraries assuming they are not too big to include
-- Data - Include all the data that you used in your project. If the data is too large for github store it on a cloud storage provider, such as Dropbox or Yousendit.
-- Process Book- Your Process Book in PDF format.
-- README - The README file must give an overview of what you are handing in: which parts are your code, which parts are libraries, and so on. The README must contain URLs to your project websites and screencast videos. The README must also explain any non-obvious features of your interface.
+## Design Achievements
 
-GitHub Details
----
+1. Added CSS styling for mobile adaptation:
+    
+    a. In our mobile.css file, we included media queries that allow our experiment to be completed on all mobile devices.
+2. Implemented consistent text fonts, text sizes, and element colors across all problem interfaces in our experiment:
+    
+    a. To keep the user experience of our application as consistent as possible, we used the Bulma CSS framework to apply the same text fonts and font sizes across all three problem interfaces.
+3. Implemented consistent text and button colors across all problem interfaces in our experiment:
+    
+    a. We also strived to keep the user experience of our application consistent through applying the same text and button colors for each element across all three problem interfaces.
+4. Implemented an author footer across all user interfaces of the application:
+    
+    a. In each user interface of our application there is a footer that lists the title of the assignment experiment and all of the application authors in our group.
 
-- Fork the repo. You now have a copy associated with your username.
-- Make changes to index.html to fulfill the project requirements. 
-- Make sure your "main" branch matches your "gh-pages" branch. See the GitHub Guides referenced above if you need help.
-- Edit the README.md with a link to your gh-pages or other external site: for example http://YourUsernameGoesHere.github.io/DataVisFinal/index.html
-- To submit, make a [Pull Request](https://help.github.com/articles/using-pull-requests/) on the original repository.
+## Technical Achievements
 
-Grading
----
-
-- Process Book - Are you following a design process that is well documented in your process book?
-- Solution - Is your visualization effective in answering your intended questions? Was it designed following visualization principles?
-- Implementation - What is the quality of your implementation? Is it appropriately polished, robust, and reliable?
-- Presentation - Are your web site and screencast clear, engaging, and effective?
-Your individual project score will also be influenced by your peer evaluations.
-
-References
----
-
-- This final project is adapted from https://www.dataviscourse.net/2020/project/
+1. Implemented answer entry feedback across all problem interfaces:
+    
+    a. For all three problem interfaces in our application, we implemented basic answer entry feedback to inform the user of the following answer statuses:
+        
+        I. The answer was successfully submitted.
+        
+        II. Since an answer has already been submitted, a subsequent answer cannot also be submitted (can only submit one answer).
+2. Implemented answer submission check on click of the "Next" button across all problem interfaces:
+    
+    a. When a user clicks on the "Next" button to navigate to the next problem interface or the final thank you page, there is a check that is executed that determines if the question displayed on the current problem interface has been answered. If the current question has not been answered, a red message will appear below the "Next" button notifying the user that they are not able to move forward in the experiment.
+3. Implemented ability for the user to repeat the experiment if desired:
+    
+    a. On the thank you page, we implemented a "Take survey again" button; when this button is clicked, the user is redirected back to the beginning of the experiment from which they can move through all three problem interfaces again.
+4. Implemented Firebase database and user authentication:
+    
+    a. Our implementation of a Firebase database connection and user authentication enabled a number of robust capabilities:
+        
+        I. When a user lands on our application, they must sign in using a Google account before starting the experiment. This user authentication we implemented through Firebase services is quick and convenient for the user as they avoid the unnecessary steps of creating a custom user account from scratch. In addition, the Firebase user authentication allows us to easily capture and persist user answers to each question.
+        
+        II. Our implementation of a database connection ensures that we can persist all user answers to questions to our group's Firebase database. As a result, our group is able to easily view all relevant data associated with each application user; this data includes all question numbers from the experiment, the user's submitted answer to each question, the actual and relative errors for each question, the answer time for each question, and the correct answer for each question. In addition, the storage of and access to this data in our group's Firebase database allows us to quickly generate a corresponding csv containing all relevant question information.

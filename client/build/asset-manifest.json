@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/static/css/main.3de5dd76.css",
+    "main.js": "/static/js/main.53322226.js",
+    "static/media/ovarian_cancer_visualization_3.png": "/static/media/ovarian_cancer_visualization_3.ecf6192f4dd5876af5e1.png",
+    "static/media/ovarian_cancer_visualization_1.png": "/static/media/ovarian_cancer_visualization_1.54da8355bf644b71c79e.png",
+    "static/media/control_text_for_ovarian_cancer_visualization_2.png": "/static/media/control_text_for_ovarian_cancer_visualization_2.849e2035f0e127e704ac.png",
+    "index.html": "/index.html",
+    "main.3de5dd76.css.map": "/static/css/main.3de5dd76.css.map",
+    "main.53322226.js.map": "/static/js/main.53322226.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.3de5dd76.css",
+    "static/js/main.53322226.js"
+  ]
+}

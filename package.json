@@ -1,0 +1,29 @@
+{
+  "name": "a3-experiment-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MacCode7110/a3-experiment.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MacCode7110/a3-experiment/issues"
+  },
+  "homepage": "https://github.com/MacCode7110/a3-experiment#readme",
+  "dependencies": {
+    "chart.js": "^4.4.1",
+    "express": "^4.18.2",
+    "fast-csv": "^5.0.1",
+    "fs": "^0.0.1-security",
+    "json2csv": "^6.0.0-alpha.2",
+    "lodash": "^4.17.21"
+  }
+}
