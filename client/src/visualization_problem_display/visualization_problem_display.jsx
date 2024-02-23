@@ -170,6 +170,7 @@ function VisualizationProblemDisplay() {
             <div className="box mt-3">
                 <div className="media" style={{display: "flex", flexDirection: 'column', alignItems: 'center'}}>
                     {/* <CurrentImage /> */}
+                    <progress class="progress is-primary" value={questionNumber - 1} max={numQuestions - 1}>{questionNumber}/{numQuestions}</progress>
                     <svg id="icon-array" />
                     <div className="media-content">
                         <div className="content">
