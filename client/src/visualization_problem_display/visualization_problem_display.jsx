@@ -7,6 +7,9 @@ import { getAllUserRecords, QuestionStat, sendAnswer } from "../api/db"
 import { auth } from "../api/firebase"
 import "./mobile.css"
 
+import activeFigure from "../randomizations/img/active_figure.png";
+import neutralFigure from "../randomizations/img/neutral_figure.png";
+
 /** Correct answers to questions in order */
 const correctAnswers = [1, 440, 170]
 const textImageLocation = ["to the left", "above"]
@@ -36,6 +39,46 @@ function VisualizationProblemDisplay() {
             window.removeEventListener("resize", handleResize);
         };
     }, []); //Runs only on the first render.
+
+    useEffect(() => {
+        const numPeople = 10 * Math.floor(Math.random() * 10 + 1); // Total number of people icons
+        
+        // Generate random number of highlighted people
+        const numHighlighted = Math.floor(Math.random() * numPeople);
+        const numInRow = 10;
+        
+        const svgWidth = numInRow * 20 + 45; // Width of the SVG container
+        const svgHeight = (numPeople / numInRow) * 50 + 45; // Height of the SVG container
+
+        // Create SVG container
+        const svg = d3.select("#icon-array")
+            .attr("width", svgWidth)
+            .attr("height", svgHeight);
+
+        // Generate array of person data
+        const peopleData = Array.from({ length: numPeople }, (_, i) => ({ id: i }));
+
+        // Append person icons
+        const people = svg.selectAll(".person")
+            .data(peopleData)
+            .enter()
+            .append("g")
+            .attr("class", "person")
+            .attr("transform", (d, i) => {
+                const x = (i % numInRow) * 20 + 15; // Calculate x position
+                const y = Math.floor(i / numInRow) * 50 + 15; // Calculate y position
+                return `translate(${x}, ${y})`; // Return transformation string
+            });
+
+
+        // Append person images
+        people.append("image")
+            .attr("xlink:href", (d, i) => i < numHighlighted ? activeFigure : neutralFigure)
+            .attr("x", 10) // Adjust x position as needed
+            .attr("y", 10) // Adjust y position as needed
+            .attr("width", 18)
+            .attr("height", 42);
+    }, []);
 
     /** Current question statistics— necessary to count how long it takes to answer */
     const [currentQuestionStat, setCurrentQuestionStat] = useState(null);
@@ -126,8 +169,9 @@ function VisualizationProblemDisplay() {
         <section key="exam" className={`section ${!currentQuestionStat && "is-hidden"}`} style={{ backgroundColor: '#f5f5f5' }}>
             <Title />
             <div className="box mt-3">
-                <div className="media">
-                    <CurrentImage />
+                <div className="media" style={{display: "flex", flexDirection: 'column', alignItems: 'center'}}>
+                    {/* <CurrentImage /> */}
+                    <svg id="icon-array" />
                     <div className="media-content">
                         <div className="content">
                             <QuestionText />
