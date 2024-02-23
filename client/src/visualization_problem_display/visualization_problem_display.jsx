@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import firstVisualization from "../visualization_img/ovarian_cancer_visualization_1.png"
-import controlTextForSecondVisualization from "../visualization_img/control_text_for_ovarian_cancer_visualization_2.png"
-import thirdVisualization from "../visualization_img/ovarian_cancer_visualization_3.png"
-import { getAllUserRecords, QuestionStat, sendAnswer } from "../api/db"
+import { QuestionStat, sendAnswer } from "../api/db"
 import { auth } from "../api/firebase"
 import "./mobile.css"
 
@@ -11,40 +8,36 @@ import activeFigure from "../randomizations/img/active_figure.png";
 import neutralFigure from "../randomizations/img/neutral_figure.png";
 
 /** Correct answers to questions in order */
-const correctAnswers = [1, 440, 170]
-const textImageLocation = ["to the left", "above"]
+
+/** Number of questions to show the user */
+const numQuestions = 6;
 
 function VisualizationProblemDisplay() {
-    const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-    const imagePaths = [firstVisualization, controlTextForSecondVisualization, thirdVisualization]
     const visualizationTitles = ["Women with an Average Risk of Ovarian Cancer", "Risk of Ovarian Cancer for Women with BRCA1 Gene Changes", "Risk of Ovarian Cancer for Women with BRCA2 Gene Changes"]
-    const questions = [
-        `On average, about how many out of the 100 women in the sample ${screenWidth > 900 ? textImageLocation[0] : textImageLocation[1]} will get ovarian cancer sometime during their lives?`,
-        `Based on the proportion described ${screenWidth > 900 ? textImageLocation[0] : textImageLocation[1]}, by age 80, about how many who have BRCA1 gene changes out of a sample of 1000 women will get ovarian cancer?`,
-        `For women who have BRCA2 gene changes, by age 80, the risk of ovarian cancer is higher than average. Given that a proportion of women who have BRCA2 gene changes out of the sample of 100 ${screenWidth > 900 ? textImageLocation[0] : textImageLocation[1]} will get ovarian cancer by age 80, about how many who have BRCA2 gene changes out of a sample of 1000 women will get ovarian cancer?`]
     const [questionNumber, setQuestionNumber] = useState(1)
     const [visualizationTitle, setVisualizationTitle] = useState(visualizationTitles[0])
     const [currentQuestionAnswered, setCurrentQuestionAnswered] = useState(false)
     const [answerFeedback, setAnswerFeedback] = useState("")
     const [navigationError, setNavigationError] = useState("")
 
+    const [currentAnswer, setCurrentAnswer] = useState(null);
+    const [currentTotal, setCurrentTotal] = useState(null);
+
+    const questions = [
+        `On average, about how many out of the ${currentTotal} women in the sample above will get ovarian cancer sometime during their lives?`,
+        `Based on the proportion described above, by age 80, about how many who have BRCA1 gene changes out of a sample of 1000 women will get ovarian cancer?`,
+        `For women who have BRCA2 gene changes, by age 80, the risk of ovarian cancer is higher than average. Given that a proportion of women who have BRCA2 gene changes out of the sample of ${currentTotal} above will get ovarian cancer by age 80, about how many who have BRCA2 gene changes out of a sample of 1000 women will get ovarian cancer?`
+    ]
+
     useEffect(() => {
-        const handleResize = () => {
-            setScreenWidth(window.innerWidth);
-        };
-
+        const handleResize = () => { setScreenWidth(window.innerWidth); };
         window.addEventListener("resize", handleResize);
-
-        return () => {
-            window.removeEventListener("resize", handleResize);
-        };
+        return () => { window.removeEventListener("resize", handleResize); };
     }, []); //Runs only on the first render.
 
     useEffect(() => createImmage, []);
 
-    function clearSVG() {
-        d3.select("#icon-array").selectAll("*").remove();
-    }
+    function clearSVG() { d3.select("#icon-array").selectAll("*").remove(); }
 
     function createImmage() {
     
@@ -53,9 +46,12 @@ function VisualizationProblemDisplay() {
         // Generate random number of highlighted people
         const numHighlighted = Math.floor(Math.random() * numPeople);
         const numInRow = 10;
+
+        if (questionNumber % 3 === 0) { setCurrentAnswer(numHighlighted); } else { setCurrentAnswer(1000 * numHighlighted / numPeople); }
+
+        setCurrentTotal(numPeople);
         
         const svgWidth = numInRow * 20 + 45; // Width of the SVG container
-        console.log(numPeople / numInRow)
         const svgHeight = (numPeople / numInRow) * 50 + 45; // Height of the SVG container
 
         // Create SVG container
@@ -78,7 +74,6 @@ function VisualizationProblemDisplay() {
                 return `translate(${x}, ${y})`; // Return transformation string
             });
 
-
         // Append person images
         people.append("image")
             .attr("xlink:href", (d, i) => i < numHighlighted ? activeFigure : neutralFigure)
@@ -97,18 +92,12 @@ function VisualizationProblemDisplay() {
     const Title = () => (
         <h1 className="is-size-2 is-family-primary has-text-weight-bold">{visualizationTitle}</h1>
     );
-    /** Graphic for the current question */
-    const CurrentImage = () => (
-        <div className="media-left">
-            <img className="curr-img" src={imagePaths[questionNumber - 1]} />
-        </div>
-    );
     /** Error message for navigation handler */
     const NavigationErrorDisplay = () => <div className="block"><p className="is-family-monospace has-text-centered has-text-danger-dark">{navigationError}</p></div>;
     /** Text for the current question */
     const QuestionText = () => (
         <label className="label is-size-6 is-family-monospace has-text-weight-light">
-            {questions[questionNumber - 1]}
+            {questions[((questionNumber - 1) % 3)]}
         </label>
     );
     /** Feedback for the current question */
@@ -118,7 +107,7 @@ function VisualizationProblemDisplay() {
     const StartScreen = () => {
         if (currentQuestionStat) { return; }
 
-        function startExam() { setCurrentQuestionStat(new QuestionStat(questionNumber, correctAnswers[questionNumber - 1])); }
+        function startExam() { setCurrentQuestionStat(new QuestionStat(questionNumber, currentAnswer)); }
 
         return (
             <section className={`is-centered has-text-centered section`}>
@@ -135,7 +124,7 @@ function VisualizationProblemDisplay() {
         function handleNextPress() {
             // Guard clauses
             if (!currentQuestionAnswered) { setNavigationError("Must answer current question before moving forward"); return; } // Escape if the current question has not been answered
-            if (questionNumber == questions.length) { navigate("/thank_you"); return; } // Navigate to /thank_you if there are no more questions
+            if (questionNumber === numQuestions) { navigate("/thank_you"); return; } // Navigate to /thank_you if there are no more questions
             // Go to the next question
             const nextQuestionNumber = questionNumber + 1;
             setQuestionNumber(nextQuestionNumber)
@@ -143,7 +132,7 @@ function VisualizationProblemDisplay() {
             setCurrentQuestionAnswered(false)
             setAnswerFeedback("")
             setNavigationError("")
-            setCurrentQuestionStat(new QuestionStat(nextQuestionNumber, correctAnswers[nextQuestionNumber - 1]));
+            setCurrentQuestionStat(new QuestionStat(nextQuestionNumber, currentAnswer));
             document.getElementById("userAnswer").value = ""
             clearSVG()
             createImmage()
