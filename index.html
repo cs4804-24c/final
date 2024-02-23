@@ -25,7 +25,7 @@
 
             margin-left: 20px;
 
-            background-color: aquamarine;
+            background-color: #F5F5F5;
 
         }
 
@@ -42,7 +42,7 @@
         }
 
         #radialPlot2 {
-            background-color: #22aa3d;
+            background-color: #F5F5F5;
         }
 
         #radialPlot3 {
@@ -69,7 +69,7 @@
 
             margin-left: 20px;
 
-            background-color: aquamarine;
+            background-color: #F5F5F5;
 
         }
 
@@ -286,5 +286,114 @@
             drawMap(year);
         });
 
+        // BELOW IS THE CODE I ADDED FOR A RADIAL PLOT -- I think it is difficult to read, it might be better just to do a scatterplot or bar chart
+        
+        // Loading the csv again, this time to make a radial plot
+        d3.csv("./Data Sources/CO2 Only All Years.csv", function(data) {
+            const width = 600;
+            const height = 700;
+            const svg = d3.select("#radialPlot2") // Select the correct div for the radial plot
+                        .append("svg") // Append an SVG element
+                        .attr("width", width)
+                        .attr("height", height);
+
+            data.forEach(function(d) { d['GHG QUANTITY (METRIC TONS CO2e)'] = +d['GHG QUANTITY (METRIC TONS CO2e)'];});
+
+            // Finding the average CO2 emission value for all years, which will be the radius of the circle
+            const avgCO2All = d3.mean(data, d => d['GHG QUANTITY (METRIC TONS CO2e)']);
+
+            // Finding the average CO2 emission for each year, which will determine how far away the lines are from the circle
+            const avgCO2byYear = {};
+            data.forEach(function(d) {
+                const year = d.YEAR;
+                if (!avgCO2byYear[year]) {
+                    avgCO2byYear[year] = [];
+                }
+                avgCO2byYear[year].push(d['GHG QUANTITY (METRIC TONS CO2e)']);
+            });
+
+        // Actually calculating the average
+        Object.keys(avgCO2byYear).forEach(function(year) {
+            avgCO2byYear[year] = d3.mean(avgCO2byYear[year]);
+        });
+
+        // Defining the radius and the domain and range of values
+        const radius = Math.min(width, height) / 2.5;
+        const radialScale = d3.scaleLinear()
+            .domain([0, d3.max(data, d => d['GHG QUANTITY (METRIC TONS CO2e)']) * 0.02]) // I am not sure why I had to multiple by 0.02. Plot was too small at first then I tried a bunch of values
+            .range([0, radius]);
+
+        // This defines the angle for how the lines will be positioned around the circle
+        const angleScale = d3.scaleLinear()
+                        .domain([0, data.length])
+                        .range([0, Math.PI * 2]);
+
+        // Creating a circle representing the average CO2 emissions for all years
+        svg.append("circle")
+            .attr("cx", width / 2)
+            .attr("cy", height / 2)
+            .attr("r", radialScale(avgCO2All))
+            .attr("fill", "#F5F5F5")
+            .attr("stroke", "#D5B60A")
+            .attr("stroke-width", 4);
+
+        // Drawing lines around the circle for each year
+        const line = d3.lineRadial()
+            .radius((d, i) => radialScale(avgCO2byYear[data[i].YEAR]))
+            .angle((d, i) => angleScale(i * -1)) // I made this -1 because it seems like the data was backward (2022 looked like it had greatest emissions). This needs to be looked at.
+            .curve(d3.curveCardinal);
+
+        svg.append("path")
+            .datum(data)
+            .attr("fill", "none")
+            .attr("stroke", "#af1e1e")
+            .attr("stroke-width", 3)
+            .attr("d", line)
+            .attr("transform", `translate(${width / 2}, ${height / 2})`);
+
+        // Shades the area in between the circle and the line -- easier to see that way
+        const area = d3.areaRadial()
+            .innerRadius((d, i) => radialScale(avgCO2byYear[data[i].YEAR]))
+            .outerRadius(radialScale(avgCO2All))
+            .angle((d, i) => angleScale(i * -1))
+            .curve(d3.curveCardinal);
+
+        svg.append("path")
+            .datum(data)
+            .attr("fill", "#af1e1e")
+            .attr("opacity", 0.5)
+            .attr("d", area)
+            .attr("transform", `translate(${width / 2}, ${height / 2})`);
+
+
+        // Below is the code that positions the year labels around the circle. I had to use ChatGPT for major debugging of this code.
+        const selectedYears = Object.keys(avgCO2byYear).filter(year => (year >= 2010 && year <= 2022));
+        const numSelectedYears = selectedYears.length;
+
+        // Adding the labels -- some of the years overlap with the circle because label position is dependent on line position
+        svg.selectAll(".yearLabel")
+            .data(selectedYears)
+            .enter().append("text")
+            .attr("class", "yearLabel")
+            .attr("x", function(year) {
+                const index = selectedYears.indexOf(year);
+                const angle = (2 * Math.PI * index) / numSelectedYears;
+                const labelRadius = radialScale(avgCO2byYear[year]) + 30;
+                return width / 2 + labelRadius * Math.sin(angle);
+            })
+            .attr("y", function(year) {
+                const index = selectedYears.indexOf(year);
+                const angle = (2 * Math.PI * index) / numSelectedYears;
+                const labelRadius = radialScale(avgCO2byYear[year]) + 30;
+                return height / 2 - labelRadius * Math.cos(angle);
+            })
+            .text(function(year) { return year; })
+            .attr("text-anchor", "middle")
+            .attr("dominant-baseline", "central")
+            .style("font-size", "16px")
+            .style("font-weight", "bold")
+            .attr("fill", "black");
+
+        });
     </script>
 </body>
