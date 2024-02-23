@@ -40,7 +40,14 @@ function VisualizationProblemDisplay() {
         };
     }, []); //Runs only on the first render.
 
-    useEffect(() => {
+    useEffect(() => createImmage, []);
+
+    function clearSVG() {
+        d3.select("#icon-array").selectAll("*").remove();
+    }
+
+    function createImmage() {
+    
         const numPeople = 10 * Math.floor(Math.random() * 10 + 1); // Total number of people icons
         
         // Generate random number of highlighted people
@@ -48,6 +55,7 @@ function VisualizationProblemDisplay() {
         const numInRow = 10;
         
         const svgWidth = numInRow * 20 + 45; // Width of the SVG container
+        console.log(numPeople / numInRow)
         const svgHeight = (numPeople / numInRow) * 50 + 45; // Height of the SVG container
 
         // Create SVG container
@@ -78,7 +86,7 @@ function VisualizationProblemDisplay() {
             .attr("y", 10) // Adjust y position as needed
             .attr("width", 18)
             .attr("height", 42);
-    }, []);
+    }
 
     /** Current question statistics— necessary to count how long it takes to answer */
     const [currentQuestionStat, setCurrentQuestionStat] = useState(null);
@@ -137,6 +145,8 @@ function VisualizationProblemDisplay() {
             setNavigationError("")
             setCurrentQuestionStat(new QuestionStat(nextQuestionNumber, correctAnswers[nextQuestionNumber - 1]));
             document.getElementById("userAnswer").value = ""
+            clearSVG()
+            createImmage()
         }
 
         return (
