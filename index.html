@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<script src="https://d3js.org/d3.v6.js"></script>
+<script src="https://d3js.org/d3-brush.v6.js"></script>
+
+<div id="small_multiples"></div>
+<div id="density_plot"></div>
+
+<script>
+
+let prevClickedSvg = null; // keep track of selected small multiples
+let prevColumn = null;
+
+// sive of donut charts for small multiples
+const width = 150,
+    height = 150,
+    margin = 20;
+
+const radius = Math.min(width, height) / 2 - margin;// radius of donut char
+
+d3.csv("data.csv").then(function(data) {// ATUS survey data
+
+    // Columns for the small multiples
+    const columnsToVisualize = ["REGION", "FAMINCOME", "AGE", "SEX", "RACE", "MARST", "CITIZEN", "GENHEALTH", "HEIGHT", "WEIGHT", "EDUC", "EMPSTAT"];
+
+    // adding container for all the small multiples make dive for each colum types
+    const multiplesContainer = d3.select("#small_multiples")
+        .selectAll(".multiple")
+        .data(columnsToVisualize)
+        .enter()
+        .append("div")
+        .attr("class", "multiple")
+        .style("display", "inline-block")
+        .style("margin", "10px");
+
+    // Create the dounut chart for each column typr
+    multiplesContainer.each(function(column) {
+        const svg = d3.select(this) // creating svg for donut chart
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .append("g")
+            .attr("transform", `translate(${width / 2},${height / 2})`)
+            .on('click', function() {
+
+                if (prevClickedSvg) { // if a donut chart was clicked previously reset it
+                    resetSmallMultiple(prevClickedSvg);
+                }
+
+
+                prevClickedSvg = d3.select(this.parentNode.parentNode);// set the element for prevClickedSvg
+
+                d3.select(this.parentNode) // Select the parent SVG of the clicked donut chart
+                    .transition().duration(500) 
+                    .attr('width', width * 3) // Increase width so there is room for legend
+                    .attr('height', height * 1);
+
+                svg.selectAll(".legend-circles")
+                    .data(color.domain())
+                    .enter()
+                    .append("circle")
+                      .attr("cx", 100)
+                      .attr("cy", function(d,i){ return -30 + i*15}) 
+                      .attr("r", 5)
+                      .attr("class", "legend-circles")
+                      .style("fill", function(d){ return color(d)})
+
+                svg.selectAll(".legend-labels")
+                    .data(color.domain())
+                    .enter()
+                    .append("text")
+                      .attr("class", "legend-labels")
+                      .attr("x", 110)
+                      .attr("y", function(d,i){ return -30 + i*15}) 
+                      .style("fill", function(d){ return color(d)})
+                      .text(function(d){ return d})
+                      .attr("text-anchor", "left")
+                      .style("alignment-baseline", "middle");
+                
+                    
+
+            });
+
+        const types = d3.rollup(data, v => v.length, d => d[column]); //returns types and the number for each type
+        const data_ready = d3.pie().value(d => d[1])(types.entries());//pie dat for each slice based on type counts
+
+        // color scale will probable change later
+        const color = d3.scaleOrdinal()
+            .domain(types.keys())
+            .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00", "#ffbf00", "#b2df8a", "#33a02c", "#fb9a99", "#e31a1c", "#fdbf6f", "#ff7f00", "#cab2d6", "#6a3d9a", "#ffff99", "#b15928", "#66c2a5", "#3288bd"]);
+
+        
+        svg.selectAll('slices') // building the pie chart
+            .data(data_ready)// for each arc/slice
+            .join('path')
+            .attr('d', d3.arc()
+                .innerRadius(20)//donut whole
+                .outerRadius(radius)
+            )
+            .attr('fill', d => color(d.data[0]))
+            .attr("stroke", "black")
+            .style("stroke-width", "2px")
+            .style("opacity", 0.7);
+
+        // Add a title to graph based on column name can add map later for better title names
+        svg.append("text")
+            .attr("text-anchor", "middle")
+            .attr("y", height / 2)
+            .text(column);
+    });
+
+
+    /*
+        section for density map
+    */
+    const densityPlotMargin = {top: 30, right: 30, bottom: 30, left: 50},
+        densityPlotWidth = 450 - densityPlotMargin.left - densityPlotMargin.right,
+        densityPlotHeight = 300 - densityPlotMargin.top - densityPlotMargin.bottom;
+
+    // set up density plot svg
+    const densitySvg = d3.select("#density_plot")
+        .append("svg")
+        .attr("width", densityPlotWidth + densityPlotMargin.left + densityPlotMargin.right)
+        .attr("height", densityPlotHeight + densityPlotMargin.top + densityPlotMargin.bottom)
+        .append("g")
+        .attr("transform", `translate(${densityPlotMargin.left},${densityPlotMargin.top})`);
+
+    const x = d3.scaleLinear()
+        .domain([0, d3.max(data, d => +d.Personal_Care)]) // will add way to change this variable but 
+        .range([0, densityPlotWidth]);// range of the svg length
+
+    densitySvg.append("g")// add axis
+        .attr("transform", `translate(0, ${densityPlotHeight})`)
+        .call(d3.axisBottom(x));
+
+    const y = d3.scaleLinear()// y scale will look into better way to represent this
+        .range([densityPlotHeight, 0])
+        .domain([0, 0.01]);
+
+    densitySvg.append("g")
+        .call(d3.axisLeft(y));// add axis
+
+    const kde = kernelDensityEstimator(kernelEpanechnikov(7), x.ticks(40))
+    const density = kde(data.map(function(d){  return d.Personal_Care; }))
+
+    const area = d3.area()
+        .curve(d3.curveBasis)
+        .x(function(d) { return x(d[0]); })
+        .y0(densityPlotHeight) 
+        .y1(function(d) { return y(d[1]); });
+
+    
+    const path = densitySvg.append("path")
+        .datum(density)
+        .attr("fill", "#69b3a2")
+        .attr("opacity", ".8")
+        .attr("stroke", "#000")
+        .attr("stroke-width", 1)
+        .attr("stroke-linejoin", "round")
+        .attr("d", area);
+
+    const brush = d3.brushX() // adding capability to select portions of the graph
+        .extent([// rand of where someone can select on the svg
+            [0, 0],
+            [densityPlotWidth, densityPlotHeight]
+        ])
+        .on("end", brushed);
+
+    densitySvg.append("g") // adding brush element
+        .attr("class", "brush")
+        .call(brush);
+
+    // Label to show selected percentage of total respondents
+    const percentageLabel = densitySvg.append("text")
+        .attr("class", "label")
+        .attr("text-anchor", "end")
+        .attr("x", densityPlotWidth) // will probably move later on
+        .attr("y", densityPlotHeight - 10);
+
+    // Label to show min and max values probably add percentile calculation later one
+    const valueLabel = densitySvg.append("text")
+        .attr("class", "label")
+        .attr("text-anchor", "end")
+        .attr("x", densityPlotWidth)
+        .attr("y", densityPlotHeight - 25);
+
+    function brushed(event) {
+        var [x0, x1] = [];
+        
+        if (!event.selection) {// if nothing selected then reset charts to original data
+            [x0, x1] = [0, d3.max(data, d => +d.Personal_Care)];
+        }else{
+
+            
+            
+            [x0, x1] = event.selection.map(x.invert);//event.selection tells us the rand of pixels selected
+            //in this case including margin [0,370] then in this case we would want to use the inverse
+            //of the x scaler to go from pixel range to range of values to get min and max value for the selected colum
+
+          
+        }
+
+
+        //update each donut chart with new selected data
+        multiplesContainer.each(function(column) {
+
+            //Same thing as the donut chart creation section except this time we filter the data
+            const svg = d3.select(this).select("svg");
+            const types = d3.rollup(data.filter(d => x0 <= +d.Personal_Care && +d.Personal_Care <= x1), v => v.length, d => d[column]);
+            const data_ready = d3.pie().value(d => d[1])(types.entries());
+
+            const color = d3.scaleOrdinal()
+                .domain(types.keys())
+                .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00", "#ffbf00", "#b2df8a", "#33a02c", "#fb9a99", "#e31a1c", "#fdbf6f", "#ff7f00", "#cab2d6", "#6a3d9a", "#ffff99", "#b15928", "#66c2a5", "#3288bd"]);
+
+
+            const paths = svg.select("g").selectAll('path') // get the paths
+                .data(data_ready);
+
+            const arcs = d3.arc() 
+                .innerRadius(20)
+                .outerRadius(radius);
+
+            paths.transition().duration(500) // transition old slices to new places  .attrTween and interpolate where used to prevent and error I plan about expolring this futher as to why
+                .attrTween("d", function(d) {
+                    const interpolate = d3.interpolate(this._current, d);
+                    this._current = interpolate(0);
+                    return function(t) {
+                        return arcs(interpolate(t));
+                    };
+                })
+                .attr('fill', d => color(d.data[0]));
+
+            paths.exit().remove();
+
+            paths.enter().append('path')
+                .attr('d', arcs)
+                .attr('fill', d => color(d.data[0]))
+                .attr("stroke", "black")
+                .style("stroke-width", "2px")
+                .style("opacity", 0.7);
+
+        });
+
+        // Update labels on density chart
+        const selectedData = data.filter(d => x0 <= +d.Personal_Care && +d.Personal_Care <= x1);
+        const selectedPercentage = (selectedData.length / data.length * 100).toFixed(2);
+        const minValue = d3.min(selectedData, d => +d.Personal_Care);
+        const maxValue = d3.max(selectedData, d => +d.Personal_Care);
+
+        percentageLabel.text(`Selected: ${selectedPercentage}%`);
+        valueLabel.text(`Min: ${minValue.toFixed(2)}, Max: ${maxValue.toFixed(2)}`);
+    }
+
+
+
+
+    function resetSmallMultiple(svg) {
+        d3.selectAll('.legend-labels').remove();
+        d3.selectAll('.legend-circles').remove();
+        d3.select('#small_multiples') 
+                    .selectAll('svg') 
+                    .transition()
+                    .duration(500)
+                    .attr('width', width)
+                    .attr('height', height);
+
+        svg.selectAll('path')
+            .attr('d', d3.arc()
+                .innerRadius(20)
+                .outerRadius(radius)
+            )
+            .attr("transform", "translate(0,0)");
+
+        svg.selectAll("text")
+            .attr("y", height / 2)
+            .attr("transform", "translate(0,0)");
+
+    }
+
+    // Function to compute density
+    function kernelDensityEstimator(kernel, X) {
+        return function(V) {
+            return X.map(function(x) {
+                return [x, d3.mean(V, function(v) { return kernel(x - v); })];
+            });
+        };
+    }
+
+    function kernelEpanechnikov(k) {
+        return function(v) {
+            return Math.abs(v /= k) <= 1 ? 0.75 * (1 - v * v) / k : 0;
+        };
+    }
+
+});
+
+</script>
