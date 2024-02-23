@@ -130,6 +130,7 @@
         let numYears = 13;
 
         let firstTimeDrawingMap = true;
+        let multiplier = 1;
 
         // Create an SVG element
         let svg = d3.selectAll("svg");
@@ -141,11 +142,17 @@
 
         // Create a path generator
         let path = d3.geoPath().projection(projection);
-
+        
+        let colors = ['#ffffd9','#edf8b1','#c7e9b4','#7fcdbb','#41b6c4','#1d91c0','#225ea8','#253494','#081d58'];
         // Define color scale
-        let colorScale = d3.scaleLinear()
-                            .domain([0, 141477787]) // Hard-coded domain for now, excludes Texas because it's an outlier
-                            .range(["lightgreen", "darkgreen"]);
+        let colorScaler = d3.scaleLinear()
+                            .domain([0, 141477787])
+                            .range([0, colors.length - 1]);
+                            // .interpolator(t => d3.interpolateViridis(1 - t)); // Reverse the interpolation
+
+        let colorScale = function(value) {
+            return colors[Math.floor(colorScaler(value))];
+        };
 
         //Create 2-dimensional array to store emissions data by state and year
         let stateTotalsByYear = {};
@@ -268,9 +275,9 @@
                 }
                 // If the year exists for the state in the aggregated data, add emission value to its total
                 if (stateTotalsByYear[stateFullName][year-2010]) {
-                    stateTotalsByYear[stateFullName][year-2010] += emissionValue;
+                    stateTotalsByYear[stateFullName][year-2010] += emissionValue*multiplier;
                 } else {
-                    stateTotalsByYear[stateFullName][year-2010] = emissionValue;
+                    stateTotalsByYear[stateFullName][year-2010] = emissionValue*multiplier;
                 }
             });
 
@@ -285,6 +292,60 @@
             let year = document.getElementById("yearInput").value;
             drawMap(year);
         });
+
+        // Create an SVG element for the legend
+        let legendSvg = d3.select("#map1")
+            .append("svg")
+            .attr("width", 300)
+            .attr("height", 50);
+
+        // Define legend parameters
+        let legendWidth = 300;
+        let legendHeight = 20;
+        let numTicks = 6;
+
+        // Create color scale legend
+        let legendGradient = legendSvg.append("defs")
+            .append("linearGradient")
+            .attr("id", "legendGradient")
+            .attr("x1", "0%").attr("y1", "0%")
+            .attr("x2", "100%").attr("y2", "0%");
+
+        for (let i = 0; i <= numTicks; i++) {
+            legendGradient.append("stop")
+                .attr("offset", i * 100 / numTicks + "%")
+                .attr("stop-color", colorScale(i * 141477787 / numTicks))
+                .attr("stop-opacity", 1);
+        }
+
+        // Draw the color legend rectangle
+        legendSvg.append("rect")
+            .attr("x", 0)
+            .attr("y", 0)
+            .attr("width", legendWidth)
+            .attr("height", legendHeight)
+            .style("fill", "url(#legendGradient)")
+            .attr("transform", "translate(25, 0)");
+
+        // Define legend scale one label for the beginning and end of the color scale
+        // from "0" to "141,477,787"
+        let legendScale = d3.scaleLinear()
+            .domain([0, 141477787])
+            .range([0, legendWidth]);
+
+        // Create legend axis
+        let legendAxis = d3.axisBottom()
+            .scale(legendScale)
+            .ticks(numTicks)
+            .tickFormat(d3.format(".2s"));
+
+        // Append legend axis to SVG
+        legendSvg.append("g")
+            .attr("class", "legend-axis")
+            .attr("transform", "translate(25," + legendHeight + ")")
+            .call(legendAxis);
+
+        
 
         // BELOW IS THE CODE I ADDED FOR A RADIAL PLOT -- I think it is difficult to read, it might be better just to do a scatterplot or bar chart
         
