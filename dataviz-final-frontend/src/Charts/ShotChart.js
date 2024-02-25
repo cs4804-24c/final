@@ -2,6 +2,7 @@ import * as d3 from "d3";
 import {useEffect, useRef, useState} from "react";
 import Modal from 'react-modal';
 import './ShotChart.css'
+import {useParams} from "react-router-dom";
 
 
 const
@@ -193,7 +194,10 @@ function drawShots(svg, data, videoVar) {
 
 
 export default function ShotChart(props) {
-    const [isOpen, setIsOpen] = useState(false)
+    const [isOpen, setIsOpen] = useState(false);
+    const ref = useRef()
+    const [video, setVideo] = useState("")
+    const params = useParams();
 
     function openModal() {
         setIsOpen(true);
@@ -203,20 +207,26 @@ export default function ShotChart(props) {
         setVideo("");
         setIsOpen(false);
     }
-    const ref = useRef()
-    const [video, setVideo] = useState("")
+
     useEffect( () => {
         if (video !== "") openModal()
     }, [video])
-    const svg = d3.select(ref.current);
-    svg.selectAll("*").remove()
 
-    drawCourt(svg);
-    drawShots(svg,props.shotData, setVideo, setIsOpen)
-    svg.attr("height", '70vh')
-        .attr("viewBox", "0 0 " + width + " " + height)
-        .attr("perserveAspectRatio", "xMinYMid")
-        .style("border", "1px solid black")
+    useEffect( () => {
+        fetch(`/api/shotchartdetail?ContextMeasure=FGA&Month=0&OpponentTeamID=0&Period=0&PlayerID=${props.playerId}&Season=2023-24&TeamID=0&GameID=${props.selectedGame}&SeasonType=Regular+Season`)
+            .then(resp => resp.json())
+            .then(data => {
+                const svg = d3.select(ref.current);
+                svg.selectAll("*").remove()
+
+                drawCourt(svg);
+                drawShots(svg,data['Shot_Chart_Detail'], setVideo)
+                svg.attr("height", '70vh')
+                    .attr("viewBox", "0 0 " + width + " " + height)
+                    .attr("perserveAspectRatio", "xMinYMid")
+                    .style("border", "1px solid black")
+            })
+    },[props.playerId, props.selectedGame])
 
     return (
         <div>
@@ -226,7 +236,7 @@ export default function ShotChart(props) {
                 onRequestClose={closeModal}
                 className={"modal-style"}
             >
-                <video src={video} controls={"controls"} autoPlay />
+                <video src={video} controls="controls" autoPlay />
             </Modal>
         </div>
 
