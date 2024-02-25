@@ -1,460 +1,626 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content=
-            "width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Final Project</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.min.js" charset="utf-8"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.min.js"
+      charset="utf-8"
+    ></script>
     <style type="text/css">
+      #radialPlots {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        margin-top: 50px;
+        /* make sure the wrapped divs start at the left */
+        justify-content: center;
+        align-items: flex-start;
 
-        #radialPlots {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            margin-top: 50px;
-            /* make sure the wrapped divs start at the left */
-            justify-content: center;
-            align-items: flex-start;
+        /* width: 1920px; */
 
-            /* width: 1920px; */
-            
-            width: 100%;
-            height: 100%;
+        width: 100%;
+        height: 100%;
 
-            margin-left: 20px;
+        margin-left: 20px;
 
-            background-color: #F5F5F5;
+        background-color: #f5f5f5;
+      }
 
-        }
+      #radialPlot1,
+      #radialPlot2,
+      #radialPlot3,
+      #radialPlot4 {
+        width: 400px; /* Adjust this value as needed */
+        height: 400px;
+        margin: 100px;
 
-        #radialPlot1, #radialPlot2, #radialPlot3, #radialPlot4 {
-            width: 400px; /* Adjust this value as needed */
-            height: 400px;
-            margin: 100px;
+        /* box-sizing: border-box; Include padding and border in element's total width and height */
+      }
 
-            /* box-sizing: border-box; Include padding and border in element's total width and height */
-        }
+      #radialPlot1 {
+        background-color: #af1e1e;
+      }
 
-        #radialPlot1 {
-            background-color: #af1e1e;
-        }
+      #radialPlot2 {
+        background-color: #f5f5f5;
+      }
 
-        #radialPlot2 {
-            background-color: #F5F5F5;
-        }
+      #radialPlot3 {
+        background-color: #01571f;
+      }
 
-        #radialPlot3 {
-            background-color: #01571f;
-        }
+      #radialPlot4 {
+        background-color: #543ecf;
+      }
 
-        #radialPlot4 {
-            background-color: #543ecf;
-        }
+      #maps {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        margin-top: 50px;
+        /* make sure the wrapped divs start at the left */
+        justify-content: center;
+        align-items: flex-start;
 
-        #maps {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            margin-top: 50px;
-            /* make sure the wrapped divs start at the left */
-            justify-content: center;
-            align-items: flex-start;
+        /* width: 1920px; */
 
-            /* width: 1920px; */
-            
-            width: 100%;
-            height: 100%;
+        width: 100%;
+        height: 100%;
 
-            margin-left: 20px;
+        margin-left: 20px;
 
-            background-color: #F5F5F5;
+        background-color: #f5f5f5;
+      }
 
-        }
+      #map1,
+      #map2,
+      #map3,
+      #map4 {
+        width: 600px; /* Adjust this value as needed */
+        height: 600px;
+        margin: 50px;
+        border: 3px solid black;
+        border-radius: 10px;
 
-        #map1, #map2, #map3, #map4 {
-            width: 600px; /* Adjust this value as needed */
-            height: 600px;
-            margin: 50px;
-            border: 3px solid black;
-            border-radius: 10px;
-
-            /* box-sizing: border-box; Include padding and border in element's total width and height */
-        }
-
+        /* box-sizing: border-box; Include padding and border in element's total width and height */
+      }
     </style>
-</head>
-<body>
-    <div id = "radialPlots">
-        <div id="radialPlot1">
-
-        </div>
-        <div id="radialPlot2">
-
-        </div>
-        <div id="radialPlot3">
-
-        </div>
-        <div id="radialPlot4">
-
-        </div>
+  </head>
+  <body>
+    <div id="radialPlots">
+      <div id="radialPlot1"></div>
+      <div id="radialPlot2"></div>
+      <div id="radialPlot3"></div>
+      <div id="radialPlot4"></div>
     </div>
 
-    <div id = "maps">
+    <div id="maps">
+      <div id="map1OuterDiv">
         <div id="map1">
-            <svg width="600" height="600"></svg>
+          <svg id="map1svg" width="600" height="600"></svg>
         </div>
+      </div>
+
+      <div id="map2OuterDiv">
         <div id="map2">
-            <svg width="600" height="600"></svg>
+          <svg id="map2svg" width="600" height="600"></svg>
         </div>
+      </div>
+
+      <div id="map3OuterDiv">
         <div id="map3">
-            <svg width="600" height="600"></svg>
+          <svg id="map3svg" width="600" height="600"></svg>
         </div>
+      </div>
+
+      <div id="map4OuterDiv">
         <div id="map4">
-            <svg width="600" height="600"></svg>
+          <svg id="map4svg" width="600" height="600"></svg>
         </div>
+      </div>
     </div>
     <!-- year input -->
-    <input type="number" id="yearInput" value="2010" min="2010" max="2022">
+    <input type="number" id="yearInput" value="2010" min="2010" max="2022" />
     <button id="yearButton">Change Year</button>
 
-
     <script type="text/javascript">
-        // Set up dimensions for the map
-        let width = 960;
-        let height = 600;
+      // Set up dimensions for the map
+      let width = 960;
+      let height = 600;
 
-        let yearMin = 2010;
-        let yearMax = 2014;
-        let numYears = 13;
+      let yearMin = 2010;
+      let yearMax = 2014;
+      let numYears = 13;
 
-        let firstTimeDrawingMap = true;
-        let multiplier = 1;
+      let firstTimeDrawingMap = [true, true, true, true];
+      let multiplier = 1;
 
-        // Create an SVG element
-        let svg = d3.selectAll("svg");
+      // Create an SVG element
+      let svg = d3.select("#map1svg");
 
-        // Set up projection
-        let projection = d3.geoAlbersUsa()
-                            .translate([width / 2 - 160, height / 2])
-                            .scale(750);
+      // Set up projection
+      let projection = d3
+        .geoAlbersUsa()
+        .translate([width / 2 - 160, height / 2])
+        .scale(750);
 
-        // Create a path generator
-        let path = d3.geoPath().projection(projection);
-        
-        let colors = ['#ffffd9','#edf8b1','#c7e9b4','#7fcdbb','#41b6c4','#1d91c0','#225ea8','#253494','#081d58'];
-        // Define color scale
-        let colorScaler = d3.scaleLinear()
-                            .domain([0, 141477787])
-                            .range([0, colors.length - 1]);
-                            // .interpolator(t => d3.interpolateViridis(1 - t)); // Reverse the interpolation
+      // Create a path generator
+      let path = d3.geoPath().projection(projection);
 
-        let colorScale = function(value) {
-            return colors[Math.floor(colorScaler(value))];
-        };
+      // Generated using ColorBrewer with 9 colors
+      let colors = [
+        [
+          "#ffffd9",
+          "#edf8b1",
+          "#c7e9b4",
+          "#7fcdbb",
+          "#41b6c4",
+          "#1d91c0",
+          "#225ea8",
+          "#253494",
+          "#081d58",
+        ],
+        [
+          "#ffffe5",
+          "#fff7bc",
+          "#fee391",
+          "#fec44f",
+          "#fe9929",
+          "#ec7014",
+          "#cc4c02",
+          "#993404",
+          "#662506",
+        ],
+        [
+          "#ffffe5",
+          "#f7fcb9",
+          "#d9f0a3",
+          "#addd8e",
+          "#78c679",
+          "#41ab5d",
+          "#238443",
+          "#006837",
+          "#004529",
+        ],
+        [
+          "#fff7f3",
+          "#fde0dd",
+          "#fcc5c0",
+          "#fa9fb5",
+          "#f768a1",
+          "#dd3497",
+          "#ae017e",
+          "#7a0177",
+          "#49006a",
+        ],
+      ];
 
-        //Create 2-dimensional array to store emissions data by state and year
-        let stateTotalsByYear = {};
+      // Define color scale
+      let colorScaler = d3
+        .scaleLinear()
+        .domain([0, 141477787])
+        .range([0, colors.length - 1]);
+      // .interpolator(t => d3.interpolateViridis(1 - t)); // Reverse the interpolation
 
-        function drawMap(year) {
-            console.log(year);
-    // Load the GeoJSON data for US states
-    d3.json("us_states.json", function(error, us) {
-        if (error) throw error;
+      let colorScale = function (value) {
+        return colors[0][Math.floor(colorScaler(value))];
+      };
 
-        // Merge aggregated emissions data with GeoJSON
-        us.features.forEach(function(feature) {
-            let stateName = feature.properties.NAME;
-            if (stateTotalsByYear[stateName] != undefined && stateTotalsByYear[stateName][year - 2010] != undefined) {
-                feature.properties.emission = stateTotalsByYear[stateName][year - 2010];
+      let stateTotalsByYear = [{}, {}, {}, {}];
+
+      function drawMaps(year, stateTotalsByYearInput) {
+        console.log(stateTotalsByYearInput[0]);
+        for (i = 0; i < 4; i++) {
+          (function (i, svg) {
+            if (i == 0) {
+              svg = d3.select("#map1svg");
+            } else if (i == 1) {
+              svg = d3.select("#map2svg");
+            } else if (i == 2) {
+              svg = d3.select("#map3svg");
             } else {
-                feature.properties.emission = 0; // Set emission value to 0 if not found
+              svg = d3.select("#map4svg");
             }
-        });
 
-        if (firstTimeDrawingMap) {
-            firstTimeDrawingMap = false;
-            // Create the map based on the merged data with smooth color transitions
-            svg.selectAll("path")
-                .data(us.features)
-                .enter().append("path")
-                .attr("d", path)
-                .style("stroke", "#fff")
-                .style("stroke-width", "1")
-                .transition() // Add transition for smooth color change
-                .duration(1) // Duration of the transition in milliseconds
-                .style("fill", function(d) {
-                    let emission = d.properties.emission;
-                    return emission ? colorScale(emission) : "#ccc"; // If emission value is undefined, use default color
-                });
-        } else {
-            // Update existing paths with smooth color transitions
-            svg.selectAll("path")
-                .data(us.features)
-                .transition() // Add transition for smooth color change
-                .duration(1000) // Duration of the transition in milliseconds
-                .style("fill", function(d) {
-                    let emission = d.properties.emission;
-                    return emission ? colorScale(emission) : "#ccc"; // If emission value is undefined, use default color
-                });
-        }
-    });
-}
-
-        // Load the CSV data
-        d3.csv("./Data Sources/CO2 Only All Years.csv", function(error, data) {
-            if (error) throw error;
-            // Map state abbreviations to full state names
-            let stateFullNames = {
-                            "AL": "Alabama",
-                            "AK": "Alaska",
-                            "AZ": "Arizona",
-                            "AR": "Arkansas",
-                            "CA": "California",
-                            "CO": "Colorado",
-                            "CT": "Connecticut",
-                            "DE": "Delaware",
-                            "FL": "Florida",
-                            "GA": "Georgia",
-                            "HI": "Hawaii",
-                            "ID": "Idaho",
-                            "IL": "Illinois",
-                            "IN": "Indiana",
-                            "IA": "Iowa",
-                            "KS": "Kansas",
-                            "KY": "Kentucky",
-                            "LA": "Louisiana",
-                            "ME": "Maine",
-                            "MD": "Maryland",
-                            "MA": "Massachusetts",
-                            "MI": "Michigan",
-                            "MN": "Minnesota",
-                            "MS": "Mississippi",
-                            "MO": "Missouri",
-                            "MT": "Montana",
-                            "NE": "Nebraska",
-                            "NV": "Nevada",
-                            "NH": "New Hampshire",
-                            "NJ": "New Jersey",
-                            "NM": "New Mexico",
-                            "NY": "New York",
-                            "NC": "North Carolina",
-                            "ND": "North Dakota",
-                            "OH": "Ohio",
-                            "OK": "Oklahoma",
-                            "OR": "Oregon",
-                            "PA": "Pennsylvania",
-                            "RI": "Rhode Island",
-                            "SC": "South Carolina",
-                            "SD": "South Dakota",
-                            "TN": "Tennessee",
-                            "TX": "Texas",
-                            "UT": "Utah",
-                            "VT": "Vermont",
-                            "VA": "Virginia",
-                            "WA": "Washington",
-                            "WV": "West Virginia",
-                            "WI": "Wisconsin",
-                            "WY": "Wyoming"
-                        };
-
-            // Initialize an object to store aggregated emissions data
-            // let stateEmissions = {};
-
-            // Process CSV data and aggregate emissions by state and year
-            data.forEach(function(d) {
-                let stateAbbreviation = d.STATE;
-                let year = d.YEAR;
-                console.log(year);
-                let stateFullName = stateFullNames[stateAbbreviation];
-                let emissionValue = parseFloat(d['GHG QUANTITY (METRIC TONS CO2e)']);
-                // If the state doesn't exist in the aggregated data, initialize it as an empty object
-                if (!stateTotalsByYear[stateFullName]) {
-                    stateTotalsByYear[stateFullName] = {};
-                }
-                // If the year exists for the state in the aggregated data, add emission value to its total
-                if (stateTotalsByYear[stateFullName][year-2010]) {
-                    stateTotalsByYear[stateFullName][year-2010] += emissionValue*multiplier;
+            d3.json("us_states.json", function (error, us) {
+              // Merge aggregated emissions data with GeoJSON
+              us.features.forEach(function (feature) {
+                console.log(stateTotalsByYearInput[0]);
+                let stateName = feature.properties.NAME;
+                if (
+                  stateTotalsByYearInput[i][stateName] != undefined &&
+                  stateTotalsByYearInput[i][stateName][year - 2010] != undefined
+                ) {
+                  feature.properties.emission =
+                    stateTotalsByYearInput[i][stateName][year - 2010];
                 } else {
-                    stateTotalsByYear[stateFullName][year-2010] = emissionValue*multiplier;
+                  feature.properties.emission = 0; // Set emission value to 0 if not found
                 }
+              });
+              let min = d3.min(us.features, function (d) {
+                return d.properties.emission;
+              });
+
+              let max = d3.max(us.features, function (d) {
+                return d.properties.emission;
+              });
+
+              console.log("MIN AND MAX");
+              console.log(min, max);
+
+              let colorScale2 = function (value) {
+                return colors[i][
+                  Math.floor(
+                    d3
+                      .scaleLinear()
+                      .domain([min, max])
+                      .range([0, colors[i].length - 1])(value)
+                  )
+                ];
+              };
+
+              if (firstTimeDrawingMap[i]) {
+                firstTimeDrawingMap[i] = false;
+                // Create the map based on the merged data with smooth color transitions
+                svg
+                  .selectAll("path")
+                  .data(us.features)
+                  .enter()
+                  .append("path")
+                  .attr("d", path)
+                  .attr("class", "class" + i)
+                  .style("stroke", "#fff")
+                  .style("stroke-width", "1")
+                  .transition() // Add transition for smooth color change
+                  .duration(1) // Duration of the transition in milliseconds
+                  .style("fill", function (d) {
+                    let emission = d.properties.emission;
+                    return emission ? colorScale2(emission) : "#ccc"; // If emission value is undefined, use default color
+                  });
+
+                // Create an SVG element for the legend
+
+                let legendSvg = svg;
+                legendSvg.append("svg").attr("width", 300).attr("height", 50);
+
+                // Define legend parameters
+                let legendWidth = 300;
+                let legendHeight = 20;
+                let numTicks = 6;
+
+                // Create color scale legend
+                let legendGradient = legendSvg
+                  .append("defs")
+                  .append("linearGradient")
+                  .attr("id", "legendGradient" + i)
+                  .attr("x1", "0%")
+                  .attr("y1", "0%")
+                  .attr("x2", "100%")
+                  .attr("y2", "0%");
+
+                for (let j = 0; j <= numTicks; j++) {
+                  legendGradient
+                    .append("stop")
+                    .attr("offset", (j * 100) / numTicks + "%")
+                    .attr("stop-color", colorScale2((j * max) / numTicks))
+                    .attr("stop-opacity", 1);
+
+                  console.log(colorScale2((j * max) / numTicks));
+                }
+
+                // Draw the color legend rectangle
+                legendSvg
+                  .append("rect")
+                  .attr("x", 0)
+                  .attr("y", 0)
+                  .attr("width", legendWidth)
+                  .attr("height", legendHeight)
+                  .style("fill", "url(#legendGradient" + i + ")")
+                  .attr("transform", "translate(25, 0)");
+
+                // Define legend scale one label for the beginning and end of the color scale
+                // from "0" to "141,477,787"
+                let legendScale = d3
+                  .scaleLinear()
+                  .domain([0, max])
+                  .range([0, legendWidth]);
+
+                // Create legend axis
+                let legendAxis = d3
+                  .axisBottom()
+                  .scale(legendScale)
+                  .ticks(numTicks)
+                  .tickFormat(d3.format(".2s"));
+
+                // Append legend axis to SVG
+                legendSvg
+                  .append("g")
+                  .attr("class", "legend-axis")
+                  .attr("transform", "translate(25," + legendHeight + ")")
+                  .call(legendAxis);
+              } else {
+                // Update existing paths with smooth color transitions
+                svg
+                  .selectAll("path." + ("class" + i))
+                  .data(us.features)
+                  .transition() // Add transition for smooth color change
+                  .duration(1000) // Duration of the transition in milliseconds
+                  .style("fill", function (d) {
+                    let emission = d.properties.emission;
+                    return emission ? colorScale2(emission) : "#ccc"; // If emission value is undefined, use default color
+                  });
+              }
             });
-
-            console.log(stateTotalsByYear['Pennsylvania'][12]);
-
-
-            drawMap(2022);
-        });
-
-        // Add event listener to the year button
-        document.getElementById("yearButton").addEventListener("click", function() {
-            let year = document.getElementById("yearInput").value;
-            drawMap(year);
-        });
-
-        // Create an SVG element for the legend
-        let legendSvg = d3.select("#map1")
-            .append("svg")
-            .attr("width", 300)
-            .attr("height", 50);
-
-        // Define legend parameters
-        let legendWidth = 300;
-        let legendHeight = 20;
-        let numTicks = 6;
-
-        // Create color scale legend
-        let legendGradient = legendSvg.append("defs")
-            .append("linearGradient")
-            .attr("id", "legendGradient")
-            .attr("x1", "0%").attr("y1", "0%")
-            .attr("x2", "100%").attr("y2", "0%");
-
-        for (let i = 0; i <= numTicks; i++) {
-            legendGradient.append("stop")
-                .attr("offset", i * 100 / numTicks + "%")
-                .attr("stop-color", colorScale(i * 141477787 / numTicks))
-                .attr("stop-opacity", 1);
+          })(i, svg);
         }
+      }
 
-        // Draw the color legend rectangle
-        legendSvg.append("rect")
-            .attr("x", 0)
-            .attr("y", 0)
-            .attr("width", legendWidth)
-            .attr("height", legendHeight)
-            .style("fill", "url(#legendGradient)")
-            .attr("transform", "translate(25, 0)");
+      async function loadData(fileLocation) {
+        return new Promise((resolve, reject) => {
+          d3.csv(fileLocation, (error, data) => {
+            if (error) {
+              reject(error);
+              return;
+            }
 
-        // Define legend scale one label for the beginning and end of the color scale
-        // from "0" to "141,477,787"
-        let legendScale = d3.scaleLinear()
-            .domain([0, 141477787])
-            .range([0, legendWidth]);
+            let result = {};
+            let stateFullNames = {
+              AL: "Alabama",
+              AK: "Alaska",
+              AZ: "Arizona",
+              AR: "Arkansas",
+              CA: "California",
+              CO: "Colorado",
+              CT: "Connecticut",
+              DE: "Delaware",
+              FL: "Florida",
+              GA: "Georgia",
+              HI: "Hawaii",
+              ID: "Idaho",
+              IL: "Illinois",
+              IN: "Indiana",
+              IA: "Iowa",
+              KS: "Kansas",
+              KY: "Kentucky",
+              LA: "Louisiana",
+              ME: "Maine",
+              MD: "Maryland",
+              MA: "Massachusetts",
+              MI: "Michigan",
+              MN: "Minnesota",
+              MS: "Mississippi",
+              MO: "Missouri",
+              MT: "Montana",
+              NE: "Nebraska",
+              NV: "Nevada",
+              NH: "New Hampshire",
+              NJ: "New Jersey",
+              NM: "New Mexico",
+              NY: "New York",
+              NC: "North Carolina",
+              ND: "North Dakota",
+              OH: "Ohio",
+              OK: "Oklahoma",
+              OR: "Oregon",
+              PA: "Pennsylvania",
+              RI: "Rhode Island",
+              SC: "South Carolina",
+              SD: "South Dakota",
+              TN: "Tennessee",
+              TX: "Texas",
+              UT: "Utah",
+              VT: "Vermont",
+              VA: "Virginia",
+              WA: "Washington",
+              WV: "West Virginia",
+              WI: "Wisconsin",
+              WY: "Wyoming",
+            };
 
-        // Create legend axis
-        let legendAxis = d3.axisBottom()
-            .scale(legendScale)
-            .ticks(numTicks)
-            .tickFormat(d3.format(".2s"));
+            data.forEach((d) => {
+              let stateAbbreviation = d.STATE;
+              let year = d.YEAR;
+              let stateFullName = stateFullNames[stateAbbreviation];
+              let emissionValue = parseFloat(
+                d["GHG QUANTITY (METRIC TONS CO2e)"]
+              );
 
-        // Append legend axis to SVG
-        legendSvg.append("g")
-            .attr("class", "legend-axis")
-            .attr("transform", "translate(25," + legendHeight + ")")
-            .call(legendAxis);
+              if (!result[stateFullName]) {
+                result[stateFullName] = {};
+              }
 
-        
-
-        // BELOW IS THE CODE I ADDED FOR A RADIAL PLOT -- I think it is difficult to read, it might be better just to do a scatterplot or bar chart
-        
-        // Loading the csv again, this time to make a radial plot
-        d3.csv("./Data Sources/CO2 Only All Years.csv", function(data) {
-            const width = 600;
-            const height = 700;
-            const svg = d3.select("#radialPlot2") // Select the correct div for the radial plot
-                        .append("svg") // Append an SVG element
-                        .attr("width", width)
-                        .attr("height", height);
-
-            data.forEach(function(d) { d['GHG QUANTITY (METRIC TONS CO2e)'] = +d['GHG QUANTITY (METRIC TONS CO2e)'];});
-
-            // Finding the average CO2 emission value for all years, which will be the radius of the circle
-            const avgCO2All = d3.mean(data, d => d['GHG QUANTITY (METRIC TONS CO2e)']);
-
-            // Finding the average CO2 emission for each year, which will determine how far away the lines are from the circle
-            const avgCO2byYear = {};
-            data.forEach(function(d) {
-                const year = d.YEAR;
-                if (!avgCO2byYear[year]) {
-                    avgCO2byYear[year] = [];
-                }
-                avgCO2byYear[year].push(d['GHG QUANTITY (METRIC TONS CO2e)']);
+              if (result[stateFullName][year - 2010]) {
+                result[stateFullName][year - 2010] +=
+                  emissionValue * multiplier;
+              } else {
+                result[stateFullName][year - 2010] = emissionValue * multiplier;
+              }
             });
+
+            resolve(result);
+          });
+        });
+      }
+
+      async function gatherDataAndDraw() {
+        try {
+          let CO2dataPromise = loadData(
+            "./Data Sources/CO2 Only All Years.csv"
+          );
+          let CH4dataPromise = loadData(
+            "./Data Sources/CH4 Only All Years.csv"
+          );
+          let N2OdataPromise = loadData(
+            "./Data Sources/N2O Only All Years.csv"
+          );
+          let fluorinatedGasesDataPromise = loadData(
+            "./Data Sources/Fluorinated GHGs Only All Years.csv"
+          );
+
+          let [CO2data, CH4data, N2Odata, fluorinatedGasesData] =
+            await Promise.all([
+              CO2dataPromise,
+              CH4dataPromise,
+              N2OdataPromise,
+              fluorinatedGasesDataPromise,
+            ]);
+
+          stateTotalsByYear[0] = CO2data;
+          stateTotalsByYear[1] = CH4data;
+          stateTotalsByYear[2] = N2Odata;
+          stateTotalsByYear[3] = fluorinatedGasesData;
+
+          console.log(stateTotalsByYear);
+
+          drawMaps(2022, stateTotalsByYear);
+        } catch (error) {
+          console.error("Error loading data:", error);
+        }
+      }
+
+      gatherDataAndDraw();
+
+      // Add event listener to the year button
+      document
+        .getElementById("yearButton")
+        .addEventListener("click", function () {
+          let year = document.getElementById("yearInput").value;
+          drawMaps(year, stateTotalsByYear);
+        });
+
+      // BELOW IS THE CODE I ADDED FOR A RADIAL PLOT -- I think it is difficult to read, it might be better just to do a scatterplot or bar chart
+
+      // Loading the csv again, this time to make a radial plot
+      d3.csv("./Data Sources/CO2 Only All Years.csv", function (data) {
+        const width = 600;
+        const height = 700;
+        const svg = d3
+          .select("#radialPlot2") // Select the correct div for the radial plot
+          .append("svg") // Append an SVG element
+          .attr("width", width)
+          .attr("height", height);
+
+        data.forEach(function (d) {
+          d["GHG QUANTITY (METRIC TONS CO2e)"] =
+            +d["GHG QUANTITY (METRIC TONS CO2e)"];
+        });
+
+        // Finding the average CO2 emission value for all years, which will be the radius of the circle
+        const avgCO2All = d3.mean(
+          data,
+          (d) => d["GHG QUANTITY (METRIC TONS CO2e)"]
+        );
+
+        // Finding the average CO2 emission for each year, which will determine how far away the lines are from the circle
+        const avgCO2byYear = {};
+        data.forEach(function (d) {
+          const year = d.YEAR;
+          if (!avgCO2byYear[year]) {
+            avgCO2byYear[year] = [];
+          }
+          avgCO2byYear[year].push(d["GHG QUANTITY (METRIC TONS CO2e)"]);
+        });
 
         // Actually calculating the average
-        Object.keys(avgCO2byYear).forEach(function(year) {
-            avgCO2byYear[year] = d3.mean(avgCO2byYear[year]);
+        Object.keys(avgCO2byYear).forEach(function (year) {
+          avgCO2byYear[year] = d3.mean(avgCO2byYear[year]);
         });
 
         // Defining the radius and the domain and range of values
         const radius = Math.min(width, height) / 2.5;
-        const radialScale = d3.scaleLinear()
-            .domain([0, d3.max(data, d => d['GHG QUANTITY (METRIC TONS CO2e)']) * 0.02]) // I am not sure why I had to multiple by 0.02. Plot was too small at first then I tried a bunch of values
-            .range([0, radius]);
+        const radialScale = d3
+          .scaleLinear()
+          .domain([
+            0,
+            d3.max(data, (d) => d["GHG QUANTITY (METRIC TONS CO2e)"]) * 0.02,
+          ]) // I am not sure why I had to multiple by 0.02. Plot was too small at first then I tried a bunch of values
+          .range([0, radius]);
 
         // This defines the angle for how the lines will be positioned around the circle
-        const angleScale = d3.scaleLinear()
-                        .domain([0, data.length])
-                        .range([0, Math.PI * 2]);
+        const angleScale = d3
+          .scaleLinear()
+          .domain([0, data.length])
+          .range([0, Math.PI * 2]);
 
         // Creating a circle representing the average CO2 emissions for all years
-        svg.append("circle")
-            .attr("cx", width / 2)
-            .attr("cy", height / 2)
-            .attr("r", radialScale(avgCO2All))
-            .attr("fill", "#F5F5F5")
-            .attr("stroke", "#D5B60A")
-            .attr("stroke-width", 4);
+        svg
+          .append("circle")
+          .attr("cx", width / 2)
+          .attr("cy", height / 2)
+          .attr("r", radialScale(avgCO2All))
+          .attr("fill", "#F5F5F5")
+          .attr("stroke", "#D5B60A")
+          .attr("stroke-width", 4);
 
         // Drawing lines around the circle for each year
-        const line = d3.lineRadial()
-            .radius((d, i) => radialScale(avgCO2byYear[data[i].YEAR]))
-            .angle((d, i) => angleScale(i * -1)) // I made this -1 because it seems like the data was backward (2022 looked like it had greatest emissions). This needs to be looked at.
-            .curve(d3.curveCardinal);
+        const line = d3
+          .lineRadial()
+          .radius((d, i) => radialScale(avgCO2byYear[data[i].YEAR]))
+          .angle((d, i) => angleScale(i * -1)) // I made this -1 because it seems like the data was backward (2022 looked like it had greatest emissions). This needs to be looked at.
+          .curve(d3.curveCardinal);
 
-        svg.append("path")
-            .datum(data)
-            .attr("fill", "none")
-            .attr("stroke", "#af1e1e")
-            .attr("stroke-width", 3)
-            .attr("d", line)
-            .attr("transform", `translate(${width / 2}, ${height / 2})`);
+        svg
+          .append("path")
+          .datum(data)
+          .attr("fill", "none")
+          .attr("stroke", "#af1e1e")
+          .attr("stroke-width", 3)
+          .attr("d", line)
+          .attr("transform", `translate(${width / 2}, ${height / 2})`);
 
         // Shades the area in between the circle and the line -- easier to see that way
-        const area = d3.areaRadial()
-            .innerRadius((d, i) => radialScale(avgCO2byYear[data[i].YEAR]))
-            .outerRadius(radialScale(avgCO2All))
-            .angle((d, i) => angleScale(i * -1))
-            .curve(d3.curveCardinal);
+        const area = d3
+          .areaRadial()
+          .innerRadius((d, i) => radialScale(avgCO2byYear[data[i].YEAR]))
+          .outerRadius(radialScale(avgCO2All))
+          .angle((d, i) => angleScale(i * -1))
+          .curve(d3.curveCardinal);
 
-        svg.append("path")
-            .datum(data)
-            .attr("fill", "#af1e1e")
-            .attr("opacity", 0.5)
-            .attr("d", area)
-            .attr("transform", `translate(${width / 2}, ${height / 2})`);
-
+        svg
+          .append("path")
+          .datum(data)
+          .attr("fill", "#af1e1e")
+          .attr("opacity", 0.5)
+          .attr("d", area)
+          .attr("transform", `translate(${width / 2}, ${height / 2})`);
 
         // Below is the code that positions the year labels around the circle. I had to use ChatGPT for major debugging of this code.
-        const selectedYears = Object.keys(avgCO2byYear).filter(year => (year >= 2010 && year <= 2022));
+        const selectedYears = Object.keys(avgCO2byYear).filter(
+          (year) => year >= 2010 && year <= 2022
+        );
         const numSelectedYears = selectedYears.length;
 
         // Adding the labels -- some of the years overlap with the circle because label position is dependent on line position
-        svg.selectAll(".yearLabel")
-            .data(selectedYears)
-            .enter().append("text")
-            .attr("class", "yearLabel")
-            .attr("x", function(year) {
-                const index = selectedYears.indexOf(year);
-                const angle = (2 * Math.PI * index) / numSelectedYears;
-                const labelRadius = radialScale(avgCO2byYear[year]) + 30;
-                return width / 2 + labelRadius * Math.sin(angle);
-            })
-            .attr("y", function(year) {
-                const index = selectedYears.indexOf(year);
-                const angle = (2 * Math.PI * index) / numSelectedYears;
-                const labelRadius = radialScale(avgCO2byYear[year]) + 30;
-                return height / 2 - labelRadius * Math.cos(angle);
-            })
-            .text(function(year) { return year; })
-            .attr("text-anchor", "middle")
-            .attr("dominant-baseline", "central")
-            .style("font-size", "16px")
-            .style("font-weight", "bold")
-            .attr("fill", "black");
-
-        });
+        svg
+          .selectAll(".yearLabel")
+          .data(selectedYears)
+          .enter()
+          .append("text")
+          .attr("class", "yearLabel")
+          .attr("x", function (year) {
+            const index = selectedYears.indexOf(year);
+            const angle = (2 * Math.PI * index) / numSelectedYears;
+            const labelRadius = radialScale(avgCO2byYear[year]) + 30;
+            return width / 2 + labelRadius * Math.sin(angle);
+          })
+          .attr("y", function (year) {
+            const index = selectedYears.indexOf(year);
+            const angle = (2 * Math.PI * index) / numSelectedYears;
+            const labelRadius = radialScale(avgCO2byYear[year]) + 30;
+            return height / 2 - labelRadius * Math.cos(angle);
+          })
+          .text(function (year) {
+            return year;
+          })
+          .attr("text-anchor", "middle")
+          .attr("dominant-baseline", "central")
+          .style("font-size", "16px")
+          .style("font-weight", "bold")
+          .attr("fill", "black");
+      });
     </script>
-</body>
+  </body>
+</html>

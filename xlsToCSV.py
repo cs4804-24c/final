@@ -1,7 +1,7 @@
 import pandas as pd
 
 # Read multi-page XLS file
-xls_file = pd.ExcelFile("./Data Sources/EPA Data- CO2 Only.xls")
+xls_file = pd.ExcelFile("./Data Sources/EPA Data- CH4 (Methane) Only.xls")
 
 # Initialize an empty list to store DataFrames for each page
 dfs = []
