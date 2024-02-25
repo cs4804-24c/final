@@ -2,7 +2,6 @@ import * as d3 from "d3";
 import {useEffect, useRef, useState} from "react";
 import Modal from 'react-modal';
 import './ShotChart.css'
-import {useParams} from "react-router-dom";
 
 
 const
@@ -187,7 +186,8 @@ function drawShots(svg, data, videoVar) {
             fetch(`/forceapi/videoeventsasset?GameEventID=${d['GAME_EVENT_ID']}&GameID=${d['GAME_ID']}`)
                 .then(res => res.json())
                 .then( data => {
-                    videoVar(data['resultSets']["Meta"]["videoUrls"][0]["lurl"])
+                    if (data['resultSets']["Meta"]["videoUrls"][0]["lurl"] === null) alert('No video found')
+                    else videoVar(data['resultSets']["Meta"]["videoUrls"][0]["lurl"])
                 })
         })
 }
@@ -197,7 +197,6 @@ export default function ShotChart(props) {
     const [isOpen, setIsOpen] = useState(false);
     const ref = useRef()
     const [video, setVideo] = useState("")
-    const params = useParams();
 
     function openModal() {
         setIsOpen(true);
@@ -213,20 +212,28 @@ export default function ShotChart(props) {
     }, [video])
 
     useEffect( () => {
-        fetch(`/api/shotchartdetail?ContextMeasure=FGA&Month=0&OpponentTeamID=0&Period=0&PlayerID=${props.playerId}&Season=2023-24&TeamID=0&GameID=${props.selectedGame}&SeasonType=Regular+Season`)
+        fetch(`/api/shotchartdetail?ContextMeasure=FGA&Month=0&OpponentTeamID=0&Period=0&PlayerID=${props.playerId}&Season=${props.season}&TeamID=0&GameID=${props.selectedGame}&SeasonType=Regular+Season`)
             .then(resp => resp.json())
             .then(data => {
                 const svg = d3.select(ref.current);
                 svg.selectAll("*").remove()
-
-                drawCourt(svg);
-                drawShots(svg,data['Shot_Chart_Detail'], setVideo)
                 svg.attr("height", '70vh')
                     .attr("viewBox", "0 0 " + width + " " + height)
                     .attr("perserveAspectRatio", "xMinYMid")
                     .style("border", "1px solid black")
+                if (data['Shot_Chart_Detail'].length===0) {
+                    svg.append('text')
+                        .attr('x', '50%')
+                        .attr('y', '50%')
+                        .attr('dominant-baseline','middle')
+                        .attr('text-anchor', 'middle')
+                        .text("No shot data")
+                } else {
+                    drawCourt(svg);
+                    drawShots(svg,data['Shot_Chart_Detail'], setVideo)
+                }
             })
-    },[props.playerId, props.selectedGame])
+    },[props.playerId, props.selectedGame, props.season])
 
     return (
         <div>
@@ -235,6 +242,7 @@ export default function ShotChart(props) {
                 isOpen={isOpen}
                 onRequestClose={closeModal}
                 className={"modal-style"}
+                ariaHideApp={false}
             >
                 <video src={video} controls="controls" autoPlay />
             </Modal>
