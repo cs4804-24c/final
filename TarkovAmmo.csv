@@ -1,11 +1,4 @@
-Caliber,Name,DMG,"Penetration
-power","Armor
-DMG %","Accuracy
-%",Recoil,"Frag.
-chance*","Light
-Bleed %","Heavy
-Bleed %","Speed
-m/s",1,2,3,4,5,6,Quest Name,Shop
+Caliber,Name,DMG,Penetration Power,Armor DMG %,Accuracy %,Recoil,Frag. chance,Light Bleed %,Heavy Bleed %,Speed m/s,1,2,3,4,5,6,Quest Name,Shop
 7.62x25mm Tokarev,7.62x25mm TT LRNPC,66,7,27,10,-10,35%,15,10,385,5,0,0,0,0,0,,Jaeger LL1
 ,7.62x25mm TT LRN,64,8,28,5,-5,35%,15,10,375,5,0,0,0,0,0,,Jaeger LL1
 ,7.62x25mm TT FMJ43,60,11,29,,,25%,,,427,6,1,0,0,0,0,,Prapor LL1
