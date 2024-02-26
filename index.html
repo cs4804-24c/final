@@ -265,13 +265,13 @@
           }
         }
 
-        const xScale = d3.scaleLinear()
-          .domain([d3.min(filteredData, d => d['DMG'] - 5), d3.max(filteredData, d => d['DMG'] + 5)])
-          .range([0, width]);
-
         const yScale = d3.scaleLinear()
-          .domain([d3.min(filteredData, d => d['Penetration Power'] - 5), d3.max(filteredData, d => d['Penetration Power'] + 5)])
+          .domain([d3.min(filteredData, d => d['DMG'] - 5), d3.max(filteredData, d => d['DMG'] + 5)])
           .range([height, 0]);
+
+        const xScale = d3.scaleLinear()
+          .domain([d3.min(filteredData, d => d['Penetration Power'] - 5), d3.max(filteredData, d => d['Penetration Power'] + 5)])
+          .range([0, width]);
 
         const xAxis = d3.axisBottom(xScale);
         const yAxis = d3.axisLeft(yScale);
@@ -287,8 +287,8 @@
           .data(filteredData)
           .enter()
           .append("circle")
-          .attr("cx", d => xScale(d['DMG']))
-          .attr("cy", d => yScale(d['Penetration Power']))
+          .attr("cx", d => xScale(d['Penetration Power']))
+          .attr("cy", d => yScale(d['DMG']))
           .attr("r", 5)
           .style("fill", "steelblue");
 
@@ -297,8 +297,8 @@
           .enter()
           .append("text")
           .attr("class", "label")
-          .attr("x", d => xScale(d['DMG']))
-          .attr("y", d => yScale(d['Penetration Power']) - 10)
+          .attr("x", d => xScale(d['Penetration Power']))
+          .attr("y", d => yScale(d['DMG']) - 10)
           .text(d => d['Name'])
           .attr("text-anchor", "middle")
           .attr("font-size", "10px")
@@ -310,14 +310,14 @@
         .attr("x", width / 2)
         .attr("y", height + margin.top + 20)
         .style("text-anchor", "middle")
-        .text("Damage");
+        .text("Penetration");
 
       svg.append("text")
         .attr("transform", "rotate(-90)")
         .attr("x", -height / 2)
         .attr("y",-margin.left+10)
         .style("text-anchor", "middle")
-        .text("Penetration");
+        .text("Damage");
     }
     generateChart()
 </script>
