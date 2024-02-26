@@ -713,7 +713,7 @@
 
         // Importing the data and setting the height and width
         d3.csv("./Data Sources/Our World in Data- CO2 Emissions by Country.csv", function (data) {
-        const margin = { top: 50, right: 80, bottom: 50, left: 80 };
+        const margin = { top: 50, right: 90, bottom: 50, left: 90 };
         const width = 1200 - margin.left - margin.right;
         const height = 600 - margin.top - margin.bottom;
         
@@ -764,10 +764,11 @@
         svg.append('g')
             .call(d3.axisLeft(yScale));
 
-        // adding x axis labek
+        // adding x axis label
         svg.append('text')
         .attr('transform', `translate(${width / 2},${height + margin.top})`)
         .style('text-anchor', 'middle')
+        .style('font-size', '20px')
         .text('Year');
 
         // adding y axis label
@@ -777,7 +778,16 @@
             .attr('x', 0 - (height / 2))
             .attr('dy', '1em')
             .style('text-anchor', 'middle')
+            .style('font-size', '20px')
             .text('CO2 Emissions (Excluding Land Use)');
+
+        // add a title
+        svg.append('text')
+            .attr('x', width / 2)
+            .attr('y', 0 - margin.top / 2)
+            .attr('text-anchor', 'middle')
+            .style('font-size', '28px')
+            .text('CO2 Emissions by Country (2010-2022)');
     });
 
 
