@@ -19,7 +19,7 @@ const width = 150,
 
 const radius = Math.min(width, height) / 2 - margin;// radius of donut char
 
-d3.csv("your_file_name.csv").then(function(data) {// ATUS survey data
+d3.csv("data.csv").then(function(data) {// ATUS survey data
 
     // Columns for the small multiples
     const columnsToVisualize = ["REGION", "FAMINCOME_BINNED", "GENERATION", "SEX", "RACE_COMBINED", "MARST", "CITIZEN", "HEALTH", "HEIGHT_BINNED", "WEIGHT_BINNED", "EDUC_BINNED", "EMPSTAT"];
