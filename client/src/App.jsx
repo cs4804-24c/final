@@ -7,7 +7,7 @@ import { SignInButton, SignOutButton, getCurrentUser } from "./api/auth";
 /** Signature w/ title and authors */
 export const Signature = () => (
     <div className="content has-text-centered has-text-weight-normal is-family-sans-serif">
-        A3-Icon Array Data Visualization Experiment - Joe Dobbelaar, Priyanka Narasimhan, Randy Huang,
+        Final-Icon Array Data Visualization Expanded Experiment - Joe Dobbelaar, Priyanka Narasimhan, Randy Huang,
         Matthew McAlarney
     </div>
 )
