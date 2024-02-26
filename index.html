@@ -38,12 +38,14 @@
 </head>
 <body>
 
-<div id="searchBar">
-    <input type="text" id="searchInput" placeholder="Search...">
-    <div id="suggestions"></div>
-</div>
+<div class="container">
+  <div class="box" id="searchBar">
+      <input type="text" id="searchInput" placeholder="Search...">
+      <div id="suggestions"></div>
+  </div>
 
-<div id="chartPlaceholder"></div>
+  <div class="box" id="chartPlaceholder"></div>
+</div>
 
 <script type="text/javascript">
     const listOfGuns = [
@@ -172,17 +174,26 @@
       "RSh-12"
     ];
 
+    let selectedGun = ''
+
     const searchInput = document.getElementById("searchInput");
     const suggestions = document.getElementById("suggestions");
 
     function updateSuggestions() {
-      const inputValue = searchInput.value.trim().toLowerCase();
+      const inputValue = searchInput.value.trim().toLowerCase().replace(/[-.'()""\s]/g, '');
       if (inputValue === '') {
         suggestions.style.display = 'none';
         return;
       }
-      const filteredWords = listOfGuns.filter(word => word.toLowerCase().includes(inputValue));
-      const suggestionHTML = filteredWords.map(word => `<div class="suggestion">${word}</div>`).join('');
+      
+      const filteredWords = listOfGuns.filter(word => {
+        const sanitizedWord = word.toLowerCase().replace(/[-.'()""\s]/g, '');
+        return sanitizedWord.includes(inputValue);
+      });
+
+      const suggestionHTML = filteredWords.map(word => {
+        return `<div class="suggestion">${word}</div>`;
+      }).join('');
       suggestions.innerHTML = suggestionHTML;
       suggestions.style.display = 'block';
       
@@ -194,7 +205,10 @@
       suggestionElements.forEach(suggestion => {
         suggestion.addEventListener('click', () => {
           searchInput.value = suggestion.innerText;
+          selectedGun = suggestion.innerText;
+          generateChart();
           suggestions.style.display = 'none';
+          searchInput.blur();
         });
       });
     }
@@ -206,21 +220,106 @@
         const firstSuggestion = suggestions.querySelector('.suggestion');
         if (firstSuggestion) {
           searchInput.value = firstSuggestion.innerText;
+          selectedGun = firstSuggestion.innerText;
+          generateChart();
           suggestions.style.display = 'none';
+          searchInput.blur();
         }
       }
     });
 
-    let width = 500;
-    let height = 500;
+    searchInput.addEventListener("focus", function() {
+      searchInput.value = '';
+    });
+
+    const margin = { top: 20, right: 20, bottom: 50, left: 50 };
+    const width = 600 - margin.left - margin.right;
+    const height = 400 - margin.top - margin.bottom;
     
     //d3.select('#chartPlaceholder').selectAll('*').remove();
-    
-    var svg = d3.select('#chartPlaceholder')
-                .append('svg')
-                .attr('width', width)
-                .attr('height', height);
 
+    function generateChart() {
+      d3.select('#chartPlaceholder').selectAll('*').remove();
+      
+      var svg = d3.select('#chartPlaceholder')
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", `translate(${margin.left},${margin.top})`);
+
+      d3.csv("TarkovAmmo.csv").then(data => {
+        let filteredData = data.filter(d => d['Guns'].includes(selectedGun));
+
+        filteredData.forEach(d => {
+          d['DMG'] = parseDamage(d['DMG']);
+          d['Penetration Power'] = +d['Penetration Power'];
+        });
+
+        function parseDamage(damageString) {
+          if (damageString.includes('x')) {
+            const parts = damageString.split('x').map(Number);
+            return parts.reduce((total, part) => total * part, 1);
+          } else {
+            return +damageString;
+          }
+        }
+
+        const xScale = d3.scaleLinear()
+          .domain([d3.min(filteredData, d => d['DMG'] - 5), d3.max(filteredData, d => d['DMG'] + 5)])
+          .range([0, width]);
+
+        const yScale = d3.scaleLinear()
+          .domain([d3.min(filteredData, d => d['Penetration Power'] - 5), d3.max(filteredData, d => d['Penetration Power'] + 5)])
+          .range([height, 0]);
+
+        const xAxis = d3.axisBottom(xScale);
+        const yAxis = d3.axisLeft(yScale);
+
+        svg.append("g")
+          .attr("transform", `translate(0, ${height})`)
+          .call(xAxis);
+
+        svg.append("g")
+          .call(yAxis);
+
+        svg.selectAll("circle")
+          .data(filteredData)
+          .enter()
+          .append("circle")
+          .attr("cx", d => xScale(d['DMG']))
+          .attr("cy", d => yScale(d['Penetration Power']))
+          .attr("r", 5)
+          .style("fill", "steelblue");
+
+        svg.selectAll(".label")
+          .data(filteredData)
+          .enter()
+          .append("text")
+          .attr("class", "label")
+          .attr("x", d => xScale(d['DMG']))
+          .attr("y", d => yScale(d['Penetration Power']) - 10)
+          .text(d => d['Name'])
+          .attr("text-anchor", "middle")
+          .attr("font-size", "10px")
+          .attr("fill", "black")
+          .style("pointer-events", "none");
+              });
+
+      svg.append("text")
+        .attr("x", width / 2)
+        .attr("y", height + margin.top + 20)
+        .style("text-anchor", "middle")
+        .text("Damage");
+
+      svg.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("x", -height / 2)
+        .attr("y",-margin.left+10)
+        .style("text-anchor", "middle")
+        .text("Penetration");
+    }
+    generateChart()
 </script>
 </body>
 </html>
