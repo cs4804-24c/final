@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Final</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js" charset="utf-8"></script>
+    <style type="text/css">
+       body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center; 
+        }
+
+        #searchInput {
+          padding: 10px;
+          width: 300px;
+          font-size: 16px;
+        }
+        #suggestions {
+          display: none;
+          position: absolute;
+          width: 300px;
+          background-color: white;
+          border: 1px solid #ccc;
+          z-index: 999; /* Ensure it's above other content */
+        }
+        .suggestion {
+          padding: 5px;
+          cursor: pointer;
+        }
+        .suggestion:hover {
+          background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+
+<div id="searchBar">
+    <input type="text" id="searchInput" placeholder="Search...">
+    <div id="suggestions"></div>
+</div>
+
+<div id="chartPlaceholder"></div>
+
+<script type="text/javascript">
+    const listOfGuns = [
+      "AK-12",
+      "AK-101",
+      "AK-102",
+      "AK-103",
+      "AK-104",
+      "AK-105",
+      "AK-74",
+      "AK-74M",
+      "AK-74N",
+      "AKM",
+      "AKMN",
+      "AKMS",
+      "AKMSN",
+      "AKS-74",
+      "AKS-74N",
+      "AKS-74U",
+      "AKS-74UB",
+      "AKS-74UN",
+      "AS VAL",
+      "ASh-12",
+      "AUG A1",
+      "AUG A3",
+      "DT MDR 5.56x45",
+      "DT MDR 7.62x51",
+      "HK 416A5",
+      "HK G36",
+      "M4A1",
+      "MCX",
+      "MCX SPEAR",
+      "Mk47",
+      "RD-704",
+      "SA-58",
+      "SCAR-H",
+      "SCAR-L",
+      "9A-91",
+      "ADAR 2-15",
+      "AVT-40",
+      "OP-SKS",
+      "RFB",
+      "SAG AK",
+      "SAG AK Short",
+      "SKS",
+      "SVT-40",
+      "TX-15 DML",
+      "VPO-101",
+      "VPO-136",
+      "VPO-209",
+      "VSK-94",
+      "PKM",
+      "PKP",
+      "RPD",
+      "RPDN",
+      "RPK-16",
+      "MP5",
+      "MP5K-N",
+      "MP7A1",
+      "MP7A2",
+      "MP9",
+      "MP9-N",
+      "MPX",
+      "P90",
+      "PP-19-01 Vityaz-SN",
+      "PP-9 \"Klin\"",
+      "PP-91 \"Kedr\"",
+      "PP-91-01 \"Kedr-B\"",
+      "PPSh-41",
+      "Saiga-9",
+      "SR-2M",
+      "STM-9",
+      "UMP 45",
+      "Vector .45",
+      "Vector 9x19",
+      "KS-23M",
+      "M3 Super 90",
+      "M590A1",
+      "M870",
+      "MP-18",
+      "MP-133",
+      "MP-153",
+      "MP-155",
+      "MP-43-1C",
+      "MTs-255-12",
+      "Saiga-12K",
+      "TOZ-106",
+      "HK G28",
+      "M1A",
+      "Mk-18",
+      "RSASS",
+      "SR-25",
+      "SVDS",
+      "VSS Vintorez",
+      "AXMC",
+      "DVL-10",
+      "M700",
+      "Mosin (Infantry)",
+      "Mosin (Sniper)",
+      "SV-98",
+      "T-5000",
+      "VPO-215",
+      "FN40GL",
+      "M32A1",
+      "APB",
+      "APS",
+      "FN 5-7",
+      "Glock 17",
+      "Glock 18C",
+      "Glock 19X",
+      "M1911A1",
+      "M45A1",
+      "M9A3",
+      "MP-443 \"Grach\"",
+      "P226R",
+      "PB pistol",
+      "PL-15",
+      "PM (t) pistol",
+      "PM pistol",
+      "SR-1MP Gyurza",
+      "TT pistol",
+      "TT pistol (gold)",
+      "USP .45",
+      "CR 200DS",
+      "CR 50DS",
+      "RSh-12"
+    ];
+
+    const searchInput = document.getElementById("searchInput");
+    const suggestions = document.getElementById("suggestions");
+
+    function updateSuggestions() {
+      const inputValue = searchInput.value.trim().toLowerCase();
+      if (inputValue === '') {
+        suggestions.style.display = 'none';
+        return;
+      }
+      const filteredWords = listOfGuns.filter(word => word.toLowerCase().includes(inputValue));
+      const suggestionHTML = filteredWords.map(word => `<div class="suggestion">${word}</div>`).join('');
+      suggestions.innerHTML = suggestionHTML;
+      suggestions.style.display = 'block';
+      
+      const inputRect = searchInput.getBoundingClientRect();
+      suggestions.style.top = `${inputRect.bottom + window.scrollY}px`;
+      suggestions.style.left = `${inputRect.left + window.scrollX}px`;
+
+      const suggestionElements = document.querySelectorAll('.suggestion');
+      suggestionElements.forEach(suggestion => {
+        suggestion.addEventListener('click', () => {
+          searchInput.value = suggestion.innerText;
+          suggestions.style.display = 'none';
+        });
+      });
+    }
+
+    searchInput.addEventListener("input", updateSuggestions);
+
+    searchInput.addEventListener("keydown", function(event) {
+      if (event.key === 'Enter') {
+        const firstSuggestion = suggestions.querySelector('.suggestion');
+        if (firstSuggestion) {
+          searchInput.value = firstSuggestion.innerText;
+          suggestions.style.display = 'none';
+        }
+      }
+    });
+
+    let width = 500;
+    let height = 500;
+    
+    //d3.select('#chartPlaceholder').selectAll('*').remove();
+    
+    var svg = d3.select('#chartPlaceholder')
+                .append('svg')
+                .attr('width', width)
+                .attr('height', height);
+
+</script>
+</body>
+</html>
