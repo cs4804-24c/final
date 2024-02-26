@@ -19,10 +19,10 @@ const width = 150,
 
 const radius = Math.min(width, height) / 2 - margin;// radius of donut char
 
-d3.csv("data.csv").then(function(data) {// ATUS survey data
+d3.csv("your_file_name.csv").then(function(data) {// ATUS survey data
 
     // Columns for the small multiples
-    const columnsToVisualize = ["REGION", "FAMINCOME", "AGE", "SEX", "RACE", "MARST", "CITIZEN", "GENHEALTH", "HEIGHT", "WEIGHT", "EDUC", "EMPSTAT"];
+    const columnsToVisualize = ["REGION", "FAMINCOME_BINNED", "GENERATION", "SEX", "RACE_COMBINED", "MARST", "CITIZEN", "HEALTH", "HEIGHT_BINNED", "WEIGHT_BINNED", "EDUC_BINNED", "EMPSTAT"];
 
     // adding container for all the small multiples make dive for each colum types
     const multiplesContainer = d3.select("#small_multiples")
