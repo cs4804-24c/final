@@ -4,7 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Beeswarm Graph with D3.js</title>
-  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6"></script>
+  <script type="module" src="./vBeeswarm.js" defer></script>
   <style>
     /* Add any custom styling for your graph here */
     .dot {
@@ -13,111 +15,8 @@
   </style>
 </head>
 <body>
-
-<script>
-// Sample data with region, year, and complaint type
-var data = [
-  { region: 'North', year: 2019, complaint: 'Political Behavior' },
-  { region: 'South', year: 2020, complaint: 'Land Farm Issue' },
-  { region: 'East', year: 2021, complaint: 'Police Brutality' },
-  { region: 'West', year: 2019, complaint: 'Political Behavior' },
-  { region: 'North', year: 2020, complaint: 'Land Farm Issue' },
-  { region: 'South', year: 2021, complaint: 'Police Brutality' },
-  { region: 'East', year: 2019, complaint: 'Political Behavior' },
-  { region: 'West', year: 2020, complaint: 'Land Farm Issue' },
-  { region: 'North', year: 2021, complaint: 'Police Brutality' },
-  // Add more data points as needed
-];
-
-// Extract unique years (filter out duplicates)
-var uniqueYears = Array.from(new Set(data.map(d => d.year)));
-
-// Set up SVG container
-var width = 800;
-var height = 400;
-var margin = { top: 20, right: 20, bottom: 50, left: 40 };
-
-var svg = d3.select('body').append('svg')
-  .attr('width', width + margin.left + margin.right)
-  .attr('height', height + margin.top + margin.bottom)
-  .append('g')
-  .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
-
-// Create scales
-var xScale = d3.scaleBand()
-  .domain(data.map(d => d.region))
-  .range([0, width])
-  .padding(0.1);
-
-var yScale = d3.scaleLinear()
-  .domain([d3.min(uniqueYears), d3.max(uniqueYears)])
-  .range([height, 0])
-  .nice();  // Ensure nice round numbers
-
-// Create color scale for different complaint types
-var colorScale = d3.scaleOrdinal()
-  .domain(data.map(d => d.complaint))
-  .range(d3.schemeCategory10);
-
-// Create beeswarm layout
-var simulation = d3.forceSimulation(data.map(function(d) {
-    return { x: xScale(d.region), y: yScale(d.year) };
-  }))
-  .force('collide', d3.forceCollide(8))
-  .force('x', d3.forceX(d => xScale(d.region)).strength(1))
-  .force('y', d3.forceY(d => yScale(d.year)).strength(1))
-  .stop();
-
-for (var i = 0; i < 120; ++i) simulation.tick();
-
-// Draw dots
-svg.selectAll('.dot')
-  .data(data)
-  .enter().append('circle')
-  .attr('class', 'dot')
-  .attr('r', 5)
-  .attr('cx', function(d, i) {
-    return simulation.nodes()[i].x;
-  })
-  .attr('cy', function(d, i) {
-    return simulation.nodes()[i].y;
-  })
-  .attr('fill', d => colorScale(d.complaint));
-
-// Add axis and legend
-var xAxis = d3.axisBottom(xScale);
-svg.append('g')
-  .attr('transform', 'translate(0,' + height + ')')
-  .call(xAxis);
-
-var yAxis = d3.axisLeft(yScale).tickFormat(d3.format('d'));  // Format as whole years
-svg.append('g')
-  .call(yAxis);
-
-// Legend
-var legend = svg.selectAll('.legend')
-  .data(colorScale.domain())
-  .enter().append('g')
-  .attr('class', 'legend')
-  .attr('transform', function(d, i) { return 'translate(0,' + i * 20 + ')'; });
-
-legend.append('rect')
-  .attr('x', width - 18)
-  .attr('width', 18)
-  .attr('height', 18)
-  .style('fill', colorScale);
-
-legend.append('text')
-  .attr('x', width - 24)
-  .attr('y', 9)
-  .attr('dy', '.35em')
-  .style('text-anchor', 'end')
-  .text(d => d);
-
-
-
-</script>
-
+  <!--Use this div element to display the chart. Move it anywhere, but don't change th id!-->
+  <div id="chart-display"></div>
 </body>
 </html>
 
