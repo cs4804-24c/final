@@ -124,20 +124,38 @@
         font-family: sans-serif;
       }
 
-      #linegraph{
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        margin-top: 50px;
-        /* make sure the wrapped divs start at the left */
-        justify-content: center;
-        align-items: flex-start;
-        width: 100%;
-        height: 100%;
-        margin-left: 20px;
-        background-color: #f5f5f5;
+      #container2 {
+  display: flex;
+  flex-direction: row;
+}
 
-      }
+#linegraph-container {
+  display: flex;
+  flex-direction: row; /* Change to row */
+  align-items: center; /* Align items vertically */
+}
+
+#linegraph {
+  margin-top: 50px;
+  margin-left: 20px;
+  width: 66%;
+  height: 100%;
+  background-color: #f5f5f5;
+}
+
+
+#textRightOfLinegraph {
+  margin-left: 20px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.h1 {
+  text-align: center;
+  margin: 0;
+}
+
+
 
     </style>
   </head>
@@ -194,10 +212,27 @@
         >
       </div>
     </div>
-
-    <div id="linegraph">
-        <svg id="scatterplot" width="1200" height="300"></svg>
-    </div>
+    
+    <div id="container2">
+        <div id="linegraph-container">
+          <div id="linegraph">
+            <h1 class="h1">How does the United States compare to other countries?</h1>
+            <svg id="linegraphSvg" width="1200" height="0"></svg>
+          </div>
+      
+          <!-- Text to the right of the linegraph -->
+          <div id="textRightOfLinegraph">
+            <label style="margin-top: 1rem"
+          >The United States has been the country with the second highest CO2 emissions for all years between 2010 and 2022.
+        <br><br> While CO2 has emissions have been decreasing in the US in this time period, emissions are still on the rise in other
+    countries including China and India.</label>
+          </div>
+        </div>
+      
+        <!-- Other HTML content -->
+      
+      </div>
+      
 
 
     <script type="text/javascript">
@@ -578,7 +613,7 @@
             drawMaps(selectedYears[0], stateTotalsByYear);
         });
 
-      // BELOW IS THE CODE I ADDED FOR A RADIAL PLOT -- I think it is difficult to read, it might be better just to do a scatterplot or bar chart
+      // BELOW IS THE CODE I ADDED FOR A RADIAL PLOT -- I think it is difficult to read, it might be better just to do a line graph or bar chart
 
       // Loading the csv again, this time to make a radial plot
       d3.csv("./Data Sources/CO2 Only All Years.csv", function (data) {
@@ -709,13 +744,16 @@
           .attr("fill", "black");
       });
 
-    // Creating a scatterplot of top 5 countries CO2 emissons from 2010-2022
 
-        // Importing the data and setting the height and width
-        d3.csv("./Data Sources/Our World in Data- CO2 Emissions by Country.csv", function (data) {
-        const margin = { top: 50, right: 90, bottom: 50, left: 90 };
-        const width = 1200 - margin.left - margin.right;
-        const height = 600 - margin.top - margin.bottom;
+
+
+    // Creating a line graph of top 5 countries CO2 emissons from 2010-2022
+
+    // Importing the data and setting the height and width
+    d3.csv("./Data Sources/Our World in Data- CO2 Emissions by Country.csv", function (data) {
+        const margin = { top: 50, right: 240, bottom: 50, left: 130 };
+        const width = 1000 - margin.left - margin.right;
+        const height = 650 - margin.top - margin.bottom; // Adjusted height to fit at the top
         
         const svg = d3
             .select("#linegraph")
@@ -723,7 +761,7 @@
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")"); // Removed margin adjustment
 
         // x axis will be for years (2010 to 2022 only because those are the years in the data above)
         const xScale = d3.scaleLinear()
@@ -735,10 +773,12 @@
             .domain([0, 12000])
             .range([height, 0]);
 
-        // creating a color scale to color the bars for each country
+        const colors = ['#e6b400', '#0e4c92', '#008500', '#c21807', '#898c8a'];
+
+        // creating a color scale to color the lines for each country
         const colorScale = d3.scaleOrdinal()
             .domain(data.map(d => d.country))
-            .range(d3.schemeCategory10);
+            .range(colors);
 
         // lines for the graph
         const line = d3.line()
@@ -746,14 +786,14 @@
             .y(d => yScale(d.co2));
 
         // need to sort the data by year so that the line is smooth
-            data.sort((a, b) => a.year - b.year);
+        data.sort((a, b) => a.year - b.year);
 
         data.forEach(countryData => {
             svg.append('path')
                 .datum(data.filter(d => d.country === countryData.country))
                 .attr('fill', 'none')
                 .attr('stroke', colorScale(countryData.country))
-                .attr('stroke-width', 2)
+                .attr('stroke-width', 3)
                 .attr('d', line);
         });
 
@@ -774,7 +814,7 @@
         // adding y axis label
         svg.append('text')
             .attr('transform', 'rotate(-90)')
-            .attr('y', 0 - margin.left)
+            .attr('y', 0 - margin.left + 60)
             .attr('x', 0 - (height / 2))
             .attr('dy', '1em')
             .style('text-anchor', 'middle')
@@ -786,8 +826,76 @@
             .attr('x', width / 2)
             .attr('y', 0 - margin.top / 2)
             .attr('text-anchor', 'middle')
-            .style('font-size', '28px')
+            .style('font-size', '24px')
             .text('CO2 Emissions by Country (2010-2022)');
+
+        // adding a legend
+        const legend = svg.append('g')
+            .attr('transform', `translate(${width - 10},${10})`);
+
+        const legendItems = legend.selectAll('.legend')
+            .data(Array.from(new Set(data.map(d => d.country)))) // added this because countries kept repeating in the legend
+            .enter().append('g')
+            .attr('class', 'legend')
+            .attr('transform', (d, i) => `translate(0,${i * 20})`);
+
+        legendItems.append('rect')
+            .attr('x', 115)
+            .attr('width', 18)
+            .attr('height', 18)
+            .style('fill', d => colorScale(d));
+
+        legendItems.append('text')
+            .attr('x', 140)
+            .attr('y', 9)
+            .attr('dy', '.35em')
+            .style('text-anchor', 'start')
+            .text(d => d);
+
+        const usDataPoint = data.find(d => d.country === 'United States');
+
+        svg.append('image')
+            .attr('href', './Data Sources/american-flag.png')
+            .attr('x', xScale(usDataPoint.year) + 635)
+            .attr('y', yScale(usDataPoint.co2) )
+            .attr('width', 50)
+            .attr('height', 50);
+
+        const chinaDataPoint = data.find(d => d.country === 'China');
+
+        svg.append('image')
+            .attr('href', './Data Sources/china-flag.png')
+            .attr('x', xScale(chinaDataPoint.year) + 630)
+            .attr('y', yScale(chinaDataPoint.co2) - 150)
+            .attr('width', 50)
+            .attr('height', 50);
+
+        const indiaDataPoint = data.find(d => d.country === 'India');
+
+        svg.append('image')
+            .attr('href', './Data Sources/india-flag.png')
+            .attr('x', xScale(indiaDataPoint.year) + 635)
+            .attr('y', yScale(indiaDataPoint.co2) - 80)
+            .attr('width', 50)
+            .attr('height', 50);
+
+        const russiaDataPoint = data.find(d => d.country === 'Russia');
+
+        svg.append('image')
+            .attr('href', './Data Sources/russia-flag.png')
+            .attr('x', xScale(russiaDataPoint.year) + 635)
+            .attr('y', yScale(russiaDataPoint.co2) - 33)
+            .attr('width', 50)
+            .attr('height', 50);
+
+        const japanDataPoint = data.find(d => d.country === 'Japan');
+
+        svg.append('image')
+            .attr('href', './Data Sources/japan-flag.png')
+            .attr('x', xScale(japanDataPoint.year) + 635)
+            .attr('y', yScale(japanDataPoint.co2) - 15)
+            .attr('width', 50)
+            .attr('height', 50);
     });
 
 
