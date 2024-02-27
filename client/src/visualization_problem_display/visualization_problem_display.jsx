@@ -35,11 +35,11 @@ function VisualizationProblemDisplay() {
         return () => { window.removeEventListener("resize", handleResize); };
     }, []); //Runs only on the first render.
 
-    useEffect(() => createImmage, []);
+    useEffect(() => createImage, []);
 
     function clearSVG() { d3.select("#icon-array").selectAll("*").remove(); }
 
-    function createImmage() {
+    function createImage() {
     
         const numPeople = 10 * Math.floor(Math.random() * 10 + 1); // Total number of people icons
         
@@ -135,7 +135,7 @@ function VisualizationProblemDisplay() {
             setCurrentQuestionStat(new QuestionStat(nextQuestionNumber, currentAnswer));
             document.getElementById("userAnswer").value = ""
             clearSVG()
-            createImmage()
+            createImage()
         }
 
         return (
