@@ -15,6 +15,8 @@
     <script src="https://rawcdn.githack.com/Kcnarf/d3-voronoi-treemap/v1.1.1/build/d3-voronoi-treemap.js"></script>
     <div class="treemapContainer">
       <body>
+        <div id="navbar"></div>
+
         <style>
           svg {
           }
@@ -72,6 +74,13 @@
         </style>
         <script src="./voronoiTreemaps.js"></script>
         <svg></svg>
+        <script>
+          fetch("./navbar.html")
+            .then((response) => response.text())
+            .then((html) => {
+              document.getElementById("navbar").innerHTML = html;
+            });
+        </script>
       </body>
     </div>
   </head>
