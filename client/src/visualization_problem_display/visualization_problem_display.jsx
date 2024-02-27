@@ -41,13 +41,24 @@ function VisualizationProblemDisplay() {
 
     function createImage() {
 
-        const numPeople = 10 * Math.floor(Math.random() * 10 + 1); // Total number of people icons
-
-        // Generate random number of highlighted people
-        const numHighlighted = Math.floor(Math.random() * numPeople);
+        //q1: 1-2 rows, 1-2 highlighted
+        //q3: 3-5 rows; 10,15,20,25 highlighted
+        //q5: 3-5 rows; 10,15,20,25 highlighted
         const numInRow = 10;
+        const numRows = questionNumber === 1
+            ? Math.floor(Math.random() * 2 + 1)
+            : Math.floor(Math.random() * 3 + 3); // Random number of rows
+        const numHighlighted = questionNumber === 1
+            ? Math.floor(Math.random() * 2 + 1)
+            : [10, 15, 20, 25][Math.floor(Math.random() * 4)]; // Random number of highlighted people
+        const numPeople = numInRow * numRows; // Total number of people icons
 
-        if (questionNumber % 3 === 0) { setCurrentAnswer(numHighlighted); } else { setCurrentAnswer(1000 * numHighlighted / numPeople); }
+        
+        if (questionNumber % 3 === 0) {
+            setCurrentAnswer(numHighlighted);
+        } else {
+            setCurrentAnswer(1000 * numHighlighted / numPeople);
+        }
 
         setCurrentTotal(numPeople);
 
@@ -162,7 +173,7 @@ function VisualizationProblemDisplay() {
             setAnswerFeedback("Submitted successfully! Redirecting to the next question...")
             sendAnswer(currentQuestionStat, auth.currentUser).then((dbResult) => { console.log(dbResult) })
 
-            setTimeout(() => { handleNextPress() }, 2000);
+            setTimeout(() => { handleNextPress() }, 1500);
         }
 
         return <button className="button is-small is-link is-family-code" onClick={handleSubmitPress}>Submit</button>;
