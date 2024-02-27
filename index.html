@@ -337,47 +337,63 @@
 
       let stateTotalsByYear = [{}, {}, {}, {}];
 
-      function drawMaps(year, stateTotalsByYearInput) {
-        console.log(stateTotalsByYearInput[0]);
-        for (i = 0; i < 4; i++) {
-          (function (i, svg) {
+      function drawMaps(years, stateTotalsByYearInput) {
+    let aggregatedData = [];
+
+    for (let i = 0; i < 4; i++) {
+        let emissionsByState = {};
+
+        years.forEach((year) => {
+            for (const [state, data] of Object.entries(stateTotalsByYearInput[i])) {
+                if (!emissionsByState[state]) {
+                    emissionsByState[state] = 0;
+                }
+                if (data[year - 2010]) {
+                    emissionsByState[state] += data[year - 2010];
+                }
+            }
+        });
+
+        aggregatedData.push(emissionsByState);
+    }
+
+    for (let i = 0; i < 4; i++) {
+        (function (i, svg) {
             if (i == 0) {
-              svg = d3.select("#map1svg");
+                svg = d3.select("#map1svg");
             } else if (i == 1) {
-              svg = d3.select("#map2svg");
+                svg = d3.select("#map2svg");
             } else if (i == 2) {
-              svg = d3.select("#map3svg");
+                svg = d3.select("#map3svg");
             } else {
-              svg = d3.select("#map4svg");
+                svg = d3.select("#map4svg");
             }
 
             svg.attr("width", "100%").attr("height", "100%");
 
             d3.json("us_states.json", function (error, us) {
-              // Merge aggregated emissions data with GeoJSON
-              us.features.forEach(function (feature) {
-                console.log(stateTotalsByYearInput[0]);
-                let stateName = feature.properties.NAME;
-                if (
-                  stateTotalsByYearInput[i][stateName] != undefined &&
-                  stateTotalsByYearInput[i][stateName][year - 2010] != undefined
-                ) {
-                  feature.properties.emission =
-                    stateTotalsByYearInput[i][stateName][year - 2010];
-                } else {
-                  feature.properties.emission = 0; // Set emission value to 0 if not found
-                }
-              });
-              let min = d3.min(us.features, function (d) {
-                return d.properties.emission;
-              });
+                us.features.forEach(function (feature) {
+                    let stateName = feature.properties.NAME;
+                    if (aggregatedData[i][stateName]) {
+                        feature.properties.emission = aggregatedData[i][stateName];
+                    } else {
+                        feature.properties.emission = 0;
+                    }
+                });
+            //   let min = d3.min(us.features, function (d) {
+            //     return d.properties.emission;
+            //   });
 
-              let max = d3.max(us.features, function (d) {
-                return d.properties.emission;
-              });
+            //   let max = d3.max(us.features, function (d) {
+            //     return d.properties.emission;
+            //   });
+
+            let min = d3.min(Object.values(aggregatedData[i]));
+            let max = d3.max(Object.values(aggregatedData[i]));
 
               console.log("MIN AND MAX");
               console.log(min, max);
+
 
               let colorScale2 = function (value) {
                 return colors[i][
@@ -409,9 +425,26 @@
                     return emission ? colorScale2(emission) : "#ccc"; // If emission value is undefined, use default color
                   });
 
-                // Create an SVG element for the legend
+              } else {
+                // Update existing paths with smooth color transitions
+                svg
+                  .selectAll("path." + ("class" + i))
+                  .data(us.features)
+                  .transition() // Add transition for smooth color change
+                  .duration(1000) // Duration of the transition in milliseconds
+                  .style("fill", function (d) {
+                    let emission = d.properties.emission;
+                    return emission ? colorScale2(emission) : "#ccc"; // If emission value is undefined, use default color
+                  });
+              }
 
-                let legendSvg = svg;
+              // Create an SVG element for the legend
+              if(i == 0) {
+              d3.selectAll(".legend-rect").remove();
+                d3.selectAll(".legend-axis").remove();
+                }
+
+              let legendSvg = svg;
                 legendSvg.append("svg").attr("width", 350).attr("height", 50);
 
                 // Define legend parameters
@@ -433,7 +466,7 @@
                   legendGradient
                     .append("stop")
                     .attr("offset", (j * 100) / numTicks + "%")
-                    .attr("stop-color", colorScale2((j * max) / numTicks))
+                    .attr("stop-color", colorScale2((max-min) * (j / numTicks) + min))
                     .attr("stop-opacity", 1);
 
                   console.log(colorScale2((j * max) / numTicks));
@@ -447,17 +480,32 @@
                   .attr("width", legendWidth)
                   .attr("height", legendHeight)
                   .style("fill", "url(#legendGradient" + i + ")")
+                  .attr("class", "legend-rect")
                   .attr("transform", "translate(25, 20)");
 
                 let legendScale = d3
                   .scaleLinear()
-                  .domain([0, max])
+                  .domain([min, max])
                   .range([0, legendWidth]);
 
                 let tickValues = legendScale.ticks(numTicks);
                 if (tickValues[tickValues.length - 1] !== max) {
                   tickValues.push(max);
                 }
+
+                if (tickValues[0] !== min) {
+                  tickValues.unshift(min);
+                }
+
+                // Filter tick values to remove overlapping ticks
+                tickValues = tickValues.filter((value, index) => {
+                    if (index === 0 || index === tickValues.length - 1) {
+                        return true; // Retain the first and last tick
+                    }
+                    const currentTickPosition = legendScale(value);
+                    const nextTickPosition = legendScale(tickValues[index + 1]);
+                    return Math.abs(nextTickPosition - currentTickPosition) > 20; // Adjust the threshold as needed
+                });
 
                 // Create legend axis
                 let legendAxis = d3
@@ -472,18 +520,6 @@
                   .attr("class", "legend-axis")
                   .attr("transform", "translate(25," + (legendHeight + 20) + ")")
                   .call(legendAxis);
-              } else {
-                // Update existing paths with smooth color transitions
-                svg
-                  .selectAll("path." + ("class" + i))
-                  .data(us.features)
-                  .transition() // Add transition for smooth color change
-                  .duration(1000) // Duration of the transition in milliseconds
-                  .style("fill", function (d) {
-                    let emission = d.properties.emission;
-                    return emission ? colorScale2(emission) : "#ccc"; // If emission value is undefined, use default color
-                  });
-              }
             });
           })(i, svg);
         }
@@ -619,7 +655,7 @@
           (option) => option.value
         );
 
-        drawMaps(selectedYears[0], stateTotalsByYear);
+        drawMaps(selectedYears, stateTotalsByYear);
       });
 
       // BELOW IS THE CODE I ADDED FOR A RADIAL PLOT -- I think it is difficult to read, it might be better just to do a line graph or bar chart
