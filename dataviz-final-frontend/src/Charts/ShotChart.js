@@ -186,6 +186,7 @@ function drawShots(svg, data, videoVar) {
             .enter()
             .append("path")
             .attr("transform", d => `translate(${x(-d.LOC_X)}, ${y(d.LOC_Y)})`)
+            .attr('class', 'shotTaken')
             .attr("stroke", d => d.SHOT_MADE_FLAG ? "#00FF00" : "#FF0000")
             .attr("stroke-width", 3)
             .attr('d', d3.symbol().size(50).type(d => shape(d.SHOT_MADE_FLAG)))
@@ -199,6 +200,21 @@ function drawShots(svg, data, videoVar) {
                         if (data['resultSets']["Meta"]["videoUrls"][0]["lurl"] === null) alert('No video found')
                         else videoVar(data['resultSets']["Meta"]["videoUrls"][0]["lurl"])
                     })
+            })
+            .on('mouseover', (e,d) => {
+                d3.selectAll('.shotTaken')
+                    .transition()
+                    .attr('stroke-opacity', 0.25)
+                d3.select(e.target)
+                    .transition()
+                    .attr('d', d3.symbol().size(100).type(d => shape(d.SHOT_MADE_FLAG)))
+                    .attr('stroke-opacity', 1.0)
+            })
+            .on('mouseleave', (e,d) => {
+                d3.selectAll('.shotTaken')
+                    .transition()
+                    .attr('stroke-opacity', 1.0)
+                    .attr('d', d3.symbol().size(50).type(d => shape(d.SHOT_MADE_FLAG)))
             })
     }
 }

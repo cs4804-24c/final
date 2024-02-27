@@ -1,11 +1,27 @@
 import {useParams} from "react-router-dom";
-import {useEffect, useRef} from "react";
+import {useEffect, useRef, useState} from "react";
 import * as d3 from "d3";
+import Modal from "react-modal";
 
 
 export default function GamePage() {
     const params = useParams();
     const ref = useRef();
+    const [video, setVideo] = useState("")
+    const [isOpen, setIsOpen] = useState(false);
+
+
+    function openModal() {
+        setIsOpen(true);
+    }
+
+    function closeModal() {
+        setVideo("");
+        setIsOpen(false);
+    }
+
+
+
 
     // play by play
     useEffect( () => {
@@ -68,7 +84,7 @@ export default function GamePage() {
                     svg.append('text')
                         .attr('x', 450)
                         .attr('y', 100*e['EVENTNUM']-55)
-                        .text(e['SCORE'] || "0 - 0")
+                        .text(e['SCORE'] || "")
                 })
             })
     }, [params.gameId])
@@ -77,6 +93,14 @@ export default function GamePage() {
     return (
         <div style={{textAlign: "center"}}>
             <svg ref={ref}/>
+            <Modal
+                isOpen={isOpen}
+                onRequestClose={closeModal}
+                className={"modal-style"}
+                ariaHideApp={false}
+            >
+                <video src={video} controls="controls" autoPlay />
+            </Modal>
         </div>
     )
 }
