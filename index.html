@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" style="width: 99%">
+<html lang="en" style="width: 97%; background-color: #f5f5f5;">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="X-UA-Comatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Final Project</title>
     <script
@@ -84,9 +84,9 @@
         width: 400px; /* Adjust this value as needed */
         height: 300px;
         margin: 25px;
-        border: 3px solid black;
+        /* border: 3px solid black;
         border-radius: 10px;
-        background-color: #cccccc;
+        background-color: #cccccc; */
         margin-top: 10px;
 
         /* box-sizing: border-box; Include padding and border in element's total width and height */
@@ -115,13 +115,16 @@
       #container {
         display: flex;
         flex-direction: row;
+        justify-content: center;
+        align-content: center;
+        width: 103%;
       }
 
       #yearSelector {
         display: flex;
         flex-direction: column;
         margin-top: 4rem;
-        width: 33%;
+        width: 11%;
         /* font-family: sans-serif; */
       }
 
@@ -153,6 +156,14 @@
       .h1 {
         text-align: center;
         margin: 0;
+      }
+
+      #treemap {
+        margin-top: 50px;
+        margin-left: 20px;
+        width: 100%;
+        height: 100%;
+        background-color: #f5f5f5;
       }
 
       p {
@@ -228,7 +239,6 @@
           <svg id="linegraphSvg" width="1200" height="0"></svg>
         </div>
 
-        <!-- Text to the right of the linegraph -->
         <div id="textRightOfLinegraph">
           <label style="margin-top: 1rem"
             >The United States has been the country with the second highest CO2
@@ -239,8 +249,13 @@
           >
         </div>
       </div>
+    </div>
 
-      <!-- Other HTML content -->
+    <div id="treemap">
+      <h1 class="h1">
+        In 2022, roughly 62% of global CO2 emissions came from those 5 countries
+      </h1>
+      <svg id="treemap" width="600" height="0"></svg>
     </div>
 
     <script type="text/javascript">
@@ -273,8 +288,8 @@
         .translate([width / 100 + 200, height / 100 + 160])
         .scale(400);
 
-      // Create a path generator
       let path = d3.geoPath().projection(projection);
+
 
       // Generated using ColorBrewer with 9 colors
       let colors = [
@@ -338,62 +353,63 @@
       let stateTotalsByYear = [{}, {}, {}, {}];
 
       function drawMaps(years, stateTotalsByYearInput) {
-    let aggregatedData = [];
+        let aggregatedData = [];
 
-    for (let i = 0; i < 4; i++) {
-        let emissionsByState = {};
+        for (let i = 0; i < 4; i++) {
+          let emissionsByState = {};
 
-        years.forEach((year) => {
-            for (const [state, data] of Object.entries(stateTotalsByYearInput[i])) {
-                if (!emissionsByState[state]) {
-                    emissionsByState[state] = 0;
-                }
-                if (data[year - 2010]) {
-                    emissionsByState[state] += data[year - 2010];
-                }
+          years.forEach((year) => {
+            for (const [state, data] of Object.entries(
+              stateTotalsByYearInput[i]
+            )) {
+              if (!emissionsByState[state]) {
+                emissionsByState[state] = 0;
+              }
+              if (data[year - 2010]) {
+                emissionsByState[state] += data[year - 2010];
+              }
             }
-        });
+          });
 
-        aggregatedData.push(emissionsByState);
-    }
+          aggregatedData.push(emissionsByState);
+        }
 
-    for (let i = 0; i < 4; i++) {
-        (function (i, svg) {
+        for (let i = 0; i < 4; i++) {
+          (function (i, svg) {
             if (i == 0) {
-                svg = d3.select("#map1svg");
+              svg = d3.select("#map1svg");
             } else if (i == 1) {
-                svg = d3.select("#map2svg");
+              svg = d3.select("#map2svg");
             } else if (i == 2) {
-                svg = d3.select("#map3svg");
+              svg = d3.select("#map3svg");
             } else {
-                svg = d3.select("#map4svg");
+              svg = d3.select("#map4svg");
             }
 
             svg.attr("width", "100%").attr("height", "100%");
 
             d3.json("us_states.json", function (error, us) {
-                us.features.forEach(function (feature) {
-                    let stateName = feature.properties.NAME;
-                    if (aggregatedData[i][stateName]) {
-                        feature.properties.emission = aggregatedData[i][stateName];
-                    } else {
-                        feature.properties.emission = 0;
-                    }
-                });
-            //   let min = d3.min(us.features, function (d) {
-            //     return d.properties.emission;
-            //   });
+              us.features.forEach(function (feature) {
+                let stateName = feature.properties.NAME;
+                if (aggregatedData[i][stateName]) {
+                  feature.properties.emission = aggregatedData[i][stateName];
+                } else {
+                  feature.properties.emission = 0;
+                }
+              });
+              //   let min = d3.min(us.features, function (d) {
+              //     return d.properties.emission;
+              //   });
 
-            //   let max = d3.max(us.features, function (d) {
-            //     return d.properties.emission;
-            //   });
+              //   let max = d3.max(us.features, function (d) {
+              //     return d.properties.emission;
+              //   });
 
-            let min = d3.min(Object.values(aggregatedData[i]));
-            let max = d3.max(Object.values(aggregatedData[i]));
+              let min = d3.min(Object.values(aggregatedData[i]));
+              let max = d3.max(Object.values(aggregatedData[i]));
 
               console.log("MIN AND MAX");
               console.log(min, max);
-
 
               let colorScale2 = function (value) {
                 return colors[i][
@@ -416,15 +432,14 @@
                   .append("path")
                   .attr("d", path)
                   .attr("class", "class" + i)
-                  .style("stroke", "#fff")
+                  .style("stroke", "#000000")
                   .style("stroke-width", "1")
                   .transition() // Add transition for smooth color change
                   .duration(1) // Duration of the transition in milliseconds
                   .style("fill", function (d) {
                     let emission = d.properties.emission;
-                    return emission ? colorScale2(emission) : "#ccc"; // If emission value is undefined, use default color
+                    return emission ? colorScale2(emission) : "#f5f5f5"; // If emission value is undefined, use default color
                   });
-
               } else {
                 // Update existing paths with smooth color transitions
                 svg
@@ -434,92 +449,97 @@
                   .duration(1000) // Duration of the transition in milliseconds
                   .style("fill", function (d) {
                     let emission = d.properties.emission;
-                    return emission ? colorScale2(emission) : "#ccc"; // If emission value is undefined, use default color
+                    return emission ? colorScale2(emission) : "#f5f5f5"; // If emission value is undefined, use default color
                   });
               }
 
               // Create an SVG element for the legend
-              if(i == 0) {
-              d3.selectAll(".legend-rect").remove();
-                d3.selectAll(".legend-axis").remove();
-                }
+              if (i == 0) {
+            }
+            d3.selectAll(".legend-rect" + i).remove();
+            d3.selectAll(".legend-svg" + i).remove();
+            d3.select(".legendGradient" + i).remove();
+            d3.selectAll(".legend-axis" + i).remove();
 
               let legendSvg = svg;
-                legendSvg.append("svg").attr("width", 350).attr("height", 50);
+              legendSvg.append("svg").attr("width", 350).attr("height", 50).attr("class", "legend-svg" + i);
 
-                // Define legend parameters
-                let legendWidth = 350;
-                let legendHeight = 20;
-                let numTicks = 6;
+              // Define legend parameters
+              let legendWidth = 350;
+              let legendHeight = 20;
+              let numTicks = 6;
 
-                // Create color scale legend
-                let legendGradient = legendSvg
-                  .append("defs")
-                  .append("linearGradient")
-                  .attr("id", "legendGradient" + i)
-                  .attr("x1", "0%")
-                  .attr("y1", "0%")
-                  .attr("x2", "100%")
-                  .attr("y2", "0%");
+              // Create color scale legend
+              let legendGradient = legendSvg
+                .append("defs")
+                .append("linearGradient")
+                .attr("id", "legendGradient" + i)
+                .attr("x1", "0%")
+                .attr("y1", "0%")
+                .attr("x2", "100%")
+                .attr("y2", "0%");
 
-                for (let j = 0; j <= numTicks; j++) {
-                  legendGradient
-                    .append("stop")
-                    .attr("offset", (j * 100) / numTicks + "%")
-                    .attr("stop-color", colorScale2((max-min) * (j / numTicks) + min))
-                    .attr("stop-opacity", 1);
+              for (let j = 0; j <= numTicks; j++) {
+                legendGradient
+                  .append("stop")
+                  .attr("offset", (j * 100) / numTicks + "%")
+                  .attr(
+                    "stop-color",
+                    colorScale2((max - min) * (j / numTicks) + min)
+                  )
+                  .attr("stop-opacity", 1);
 
-                  console.log(colorScale2((j * max) / numTicks));
+                console.log(colorScale2((j * max) / numTicks));
+              }
+
+              // Draw the color legend rectangle
+              legendSvg
+                .append("rect")
+                .attr("x", 0)
+                .attr("y", 0)
+                .attr("width", legendWidth)
+                .attr("height", legendHeight)
+                .style("fill", "url(#legendGradient" + i + ")")
+                .attr("class", "legend-rect" + i)
+                .attr("transform", "translate(25, 20)");
+
+              let legendScale = d3
+                .scaleLinear()
+                .domain([min, max])
+                .range([0, legendWidth]);
+
+              let tickValues = legendScale.ticks(numTicks);
+              if (tickValues[tickValues.length - 1] !== max) {
+                tickValues.push(max);
+              }
+
+              if (tickValues[0] !== min) {
+                tickValues.unshift(min);
+              }
+
+              // Filter tick values to remove overlapping ticks
+              tickValues = tickValues.filter((value, index) => {
+                if (index === 0 || index === tickValues.length - 1) {
+                  return true; // Retain the first and last tick
                 }
+                const currentTickPosition = legendScale(value);
+                const nextTickPosition = legendScale(tickValues[index + 1]);
+                return Math.abs(nextTickPosition - currentTickPosition) > 20; // Adjust the threshold as needed
+              });
 
-                // Draw the color legend rectangle
-                legendSvg
-                  .append("rect")
-                  .attr("x", 0)
-                  .attr("y", 0)
-                  .attr("width", legendWidth)
-                  .attr("height", legendHeight)
-                  .style("fill", "url(#legendGradient" + i + ")")
-                  .attr("class", "legend-rect")
-                  .attr("transform", "translate(25, 20)");
+              // Create legend axis
+              let legendAxis = d3
+                .axisBottom()
+                .scale(legendScale)
+                .tickValues(tickValues)
+                .tickFormat(d3.format(".2s"));
 
-                let legendScale = d3
-                  .scaleLinear()
-                  .domain([min, max])
-                  .range([0, legendWidth]);
-
-                let tickValues = legendScale.ticks(numTicks);
-                if (tickValues[tickValues.length - 1] !== max) {
-                  tickValues.push(max);
-                }
-
-                if (tickValues[0] !== min) {
-                  tickValues.unshift(min);
-                }
-
-                // Filter tick values to remove overlapping ticks
-                tickValues = tickValues.filter((value, index) => {
-                    if (index === 0 || index === tickValues.length - 1) {
-                        return true; // Retain the first and last tick
-                    }
-                    const currentTickPosition = legendScale(value);
-                    const nextTickPosition = legendScale(tickValues[index + 1]);
-                    return Math.abs(nextTickPosition - currentTickPosition) > 20; // Adjust the threshold as needed
-                });
-
-                // Create legend axis
-                let legendAxis = d3
-                  .axisBottom()
-                  .scale(legendScale)
-                  .tickValues(tickValues)
-                  .tickFormat(d3.format(".2s"));
-
-                // Append legend axis to SVG
-                legendSvg
-                  .append("g")
-                  .attr("class", "legend-axis")
-                  .attr("transform", "translate(25," + (legendHeight + 20) + ")")
-                  .call(legendAxis);
+              // Append legend axis to SVG
+              legendSvg
+                .append("g")
+                .attr("class", "legend-axis" + i)
+                .attr("transform", "translate(25," + (legendHeight + 20) + ")")
+                .call(legendAxis);
             });
           })(i, svg);
         }
@@ -824,7 +844,7 @@
             "#0e4c92",
             "#008500",
             "#c21807",
-            "#898c8a",
+            "#7c3868",
           ];
 
           // creating a color scale to color the lines for each country
@@ -915,57 +935,286 @@
             .style("text-anchor", "start")
             .text((d) => d);
 
-          const usDataPoint = data.find((d) => d.country === "United States");
+          // adding a flag to the end of each line
+
+          // United States Flag
+          const usLoc = data.find((d) => d.country === "United States");
 
           svg
             .append("image")
-            .attr("href", "./Data Sources/american-flag.png")
-            .attr("x", xScale(usDataPoint.year) + 635)
-            .attr("y", yScale(usDataPoint.co2))
+            .attr("href", "./Flag Images/american-flag.png")
+            .attr("x", xScale(usLoc.year) + 635)
+            .attr("y", yScale(usLoc.co2))
             .attr("width", 50)
             .attr("height", 50);
 
-          const chinaDataPoint = data.find((d) => d.country === "China");
+          // China Flag
+          const chinaLoc = data.find((d) => d.country === "China");
 
           svg
             .append("image")
-            .attr("href", "./Data Sources/china-flag.png")
-            .attr("x", xScale(chinaDataPoint.year) + 630)
-            .attr("y", yScale(chinaDataPoint.co2) - 150)
+            .attr("href", "./Flag Images/china-flag.png")
+            .attr("x", xScale(chinaLoc.year) + 630)
+            .attr("y", yScale(chinaLoc.co2) - 150)
             .attr("width", 50)
             .attr("height", 50);
 
-          const indiaDataPoint = data.find((d) => d.country === "India");
+          // India Flag
+          const indiaLoc = data.find((d) => d.country === "India");
 
           svg
             .append("image")
-            .attr("href", "./Data Sources/india-flag.png")
-            .attr("x", xScale(indiaDataPoint.year) + 635)
-            .attr("y", yScale(indiaDataPoint.co2) - 80)
+            .attr("href", "./Flag Images/india-flag.png")
+            .attr("x", xScale(indiaLoc.year) + 635)
+            .attr("y", yScale(indiaLoc.co2) - 80)
             .attr("width", 50)
             .attr("height", 50);
 
-          const russiaDataPoint = data.find((d) => d.country === "Russia");
+          // Russia Flag
+          const russiaLoc = data.find((d) => d.country === "Russia");
 
           svg
             .append("image")
-            .attr("href", "./Data Sources/russia-flag.png")
-            .attr("x", xScale(russiaDataPoint.year) + 635)
-            .attr("y", yScale(russiaDataPoint.co2) - 33)
+            .attr("href", "./Flag Images/russia-flag.png")
+            .attr("x", xScale(russiaLoc.year) + 635)
+            .attr("y", yScale(russiaLoc.co2) - 33)
             .attr("width", 50)
             .attr("height", 50);
 
-          const japanDataPoint = data.find((d) => d.country === "Japan");
+          // Japan flag
+          const japanLoc = data.find((d) => d.country === "Japan");
 
           svg
             .append("image")
-            .attr("href", "./Data Sources/japan-flag.png")
-            .attr("x", xScale(japanDataPoint.year) + 635)
-            .attr("y", yScale(japanDataPoint.co2) - 15)
+            .attr("href", "./Flag Images/japan-flag.png")
+            .attr("x", xScale(japanLoc.year) + 635)
+            .attr("y", yScale(japanLoc.co2) - 15)
             .attr("width", 50)
             .attr("height", 50);
         }
       );
+
+      // Creating a tree map to show how much of the total CO2 emissions each of these countries takes up
+
+      // Importing the data and setting the height and width
+      d3.csv(
+        "./Data Sources/Our World in Data- Grouped CO2.csv",
+        function (data) {
+          const margin = { top: 50, right: 240, bottom: 50, left: 130 };
+          const width = 1000 - margin.left - margin.right;
+          const height = 650 - margin.top - margin.bottom;
+
+          const svg = d3
+            .select("#treemap")
+            .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr(
+              "transform",
+              "translate(" + margin.left + "," + margin.top + ")"
+            );
+
+          // Only doing 2022 for now
+          var filteredData = data.filter(function (d) {
+            return d.year === "2022";
+          });
+
+          var treemap = d3.treemap().size([width, height]).padding(1);
+
+          // Group the data by country -- onlt top 5 countries then all other countries are shown
+          var nestedData = d3
+            .nest()
+            .key(function (d) {
+              return d.country;
+            })
+            .entries(filteredData);
+
+          // Creating a heirarchy for the tree map
+          var root = d3
+            .hierarchy({ values: nestedData }, function (d) {
+              return d.values;
+            })
+            .sum(function (d) {
+              return +d.co2;
+            });
+
+          treemap(root);
+
+          // creating tree map colors to correspond to the line chart
+
+          const colors = d3
+            .scaleOrdinal()
+            .domain([
+              "China",
+              "United States",
+              "India",
+              "Russia",
+              "Japan",
+              "All Other Countries",
+            ])
+            .range([
+              "#e6b400",
+              "#0e4c92",
+              "#008500",
+              "#c21807",
+              "#7c3868",
+              "#898c8a",
+            ]);
+
+          // Making the rectangles
+          svg
+            .selectAll("rect")
+            .data(root.leaves())
+            .enter()
+            .append("rect")
+            .attr("x", function (d) {
+              return d.x0;
+            })
+            .attr("y", function (d) {
+              return d.y0;
+            })
+            .attr("width", function (d) {
+              return d.x1 - d.x0;
+            })
+            .attr("height", function (d) {
+              return d.y1 - d.y0;
+            })
+            .attr("fill", function (d) {
+              return colors(d.data.country);
+            });
+
+          // Adding the country names
+          svg
+            .selectAll("text")
+            .data(root.leaves())
+            .enter()
+            .append("text")
+            .attr("x", function (d) {
+              return d.x0 + 5;
+            })
+            .attr("y", function (d) {
+              return d.y0 + 20;
+            })
+            .text(function (d) {
+              return d.data.country;
+            })
+            .attr("fill", "white");
+
+          svg
+            .append("image")
+            .attr("href", "./Flag Images/american-flag.png")
+            .attr("x", 100)
+            .attr("y", 375)
+            .attr("width", 50)
+            .attr("height", 50);
+
+          svg
+            .append("image")
+            .attr("href", "./Flag Images/china-flag.png")
+            .attr("x", 50)
+            .attr("y", 0)
+            .attr("width", 50)
+            .attr("height", 50);
+
+          svg
+            .append("image")
+            .attr("href", "./Flag Images/india-flag.png")
+            .attr("x", 340)
+            .attr("y", 0)
+            .attr("width", 50)
+            .attr("height", 50);
+
+          svg
+            .append("image")
+            .attr("href", "./Flag Images/russia-flag.png")
+            .attr("x", 490)
+            .attr("y", 30)
+            .attr("width", 50)
+            .attr("height", 50);
+
+          svg
+            .append("image")
+            .attr("href", "./Flag Images/japan-flag.png")
+            .attr("x", 572)
+            .attr("y", 30)
+            .attr("width", 50)
+            .attr("height", 50);
+        }
+      );
+
+      const legendItems = legend
+        .selectAll(".legend")
+        .data(Array.from(new Set(data.map((d) => d.country)))) // added this because countries kept repeating in the legend
+        .enter()
+        .append("g")
+        .attr("class", "legend")
+        .attr("transform", (d, i) => `translate(0,${i * 20})`);
+
+      legendItems
+        .append("rect")
+        .attr("x", 115)
+        .attr("width", 18)
+        .attr("height", 18)
+        .style("fill", (d) => colorScale(d));
+
+      legendItems
+        .append("text")
+        .attr("x", 140)
+        .attr("y", 9)
+        .attr("dy", ".35em")
+        .style("text-anchor", "start")
+        .text((d) => d);
+
+      const usDataPoint = data.find((d) => d.country === "United States");
+
+      svg
+        .append("image")
+        .attr("href", "./Data Sources/american-flag.png")
+        .attr("x", xScale(usDataPoint.year) + 635)
+        .attr("y", yScale(usDataPoint.co2))
+        .attr("width", 50)
+        .attr("height", 50);
+
+      const chinaDataPoint = data.find((d) => d.country === "China");
+
+      svg
+        .append("image")
+        .attr("href", "./Data Sources/china-flag.png")
+        .attr("x", xScale(chinaDataPoint.year) + 630)
+        .attr("y", yScale(chinaDataPoint.co2) - 150)
+        .attr("width", 50)
+        .attr("height", 50);
+
+      const indiaDataPoint = data.find((d) => d.country === "India");
+
+      svg
+        .append("image")
+        .attr("href", "./Data Sources/india-flag.png")
+        .attr("x", xScale(indiaDataPoint.year) + 635)
+        .attr("y", yScale(indiaDataPoint.co2) - 80)
+        .attr("width", 50)
+        .attr("height", 50);
+
+      const russiaDataPoint = data.find((d) => d.country === "Russia");
+
+      svg
+        .append("image")
+        .attr("href", "./Data Sources/russia-flag.png")
+        .attr("x", xScale(russiaDataPoint.year) + 635)
+        .attr("y", yScale(russiaDataPoint.co2) - 33)
+        .attr("width", 50)
+        .attr("height", 50);
+
+      const japanDataPoint = data.find((d) => d.country === "Japan");
+
+      svg
+        .append("image")
+        .attr("href", "./Data Sources/japan-flag.png")
+        .attr("x", xScale(japanDataPoint.year) + 635)
+        .attr("y", yScale(japanDataPoint.co2) - 15)
+        .attr("width", 50)
+        .attr("height", 50);
     </script>
   </body>
 </html>
