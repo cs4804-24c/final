@@ -852,48 +852,60 @@
             .style('text-anchor', 'start')
             .text(d => d);
 
-        const usDataPoint = data.find(d => d.country === 'United States');
+        // adding a flag to the end of each line
+
+
+        // United States Flag
+        const usLoc= data.find(d => d.country === 'United States');
 
         svg.append('image')
-            .attr('href', './Data Sources/american-flag.png')
-            .attr('x', xScale(usDataPoint.year) + 635)
-            .attr('y', yScale(usDataPoint.co2) )
+            .attr('href', './Flag Images/american-flag.png')
+            .attr('x', xScale(usLoc.year) + 635)
+            .attr('y', yScale(usLoc.co2) )
             .attr('width', 50)
             .attr('height', 50);
 
-        const chinaDataPoint = data.find(d => d.country === 'China');
+
+        // China Flag
+        const chinaLoc = data.find(d => d.country === 'China');
 
         svg.append('image')
-            .attr('href', './Data Sources/china-flag.png')
-            .attr('x', xScale(chinaDataPoint.year) + 630)
-            .attr('y', yScale(chinaDataPoint.co2) - 150)
+            .attr('href', './Flag Images/china-flag.png')
+            .attr('x', xScale(chinaLoc.year) + 630)
+            .attr('y', yScale(chinaLoc.co2) - 150)
             .attr('width', 50)
             .attr('height', 50);
 
-        const indiaDataPoint = data.find(d => d.country === 'India');
+
+        // India Flag
+        const indiaLoc = data.find(d => d.country === 'India');
 
         svg.append('image')
-            .attr('href', './Data Sources/india-flag.png')
-            .attr('x', xScale(indiaDataPoint.year) + 635)
-            .attr('y', yScale(indiaDataPoint.co2) - 80)
+            .attr('href', './Flag Images/india-flag.png')
+            .attr('x', xScale(indiaLoc.year) + 635)
+            .attr('y', yScale(indiaLoc.co2) - 80)
             .attr('width', 50)
             .attr('height', 50);
 
-        const russiaDataPoint = data.find(d => d.country === 'Russia');
+
+        // Russia Flag
+        const russiaLoc = data.find(d => d.country === 'Russia');
 
         svg.append('image')
-            .attr('href', './Data Sources/russia-flag.png')
-            .attr('x', xScale(russiaDataPoint.year) + 635)
-            .attr('y', yScale(russiaDataPoint.co2) - 33)
+            .attr('href', './Flag Images/russia-flag.png')
+            .attr('x', xScale(russiaLoc.year) + 635)
+            .attr('y', yScale(russiaLoc.co2) - 33)
             .attr('width', 50)
             .attr('height', 50);
 
-        const japanDataPoint = data.find(d => d.country === 'Japan');
+
+        // Japan flag
+        const japanLoc = data.find(d => d.country === 'Japan');
 
         svg.append('image')
-            .attr('href', './Data Sources/japan-flag.png')
-            .attr('x', xScale(japanDataPoint.year) + 635)
-            .attr('y', yScale(japanDataPoint.co2) - 15)
+            .attr('href', './Flag Images/japan-flag.png')
+            .attr('x', xScale(japanLoc.year) + 635)
+            .attr('y', yScale(japanLoc.co2) - 15)
             .attr('width', 50)
             .attr('height', 50);
     });
