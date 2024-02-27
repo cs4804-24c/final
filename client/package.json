@@ -1,7 +1,7 @@
 {
-  "name": "a3-experiment",
+  "name": "final-experiment",
   "version": "1.0.0",
-  "description": "Icon Array Data Visualization Experiment",
+  "description": "Icon Array Data Visualization Experiment Expanded",
   "main": "index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
