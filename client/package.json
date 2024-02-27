@@ -8,7 +8,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build"
   },
-  "type": "commonjs",
+  "type": "module",
   "keywords": [],
   "author": "Joe Dobbelaar, Priyanka Narasimhan, Randy Huang, Matthew McAlarney",
   "license": "ISC",
