@@ -4,39 +4,31 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./style.css" />
-    <title>My Website</title>
+    <script src="https://d3js.org/d3.v6.min.js" charset="utf-8"></script>
+    <script src="https://rawcdn.githack.com/Kcnarf/d3-weighted-voronoi/v1.0.1/build/d3-weighted-voronoi.js"></script>
+    <script src="https://rawcdn.githack.com/Kcnarf/d3-voronoi-map/v2.0.1/build/d3-voronoi-map.js"></script>
+    <script src="https://rawcdn.githack.com/Kcnarf/d3-voronoi-treemap/v1.1.1/build/d3-voronoi-treemap.js"></script>
+
+    <title>Home page</title>
   </head>
   <body>
-    <nav>
-      <a href="#">Home</a>
-      <a href="#code">Code</a>
-      <a href="#">Examples</a>
-    </nav>
+    <script src="index.js"></script>
+
+    <div id="navbar"></div>
 
     <!-- Your page content goes here -->
-
-    <div class="title">
-      <h1>All About Treemaps</h1>
+    <div id="app">
+      <svg width="960" height="500"></svg>
+      <p></p>
     </div>
 
-    <div class="container" id="code">
-      <h2>Inline Code Example</h2>
-      <p>
-        This is an example of <code>&lt;code&gt;</code> element for showing
-        inline code.
-      </p>
-
-      <h2>Code Block Example</h2>
-      <pre>
-          <code>
-  // This is a sample code snippet in JavaScript
-  function greet(name) {
-      console.log("Hello, " + name + "!");
-  }
-  
-  greet("World");
-          </code>
-      </pre>
-    </div>
+    <script type="module" src="index.js"></script>
+    <script>
+      fetch("./navbar.html")
+        .then((response) => response.text())
+        .then((html) => {
+          document.getElementById("navbar").innerHTML = html;
+        });
+    </script>
   </body>
 </html>
