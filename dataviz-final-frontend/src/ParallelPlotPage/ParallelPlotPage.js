@@ -84,6 +84,12 @@ export default function ParallelPlotPage() {
                     .style("stroke", colorScale(teamAbbreviation))
                     .style("stroke-width", 2)
                     .style("opacity", 1);
+
+                // Further emphasize the specific player selected
+                d3.select(this)
+                    .transition().duration(200)
+                    .style("stroke-width", 4)
+                    .style("opacity", 1);
             };
             
 
