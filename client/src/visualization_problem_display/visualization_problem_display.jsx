@@ -40,9 +40,9 @@ function VisualizationProblemDisplay() {
     function clearSVG() { d3.select("#icon-array").selectAll("*").remove(); }
 
     function createImage() {
-    
+
         const numPeople = 10 * Math.floor(Math.random() * 10 + 1); // Total number of people icons
-        
+
         // Generate random number of highlighted people
         const numHighlighted = Math.floor(Math.random() * numPeople);
         const numInRow = 10;
@@ -50,7 +50,7 @@ function VisualizationProblemDisplay() {
         if (questionNumber % 3 === 0) { setCurrentAnswer(numHighlighted); } else { setCurrentAnswer(1000 * numHighlighted / numPeople); }
 
         setCurrentTotal(numPeople);
-        
+
         const svgWidth = numInRow * 20 + 45; // Width of the SVG container
         const svgHeight = (numPeople / numInRow) * 50 + 45; // Height of the SVG container
 
@@ -90,19 +90,32 @@ function VisualizationProblemDisplay() {
 
     /** Title component */
     const Title = () => (
-        <h1 className="is-size-2 is-family-primary has-text-weight-bold">{visualizationTitle}</h1>
+        <h1 className="is-size-2 is-family-primary has-text-weight-bold">
+            {visualizationTitle}
+        </h1>
     );
+
     /** Error message for navigation handler */
-    const NavigationErrorDisplay = () => <div className="block"><p className="is-family-monospace has-text-centered has-text-danger-dark">{navigationError}</p></div>;
+    const NavigationErrorDisplay = () => <div className="block">
+        <p className="is-family-monospace has-text-centered has-text-danger-dark">
+            {navigationError}
+        </p>
+    </div>;
+
     /** Text for the current question */
     const QuestionText = () => (
-        <label className="label is-size-6 is-family-monospace has-text-weight-light">
+        <label className="label is-size-6 is-family-monospace has-text-weight-light" >
             {questions[((questionNumber - 1) % 3)]}
         </label>
     );
     /** Feedback for the current question */
-    const Feedback = () => <div className="block"><p className="is-family-monospace has-text-grey has-text-weight-bold is-size-7">{answerFeedback}</p></div>;
-
+    const Feedback = () => (
+        <div className="block">
+            <p className="is-family-monospace has-text-grey has-text-weight-bold is-size-7">
+                {answerFeedback}
+            </p>
+        </div>
+    )
     /** Screen displaying a start button that only appears when there's no question being answered */
     const StartScreen = () => {
         if (currentQuestionStat) { return; }
@@ -119,30 +132,20 @@ function VisualizationProblemDisplay() {
         )
     }
 
-    const NextButton = () => {
-
-        function handleNextPress() {
-            // Guard clauses
-            if (!currentQuestionAnswered) { setNavigationError("Must answer current question before moving forward"); return; } // Escape if the current question has not been answered
-            if (questionNumber === numQuestions) { navigate("/thank_you"); return; } // Navigate to /thank_you if there are no more questions
-            // Go to the next question
-            const nextQuestionNumber = questionNumber + 1;
-            setQuestionNumber(nextQuestionNumber)
-            setVisualizationTitle(visualizationTitles[visualizationTitles.indexOf(visualizationTitle) + 1])
-            setCurrentQuestionAnswered(false)
-            setAnswerFeedback("")
-            setNavigationError("")
-            setCurrentQuestionStat(new QuestionStat(nextQuestionNumber, currentAnswer));
-            document.getElementById("userAnswer").value = ""
-            clearSVG()
-            createImage()
-        }
-
-        return (
-            <div className="buttons is-centered">
-                <button className="button is-medium is-warning has-text-black is-family-code" onClick={handleNextPress}>Next</button>
-            </div>
-        )
+    function handleNextPress() {
+        // Guard clauses
+        if (questionNumber === numQuestions) { navigate("/thank_you"); return; } // Navigate to /thank_you if there are no more questions
+        // Go to the next question
+        const nextQuestionNumber = questionNumber + 1;
+        setQuestionNumber(nextQuestionNumber)
+        setVisualizationTitle(visualizationTitles[visualizationTitles.indexOf(visualizationTitle) + 1])
+        setCurrentQuestionAnswered(false)
+        setAnswerFeedback("")
+        setNavigationError("")
+        setCurrentQuestionStat(new QuestionStat(nextQuestionNumber, currentAnswer));
+        document.getElementById("userAnswer").value = ""
+        clearSVG()
+        createImage()
     }
 
     const SubmitButton = () => {
@@ -151,12 +154,15 @@ function VisualizationProblemDisplay() {
             if (currentQuestionAnswered) { setAnswerFeedback("Can only submit one answer"); return; } // Escape if this question has been answered before
             const submission = document.getElementById("userAnswer").value
             if (submission.length == 0) { setAnswerFeedback("Cannot submit an empty answer"); return; } // Escape if the answer is empty
+
             // Handle submission
             const answer = parseInt(submission)
             currentQuestionStat.answer(answer);
             setCurrentQuestionAnswered(true)
-            setAnswerFeedback("Submitted successfully!")
+            setAnswerFeedback("Submitted successfully! Redirecting to the next question...")
             sendAnswer(currentQuestionStat, auth.currentUser).then((dbResult) => { console.log(dbResult) })
+
+            setTimeout(() => { handleNextPress() }, 2000);
         }
 
         return <button className="button is-small is-link is-family-code" onClick={handleSubmitPress}>Submit</button>;
@@ -168,7 +174,7 @@ function VisualizationProblemDisplay() {
         <section key="exam" className={`section ${!currentQuestionStat && "is-hidden"}`} style={{ backgroundColor: '#f5f5f5' }}>
             <Title />
             <div className="box mt-3">
-                <div className="media" style={{display: "flex", flexDirection: 'column', alignItems: 'center'}}>
+                <div className="media" style={{ display: "flex", flexDirection: 'column', alignItems: 'center' }}>
                     {/* <CurrentImage /> */}
                     <progress class="progress is-primary" value={questionNumber - 1} max={numQuestions - 1}>{questionNumber}/{numQuestions}</progress>
                     <svg id="icon-array" />
@@ -186,7 +192,6 @@ function VisualizationProblemDisplay() {
                     </div>
                 </div>
             </div>
-            <NextButton />
             <NavigationErrorDisplay />
         </section>
     ]
