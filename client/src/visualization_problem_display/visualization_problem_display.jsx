@@ -13,7 +13,7 @@ import neutralFigure from "../randomizations/img/neutral_figure.png";
 const numQuestions = 6;
 
 function VisualizationProblemDisplay() {
-    const visualizationTitles = ["Women with an Average Risk of Ovarian Cancer", "Risk of Ovarian Cancer for Women with BRCA1 Gene Changes", "Risk of Ovarian Cancer for Women with BRCA2 Gene Changes"]
+    const visualizationTitles = ["test_title", "Risk of Ovarian Cancer for Women with BRCA1 Gene Changes", "Risk of Ovarian Cancer for Women with BRCA2 Gene Changes"]
     const [questionNumber, setQuestionNumber] = useState(1)
     const [visualizationTitle, setVisualizationTitle] = useState(visualizationTitles[0])
     const [currentQuestionAnswered, setCurrentQuestionAnswered] = useState(false)
