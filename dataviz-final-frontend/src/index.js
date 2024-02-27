@@ -9,6 +9,7 @@ import {
 import ErrorPage from "./error-page";
 import Homepage from "./Homepage/Homepage";
 import PlayerPage from "./PlayerPage/PlayerPage";
+import GamePage from "./GamePage/GamePage";
 
 const router = createBrowserRouter([
     {
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
     {
         path: '/playerpage/:playerId',
         element: <PlayerPage />
+    },
+    {
+        path:'/game/:gameId',
+        element: <GamePage/>
     }
 ]);
 

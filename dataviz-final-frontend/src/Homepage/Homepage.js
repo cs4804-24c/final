@@ -9,8 +9,11 @@ export default function Homepage() {
     const [playerList, setPlayerList] = useState([])
     const [todaysGames, setTodaysGames] = useState([])
     const onPlayerSelect = e => {
-        console.log(e.target.value)
-        navigate('/playerpage/'+e.target.value)
+        navigate('/playerpage/'+e.target.value);
+    }
+
+    const onGameClick = gameID => {
+        navigate('/game/'+gameID);
     }
 
     useEffect( () => {
@@ -24,7 +27,7 @@ export default function Homepage() {
     //Recent Games
     useEffect( () => {
         let date = new Date(Date.now())
-        fetch(`/api/leaguegamefinder?PlayerOrTeam=T&DateFrom=${date.getMonth()+1}/${date.getDate()-1}/${date.getFullYear()}`)
+        fetch(`/api/leaguegamefinder?LeagueID=00&PlayerOrTeam=T&DateFrom=${date.getMonth()+1}/${date.getDate()-1}/${date.getFullYear()}`)
             .then(res => res.json())
             .then( data => {
                 setTodaysGames(data['LeagueGameFinderResults'])
@@ -34,7 +37,7 @@ export default function Homepage() {
     return (
         <div className='homepage'>
             <h4>Select a Player:</h4>
-            <select type={"text"} onChange={onPlayerSelect}>
+            <select type="text" onChange={onPlayerSelect}>
                 {
                     playerList.map( e => {
                         return <option key={e['id']} value={e['id']}>{e['full_name']}</option>
@@ -45,12 +48,15 @@ export default function Homepage() {
             <div>
                 {
                     todaysGames.map( e => {
-                        return (
-                            <div>
-                            <h5>{e['MATCHUP']}</h5>
-                            <h6>{e['GAME_DATE']}</h6>
-                            </div>
-                        )
+                        if (!e['MATCHUP'].includes('@')) {
+                            return (
+                                <div key={e['GAME_ID']} onClick={() => onGameClick(e['GAME_ID'])} className='matchup'>
+                                    <h4 style={{margin:'0.5em'}}>{e['MATCHUP']}</h4>
+                                    <h6 style={{margin:'0.5em'}}>{e['GAME_DATE']}</h6>
+                                </div>
+
+                            )
+                        }
                     })
                 }
             </div>

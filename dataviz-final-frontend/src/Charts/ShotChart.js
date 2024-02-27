@@ -9,6 +9,7 @@ const
     height = 940;
 
 function drawCourt(svg) {
+    svg.selectAll("*").remove()
     let xFeet = d3.scaleLinear()
         .domain([-25,25])
         .range([0,width])
@@ -170,33 +171,45 @@ function drawShots(svg, data, videoVar) {
         .domain([1,0])
         .range([ d3.symbolCircle, d3.symbolTimes])
 
-    svg.append('g')
-        .selectAll("dot")
-        .data(data)
-        .enter()
-        .append("path")
-        .attr("transform", d => `translate(${x(-d.LOC_X)}, ${y(d.LOC_Y)})`)
-        .attr("stroke", d => d.SHOT_MADE_FLAG ? "#00FF00" : "#FF0000")
-        .attr("stroke-width", 3)
-        .attr('d', d3.symbol().size(50).type(d => shape(d.SHOT_MADE_FLAG)))
-        .style("fill", d => d.SHOT_MADE_FLAG ? "#00AA00" : "#FF0000")
-        .attr('fill-opacity', 0.25)
-        .style('cursor', 'pointer')
-        .on("click", (e,d) => {
-            fetch(`/forceapi/videoeventsasset?GameEventID=${d['GAME_EVENT_ID']}&GameID=${d['GAME_ID']}`)
-                .then(res => res.json())
-                .then( data => {
-                    if (data['resultSets']["Meta"]["videoUrls"][0]["lurl"] === null) alert('No video found')
-                    else videoVar(data['resultSets']["Meta"]["videoUrls"][0]["lurl"])
-                })
-        })
+    if (data.length === 0) {
+        svg.selectAll("*").remove()
+        svg.append('text')
+            .attr('x', '50%')
+            .attr('y', '50%')
+            .attr('dominant-baseline','middle')
+            .attr('text-anchor', 'middle')
+            .text("No shot data")
+    } else {
+        svg.append('g')
+            .selectAll("dot")
+            .data(data)
+            .enter()
+            .append("path")
+            .attr("transform", d => `translate(${x(-d.LOC_X)}, ${y(d.LOC_Y)})`)
+            .attr("stroke", d => d.SHOT_MADE_FLAG ? "#00FF00" : "#FF0000")
+            .attr("stroke-width", 3)
+            .attr('d', d3.symbol().size(50).type(d => shape(d.SHOT_MADE_FLAG)))
+            .style("fill", d => d.SHOT_MADE_FLAG ? "#00AA00" : "#FF0000")
+            .attr('fill-opacity', 0.25)
+            .style('cursor', 'pointer')
+            .on("click", (e,d) => {
+                fetch(`/forceapi/videoeventsasset?GameEventID=${d['GAME_EVENT_ID']}&GameID=${d['GAME_ID']}`)
+                    .then(res => res.json())
+                    .then( data => {
+                        if (data['resultSets']["Meta"]["videoUrls"][0]["lurl"] === null) alert('No video found')
+                        else videoVar(data['resultSets']["Meta"]["videoUrls"][0]["lurl"])
+                    })
+            })
+    }
 }
 
 
 export default function ShotChart(props) {
     const [isOpen, setIsOpen] = useState(false);
-    const ref = useRef()
+    const ref = useRef();
+    const svg = d3.select(ref.current);
     const [video, setVideo] = useState("")
+    const [shotData, setShotData] = useState([])
 
     function openModal() {
         setIsOpen(true);
@@ -211,29 +224,25 @@ export default function ShotChart(props) {
         if (video !== "") openModal()
     }, [video])
 
+    //Request shots once
     useEffect( () => {
-        fetch(`/api/shotchartdetail?ContextMeasure=FGA&Month=0&OpponentTeamID=0&Period=0&PlayerID=${props.playerId}&Season=${props.season}&TeamID=0&GameID=${props.selectedGame}&SeasonType=Regular+Season`)
+        fetch(`/api/shotchartdetail?ContextMeasure=FGA&Month=0&OpponentTeamID=0&Period=0&PlayerID=${props.playerId}&Season=${props.season}&TeamID=0&GameID=&SeasonType=Regular+Season`)
             .then(resp => resp.json())
             .then(data => {
-                const svg = d3.select(ref.current);
-                svg.selectAll("*").remove()
+                setShotData(data['Shot_Chart_Detail']);
+            })
+    }, [props.playerId, props.season])
+
+    useEffect( () => {
+                let tempData = shotData;
+                if (props.selectedGame!==" ") tempData = shotData.filter(e => e.GAME_ID === props.selectedGame);
                 svg.attr("height", '70vh')
                     .attr("viewBox", "0 0 " + width + " " + height)
                     .attr("perserveAspectRatio", "xMinYMid")
                     .style("border", "1px solid black")
-                if (data['Shot_Chart_Detail'].length===0) {
-                    svg.append('text')
-                        .attr('x', '50%')
-                        .attr('y', '50%')
-                        .attr('dominant-baseline','middle')
-                        .attr('text-anchor', 'middle')
-                        .text("No shot data")
-                } else {
-                    drawCourt(svg);
-                    drawShots(svg,data['Shot_Chart_Detail'], setVideo)
-                }
-            })
-    },[props.playerId, props.selectedGame, props.season])
+                drawCourt(svg);
+                drawShots(svg,tempData, setVideo)
+    },[props.selectedGame, shotData])
 
     return (
         <div>

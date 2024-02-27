@@ -8,7 +8,7 @@ export default function PlayerPage() {
     const params = useParams();
     const [seasonList, setSeasonList] = useState([])
     const [gameList, setGameList] = useState([])
-    const [selectedGame, setGame] = useState("")
+    const [selectedGame, setGame] = useState(" ")
     const [selectedSeason, setSeason] = useState("2023-24")
 
     function selectGame(event) {
@@ -51,7 +51,8 @@ export default function PlayerPage() {
                     e = JSON.parse(e);
                     newList.push(e);
                 })
-                setGameList(newList)
+                setGameList(newList);
+                setGame(" ");
             })
     }, [params.playerId, selectedSeason])
 
