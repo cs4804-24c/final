@@ -124,30 +124,12 @@
         font-family: sans-serif;
       }
 
-      #container2 {
-        display: flex;
-        flex-direction: row;
-      }
-
-      #linegraph-container {
-        display: flex;
-        flex-direction: row; /* Change to row */
-        align-items: center; /* Align items vertically */
-      }
-
       #linegraph {
         margin-top: 50px;
         margin-left: 20px;
         width: 66%;
         height: 100%;
         background-color: #f5f5f5;
-      }
-
-
-      #textRightOfLinegraph {
-        margin-left: 20px;
-        font-size: 18px;
-        font-weight: bold;
       }
 
       .h1 {
@@ -167,28 +149,16 @@
   </head>
   <body>
 
-    <div id="container2">
-      <div id="linegraph-container">
         <div id="linegraph">
           <h1 class="h1">How does the United States compare to other countries?</h1>
           <svg id="linegraphSvg" width="1200" height="0"></svg>
         </div>
-  
-        <div id="textRightOfLinegraph">
-          <label style="margin-top: 1rem"
-        >The United States has been the country with the second highest CO2 emissions for all years between 2010 and 2022.
-      <br><br> While CO2 has emissions have been decreasing in the US in this time period, emissions are still on the rise in other
-  countries including China and India.</label>
-        </div>
-      </div>
-    
-    </div>
 
     <div id="treemap">
       <h1 class="h1">In 2022, roughly 62% of global CO2 emissions came from those 5 countries</h1>
        <svg id="treemap" width="600" height="0"></svg>
     </div>
-    
+
     <div id="radialPlots">
       <div id="radialPlot1"></div>
       <div id="radialPlot2"></div>
@@ -868,7 +838,7 @@
         svg.append('image')
             .attr('href', './Flag Images/american-flag.png')
             .attr('x', xScale(usLoc.year) + 635)
-            .attr('y', yScale(usLoc.total_ghg) )
+            .attr('y', yScale(usLoc.total_ghg) + 5)
             .attr('width', 50)
             .attr('height', 50);
 
@@ -879,9 +849,9 @@
         svg.append('image')
             .attr('href', './Flag Images/china-flag.png')
             .attr('x', xScale(chinaLoc.year) + 630)
-            .attr('y', yScale(chinaLoc.total_ghg) - 150)
-            .attr('width', 50)
-            .attr('height', 50);
+            .attr('y', yScale(chinaLoc.total_ghg) - 140)
+            .attr('width', 60)
+            .attr('height', 60);
 
 
         // India Flag
@@ -890,7 +860,7 @@
         svg.append('image')
             .attr('href', './Flag Images/india-flag.png')
             .attr('x', xScale(indiaLoc.year) + 635)
-            .attr('y', yScale(indiaLoc.total_ghg) - 80)
+            .attr('y', yScale(indiaLoc.total_ghg) - 57)
             .attr('width', 50)
             .attr('height', 50);
 
@@ -901,7 +871,7 @@
         svg.append('image')
             .attr('href', './Flag Images/russia-flag.png')
             .attr('x', xScale(russiaLoc.year) + 635)
-            .attr('y', yScale(russiaLoc.total_ghg) - 33)
+            .attr('y', yScale(russiaLoc.total_ghg) - 35)
             .attr('width', 50)
             .attr('height', 50);
 
@@ -915,6 +885,61 @@
             .attr('y', yScale(japanLoc.total_ghg) - 15)
             .attr('width', 50)
             .attr('height', 50);
+
+        // Define the positions and messages for each point
+        const points = [
+            { x: 400, y: 38, text: 'While other countries have seen steady decreases in greenhouse gas emissions, China is still on the rise.' },
+            { x: 350, y: 286, text: 'The United States has been the country with the second highest greenhouse gas emissions in thoughout the decade 2010-2020.' },
+            { x: 602, y: 300, text: 'More drastic dip due to COVID pandemic.' }
+        ];
+
+        // Append circles for the points
+        svg.selectAll('.point')
+            .data(points)
+            .enter()
+            .append('circle')
+            .attr('class', 'point')
+            .attr('cx', d => d.x)
+            .attr('cy', d => d.y)
+            .attr('r', 10) // Adjust the radius as needed
+            .style('fill', '#f5f5f5')
+            .style('stroke', 'black')
+            .style('stroke-width', 5)
+            .style('cursor', 'pointer')
+        .on('mouseover', function(d) {
+            const tooltipBox = svg.append('foreignObject')
+                .attr('class', 'tooltip-box')
+                .attr('x', d.x - 30) // Adjust the x position as needed
+                .attr('y', d === points[0] ? d.y + 10 : d.y - 20)
+                .attr('width', 120) // Adjust the width of the box as needed
+                .attr('height', 100)
+                .style('fill', 'white')
+                .style('stroke', 'black')
+                .style('stroke-width', 2);
+
+            const tooltipText = svg.append('foreignObject')
+                .attr('class', 'tooltip')
+                .attr('x', d.x - 40) // Adjust the x position as needed
+                .attr('y', d === points[0] ? d.y + 22 : d === points[1] ? d.y - 105 : d.y + 25)
+                .attr('width', 250) // Adjust the width of the box as needed
+                .attr('height', 100)
+                .append('xhtml:div')
+                .style('font-size', '18px')
+                .style('text-align', 'center')
+                .html(d.text);
+
+            const textHeight = tooltipText.node().getBBox().height;
+
+            tooltipBox.attr('height', textHeight + 20) // Adjust the height of the box based on the text height
+                .attr('y', d === points[0] ? d.y + 10 : d.y - 20); // Re-adjust the y position based on the text height
+        })
+
+        .on('mouseout', function() {
+            // Remove the message when mouseout
+            svg.selectAll('.tooltip').remove();
+            svg.selectAll('.tooltip-box').remove();
+        });
+
     });
 
 
@@ -980,42 +1005,43 @@
           .attr("x", function(d) { return d.x0 + 5; })
           .attr("y", function(d) { return d.y0 + 20; })
           .text(function(d) { return d.data.country; })
-          .attr("fill", "white");
+          .attr("fill", "white")
+          .style("font-size", "20px");
 
         svg.append('image')
             .attr('href', './Flag Images/american-flag.png')
-            .attr('x', 100)
-            .attr('y', 375)
-            .attr('width', 50)
-            .attr('height', 50);
+            .attr('x', 130)
+            .attr('y', 320)
+            .attr('width', 60)
+            .attr('height', 60);
 
           svg.append('image')
             .attr('href', './Flag Images/china-flag.png')
-            .attr('x', 50)
-            .attr('y', 0)
-            .attr('width', 50)
-            .attr('height', 50);
+            .attr('x', 60)
+            .attr('y', -10)
+            .attr('width', 70)
+            .attr('height', 70);
 
           svg.append('image')
             .attr('href', './Flag Images/india-flag.png')
-            .attr('x', 340)
-            .attr('y', 0)
-            .attr('width', 50)
-            .attr('height', 50);
+            .attr('x', 60)
+            .attr('y', 460)
+            .attr('width', 60)
+            .attr('height', 60);
 
           svg.append('image')
             .attr('href', './Flag Images/russia-flag.png')
-            .attr('x', 490)
-            .attr('y', 30)
-            .attr('width', 50)
-            .attr('height', 50);
+            .attr('x', 362)
+            .attr('y', -5)
+            .attr('width', 60)
+            .attr('height', 60);
 
           svg.append('image')
             .attr('href', './Flag Images/japan-flag.png')
-            .attr('x', 572)
-            .attr('y', 30)
-            .attr('width', 50)
-            .attr('height', 50);
+            .attr('x', 560)
+            .attr('y', -5)
+            .attr('width', 60)
+            .attr('height', 60);
 
         });
 
