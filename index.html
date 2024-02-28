@@ -36,15 +36,12 @@
       #radialPlot2,
       #radialPlot3,
       #radialPlot4 {
-        width: 400px; /* Adjust this value as needed */
-        height: 400px;
-        margin: 100px;
-
+        margin: 30px;
         /* box-sizing: border-box; Include padding and border in element's total width and height */
       }
 
       #radialPlot1 {
-        background-color: #af1e1e;
+        background-color: #f5f5f5;
       }
 
       #radialPlot2 {
@@ -52,11 +49,11 @@
       }
 
       #radialPlot3 {
-        background-color: #01571f;
+        background-color: #f5f5f5;
       }
 
       #radialPlot4 {
-        background-color: #543ecf;
+        background-color: #f5f5f5;
       }
 
       #maps {
@@ -204,6 +201,16 @@
           <h1 class="h1">How does the United States compare to other countries?</h1>
           <svg id="linegraphSvg" width="1200" height="0"></svg>
         </div>
+
+        <div id="textRightOfLinegraph">
+          <label style="margin-top: 1rem"
+        >The United States has been the country with the second highest CO2 emissions for all years between 2010 and 2022.
+      <br><br> While CO2 has emissions have been decreasing in the US in this time period, emissions are still on the rise in other
+  countries including China and India.</label>
+        </div>
+      </div>
+
+    </div>
 
     <div id="treemap">
       <h1 class="h1">In 2022, roughly 62% of global CO2 emissions came from those 5 countries</h1>
@@ -691,138 +698,107 @@
         drawMaps(selectedYears, stateTotalsByYear);
       });
 
-      // BELOW IS THE CODE I ADDED FOR A RADIAL PLOT -- I think it is difficult to read, it might be better just to do a line graph or bar chart
 
-      // Loading the csv again, this time to make a radial plot
-      d3.csv("./Data Sources/CO2 Only All Years.csv", function (data) {
-        const width = 600;
-        const height = 700;
-        const svg = d3
-          .select("#radialPlot2") // Select the correct div for the radial plot
-          .append("svg") // Append an SVG element
-          .attr("width", width)
-          .attr("height", height);
 
-        data.forEach(function (d) {
-          d["GHG QUANTITY (METRIC TONS CO2e)"] =
-            +d["GHG QUANTITY (METRIC TONS CO2e)"];
+      // Define a function to create the area chart
+      function createAreaChart(csvFilePath, svgId, color, title, yAx) {
+        d3.csv(csvFilePath, function (data) {
+          const width = 700;
+          const height = 400;
+          const margin = {top: 45, right: 70, bottom: 45, left: 70};
+          const svg = d3
+                  .select(svgId) // Select the correct div for the radial plot
+                  .append("svg") // Append an SVG element
+                  .attr("width", width)
+                  .attr("height", height);
+
+          data.forEach(function (d) {
+            d["GHG QUANTITY (METRIC TONS CO2e)"] = +d["GHG QUANTITY (METRIC TONS CO2e)"];
+          });
+
+          const avgCO2byYear = {};
+          data.forEach(function (d) {
+            const year = d.YEAR;
+            if (!avgCO2byYear[year]) {
+              avgCO2byYear[year] = [];
+            }
+            avgCO2byYear[year].push(d["GHG QUANTITY (METRIC TONS CO2e)"]);
+          });
+
+          // Actually calculating the average
+          const avgCO2Data = Object.keys(avgCO2byYear).map(year => ({
+            year: +year,
+            value: d3.mean(avgCO2byYear[year])
+          }));
+
+          const xScale = d3.scaleBand()
+                  .domain(avgCO2Data.map(d => d.year))
+                  .range([margin.left, width - margin.right])
+                  .paddingInner(0.1);
+
+          const yScale = d3.scaleLinear()
+                  .domain([0, d3.max(avgCO2Data, d => d.value)])
+                  .range([height - margin.bottom, margin.top]);
+
+          // Define area generator for the first area
+          const area = d3.area()
+                  .x(d => xScale(d.year) + xScale.bandwidth() / 2)
+                  .y0(height - margin.bottom)
+                  .y1(d => yScale(d.value));
+
+          // Append area
+          svg.append("path")
+                  .datum(avgCO2Data)
+                  .attr("fill", color)
+                  .attr("d", area);
+
+          // Append x axis
+          svg.append("g")
+                  .attr("transform", `translate(0,${height - margin.bottom})`)
+                  .call(d3.axisBottom(xScale))
+                  .selectAll("text")
+                  .attr("transform", "rotate(-45)")
+                  .style("text-anchor", "end");
+
+          // Append y axis
+          svg.append("g")
+                  .attr("transform", `translate(${margin.left},0)`)
+                  .call(d3.axisLeft(yScale));
+
+          // Append x-axis label
+          svg.append("text")
+                  .attr("transform", `translate(${width / 2},${height})`)
+                  .style("text-anchor", "middle")
+                  .text("Year");
+
+          // Append y-axis label
+          svg.append("text")
+                  .attr("transform", "rotate(-90)")
+                  .attr("y", 0)
+                  .attr("x", 0 - height / 2)
+                  .attr("dy", "1em")
+                  .style("text-anchor", "middle")
+                  .text(yAx);
+
+          svg.append("text")
+                  .attr("x", width / 2)
+                  .attr("y", margin.top / 2)
+                  .attr("text-anchor", "middle")
+                  .style("font-size", "16px")
+                  .text(title);
+
         });
+      }
 
-        // Finding the average CO2 emission value for all years, which will be the radius of the circle
-        const avgCO2All = d3.mean(
-          data,
-          (d) => d["GHG QUANTITY (METRIC TONS CO2e)"]
-        );
+      // Call the function for each CSV file
+      createAreaChart("./Data Sources/CO2 Only All Years.csv", "#radialPlot1", "#41b6c4", "C02 Emissions", "CO2 Emissions (Metric Tons)");
+      createAreaChart("./Data Sources/CH4 Only All Years.csv", "#radialPlot2", "#fe9929", "CH4 Emissions", "CH4 Emissions (Metric Tons)");
+      createAreaChart("./Data Sources/N2O Only All Years.csv", "#radialPlot3", "#78c679", "N2O Emissions", "NO2 Emissions (Metric Tons)");
+      createAreaChart("./Data Sources/Fluorinated GHGs Only All Years.csv", "#radialPlot4", "#f768a1", "Fluorinated GHGs Emissions", "Fluorinated GHGs Emissions (Metric Tons)");
 
-        // Finding the average CO2 emission for each year, which will determine how far away the lines are from the circle
-        const avgCO2byYear = {};
-        data.forEach(function (d) {
-          const year = d.YEAR;
-          if (!avgCO2byYear[year]) {
-            avgCO2byYear[year] = [];
-          }
-          avgCO2byYear[year].push(d["GHG QUANTITY (METRIC TONS CO2e)"]);
-        });
-
-        // Actually calculating the average
-        Object.keys(avgCO2byYear).forEach(function (year) {
-          avgCO2byYear[year] = d3.mean(avgCO2byYear[year]);
-        });
-
-        // Defining the radius and the domain and range of values
-        const radius = Math.min(width, height) / 2.5;
-        const radialScale = d3
-          .scaleLinear()
-          .domain([
-            0,
-            d3.max(data, (d) => d["GHG QUANTITY (METRIC TONS CO2e)"]) * 0.02,
-          ]) // I am not sure why I had to multiple by 0.02. Plot was too small at first then I tried a bunch of values
-          .range([0, radius]);
-
-        // This defines the angle for how the lines will be positioned around the circle
-        const angleScale = d3
-          .scaleLinear()
-          .domain([0, data.length])
-          .range([0, Math.PI * 2]);
-
-        // Creating a circle representing the average CO2 emissions for all years
-        svg
-          .append("circle")
-          .attr("cx", width / 2)
-          .attr("cy", height / 2)
-          .attr("r", radialScale(avgCO2All))
-          .attr("fill", "#F5F5F5")
-          .attr("stroke", "#D5B60A")
-          .attr("stroke-width", 4);
-
-        // Drawing lines around the circle for each year
-        const line = d3
-          .lineRadial()
-          .radius((d, i) => radialScale(avgCO2byYear[data[i].YEAR]))
-          .angle((d, i) => angleScale(i * -1)) // I made this -1 because it seems like the data was backward (2022 looked like it had greatest emissions). This needs to be looked at.
-          .curve(d3.curveCardinal);
-
-        svg
-          .append("path")
-          .datum(data)
-          .attr("fill", "none")
-          .attr("stroke", "#af1e1e")
-          .attr("stroke-width", 3)
-          .attr("d", line)
-          .attr("transform", `translate(${width / 2}, ${height / 2})`);
-
-        // Shades the area in between the circle and the line -- easier to see that way
-        const area = d3
-          .areaRadial()
-          .innerRadius((d, i) => radialScale(avgCO2byYear[data[i].YEAR]))
-          .outerRadius(radialScale(avgCO2All))
-          .angle((d, i) => angleScale(i * -1))
-          .curve(d3.curveCardinal);
-
-        svg
-          .append("path")
-          .datum(data)
-          .attr("fill", "#af1e1e")
-          .attr("opacity", 0.5)
-          .attr("d", area)
-          .attr("transform", `translate(${width / 2}, ${height / 2})`);
-
-        // Below is the code that positions the year labels around the circle. I had to use ChatGPT for major debugging of this code.
-        const selectedYears = Object.keys(avgCO2byYear).filter(
-          (year) => year >= 2010 && year <= 2022
-        );
-        const numSelectedYears = selectedYears.length;
-
-        // Adding the labels -- some of the years overlap with the circle because label position is dependent on line position
-        svg
-          .selectAll(".yearLabel")
-          .data(selectedYears)
-          .enter()
-          .append("text")
-          .attr("class", "yearLabel")
-          .attr("x", function (year) {
-            const index = selectedYears.indexOf(year);
-            const angle = (2 * Math.PI * index) / numSelectedYears;
-            const labelRadius = radialScale(avgCO2byYear[year]) + 30;
-            return width / 2 + labelRadius * Math.sin(angle);
-          })
-          .attr("y", function (year) {
-            const index = selectedYears.indexOf(year);
-            const angle = (2 * Math.PI * index) / numSelectedYears;
-            const labelRadius = radialScale(avgCO2byYear[year]) + 30;
-            return height / 2 - labelRadius * Math.cos(angle);
-          })
-          .text(function (year) {
-            return year;
-          })
-          .attr("text-anchor", "middle")
-          .attr("dominant-baseline", "central")
-          .style("font-size", "16px")
-          .style("font-weight", "bold")
-          .attr("fill", "black");
-      });
 
       // Creating a line graph of top 5 countries CO2 emissons from 2010-2022
+    // Creating a line graph of top 5 countries CO2 emissons from 2010-2020
 
     // Importing the data and setting the height and width
     d3.csv("./Data Sources/Our World in Data- GHG Emissions by Country.csv", function (data) {
@@ -1058,7 +1034,7 @@
     });
 
 
-      // Creating a tree map to show how much of the total CO2 emissions each of these countries takes up
+       // Creating a tree map to show how much of the total CO2 emissions each of these countries takes up
 
     // Importing the data and setting the height and width
     d3.csv("./Data Sources/Our World in Data- Grouped GHG.csv", function (data) {
@@ -1185,6 +1161,7 @@
             .attr('height', 60);
 
         });
+
 
     </script>
   </body>
