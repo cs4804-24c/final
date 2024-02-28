@@ -13,33 +13,8 @@ function colorMap(d) {
 };
 
 window.onload = async () => {
-  let flare = [
-    {
-      endfrac: 1994.444,
-      participantsizeindicator: 3,
-      type: "A"
-    },
-    {
-      endfrac: 1775.11,
-      participantsizeindicator: 4,
-      type: "C"
-    },
-    {
-      endfrac: 1921,
-      participantsizeindicator: 100,
-      type: "B"
-    },
-    {
-      endfrac: 1921,
-      participantsizeindicator: 4,
-      type: "A"
-    },
-    {
-      endfrac: 1840,
-      participantsizeindicator: 6,
-      type: "EEEEEEEE"
-    }
-  ]
+  let flare = await d3.csv("./reduced_protest_data.csv");
+  // console.log(flare);
 
   const plot = Plot.plot({
     height: 900,
