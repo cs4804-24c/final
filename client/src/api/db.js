@@ -4,7 +4,7 @@ import { collection, doc, getDocs, getDoc, setDoc } from "firebase/firestore";
 /** Send an answer to the DB. Return true if successful, false otherwise. */
 export async function sendAnswer(answer, user) {
     return new Promise(resolve => {
-        const userDoc = doc(db, "users", user.uid);
+        const userDoc = doc(db, "final-users", user.uid);
         getDoc(userDoc).then((docSnap) => {
             let newAnswers = {};
             if (docSnap.exists()) {
@@ -26,7 +26,7 @@ export async function sendAnswer(answer, user) {
 export async function getCurrentUserRecord() {
     return new Promise(resolve => {
         const currentUserId = auth.currentUser.uid;
-        const userDoc = doc(db, "users", currentUserId);
+        const userDoc = doc(db, "final-users", currentUserId);
         getDoc(userDoc).then((docSnap) => {
             if (docSnap.exists()) {
                 resolve(docSnap.data());
@@ -44,7 +44,7 @@ export async function getCurrentUserRecord() {
 /** Get the data of every user who's signed in */
 export async function getAllUserRecords() {
     try {
-        const usersCollectionRef = collection(db, "users");
+        const usersCollectionRef = collection(db, "final-users");
         const querySnapshot = await getDocs(usersCollectionRef);
         const users = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
         return users;

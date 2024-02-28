@@ -18,16 +18,16 @@ function VisualizationProblemDisplay() {
     const [currentQuestionState, setCurrentQuestionState] = useState(null)
     const [currentQuestionAnswered, setCurrentQuestionAnswered] = useState(false)
     const [answerFeedback, setAnswerFeedback] = useState("")
-    const [currentAnswer, setCurrentAnswer] = useState(null)
-    const [currentTotal, setCurrentTotal] = useState(null)
+    const [currentCorrectAnswer, setCurrentCorrectAnswer] = useState(null)
+    const [totalNumberOfIcons, setTotalNumberOfIcons] = useState(null)
     const navigate = useNavigate()
 
     const questions = [
-        `About how many out of the total ${currentTotal} people in the sample will get Lake Disease sometime during their lives?`,
+        `About how many out of the total ${totalNumberOfIcons} people in the sample will get Lake Disease sometime during their lives?`,
         `About how many out of a sample of 20 people will get Swamp Disease at some point during their lives?`,
-        `About how many out of the total ${currentTotal} people in the sample will get Cavern Disease sometime during their lives?`,
+        `About how many out of the total ${totalNumberOfIcons} people in the sample will get Cavern Disease sometime during their lives?`,
         `About how many out of a sample of 60 people will get Jungle Disease at some point during their lives?`,
-        `About how many out of the total ${currentTotal} people in the sample will never get Mountain Disease sometime during their lives?`,
+        `About how many out of the total ${totalNumberOfIcons} people in the sample will never get Mountain Disease sometime during their lives?`,
         `About how many out of a sample of 60 people will never get Ocean Disease at some point during their lives?`
     ]
 
@@ -39,39 +39,44 @@ function VisualizationProblemDisplay() {
 
     function clearSVG() { d3.select("#icon-array").selectAll("*").remove(); }
 
-    function createImage() {
-        //q1: 1-2 rows, 1-2 highlighted
-        //q3: 3-5 rows; 10,15,20,25 highlighted
-        //q5: 3-5 rows; 10,15,20,25 highlighted
-        //q2, q4, and q6 use control text
-        const numInRow = 10;
-        const numRows = questionNumber === 1
-            ? Math.floor(Math.random() * 2 + 1)
-            : Math.floor(Math.random() * 3 + 3); // Random number of rows
-        const numHighlighted = questionNumber === 1
-            ? Math.floor(Math.random() * 2 + 1)
-            : [10, 15, 20, 25][Math.floor(Math.random() * 4)]; // Random number of highlighted people
-        const numPeople = numInRow * numRows; // Total number of people icons
-
-        
-        if (questionNumber % 3 === 0) {
-            setCurrentAnswer(numHighlighted);
-        } else {
-            setCurrentAnswer(1000 * numHighlighted / numPeople);
+    function determineCorrectAnswer(numberOfRedIcons) {
+        if (questionNumber === 1 || questionNumber === 3) {
+            setCurrentCorrectAnswer(numberOfRedIcons)
+        } else  if (questionNumber === 2) {
+            setCurrentCorrectAnswer(2)
+        } else if (questionNumber === 4) {
+            setCurrentCorrectAnswer(20)
+        } else if (questionNumber === 5) {
+            setCurrentCorrectAnswer(totalNumberOfIcons - numberOfRedIcons)
+        } else if (questionNumber === 6) {
+            setCurrentCorrectAnswer(10)
         }
 
-        setCurrentTotal(numPeople);
+    }
 
-        const svgWidth = numInRow * 20 + 45; // Width of the SVG container
-        const svgHeight = (numPeople / numInRow) * 50 + 45; // Height of the SVG container
+    function generateImage() {
+        const numberOfIconsPerRow = 10
+        const numberOfRows = questionNumber === 1
+            ? Math.floor(Math.random() * 2 + 1)
+            : Math.floor(Math.random() * 3 + 3) // Random number of rows
+        const numberOfRedIcons = questionNumber === 1
+            ? Math.floor(Math.random() * 2 + 1)
+            : [10, 15, 20, 25][Math.floor(Math.random() * 4)] // Random number of highlighted people
+        const sumOfIcons = numberOfIconsPerRow * numberOfRows // Total number of people icons
+
+        setTotalNumberOfIcons(sumOfIcons)
+        determineCorrectAnswer(numberOfRedIcons)
+
+        const svgWidth = numberOfIconsPerRow * 20 + 45 // Width of the SVG container
+        const svgHeight = (sumOfIcons / numberOfIconsPerRow) * 50 + 45 // Height of the SVG container
 
         // Create SVG container
         const svg = d3.select("#icon-array")
             .attr("width", svgWidth)
-            .attr("height", svgHeight);
+            .attr("height", svgHeight)
 
         // Generate array of person data
-        const peopleData = Array.from({ length: numPeople }, (_, i) => ({ id: i }));
+        const peopleData = Array.from({ length: sumOfIcons }, (_, i) => ({ id: i }))
 
         // Append person icons
         const people = svg.selectAll(".person")
@@ -80,21 +85,21 @@ function VisualizationProblemDisplay() {
             .append("g")
             .attr("class", "person")
             .attr("transform", (d, i) => {
-                const x = (i % numInRow) * 20 + 15; // Calculate x position
-                const y = Math.floor(i / numInRow) * 50 + 15; // Calculate y position
-                return `translate(${x}, ${y})`; // Return transformation string
-            });
+                const x = (i % numberOfIconsPerRow) * 20 + 15 // Calculate x position
+                const y = Math.floor(i / numberOfIconsPerRow) * 50 + 15 // Calculate y position
+                return `translate(${x}, ${y})` // Return transformation string
+            })
 
         // Append person images
         people.append("image")
-            .attr("xlink:href", (d, i) => i < numHighlighted ? activeFigure : neutralFigure)
+            .attr("xlink:href", (d, i) => i < numberOfRedIcons ? activeFigure : neutralFigure)
             .attr("x", 10) // Adjust x position as needed
             .attr("y", 10) // Adjust y position as needed
             .attr("width", 18)
-            .attr("height", 42);
+            .attr("height", 42)
     }
 
-    useEffect(() => createImage, []);
+    useEffect(() => generateImage, []);
 
     /** Title component */
     const Title = () => (
@@ -122,7 +127,7 @@ function VisualizationProblemDisplay() {
     const StartScreen = () => {
         if (currentQuestionState) { return; }
 
-        function startQuiz() { setCurrentQuestionState(new QuestionState(questionNumber, currentAnswer)); }
+        function startQuiz() { setCurrentQuestionState(new QuestionState(questionNumber, currentCorrectAnswer)); }
 
         return (
             <section className={`is-centered has-text-centered section`}>
@@ -140,13 +145,13 @@ function VisualizationProblemDisplay() {
         // Go to the next question
         const nextQuestionNumber = questionNumber + 1
         setQuestionNumber(nextQuestionNumber)
+        clearSVG()
+        generateImage()
         setVisualizationTitle(visualizationTitles[visualizationTitles.indexOf(visualizationTitle) + 1])
         setCurrentQuestionAnswered(false)
         setAnswerFeedback("")
-        setCurrentQuestionState(new QuestionState(nextQuestionNumber, currentAnswer))
         document.getElementById("userAnswer").value = ""
-        clearSVG()
-        createImage()
+        setCurrentQuestionState(new QuestionState(nextQuestionNumber, currentCorrectAnswer))
     }
 
     const SubmitButton = () => {
