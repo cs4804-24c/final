@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./style.css" />
+    <script src="https://d3js.org/d3.v4.js"></script>
     <script src="https://d3js.org/d3.v6.min.js" charset="utf-8"></script>
     <script src="https://rawcdn.githack.com/Kcnarf/d3-weighted-voronoi/v1.0.1/build/d3-weighted-voronoi.js"></script>
     <script src="https://rawcdn.githack.com/Kcnarf/d3-voronoi-map/v2.0.1/build/d3-voronoi-map.js"></script>
@@ -17,18 +18,57 @@
     <div id="navbar"></div>
 
     <!-- Your page content goes here -->
-    <div id="app">
-      <svg width="960" height="500"></svg>
-      <p></p>
+    <div class="centerText">
+      <h1>Home</h1>
+      <h2>What are Voronoi Treemaps?</h2>
+      <p>
+        Voronoi Treemaps are methods of visualizing hierarchical data, where
+        each cell represents a portion of the data and the hierarchy is encoded
+        by the nesting of cells within each other. Unlike traditional Treemaps,
+        Voronoi Tree Maps do not use rectangles to represent the data, but
+        rather use arbitrary polygons to represent the data. This allows for a
+        more organic and natural representation of the data.
+      </p>
     </div>
 
-    <script type="module" src="index.js"></script>
-    <script>
-      fetch("./navbar.html")
-        .then((response) => response.text())
-        .then((html) => {
-          document.getElementById("navbar").innerHTML = html;
-        });
-    </script>
+    <div class="centerText">
+      <h2>Traditional Treemap</h2>
+      <p>
+        This is a Traditional Treemap. Notice how the rectangles are used to
+        represent the data. This can lead to a more rigid and less organic
+        representation of the data.
+      </p>
+    </div>
+
+    <div id="my_dataviz"></div>
+    <script src="./regTreemap.js"></script>
+
+    <div class="centerText">
+      <h2>Voronoi Treemap</h2>
+      <p>
+        This is a Voronoi Treemap. Notice how the polygons are used to represent
+        the data. As you can see the data seems to have a more organic and
+        natural representation.
+      </p>
+    </div>
+
+    <div class="simpleVoronoi" id="app">
+      <svg width="960" height="500" id="simpleVoronoi"></svg>
+      <p></p>
+    </div>
+    <div>
+      <script type="module" src="index.js"></script>
+      <script>
+        fetch("./navbar.html")
+          .then((response) => response.text())
+          .then((html) => {
+            document.getElementById("navbar").innerHTML = html;
+          });
+      </script>
+    </div>
   </body>
+
+  <footer>
+    <p>© 2021 Voronoi Treemaps</p>
+  </footer>
 </html>

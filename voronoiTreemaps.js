@@ -1,5 +1,5 @@
 //begin: constants
-var _2PI = Math.PI;
+var _2PI = 2 * Math.PI;
 //end: constants
 
 //begin: layout conf.
