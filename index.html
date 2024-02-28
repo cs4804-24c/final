@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" style="width: 97%; background-color: #f5f5f5;">
+<html lang="en" style="width: 97%; background-color: #f5f5f5">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Comatible" content="IE=edge" />
@@ -142,7 +142,6 @@
         font-weight: bold;
       }
 
-
       .h1 {
         text-align: center;
         margin: 0;
@@ -163,15 +162,16 @@
     </style>
   </head>
   <body>
-
-        <div id="linegraph">
-          <h1 class="h1">How does the United States compare to other countries?</h1>
-          <svg id="linegraphSvg" width="1200" height="0"></svg>
-        </div>
+    <div id="linegraph">
+      <h1 class="h1">How does the United States compare to other countries?</h1>
+      <svg id="linegraphSvg" width="1200" height="0"></svg>
+    </div>
 
     <div id="treemap">
-      <h1 class="h1">In 2022, roughly 62% of global CO2 emissions came from those 5 countries</h1>
-       <svg id="treemap" width="600" height="0"></svg>
+      <h1 class="h1">
+        In 2022, roughly 62% of global CO2 emissions came from those 5 countries
+      </h1>
+      <svg id="treemap" width="600" height="0"></svg>
     </div>
 
     <div id="radialPlots">
@@ -217,12 +217,13 @@
       </div>
 
       <div id="yearSelector">
-        <label for="multi-select" style="margin-bottom: 1rem"
-          >Year Selector</label
-        >
-        <div class="select select--multiple">
+        <label style="margin-bottom: 1rem">Year Selector</label>
+        <!-- <div class="select select--multiple">
           <select id="multi-select" multiple></select>
           <span class="focus"></span>
+        </div> -->
+        <div class="yearOptions">
+          <!-- Year options as check boxes will go here -->
         </div>
         <label style="margin-top: 1rem"
           >Note: Fluorinated Gases have a disporportionately large impact on the
@@ -239,13 +240,113 @@
       let yearMin = 2010;
       let yearMax = 2022;
 
-      let multiSelect = document.getElementById("multi-select");
+      let dummy;
 
-      for (let i = yearMin; i <= yearMax; i++) {
-        let option = document.createElement("option");
-        option.value = i;
-        option.text = i;
-        multiSelect.appendChild(option);
+      // From: https://stackoverflow.com/questions/36754940/check-multiple-checkboxes-with-click-drag
+      var mouseDown = 0;
+      document.body.onmousedown = function () {
+        ++mouseDown;
+      };
+      document.body.onmouseup = function () {
+        --mouseDown;
+      };
+      //   let multiSelect = document.getElementById("multi-select");
+
+      //   for (let i = yearMin; i <= yearMax; i++) {
+      //     let option = document.createElement("option");
+      //     option.value = i;
+      //     option.text = i;
+      //     multiSelect.appendChild(option);
+      //   }
+
+      let multiSelect = document.querySelector(".yearOptions");
+      for (let i = yearMin; i <= yearMax - 2; i++) {
+        let input = document.createElement("input");
+        input.type = "checkbox";
+        input.id = i;
+        input.value = i;
+
+        //make the input invisible so we can style the checkbox
+        input.style.display = "none";
+
+        //add a span to style the checkbox
+        let span = document.createElement("span");
+        span.className = "checkbox";
+        span.style.width = "20px";
+        span.style.height = "20px";
+        span.style.border = "2px solid black";
+        span.style.display = "inline-block";
+        span.style.cursor = "pointer";
+        span.style.textAlign = "center";
+        span.style.margin = "5px";
+        span.style.backgroundColor = "white";
+
+        // add checkmark to span if input is checked
+        input.onchange = function () {
+          console.log("input changed");
+          if (input.checked) {
+            span.innerHTML = "✓";
+          } else {
+            span.innerHTML = "";
+          }
+
+          dummy();
+        };
+
+        // make the span and its children unselectable
+        span.style.userSelect = "none";
+        span.style.webkitUserSelect = "none";
+        span.style.MozUserSelect = "none";
+        span.style.msUserSelect = "none";
+        span.onclick = function () {
+          input.checked = !input.checked;
+          input.onchange();
+        };
+
+        //make it so the check mark in the span doesn't change the spacing
+        span.style.lineHeight = "20px";
+
+        // Create a div to put the input, span, and label in
+        let divContainer = document.createElement("div");
+        divContainer.style.display = "flex";
+        divContainer.style.alignItems = "center";
+        divContainer.style.margin = "5px";
+
+        divContainer.appendChild(input);
+        divContainer.appendChild(span);
+
+        let label = document.createElement("label");
+        // make label un-selectable
+        label.style.userSelect = "none";
+        label.htmlFor = i;
+        label.appendChild(document.createTextNode(i));
+        divContainer.appendChild(label);
+        multiSelect.appendChild(divContainer);
+        //give each an onmouseover event
+        // From: https://stackoverflow.com/questions/36754940/check-multiple-checkboxes-with-click-drag
+        input.onmouseover = function (box) {
+          if (mouseDown) {
+            box.srcElement.checked = 1 - box.srcElement.checked;
+            console.log(box);
+            input.onchange();
+            // box.checked = 1;
+            // ^ If you only want to turn them on, use this.
+          }
+        };
+
+        label.onmouseover = function (e) {
+          if (mouseDown) {
+            input.checked = 1 - input.checked;
+            input.onchange();
+          }
+        };
+
+        span.onmouseover = function (e) {
+          if (mouseDown) {
+            input.checked = 1 - input.checked;
+            input.onchange();
+          }
+        };
       }
 
       let numYears = 13;
@@ -262,7 +363,6 @@
         .scale(400);
 
       let path = d3.geoPath().projection(projection);
-
 
       // Generated using ColorBrewer with 9 colors
       let colors = [
@@ -428,14 +528,18 @@
 
               // Create an SVG element for the legend
               if (i == 0) {
-            }
-            d3.selectAll(".legend-rect" + i).remove();
-            d3.selectAll(".legend-svg" + i).remove();
-            d3.select(".legendGradient" + i).remove();
-            d3.selectAll(".legend-axis" + i).remove();
+              }
+              d3.selectAll(".legend-rect" + i).remove();
+              d3.selectAll(".legend-svg" + i).remove();
+              d3.select(".legendGradient" + i).remove();
+              d3.selectAll(".legend-axis" + i).remove();
 
               let legendSvg = svg;
-              legendSvg.append("svg").attr("width", 350).attr("height", 50).attr("class", "legend-svg" + i);
+              legendSvg
+                .append("svg")
+                .attr("width", 350)
+                .attr("height", 50)
+                .attr("class", "legend-svg" + i);
 
               // Define legend parameters
               let legendWidth = 350;
@@ -634,7 +738,7 @@
 
           console.log(stateTotalsByYear);
 
-          drawMaps([2022], stateTotalsByYear);
+          drawMaps([2020], stateTotalsByYear);
         } catch (error) {
           console.error("Error loading data:", error);
         }
@@ -643,16 +747,29 @@
       gatherDataAndDraw();
 
       // Add event listener to the multi-select element
-      multiSelect.addEventListener("change", function () {
-        let selectedYears = Array.from(this.selectedOptions).map(
-          (option) => option.value
-        );
+      //   multiSelect.addEventListener("change", function () {
+      //     let selectedYears = Array.from(this.selectedOptions).map(
+      //       (option) => option.value
+      //     );
 
-        if(selectedYears.length == 0) {
-          selectedYears = [2022];
-        }
+      //     if (selectedYears.length == 0) {
+      //       selectedYears = [2022];
+      //     }
 
-        drawMaps(selectedYears, stateTotalsByYear);
+      //     drawMaps(selectedYears, stateTotalsByYear);
+      //   });
+
+      // Draw maps for the selected years whenever a checkbox is clicked
+      let checkboxes = document.querySelectorAll("input[type=checkbox]");
+      checkboxes.forEach((checkbox) => {
+        dummy = function () {
+          let selectedYears = Array.from(checkboxes)
+            .filter((checkbox) => checkbox.checked)
+            .map((checkbox) => checkbox.value);
+          if (selectedYears.length != 0) {
+            drawMaps(selectedYears, stateTotalsByYear);
+          }
+        };
       });
 
       // BELOW IS THE CODE I ADDED FOR A RADIAL PLOT -- I think it is difficult to read, it might be better just to do a line graph or bar chart
@@ -788,13 +905,15 @@
 
       // Creating a line graph of top 5 countries CO2 emissons from 2010-2022
 
-    // Importing the data and setting the height and width
-    d3.csv("./Data Sources/Our World in Data- GHG Emissions by Country.csv", function (data) {
-        const margin = { top: 50, right: 240, bottom: 50, left: 130 };
-        const width = 1000 - margin.left - margin.right;
-        const height = 650 - margin.top - margin.bottom; // Adjusted height to fit at the top
-        
-        const svg = d3
+      // Importing the data and setting the height and width
+      d3.csv(
+        "./Data Sources/Our World in Data- GHG Emissions by Country.csv",
+        function (data) {
+          const margin = { top: 50, right: 240, bottom: 50, left: 130 };
+          const width = 1000 - margin.left - margin.right;
+          const height = 650 - margin.top - margin.bottom; // Adjusted height to fit at the top
+
+          const svg = d3
             .select("#linegraph")
             .append("svg")
             .attr("width", width + margin.left + margin.right)
@@ -805,15 +924,14 @@
               "translate(" + margin.left + "," + margin.top + ")"
             ); // Removed margin adjustment
 
-        // x axis will be for years (2010 to 2020 only because those are the years in the data above)
-        const xScale = d3.scaleLinear()
+          // x axis will be for years (2010 to 2020 only because those are the years in the data above)
+          const xScale = d3
+            .scaleLinear()
             .domain([2010, 2020])
             .range([0, width]);
 
-        // y axis will be for ghg
-        const yScale = d3.scaleLinear()
-            .domain([0, 12000])
-            .range([height, 0]);
+          // y axis will be for ghg
+          const yScale = d3.scaleLinear().domain([0, 12000]).range([height, 0]);
 
           const colors = [
             "#e6b400",
@@ -829,10 +947,11 @@
             .domain(data.map((d) => d.country))
             .range(colors);
 
-        // lines for the graph
-        const line = d3.line()
-            .x(d => xScale(d.year))
-            .y(d => yScale(d.total_ghg));
+          // lines for the graph
+          const line = d3
+            .line()
+            .x((d) => xScale(d.year))
+            .y((d) => yScale(d.total_ghg));
 
           // need to sort the data by year so that the line is smooth
           data.sort((a, b) => a.year - b.year);
@@ -873,13 +992,14 @@
             .style("font-size", "20px")
             .text("CO2 Emissions (Excluding Land Use)");
 
-        // add a title
-        svg.append('text')
-            .attr('x', width / 2)
-            .attr('y', 0 - margin.top / 2)
-            .attr('text-anchor', 'middle')
-            .style('font-size', '24px')
-            .text('CO2 Emissions by Country (2010-2020)');
+          // add a title
+          svg
+            .append("text")
+            .attr("x", width / 2)
+            .attr("y", 0 - margin.top / 2)
+            .attr("text-anchor", "middle")
+            .style("font-size", "24px")
+            .text("CO2 Emissions by Country (2010-2020)");
 
           // adding a legend
           const legend = svg
@@ -914,121 +1034,142 @@
           // United States Flag
           const usLoc = data.find((d) => d.country === "United States");
 
-        svg.append('image')
-            .attr('href', './Flag Images/american-flag.png')
-            .attr('x', xScale(usLoc.year) + 635)
-            .attr('y', yScale(usLoc.total_ghg) + 5)
-            .attr('width', 50)
-            .attr('height', 50);
-
+          svg
+            .append("image")
+            .attr("href", "./Flag Images/american-flag.png")
+            .attr("x", xScale(usLoc.year) + 635)
+            .attr("y", yScale(usLoc.total_ghg) + 5)
+            .attr("width", 50)
+            .attr("height", 50);
 
           // China Flag
           const chinaLoc = data.find((d) => d.country === "China");
 
-        svg.append('image')
-            .attr('href', './Flag Images/china-flag.png')
-            .attr('x', xScale(chinaLoc.year) + 630)
-            .attr('y', yScale(chinaLoc.total_ghg) - 140)
-            .attr('width', 60)
-            .attr('height', 60);
-
+          svg
+            .append("image")
+            .attr("href", "./Flag Images/china-flag.png")
+            .attr("x", xScale(chinaLoc.year) + 630)
+            .attr("y", yScale(chinaLoc.total_ghg) - 140)
+            .attr("width", 60)
+            .attr("height", 60);
 
           // India Flag
           const indiaLoc = data.find((d) => d.country === "India");
 
-        svg.append('image')
-            .attr('href', './Flag Images/india-flag.png')
-            .attr('x', xScale(indiaLoc.year) + 635)
-            .attr('y', yScale(indiaLoc.total_ghg) - 57)
-            .attr('width', 50)
-            .attr('height', 50);
-
+          svg
+            .append("image")
+            .attr("href", "./Flag Images/india-flag.png")
+            .attr("x", xScale(indiaLoc.year) + 635)
+            .attr("y", yScale(indiaLoc.total_ghg) - 57)
+            .attr("width", 50)
+            .attr("height", 50);
 
           // Russia Flag
           const russiaLoc = data.find((d) => d.country === "Russia");
 
-        svg.append('image')
-            .attr('href', './Flag Images/russia-flag.png')
-            .attr('x', xScale(russiaLoc.year) + 635)
-            .attr('y', yScale(russiaLoc.total_ghg) - 35)
-            .attr('width', 50)
-            .attr('height', 50);
-
+          svg
+            .append("image")
+            .attr("href", "./Flag Images/russia-flag.png")
+            .attr("x", xScale(russiaLoc.year) + 635)
+            .attr("y", yScale(russiaLoc.total_ghg) - 35)
+            .attr("width", 50)
+            .attr("height", 50);
 
           // Japan flag
           const japanLoc = data.find((d) => d.country === "Japan");
 
-        svg.append('image')
-            .attr('href', './Flag Images/japan-flag.png')
-            .attr('x', xScale(japanLoc.year) + 635)
-            .attr('y', yScale(japanLoc.total_ghg) - 15)
-            .attr('width', 50)
-            .attr('height', 50);
+          svg
+            .append("image")
+            .attr("href", "./Flag Images/japan-flag.png")
+            .attr("x", xScale(japanLoc.year) + 635)
+            .attr("y", yScale(japanLoc.total_ghg) - 15)
+            .attr("width", 50)
+            .attr("height", 50);
 
-        // Define the positions and messages for each point
-        const points = [
-            { x: 400, y: 38, text: 'While other countries have seen steady decreases in greenhouse gas emissions, China is still on the rise.' },
-            { x: 350, y: 286, text: 'The United States has been the country with the second highest greenhouse gas emissions in thoughout the decade 2010-2020.' },
-            { x: 602, y: 300, text: 'More drastic dip due to COVID pandemic.' }
-        ];
+          // Define the positions and messages for each point
+          const points = [
+            {
+              x: 400,
+              y: 38,
+              text: "While other countries have seen steady decreases in greenhouse gas emissions, China is still on the rise.",
+            },
+            {
+              x: 350,
+              y: 286,
+              text: "The United States has been the country with the second highest greenhouse gas emissions in thoughout the decade 2010-2020.",
+            },
+            { x: 602, y: 300, text: "More drastic dip due to COVID pandemic." },
+          ];
 
-        // Append circles for the points
-        svg.selectAll('.point')
+          // Append circles for the points
+          svg
+            .selectAll(".point")
             .data(points)
             .enter()
-            .append('circle')
-            .attr('class', 'point')
-            .attr('cx', d => d.x)
-            .attr('cy', d => d.y)
-            .attr('r', 10) // Adjust the radius as needed
-            .style('fill', '#f5f5f5')
-            .style('stroke', 'black')
-            .style('stroke-width', 5)
-            .style('cursor', 'pointer')
-        .on('mouseover', function(d) {
-            const tooltipBox = svg.append('foreignObject')
-                .attr('class', 'tooltip-box')
-                .attr('x', d.x - 30) // Adjust the x position as needed
-                .attr('y', d === points[0] ? d.y + 10 : d.y - 20)
-                .attr('width', 120) // Adjust the width of the box as needed
-                .attr('height', 100)
-                .style('fill', 'white')
-                .style('stroke', 'black')
-                .style('stroke-width', 2);
+            .append("circle")
+            .attr("class", "point")
+            .attr("cx", (d) => d.x)
+            .attr("cy", (d) => d.y)
+            .attr("r", 10) // Adjust the radius as needed
+            .style("fill", "#f5f5f5")
+            .style("stroke", "black")
+            .style("stroke-width", 5)
+            .style("cursor", "pointer")
+            .on("mouseover", function (d) {
+              const tooltipBox = svg
+                .append("foreignObject")
+                .attr("class", "tooltip-box")
+                .attr("x", d.x - 30) // Adjust the x position as needed
+                .attr("y", d === points[0] ? d.y + 10 : d.y - 20)
+                .attr("width", 120) // Adjust the width of the box as needed
+                .attr("height", 100)
+                .style("fill", "white")
+                .style("stroke", "black")
+                .style("stroke-width", 2);
 
-            const tooltipText = svg.append('foreignObject')
-                .attr('class', 'tooltip')
-                .attr('x', d.x - 40) // Adjust the x position as needed
-                .attr('y', d === points[0] ? d.y + 22 : d === points[1] ? d.y - 105 : d.y + 25)
-                .attr('width', 250) // Adjust the width of the box as needed
-                .attr('height', 100)
-                .append('xhtml:div')
-                .style('font-size', '18px')
-                .style('text-align', 'center')
+              const tooltipText = svg
+                .append("foreignObject")
+                .attr("class", "tooltip")
+                .attr("x", d.x - 40) // Adjust the x position as needed
+                .attr(
+                  "y",
+                  d === points[0]
+                    ? d.y + 22
+                    : d === points[1]
+                    ? d.y - 105
+                    : d.y + 25
+                )
+                .attr("width", 250) // Adjust the width of the box as needed
+                .attr("height", 100)
+                .append("xhtml:div")
+                .style("font-size", "18px")
+                .style("text-align", "center")
                 .html(d.text);
 
-            const textHeight = tooltipText.node().getBBox().height;
+              const textHeight = tooltipText.node().getBBox().height;
 
-            tooltipBox.attr('height', textHeight + 20) // Adjust the height of the box based on the text height
-                .attr('y', d === points[0] ? d.y + 10 : d.y - 20); // Re-adjust the y position based on the text height
-        })
+              tooltipBox
+                .attr("height", textHeight + 20) // Adjust the height of the box based on the text height
+                .attr("y", d === points[0] ? d.y + 10 : d.y - 20); // Re-adjust the y position based on the text height
+            })
 
-        .on('mouseout', function() {
-            // Remove the message when mouseout
-            svg.selectAll('.tooltip').remove();
-            svg.selectAll('.tooltip-box').remove();
-        });
-
-    });
-
+            .on("mouseout", function () {
+              // Remove the message when mouseout
+              svg.selectAll(".tooltip").remove();
+              svg.selectAll(".tooltip-box").remove();
+            });
+        }
+      );
 
       // Creating a tree map to show how much of the total CO2 emissions each of these countries takes up
 
-    // Importing the data and setting the height and width
-    d3.csv("./Data Sources/Our World in Data- Grouped GHG.csv", function (data) {
-        const margin = { top: 50, right: 240, bottom: 50, left: 130 };
-        const width = 1000 - margin.left - margin.right;
-        const height = 650 - margin.top - margin.bottom;
+      // Importing the data and setting the height and width
+      d3.csv(
+        "./Data Sources/Our World in Data- Grouped GHG.csv",
+        function (data) {
+          const margin = { top: 50, right: 240, bottom: 50, left: 130 };
+          const width = 1000 - margin.left - margin.right;
+          const height = 650 - margin.top - margin.bottom;
 
           const svg = d3
             .select("#treemap")
@@ -1036,12 +1177,15 @@
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-        
-        // Only doing 2022 for now
-        var filteredData = data.filter(function(d) {
+            .attr(
+              "transform",
+              "translate(" + margin.left + "," + margin.top + ")"
+            );
+
+          // Only doing 2022 for now
+          var filteredData = data.filter(function (d) {
             return d.year === "2020";
-        });
+          });
 
           var treemap = d3.treemap().size([width, height]).padding(1);
 
@@ -1053,9 +1197,14 @@
             })
             .entries(filteredData);
 
-        // Creating a heirarchy for the tree map
-        var root = d3.hierarchy({values: nestedData}, function(d) { return d.values; })
-                    .sum(function(d) { return +d.total_ghg; });
+          // Creating a heirarchy for the tree map
+          var root = d3
+            .hierarchy({ values: nestedData }, function (d) {
+              return d.values;
+            })
+            .sum(function (d) {
+              return +d.total_ghg;
+            });
 
           treemap(root);
 
@@ -1102,54 +1251,65 @@
               return colors(d.data.country);
             });
 
-        // Adding the country names
-        svg.selectAll("text")
-          .data(root.leaves())
-          .enter()
-          .append("text")
-          .attr("x", function(d) { return d.x0 + 5; })
-          .attr("y", function(d) { return d.y0 + 20; })
-          .text(function(d) { return d.data.country; })
-          .attr("fill", "white")
-          .style("font-size", "20px");
+          // Adding the country names
+          svg
+            .selectAll("text")
+            .data(root.leaves())
+            .enter()
+            .append("text")
+            .attr("x", function (d) {
+              return d.x0 + 5;
+            })
+            .attr("y", function (d) {
+              return d.y0 + 20;
+            })
+            .text(function (d) {
+              return d.data.country;
+            })
+            .attr("fill", "white")
+            .style("font-size", "20px");
 
-        svg.append('image')
-            .attr('href', './Flag Images/american-flag.png')
-            .attr('x', 130)
-            .attr('y', 320)
-            .attr('width', 60)
-            .attr('height', 60);
+          svg
+            .append("image")
+            .attr("href", "./Flag Images/american-flag.png")
+            .attr("x", 130)
+            .attr("y", 320)
+            .attr("width", 60)
+            .attr("height", 60);
 
-          svg.append('image')
-            .attr('href', './Flag Images/china-flag.png')
-            .attr('x', 60)
-            .attr('y', -10)
-            .attr('width', 70)
-            .attr('height', 70);
+          svg
+            .append("image")
+            .attr("href", "./Flag Images/china-flag.png")
+            .attr("x", 60)
+            .attr("y", -10)
+            .attr("width", 70)
+            .attr("height", 70);
 
-          svg.append('image')
-            .attr('href', './Flag Images/india-flag.png')
-            .attr('x', 60)
-            .attr('y', 460)
-            .attr('width', 60)
-            .attr('height', 60);
+          svg
+            .append("image")
+            .attr("href", "./Flag Images/india-flag.png")
+            .attr("x", 60)
+            .attr("y", 460)
+            .attr("width", 60)
+            .attr("height", 60);
 
-          svg.append('image')
-            .attr('href', './Flag Images/russia-flag.png')
-            .attr('x', 362)
-            .attr('y', -5)
-            .attr('width', 60)
-            .attr('height', 60);
+          svg
+            .append("image")
+            .attr("href", "./Flag Images/russia-flag.png")
+            .attr("x", 362)
+            .attr("y", -5)
+            .attr("width", 60)
+            .attr("height", 60);
 
-          svg.append('image')
-            .attr('href', './Flag Images/japan-flag.png')
-            .attr('x', 560)
-            .attr('y', -5)
-            .attr('width', 60)
-            .attr('height', 60);
-
-        });
-
+          svg
+            .append("image")
+            .attr("href", "./Flag Images/japan-flag.png")
+            .attr("x", 560)
+            .attr("y", -5)
+            .attr("width", 60)
+            .attr("height", 60);
+        }
+      );
     </script>
   </body>
 </html>
