@@ -34,5 +34,4 @@ function updateChart(selectViolence) {
 
   // Chart return at end
   return svg.node();
-  
 }
