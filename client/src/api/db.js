@@ -55,7 +55,7 @@ export async function getAllUserRecords() {
 }
 
 /** @class for recording question answers */
-export class QuestionStat {
+export class QuestionState {
 
     /** Question that this stat is associated with */
     questionNumber = null;
@@ -90,7 +90,7 @@ export class QuestionStat {
         this.relativeError = (Math.log2(Math.abs(userAnswer - this.correctAnswer) + (1/8)) === -3) ? 0 : Math.log2(Math.abs(userAnswer - this.correctAnswer) + (1/8));
     }
 
-    /** Make this {@link QuestionStat} JSON serializable for Firestore Database */
+    /** Make this {@link QuestionState} JSON serializable for Firestore Database */
     toJson() {
         return {
             questionNumber: this.questionNumber,

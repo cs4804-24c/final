@@ -1,32 +1,34 @@
 import React, { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import { QuestionStat, sendAnswer } from "../api/db"
+import { QuestionState, sendAnswer } from "../api/db"
 import { auth } from "../api/firebase"
 import "./mobile.css"
 
 import activeFigure from "../randomizations/img/active_figure.png";
 import neutralFigure from "../randomizations/img/neutral_figure.png";
 
-/** Correct answers to questions in order */
-
 /** Number of questions to show the user */
 const numQuestions = 6;
 
 function VisualizationProblemDisplay() {
-    const visualizationTitles = ["test_title", "Risk of Ovarian Cancer for Women with BRCA1 Gene Changes", "Risk of Ovarian Cancer for Women with BRCA2 Gene Changes"]
-    const [questionNumber, setQuestionNumber] = useState(1)
+    const visualizationTitles = ["Lake Disease Icon Array", "Swamp Disease", "Cavern Disease Icon Array", "Jungle Disease", "Mountain Disease Icon Array", "Ocean Disease"]
     const [visualizationTitle, setVisualizationTitle] = useState(visualizationTitles[0])
+    const [questionNumber, setQuestionNumber] = useState(1)
+    /** Current question statistics — necessary to count how long it takes to answer */
+    const [currentQuestionState, setCurrentQuestionState] = useState(null)
     const [currentQuestionAnswered, setCurrentQuestionAnswered] = useState(false)
     const [answerFeedback, setAnswerFeedback] = useState("")
-    const [navigationError, setNavigationError] = useState("")
-
-    const [currentAnswer, setCurrentAnswer] = useState(null);
-    const [currentTotal, setCurrentTotal] = useState(null);
+    const [currentAnswer, setCurrentAnswer] = useState(null)
+    const [currentTotal, setCurrentTotal] = useState(null)
+    const navigate = useNavigate()
 
     const questions = [
-        `On average, about how many out of the ${currentTotal} women in the sample above will get ovarian cancer sometime during their lives?`,
-        `Based on the proportion described above, by age 80, about how many who have BRCA1 gene changes out of a sample of 1000 women will get ovarian cancer?`,
-        `For women who have BRCA2 gene changes, by age 80, the risk of ovarian cancer is higher than average. Given that a proportion of women who have BRCA2 gene changes out of the sample of ${currentTotal} above will get ovarian cancer by age 80, about how many who have BRCA2 gene changes out of a sample of 1000 women will get ovarian cancer?`
+        `About how many out of the total ${currentTotal} people in the sample will get Lake Disease sometime during their lives?`,
+        `About how many out of a sample of 20 people will get Swamp Disease at some point during their lives?`,
+        `About how many out of the total ${currentTotal} people in the sample will get Cavern Disease sometime during their lives?`,
+        `About how many out of a sample of 60 people will get Jungle Disease at some point during their lives?`,
+        `About how many out of the total ${currentTotal} people in the sample will never get Mountain Disease sometime during their lives?`,
+        `About how many out of a sample of 60 people will never get Ocean Disease at some point during their lives?`
     ]
 
     useEffect(() => {
@@ -35,15 +37,13 @@ function VisualizationProblemDisplay() {
         return () => { window.removeEventListener("resize", handleResize); };
     }, []); //Runs only on the first render.
 
-    useEffect(() => createImage, []);
-
     function clearSVG() { d3.select("#icon-array").selectAll("*").remove(); }
 
     function createImage() {
-
         //q1: 1-2 rows, 1-2 highlighted
         //q3: 3-5 rows; 10,15,20,25 highlighted
         //q5: 3-5 rows; 10,15,20,25 highlighted
+        //q2, q4, and q6 use control text
         const numInRow = 10;
         const numRows = questionNumber === 1
             ? Math.floor(Math.random() * 2 + 1)
@@ -94,10 +94,7 @@ function VisualizationProblemDisplay() {
             .attr("height", 42);
     }
 
-    /** Current question statistics— necessary to count how long it takes to answer */
-    const [currentQuestionStat, setCurrentQuestionStat] = useState(null);
-
-    const navigate = useNavigate()
+    useEffect(() => createImage, []);
 
     /** Title component */
     const Title = () => (
@@ -106,17 +103,11 @@ function VisualizationProblemDisplay() {
         </h1>
     );
 
-    /** Error message for navigation handler */
-    const NavigationErrorDisplay = () => <div className="block">
-        <p className="is-family-monospace has-text-centered has-text-danger-dark">
-            {navigationError}
-        </p>
-    </div>;
-
     /** Text for the current question */
     const QuestionText = () => (
+        //((questionNumber - 1) % 3)
         <label className="label is-size-6 is-family-monospace has-text-weight-light" >
-            {questions[((questionNumber - 1) % 3)]}
+            {questions[questionNumber - 1]}
         </label>
     );
     /** Feedback for the current question */
@@ -129,31 +120,30 @@ function VisualizationProblemDisplay() {
     )
     /** Screen displaying a start button that only appears when there's no question being answered */
     const StartScreen = () => {
-        if (currentQuestionStat) { return; }
+        if (currentQuestionState) { return; }
 
-        function startExam() { setCurrentQuestionStat(new QuestionStat(questionNumber, currentAnswer)); }
+        function startQuiz() { setCurrentQuestionState(new QuestionState(questionNumber, currentAnswer)); }
 
         return (
             <section className={`is-centered has-text-centered section`}>
-                <Title />
+                <h1 class="is-size-2 is-family-primary has-text-weight-bold">Icon Array 6-Question Quiz</h1>
                 <div className="buttons is-centered" style={{ marginTop: "2rem" }}>
-                    <button className="button is-medium is-success has-text-black is-family-code" onClick={startExam}>Click To Start</button>
+                    <button className="button is-medium is-success has-text-black is-family-code" onClick={startQuiz}>Click To Start</button>
                 </div>
             </section>
         )
     }
 
-    function handleNextPress() {
+    function moveToNextScreen() {
         // Guard clauses
         if (questionNumber === numQuestions) { navigate("/thank_you"); return; } // Navigate to /thank_you if there are no more questions
         // Go to the next question
-        const nextQuestionNumber = questionNumber + 1;
+        const nextQuestionNumber = questionNumber + 1
         setQuestionNumber(nextQuestionNumber)
         setVisualizationTitle(visualizationTitles[visualizationTitles.indexOf(visualizationTitle) + 1])
         setCurrentQuestionAnswered(false)
         setAnswerFeedback("")
-        setNavigationError("")
-        setCurrentQuestionStat(new QuestionStat(nextQuestionNumber, currentAnswer));
+        setCurrentQuestionState(new QuestionState(nextQuestionNumber, currentAnswer))
         document.getElementById("userAnswer").value = ""
         clearSVG()
         createImage()
@@ -168,21 +158,21 @@ function VisualizationProblemDisplay() {
 
             // Handle submission
             const answer = parseInt(submission)
-            currentQuestionStat.answer(answer);
+            currentQuestionState.answer(answer)
             setCurrentQuestionAnswered(true)
             setAnswerFeedback("Submitted successfully! Redirecting to the next question...")
-            sendAnswer(currentQuestionStat, auth.currentUser).then((dbResult) => { console.log(dbResult) })
+            sendAnswer(currentQuestionState, auth.currentUser).then((dbResult) => { console.log(dbResult) })
 
-            setTimeout(() => { handleNextPress() }, 1500);
+            setTimeout(() => { moveToNextScreen() }, 1500)
         }
 
-        return <button className="button is-small is-link is-family-code" onClick={handleSubmitPress}>Submit</button>;
+        return <button className="button is-small is-link is-family-code" onClick={handleSubmitPress}>Submit</button>
     }
 
 
     return [
         <StartScreen />,
-        <section key="exam" className={`section ${!currentQuestionStat && "is-hidden"}`} style={{ backgroundColor: '#f5f5f5' }}>
+        <section key="exam" className={`section ${!currentQuestionState && "is-hidden"}`} style={{ backgroundColor: '#f5f5f5' }}>
             <Title />
             <div className="box mt-3">
                 <div className="media" style={{ display: "flex", flexDirection: 'column', alignItems: 'center' }}>
@@ -203,7 +193,6 @@ function VisualizationProblemDisplay() {
                     </div>
                 </div>
             </div>
-            <NavigationErrorDisplay />
         </section>
     ]
 }

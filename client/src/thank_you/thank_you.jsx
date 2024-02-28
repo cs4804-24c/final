@@ -13,7 +13,7 @@ function ThankYou() {
             </h1>
             <div className = "block mt-6" style={{minHeight: "60vh"}}>
                 <div className = "buttons is-centered">
-                    <button className = "button is-medium is-warning has-text-black is-family-code" onClick={handleClick}>Take survey again</button>
+                    <button className = "button is-medium is-warning has-text-black is-family-code" onClick={handleClick}>Take quiz again</button>
                 </div>
             </div>
         </section>
