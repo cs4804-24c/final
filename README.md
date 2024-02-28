@@ -1,6 +1,6 @@
 Final Project - Interactive Data Visualization  
 ===
-
+Kendall Haddigan, Andrew Sosa, Nicholas Whalen
 Description
 ---
 The Index.html file and the style.css file are our code for the project. We have also added our process book to the github in pdf format.
