@@ -661,7 +661,7 @@
 
           console.log(stateTotalsByYear);
 
-          drawMaps(2022, stateTotalsByYear);
+          drawMaps([2022], stateTotalsByYear);
         } catch (error) {
           console.error("Error loading data:", error);
         }
@@ -674,6 +674,10 @@
         let selectedYears = Array.from(this.selectedOptions).map(
           (option) => option.value
         );
+
+        if(selectedYears.length == 0) {
+          selectedYears = [2022];
+        }
 
         drawMaps(selectedYears, stateTotalsByYear);
       });
