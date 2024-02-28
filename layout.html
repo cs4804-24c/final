@@ -12,9 +12,19 @@
     .dot {
       opacity: 0.7;
     }
+
+    /* Add or remove this to specific charts to flip them */
+    .left-chart {
+      transform: scaleX(-1); 
+    }
   </style>
 </head>
 <body>
+  <select id="violenceDropdown">
+    <option value="All">All</option>
+    <option value="1">Protester Violence</option>
+    <option value="0">No Violence</option>
+  </select>
   <!--Use this div element to display the chart. Move it anywhere, but don't change th id!-->
   <div id="chart-display"></div>
 </body>
