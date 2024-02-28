@@ -3,6 +3,7 @@ import ShotChart from "../Charts/ShotChart";
 import {useEffect, useState} from "react";
 import StatTable from "./Components/StatTable";
 import "./PlayerPage.css"
+import Banner from "../Banner";
 
 export default function PlayerPage() {
     const params = useParams();
@@ -10,6 +11,7 @@ export default function PlayerPage() {
     const [gameList, setGameList] = useState([])
     const [selectedGame, setGame] = useState(" ")
     const [selectedSeason, setSeason] = useState("2023-24")
+    const [playerName, setPlayerName] = useState("");
 
     function selectGame(event) {
         setGame(event.target.value);
@@ -56,9 +58,24 @@ export default function PlayerPage() {
             })
     }, [params.playerId, selectedSeason])
 
+    //player name
+    useEffect( () => {
+        fetch('/players.json')
+            .then(res => res.json())
+            .then( data => {
+                data.forEach(e => {
+                    if(e.id == params.playerId) {
+                        setPlayerName(e['full_name']);
+                    }
+                })
+            })
+    }, [])
+
 
     return (
         <div>
+            <Banner/>
+            <h1>{playerName}</h1>
             <img height='100em' src={`https://cdn.nba.com/headshots/nba/latest/1040x760/${params.playerId}.png`} alt={"Player Headshot"}></img><br/>
             <label>Choose a season: </label>
             <select onChange={selectSeason}>

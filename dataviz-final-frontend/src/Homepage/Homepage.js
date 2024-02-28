@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import './Homepage.css';
+import Banner from "../Banner";
 
 
 
@@ -36,6 +37,7 @@ export default function Homepage() {
 
     return (
         <div className='homepage'>
+            <Banner/>
             <h4>Select a Player:</h4>
             <select type="text" onChange={onPlayerSelect}>
                 {

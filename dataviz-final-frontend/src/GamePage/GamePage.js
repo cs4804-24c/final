@@ -2,6 +2,7 @@ import {useParams} from "react-router-dom";
 import {useEffect, useRef, useState} from "react";
 import * as d3 from "d3";
 import Modal from "react-modal";
+import Banner from "../Banner";
 
 
 export default function GamePage() {
@@ -92,6 +93,7 @@ export default function GamePage() {
 
     return (
         <div style={{textAlign: "center"}}>
+            <Banner/>
             <svg ref={ref}/>
             <Modal
                 isOpen={isOpen}

@@ -1,7 +1,14 @@
 .hold-table {
-    display:flex
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
 }
 
 table {
     margin:0.2em;
+}
+
+body {
+    text-align: center;
 }
