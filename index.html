@@ -948,38 +948,83 @@
                   .style("text-anchor", "middle")
                   .text(yAx);
 
-          svg.append("text")
-                  .attr("x", width / 2)
-                  .attr("y", margin.top / 2)
-                  .attr("text-anchor", "middle")
-                  .style("font-family", "Libre Baskerville")
-                  .style("font-size", "20px")
-                  .text(title);
+          const points = [
+            {
+              x: 230,
+              y: 100,
+              text: toolTip,
+            },
+          ];
 
-          // Append tooltip
-          svg.append("text")
-                  .attr("class", "tooltip")
-                  .attr("x", width / 2)
-                  .attr("y", height / 2)
-                  .attr("text-anchor", "middle")
-                  .style("font-size", "12px")
-                  .style("fill", "black")
-                  .style("opacity", 0)
-                  .style("text-align", "left")
-                  .text(toolTip);
+          // Append circles for the points
+          svg
+                  .selectAll(".point")
+                  .data(points)
+                  .enter()
+                  .append("circle")
+                  .attr("class", "point")
+                  .attr("cx", (d) => d.x)
+                  .attr("cy", (d) => d.y)
+                  .attr("r",220) // Adjust the radius as needed
+                  .attr("opacity", 0)
+                  .style("fill", "#f5f5f5")
+                  .style("stroke", "black")
+                  .style("stroke-width", 5)
+                  .style("cursor", "pointer")
+                  .on("mouseenter", function (d) {
+                    const tooltipBox = svg
+                            .append("foreignObject")
+                            .attr("class", "tooltip-box")
+                            .attr("x", d.x - 30) // Adjust the x position as needed
+                            .attr("y", d === points[0] ? d.y + 10 : d.y - 20)
+                            .attr("width", 120) // Adjust the width of the box as needed
+                            .attr("height", 100)
+                            .style("fill", "white")
+                            .style("stroke", "black")
+                            .style("stroke-width", 2);
 
-          // Add mouseover event to show tooltip
-          svg.on("mouseover", function() {
-            d3.select(this).select(".tooltip").style("opacity", 1);
-          }).on("mouseout", function() {
-            d3.select(this).select(".tooltip").style("opacity", 0);
-          });
+                    const tooltipText = svg
+                            .append("foreignObject")
+                            .attr("class", "tooltip")
+                            .attr("x",d === points[0]
+                                    ? d.x -100
+                                    : d === points[1]
+                                            ? d.x - 125
+                                            : d.x -140)
+                            .attr(
+                                    "y",
+                                    d === points[0]
+                                            ? d.y + 22
+                                            : d === points[1]
+                                                    ? d.y - 125
+                                                    : d.y - 120
+                            )
+                            .attr("width", 250)
+                            .attr("height", 100)
+                            .append("xhtml:div")
+                            .style("font-family", "Libre Baskerville")
+                            .style("font-size", "15px")
+                            .style("text-align", "center")
+                            .html(d.text);
 
+                    const textHeight = tooltipText.node();
+                    //   .getBBox().height;
+
+                    tooltipBox
+                            .attr("height", textHeight + 20) // Adjust the height of the box based on the text height
+                            .attr("y", d === points[0] ? d.y + 10 : d.y - 20); // Re-adjust the y position based on the text height
+                  })
+
+                  .on("mouseout", function () {
+                    // Remove the message when mouseout
+                    svg.selectAll(".tooltip").remove();
+                    svg.selectAll(".tooltip-box").remove();
+                  });
         });
       }
 
       const g1txt = "Carbon Dioxide has decreased due to the efforts of the US to reduce carbon pollution"
-      const g2txt =  "Methane emissions have remained steady as they primarily come from agriculture, fossil fuels and decomposition of landfill waste";
+      const g2txt =  "Methane emissions have remained steady as they primarily come from agriculture, fossil fuels, and decomposition of landfill waste";
       const g3txt = "Nitrous Oxide has decreased due to improved agricultural practices and emissions reduction technologies in the US";
       const g4txt = "Fluorinated GHGs had a drastic drop in emissions in 2009 due to the economic recession and the increase of renewable energy";
 
@@ -991,7 +1036,6 @@
       createAreaChart("./Data Sources/Fluorinated GHGs Only All Years.csv", "#radialPlot4", "#ff69b4", "Fluorinated GHGs Emissions", "Fluorinated GHGs Emissions (Metric Tons)", g4txt);
 
 
-      // Creating a line graph of top 5 countries CO2 emissons from 2010-2022
     // Creating a line graph of top 5 countries CO2 emissons from 2010-2020
 
       // Importing the data and setting the height and width
