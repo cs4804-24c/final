@@ -115,7 +115,8 @@ function hover(tip, pos, text) {
     .join("text")
     .style("dominant-baseline", "ideographic")
     .text((d) => d)
-    .attr("y", (d, i) => (i - (text.length - 1)) * 15 - vertical_offset)
+    .attr("y", (d, i) => (i - (text.length - 1)) * 20 - vertical_offset)
+    .style("font-size", "12pt")
     .style("font-weight", (d, i) => (i === 0 ? "bold" : "normal"));
 
   const bbox = tip.node().getBBox();

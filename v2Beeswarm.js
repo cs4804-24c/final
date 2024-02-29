@@ -2,19 +2,19 @@ function colorMap(d) {
   // Replace with actual column
   switch(d["protesterdemand1"]) {
     case "political behavior, process":
-      return "#8A3FFC";
+      return "#6929c4";
     case "land farm issue":
-      return "#007D79";
+      return "#1192e8";
     case "police brutality":
-      return "#007D79";
+      return "#005d5d"
     case "price increases, tax policy":
-      return "#FF7EB6";
+      return "#9f1853";
     case "labor wage dispute":
-      return "#FA4D56";
+      return "#fa4d56";
     case "removal of politician":
-      return "#FFF1F1";
+      return "#570408";
     case "social restrictions":
-      return "#6FDC8C";
+      return "#198038";
     default:
       console.log(d["protesterdemand1"]);
       return "#000000";
@@ -43,6 +43,12 @@ function violenceTooltip(val) {
 
 
 let flare;
+d3.csv("./reduced_protest_dataV2.csv").then(
+  r => {
+    flare = r;
+    updateChart();
+  }
+);
 
 // Add any other variables for filters here
 let selectViolence = "All";
@@ -50,13 +56,6 @@ let selectProtestDemand = "All";
 let selectStateResponse = "All";
 
 window.onload = async () => {
-  d3.csv("./reduced_protest_dataV2.csv").then(
-    r => {
-      flare = r;
-      updateChart();
-    }
-  );
-
   // For other filters, copy this and change variable and select tag to match the HTML for the new filter
   d3.select('#violenceDropdown')
   .on('change', function() {
@@ -84,9 +83,9 @@ function updateChart() {
   }
 
   const plot = Plot.plot({
-    width: 3000,
-    height: 900,
-    y: {line: true, ticks: 0, label: null, axis: "left"},
+    height: screen.height * 8,
+    width: screen.width * 0.5,
+    y: {domain: [1990, 2020.3], ticks: d3.ticks(1990, 2020, 2020 - 1990), tickFormat: (t) => `${t}`, line: true, reverse: true, label: null, axis: "left"},
     marks: [
       Plot.dotY(flare, Plot.dodgeX({
         y: flare.map(d => parseFloat(d["endfrac"])),
@@ -124,7 +123,7 @@ function updateChart() {
   
   const displayDiv = document.querySelector("#chart-display");
   const divWrapper = document.createElement("div");
-  divWrapper.className = "left-chart";
+  // divWrapper.className = "left-chart";
 
   divWrapper.append(plot);
 
