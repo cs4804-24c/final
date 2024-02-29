@@ -3,7 +3,7 @@
     "children": [
       {
         "name": "Asia",
-        "color": "#f58321",
+        "color": "#ffffcc",
         "children": [
           {"name": "China", "weight": 14.84, "code": "CN"},
           {"name": "Japan", "weight": 5.91, "code": "JP"},
@@ -25,7 +25,7 @@
       },
       {
         "name": "North America",
-        "color": "#ef1621",
+        "color": "#ffcc99",
         "children": [
           {"name": "United States", "weight": 24.32, "code": "US"},
           {"name": "Canada", "weight": 2.09, "code": "CA"},
@@ -34,7 +34,7 @@
       },
       {
         "name": "Europe",
-        "color": "#77bc45",
+        "color": "#ffcccc",
         "children": [
           {"name": "Germany", "weight": 4.54, "code": "DE"},
           {"name": "United Kingdom", "weight": 3.85, "code": "UK"},
@@ -54,7 +54,7 @@
       },
       {
         "name": "South America",
-        "color": "#4aaaea",
+        "color": "#ff99cc",
         "children": [
           {"name": "Brazil", "weight": 2.39, "code": "BR"},
           {"name": "Argentina", "weight": 0.79, "code": "AR"},
@@ -64,14 +64,14 @@
       },
       {
         "name": "Australia",
-        "color": "#00acad",
+        "color": "#ffccff",
         "children": [
           {"name": "Australia", "weight": 1.81, "code": "AU"}
         ]
       },
       {
         "name": "Africa",
-        "color": "#f575a3",
+        "color": "#cc99ff",
         "children": [
           {"name": "Nigeria", "weight": 0.65, "code": "NG"},
           {"name": "Egypt", "weight": 0.45, "code": "EG"},
@@ -80,7 +80,7 @@
       },
       {
         "name": "Rest of the World",
-        "color": "#592c94",
+        "color": "#ccccff",
         "children": [
           {"name": "Rest of the World", "weight": 9.41, "code": "RotW"}
         ]
