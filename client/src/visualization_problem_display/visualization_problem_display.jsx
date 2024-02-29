@@ -54,6 +54,7 @@ function VisualizationProblemDisplay() {
             .text("For every 10 people, 1 person will get Swamp Disease at some point during their lives.")
             setCurrentCorrectAnswer(2)
         } else if (nextQuestionNumber === 4) {
+            console.log(4)
             const svg = d3.select("#control-text")
             .attr("width", 145)
             .attr("height", 245)
@@ -63,6 +64,7 @@ function VisualizationProblemDisplay() {
             .text("For every 30 people, 10 individuals will get Jungle Disease at some point during their lives.")
             setCurrentCorrectAnswer(20)
         } else if (nextQuestionNumber === 6) {
+            console.log(6)
             const svg = d3.select("#control-text")
             .attr("width", 145)
             .attr("height", 245)
@@ -170,8 +172,8 @@ function VisualizationProblemDisplay() {
     function moveToNextScreen() {
         // Guard clauses
         if (questionNumber === numQuestions) { navigate("/thank_you"); return; } // Navigate to /thank_you if there are no more questions
-        const nextQuestionNumber = questionNumber + 1
         clearSVG()
+        const nextQuestionNumber = questionNumber + 1
         setQuestionNumber(nextQuestionNumber)
         generateVisual(nextQuestionNumber)
         setVisualizationTitle(visualizationTitles[visualizationTitles.indexOf(visualizationTitle) + 1])
