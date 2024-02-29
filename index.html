@@ -92,7 +92,7 @@
   }
 
   #left-section {
-    width: 85%;
+    width: 90%;
     padding: 20px;
   }
 
@@ -151,7 +151,7 @@
         "Black only": "#0B6909",
         "Mixed": "#DEDA10",
         "American Indian, Alaskan Native": "#A14DA0",
-        "Hawaiian Pacific Islander only": "#d0743c",
+        "Hawaiian Pacific Islander only": "#D66B19",
         "Married - spouse present": "#999999",
         "Widowed": "#12B2FE",
         "Divorced": "#AB0E45",
@@ -263,7 +263,7 @@ function main(){d3.csv("dataFinal.csv").then(function(data) {// ATUS survey data
     multiplesContainer.each(function(column) {
         const svg = d3.select(this) // creating svg for donut chart
             .append("svg")
-            .attr("width", width)
+            .attr("width", width+20)
             .attr("height", height)
             .append("g")
             .attr("transform", `translate(${width / 2},${height / 2})`)
@@ -277,7 +277,7 @@ function main(){d3.csv("dataFinal.csv").then(function(data) {// ATUS survey data
 
                 d3.select(this.parentNode) // Select the parent SVG of the clicked donut chart
                     .transition().duration(500) 
-                    .attr('width', width * 2.2) // Increase width so there is room for legend
+                    .attr('width', width * 2.7) // Increase width so there is room for legend
                     .attr('height', height * 1);
 
                 svg.selectAll(".legend-circles")
