@@ -85,6 +85,7 @@ svg {
   dominant-baseline: text-before-edge;
 }
 
+/* BEGIN INDEX HTML */
 .simpleVoronoi {
   display: flex;
   justify-content: center;
@@ -110,9 +111,19 @@ svg {
   text-align: center;
 }
 
+/* Footer */
 footer {
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 100px 0 10px 0;
+}
+
+/* END INDEX HTML */
+
+/* BEGIN CODETUTORIAL HTML*/
+.codeTitle {
+  padding: auto;
+  padding-top: 50px;
+  font-size: 1.2rem;
 }
