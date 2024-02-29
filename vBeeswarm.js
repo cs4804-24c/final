@@ -25,6 +25,7 @@ let flare;
 
 // Add any other variables for filters here
 let selectViolence = "All";
+let selectProtestDemand = "All";
 
 window.onload = async () => {
   flare = await d3.csv("./reduced_protest_data.csv");
@@ -33,6 +34,12 @@ window.onload = async () => {
   d3.select('#violenceDropdown')
     .on('change', function() {
      selectViolence = this.value;
+     updateChart();
+  }); 
+
+  d3.select('#protestdemandDropdown')
+    .on('change', function() {
+     selectProtestDemand = this.value;
      updateChart();
   }); 
   
@@ -45,6 +52,7 @@ function updateChart() {
     height: 900,
     y: {line: true, ticks: 0, label: null, axis: "left"},
     marks: [
+
       Plot.dotY(flare, Plot.dodgeX({
         y: flare.map(d => parseFloat(d["endfrac"])),
         sort: "endfrac",
@@ -58,14 +66,27 @@ function updateChart() {
           // }
 
           // Violence or not
-          if(selectViolence === "All") {
+          if(selectViolence === "All" && selectProtestDemand === "All") {
             return d;
           }
-          return (d["protesterviolence"] === selectViolence) ? d : null;
+
+          const violenceMatch = selectViolence === "All" || d["protesterviolence"] === selectViolence;
+
+          // Check if the data point matches the protest demand filter
+          const demandMatch = selectProtestDemand === "All" || d["protesterdemand1"] === selectProtestDemand;
+
+          // Include the data point if it matches both filters
+          return violenceMatch && demandMatch ? d : null;
+
+
         })
       }))
+      
     ]
   });
+
+
+  
   
   const displayDiv = document.querySelector("#chart-display");
   const divWrapper = document.createElement("div");

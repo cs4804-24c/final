@@ -17,16 +17,78 @@
     .left-chart {
       transform: scaleX(-1); 
     }
+
+    #info-box {
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-left: 20px; /* Adjust the margin as needed */
+      width: 200px; /* Adjust the width as needed */
+    }
+
+    /* Style for the title text */
+    #info-box h2 {
+      font-size: 16px;
+      font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin-top: 0;
+    }
+
+    #info-box p {
+      font-size: 14px;
+      font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    #container {
+      display: flex;
+      align-items: flex-start; /* Adjust alignment as needed */
+    }
+
+    #filter-box {
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-left: 20px; /* Adjust the margin as needed */
+      width: 200px; /* Adjust the width as needed */
+    }
+
+    #filter-box h2 {
+      font-size: 16px;
+      font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin-top: 0;
+    }
+
   </style>
 </head>
 <body>
-  <select id="violenceDropdown">
-    <option value="All">All</option>
-    <option value="1">Protester Violence</option>
-    <option value="0">No Violence</option>
-  </select>
   <!--Use this div element to display the chart. Move it anywhere, but don't change th id!-->
+  <div id="container">
   <div id="chart-display"></div>
+  <div id="side-panel">
+  <div id="info-box">
+    <h2>Global Protest Data by Region</h2>
+    <p>Andrew Salls, Neha Kuchipudi, Samuel Darer, Shivali Mani</p>
+    <p>CS 408X Final Project</p>
+  </div>
+  <div id="filter-box">
+    <h2>Filters</h2>
+    <select id="violenceDropdown">
+      <option value="All">All</option>
+      <option value="1">Protester Violence</option>
+      <option value="0">No Violence</option>
+    </select>
+    <select id="protestdemandDropdown">
+      <option value="All">All</option>
+      <option value="political behavior, process">Political Behavior, Process</option>
+      <option value="land farm issue">Land Farm Issue</option>
+      <option value="police brutality">Police Brutality</option>
+      <option value="price increases, tax policy">Price Increases, Tax Policy</option>
+      <option value="labor wage dispute">Labor Wage Dispute</option>
+      <option value="removal of politician">Removal of Politician</option>
+      <option value="social restrictions">Social Restrictions</option>
+    </select>
+  </div>
+</div>
+</div>
 </body>
 </html>
 
