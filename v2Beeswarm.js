@@ -22,7 +22,7 @@ function colorMap(d) {
 };
 
 // Helps build tooltip
-toolBuild = (val, valTitle) => {
+function toolBuild(val, valTitle) {
   if (val == "") {
     return ""
   }
@@ -32,7 +32,7 @@ toolBuild = (val, valTitle) => {
 }
 
 // Helps build tooltip
-violenceTooltip = (val) => {
+function violenceTooltip(val) {
   if (val == 0){
     return `\n No Violence`
   }
@@ -53,7 +53,7 @@ window.onload = async () => {
   d3.csv("./reduced_protest_dataV2.csv").then(
     r => {
       flare = r;
-      updateChart("All");
+      updateChart();
     }
   );
 
@@ -120,6 +120,7 @@ function updateChart() {
       }))
     ]
   });
+  addTooltips(plot);
   
   const displayDiv = document.querySelector("#chart-display");
   const divWrapper = document.createElement("div");
