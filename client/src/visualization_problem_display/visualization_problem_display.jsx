@@ -11,6 +11,7 @@ import neutralFigure from "../randomizations/img/neutral_figure.png";
 const numQuestions = 6;
 
 function VisualizationProblemDisplay() {
+    /*const [screenWidth, setScreenWidth] = useState(window.innerWidth)*/
     const visualizationTitles = ["Lake Disease Icon Array", "Swamp Disease", "Cavern Disease Icon Array", "Jungle Disease", "Mountain Disease Icon Array", "Ocean Disease"]
     const [visualizationTitle, setVisualizationTitle] = useState(visualizationTitles[0])
     const [questionNumber, setQuestionNumber] = useState(1)
@@ -31,75 +32,97 @@ function VisualizationProblemDisplay() {
         `About how many out of a sample of 60 people will never get Ocean Disease at some point during their lives?`
     ]
 
+    /*
     useEffect(() => {
         const handleResize = () => { setScreenWidth(window.innerWidth); };
         window.addEventListener("resize", handleResize);
         return () => { window.removeEventListener("resize", handleResize); };
     }, []); //Runs only on the first render.
+    */
 
-    function clearSVG() { d3.select("#icon-array").selectAll("*").remove(); }
+    function clearSVG() { questionNumber % 2 === 0 ? d3.select("#control-text").selectAll("*").remove() : d3.select("#icon-array").selectAll("*").remove() }
 
-    function determineCorrectAnswer(numberOfRedIcons) {
-        if (questionNumber === 1 || questionNumber === 3) {
-            setCurrentCorrectAnswer(numberOfRedIcons)
-        } else  if (questionNumber === 2) {
+    function generateVisual(nextQuestionNumber) {
+        if (nextQuestionNumber === 2) {
+            console.log(2)
+            const svg = d3.select("#control-text")
+            .attr("width", 145)
+            .attr("height", 245)
+            .append("text")
+            .attr("font-family", "Helvetica Neue, Arial")
+            .style("font-size", "12px")
+            .text("For every 10 people, 1 person will get Swamp Disease at some point during their lives.")
             setCurrentCorrectAnswer(2)
-        } else if (questionNumber === 4) {
+        } else if (nextQuestionNumber === 4) {
+            const svg = d3.select("#control-text")
+            .attr("width", 145)
+            .attr("height", 245)
+            .append("text")
+            .attr("font-family", "Helvetica Neue, Arial")
+            .style("font-size", "12px")
+            .text("For every 30 people, 10 individuals will get Jungle Disease at some point during their lives.")
             setCurrentCorrectAnswer(20)
-        } else if (questionNumber === 5) {
-            setCurrentCorrectAnswer(totalNumberOfIcons - numberOfRedIcons)
-        } else if (questionNumber === 6) {
+        } else if (nextQuestionNumber === 6) {
+            const svg = d3.select("#control-text")
+            .attr("width", 145)
+            .attr("height", 245)
+            .append("text")
+            .attr("font-family", "Helvetica Neue, Arial")
+            .style("font-size", "12px")
+            .text("For every 30 people, 5 individuals will get Ocean Disease at some point during their lives.")
             setCurrentCorrectAnswer(10)
-        }
+        } else {
+            const numberOfIconsPerRow = 10
+            const numberOfRows = nextQuestionNumber === 1
+                ? Math.floor(Math.random() * 2 + 1)
+                : Math.floor(Math.random() * 3 + 3) // Random number of rows
+            const numberOfRedIcons = nextQuestionNumber === 1
+                ? Math.floor(Math.random() * 2 + 1)
+                : [10, 15, 20, 25][Math.floor(Math.random() * 4)] // Random number of highlighted people
+            const sumOfIcons = numberOfIconsPerRow * numberOfRows // Total number of people icons
 
-    }
+            setTotalNumberOfIcons(sumOfIcons)
+            
+            if (nextQuestionNumber === 1 || nextQuestionNumber === 3) {
+                setCurrentCorrectAnswer(numberOfRedIcons)
+            } else if (nextQuestionNumber === 5) {
+                setCurrentCorrectAnswer(totalNumberOfIcons - numberOfRedIcons)
+            }
 
-    function generateImage() {
-        const numberOfIconsPerRow = 10
-        const numberOfRows = questionNumber === 1
-            ? Math.floor(Math.random() * 2 + 1)
-            : Math.floor(Math.random() * 3 + 3) // Random number of rows
-        const numberOfRedIcons = questionNumber === 1
-            ? Math.floor(Math.random() * 2 + 1)
-            : [10, 15, 20, 25][Math.floor(Math.random() * 4)] // Random number of highlighted people
-        const sumOfIcons = numberOfIconsPerRow * numberOfRows // Total number of people icons
+            const svgWidth = numberOfIconsPerRow * 20 + 45 // Width of the SVG container
+            const svgHeight = (sumOfIcons / numberOfIconsPerRow) * 50 + 45 // Height of the SVG container
 
-        setTotalNumberOfIcons(sumOfIcons)
-        determineCorrectAnswer(numberOfRedIcons)
+            // Create SVG container
+            const svg = d3.select("#icon-array")
+                .attr("width", svgWidth)
+                .attr("height", svgHeight)
 
-        const svgWidth = numberOfIconsPerRow * 20 + 45 // Width of the SVG container
-        const svgHeight = (sumOfIcons / numberOfIconsPerRow) * 50 + 45 // Height of the SVG container
+            // Generate array of person data
+            const peopleData = Array.from({ length: sumOfIcons }, (_, i) => ({ id: i }))
 
-        // Create SVG container
-        const svg = d3.select("#icon-array")
-            .attr("width", svgWidth)
-            .attr("height", svgHeight)
-
-        // Generate array of person data
-        const peopleData = Array.from({ length: sumOfIcons }, (_, i) => ({ id: i }))
-
-        // Append person icons
-        const people = svg.selectAll(".person")
-            .data(peopleData)
-            .enter()
-            .append("g")
-            .attr("class", "person")
-            .attr("transform", (d, i) => {
-                const x = (i % numberOfIconsPerRow) * 20 + 15 // Calculate x position
-                const y = Math.floor(i / numberOfIconsPerRow) * 50 + 15 // Calculate y position
-                return `translate(${x}, ${y})` // Return transformation string
+            // Append person icons
+            const people = svg.selectAll(".person")
+                .data(peopleData)
+                .enter()
+                .append("g")
+                .attr("class", "person")
+                .attr("transform", (d, i) => {
+                    const x = (i % numberOfIconsPerRow) * 20 + 15 // Calculate x position
+                    const y = Math.floor(i / numberOfIconsPerRow) * 50 + 15 // Calculate y position
+                    return `translate(${x}, ${y})` // Return transformation string
             })
 
-        // Append person images
-        people.append("image")
-            .attr("xlink:href", (d, i) => i < numberOfRedIcons ? activeFigure : neutralFigure)
-            .attr("x", 10) // Adjust x position as needed
-            .attr("y", 10) // Adjust y position as needed
-            .attr("width", 18)
-            .attr("height", 42)
+            // Append person images
+            people.append("image")
+                .attr("xlink:href", (d, i) => i < numberOfRedIcons ? activeFigure : neutralFigure)
+                .attr("x", 10) // Adjust x position as needed
+                .attr("y", 10) // Adjust y position as needed
+                .attr("width", 18)
+                .attr("height", 42)
+        }
     }
 
-    useEffect(() => generateImage, []);
+    useEffect(() => generateVisual(1), []);
 
     /** Title component */
     const Title = () => (
@@ -131,7 +154,7 @@ function VisualizationProblemDisplay() {
 
         return (
             <section className={`is-centered has-text-centered section`}>
-                <h1 class="is-size-2 is-family-primary has-text-weight-bold">Icon Array 6-Question Quiz</h1>
+                <h1 className="is-size-2 is-family-primary has-text-weight-bold">Icon Array 6-Question Quiz</h1>
                 <div className="buttons is-centered" style={{ marginTop: "2rem" }}>
                     <button className="button is-medium is-success has-text-black is-family-code" onClick={startQuiz}>Click To Start</button>
                 </div>
@@ -142,11 +165,10 @@ function VisualizationProblemDisplay() {
     function moveToNextScreen() {
         // Guard clauses
         if (questionNumber === numQuestions) { navigate("/thank_you"); return; } // Navigate to /thank_you if there are no more questions
-        // Go to the next question
         const nextQuestionNumber = questionNumber + 1
-        setQuestionNumber(nextQuestionNumber)
         clearSVG()
-        generateImage()
+        setQuestionNumber(nextQuestionNumber)
+        generateVisual(nextQuestionNumber)
         setVisualizationTitle(visualizationTitles[visualizationTitles.indexOf(visualizationTitle) + 1])
         setCurrentQuestionAnswered(false)
         setAnswerFeedback("")
@@ -182,8 +204,8 @@ function VisualizationProblemDisplay() {
             <div className="box mt-3">
                 <div className="media" style={{ display: "flex", flexDirection: 'column', alignItems: 'center' }}>
                     {/* <CurrentImage /> */}
-                    <progress class="progress is-primary" value={questionNumber - 1} max={numQuestions - 1}>{questionNumber}/{numQuestions}</progress>
-                    <svg id="icon-array" />
+                    <progress className="progress is-primary" value={questionNumber - 1} max={numQuestions - 1}>{questionNumber}/{numQuestions}</progress>
+                    <svg id={questionNumber % 2 === 0 ? "control-text" : "icon-array"}/>
                     <div className="media-content">
                         <div className="content">
                             <QuestionText />

@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>People Icon Array</title>
+    <title>Data Representation</title>
     <!-- Load D3 library -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <style>
@@ -19,8 +18,8 @@
         }
     </style>
 </head>
-
 <body>
+    <svg id="control-text"></svg>
     <svg id="icon-array"></svg>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -60,15 +59,7 @@
                 .attr("y", 10) // Adjust y position as needed
                 .attr("width", 18)
                 .attr("height", 42);
-
-            // Append person shapes (circles)
-            //people.append("circle")
-            //    .attr("cx", 0)
-            //    .attr("cy", 0)
-            //    .attr("r", 10)
-            //    .style("fill", 
         });
     </script>
 </body>
-
 </html>
