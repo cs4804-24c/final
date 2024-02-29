@@ -2,19 +2,19 @@ function colorMap(d) {
   // Replace with actual column
   switch(d["protesterdemand1"]) {
     case "political behavior, process":
-      return "#8A3FFC";
+      return "#6929c4";
     case "land farm issue":
-      return "#007D79";
+      return "#1192e8";
     case "police brutality":
-      return "#007D79";
+      return "#005d5d"
     case "price increases, tax policy":
-      return "#FF7EB6";
+      return "#9f1853";
     case "labor wage dispute":
-      return "#FA4D56";
+      return "#fa4d56";
     case "removal of politician":
-      return "#FFF1F1";
+      return "#570408";
     case "social restrictions":
-      return "#6FDC8C";
+      return "#198038";
     default:
       console.log(d["protesterdemand1"]);
       return "#000000";
