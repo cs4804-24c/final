@@ -280,12 +280,8 @@
     </div>
 
     <h1 class="newspaper-subheading">How have emissions of these gases changed over time in the United States?.</h1>
-    <h1 class="newspaper-body"> By plotting the emissions of each of these gases over the last decade, we can see that the United
-      States has made some consistent progress in reducing both Carbon Dioxide and Nitrous Oxide. Reductions in carbon dioxide can
-      be attributed to the United States' commitment to reducing carbon pollution. This has been done through various efforts including
-      increased natural gas use and growth of renewable energy sources including wind and solar power. Decreases in Nitrous Oxide emissions
-      can be attributed to imporved agricultural practices, the implementation of emissions reduction technologies, and other measures 
-      being put in place by the U.S. government.
+    <h1 class="newspaper-body"> The United States has made some consistent progress in reducing greenhouse gas emissions.
+      For most gases, emissions have dropped in the past decade.
     </h1>
 
     <div id="radialPlots">
@@ -982,11 +978,16 @@
         });
       }
 
+      const g1txt = "Carbon Dioxide has decreased due to the efforts of the US to reduce carbon pollution"
+      const g2txt =  "Nitrous Oxide has decreased due to improved agricultural practices and emissions reduction technologies in the US";
+      const g3txt = "Fluorinated GHGs had a drastic drop in emissions in 2009 due to the economic recession and the increase of renewable energy";
+      const g4txt = "Methane emissions have remained steady as they primarily come from agriculture, fossil fuels and decomposition of landfill waste";
+
       // Call the function for each CSV file
-      createAreaChart("./Data Sources/CO2 Only All Years.csv", "#radialPlot1", "#040273", "CO2 Emissions", "CO2 Emissions (Metric Tons)", "Carbon Dioxide has decreased due \n to the efforts of the United States to reduce carbon pollution");
-      createAreaChart("./Data Sources/CH4 Only All Years.csv", "#radialPlot2", "#720000", "CH4 Emissions", "CH4 Emissions (Metric Tons)", "Graph 2");
-      createAreaChart("./Data Sources/N2O Only All Years.csv", "#radialPlot3", "#154f30", "N2O Emissions", "NO2 Emissions (Metric Tons)", "Graph 3");
-      createAreaChart("./Data Sources/Fluorinated GHGs Only All Years.csv", "#radialPlot4", "#ff69b4", "Fluorinated GHGs Emissions", "Fluorinated GHGs Emissions (Metric Tons)", "Graph 4");
+      createAreaChart("./Data Sources/CO2 Only All Years.csv", "#radialPlot1", "#040273", "CO2 Emissions", "CO2 Emissions (Metric Tons)", g1txt);
+      createAreaChart("./Data Sources/CH4 Only All Years.csv", "#radialPlot2", "#720000", "CH4 Emissions", "CH4 Emissions (Metric Tons)", g2txt);
+      createAreaChart("./Data Sources/N2O Only All Years.csv", "#radialPlot3", "#154f30", "N2O Emissions", "NO2 Emissions (Metric Tons)", g3txt);
+      createAreaChart("./Data Sources/Fluorinated GHGs Only All Years.csv", "#radialPlot4", "#ff69b4", "Fluorinated GHGs Emissions", "Fluorinated GHGs Emissions (Metric Tons)", g4txt);
 
 
       // Creating a line graph of top 5 countries CO2 emissons from 2010-2022
