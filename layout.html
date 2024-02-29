@@ -57,6 +57,49 @@
       margin-top: 0;
     }
 
+    #legend-box {
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-left: 20px; /* Adjust the margin as needed */
+      width: 200px; /* Adjust the width as needed */
+    }
+
+    /* Style for the title text */
+    #legend-box h2 {
+      font-size: 16px;
+      font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin-top: 0;
+    }
+
+    #legend-box p {
+      font-size: 14px;
+      font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .legend-item {
+      margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+    }
+
+/* CSS for colored circle markers */
+    .legend-circle {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 5px;
+    }
+
+/* CSS for legend labels */
+    .legend-label {
+      font-size: 14px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+
+
   </style>
 </head>
 <body>
@@ -86,6 +129,40 @@
       <option value="removal of politician">Removal of Politician</option>
       <option value="social restrictions">Social Restrictions</option>
     </select>
+  </div>
+  <div id="legend-box">
+    <h2>Legend</h2>
+    <div class="legend-item">
+      <span class="legend-circle" style="background-color: #6929c4;"></span>
+      <span class="legend-label">Political Behavior, Process</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-circle" style="background-color: #1192e8;"></span>
+      <span class="legend-label">Land Farm Issue</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-circle" style="background-color: #005d5d;"></span>
+      <span class="legend-label">Police Brutality</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-circle" style="background-color: #9f1853;"></span>
+      <span class="legend-label">Price Increases, Tax Policy</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-circle" style="background-color: #fa4d56;"></span>
+      <span class="legend-label">Labor Wage Dispute</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-circle" style="background-color: #570408;"></span>
+      <span class="legend-label">Removal of Politician</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-circle" style="background-color: #198038;"></span>
+      <span class="legend-label">Social Restrictions</span>
+    </div>
+    <p>
+      Size of plotted data points is based on the reported number of participants in the protest.
+    </p>
   </div>
 </div>
 </div>
