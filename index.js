@@ -4,17 +4,21 @@ const HALF_WIDTH = WIDTH / 2;
 const HALF_HEIGHT = HEIGHT / 2;
 
 const data = [
-  { "term": "amor", "votes": 25 },
-  { "term": "vida", "votes": 37 },
-  { "term": "felicidad", "votes": 42 },
-  { "term": "amistad", "votes": 15 },
-  { "term": "familia", "votes": 30 },
-  { "term": "trabajo", "votes": 18 },
-  { "term": "viaje", "votes": 10 },
-  { "term": "hogar", "votes": 7 },
-  { "term": "salud", "votes": 33 },
-  { "term": "conocimiento", "votes": 27 }
-]
+  { name: "China", weight: 14.84, color: "#ffffcc" },
+  { name: "Japan", weight: 5.91, color: "#ffcc99" },
+  { name: "India", weight: 2.83, color: "#ffcccc" },
+  { name: "South Korea", weight: 1.86, color: "#ff99cc" },
+  { name: "Russia", weight: 1.8, color: "#ffccff" },
+  { name: "Indonesia", weight: 1.16, color: "#cc99ff" },
+  { name: "Turkey", weight: 0.97, color: "#ccccff" },
+  { name: "Saudi Arabia", weight: 0.87, color: "#99ccff" },
+  { name: "Iran", weight: 0.57, color: "#ccffff" },
+  { name: "Thaïland", weight: 0.53, color: "#99ffcc" },
+  { name: "UAE", weight: 0.5, color: "#ccffcc" },
+  { name: "Hong Kong", weight: 0.42, color: "#ccff99" },
+];
+
+var svg = d3;
 
 const TREEMAP_RADIUS = Math.min(HALF_WIDTH, HALF_HEIGHT);
 
@@ -23,12 +27,12 @@ let hierarchy, circlingPolygon;
 
 const fontScale = d3.scaleLinear();
 
-let svg, drawingArea, treemapContainer;
+let drawingArea, treemapContainer;
 
 function init(rootData) {
   initData();
   initLayout();
-  hierarchy = d3.hierarchy({ children: rootData }).sum((d) => d.votes);
+  hierarchy = d3.hierarchy({ children: rootData }).sum((d) => d.weight);
   _voronoiTreemap.clip(circlingPolygon)(hierarchy);
 
   drawTreemap(hierarchy);
@@ -46,13 +50,16 @@ function computeCirclingPolygon() {
     [0, 0],
     [WIDTH, 0],
     [WIDTH, HEIGHT],
-    [0, HEIGHT]
+    [0, HEIGHT],
   ];
 }
 
 function initLayout() {
-  svg = d3.select("svg").attr("width", WIDTH).attr("height", HEIGHT).attr("transform", "translate(100, 100)")
-  ;
+  svg = d3
+    .select("#simpleVoronoi")
+    .attr("width", WIDTH)
+    .attr("height", HEIGHT)
+    .attr("transform", "translate(0, 30)");
   drawingArea = svg.append("g").classed("drawingArea", true);
   treemapContainer = drawingArea.append("g").classed("treemap-container", true);
 
@@ -74,7 +81,10 @@ function drawTreemap(hierarchy) {
     .enter()
     .append("path")
     .classed("cell", true)
-    .attr("d", (d) => `M${d.polygon.join(",")}z`);
+    .attr("d", (d) => `M${d.polygon.join(",")}z`)
+    .style("stroke", "black")
+    .style("stroke-width", "10px")
+    .style("fill", (d) => d.data.color);
 
   const labels = treemapContainer
     .append("g")
@@ -88,14 +98,14 @@ function drawTreemap(hierarchy) {
       "transform",
       (d) => `translate(${d.polygon.site.x}, ${d.polygon.site.y})`
     )
-    .style("font-size", (d) => fontScale(d.data.votes));
+    .style("font-size", (d) => fontScale(d.data.weight));
 
   labels
     .append("text")
     .classed("name", true)
-    .html((d) => d.data.term);
+    .html((d) => d.data.name);
   labels
     .append("text")
     .classed("value", true)
-    .text((d) => `${d.data.votes}%`);
+    .text((d) => `${d.data.weight}%`);
 }

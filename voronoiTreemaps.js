@@ -1,5 +1,5 @@
 //begin: constants
-var _2PI = Math.PI;
+var _2PI = 2 * Math.PI;
 //end: constants
 
 //begin: layout conf.
@@ -101,19 +101,16 @@ function drawFooter() {
     .classed("tiny light", true)
     .attr("transform", "translate(" + [0, height] + ")")
     .attr("text-anchor", "start");
-  // .text("Remake of HowMuch.net's article 'The Global Economy by GDP'");
   drawingArea
     .append("text")
     .classed("tiny light", true)
     .attr("transform", "translate(" + [halfWidth, height] + ")")
     .attr("text-anchor", "middle");
-  // .text("by @_Kcnarf");
   drawingArea
     .append("text")
     .classed("tiny light", true)
     .attr("transform", "translate(" + [width, height] + ")")
     .attr("text-anchor", "end");
-  // .text("bl.ocks.org/Kcnarf/fa95aa7b076f537c00aed614c29bb568");
 }
 
 function drawLegends(rootData) {

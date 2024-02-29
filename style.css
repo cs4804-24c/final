@@ -1,9 +1,18 @@
 /* Basic styling for the navigation bar */
+
 body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
 }
+
+div {
+}
+
+h1 {
+  margin: 20px 0;
+}
+
 nav {
   background-color: #333;
   color: #fff;
@@ -12,6 +21,7 @@ nav {
   position: fixed; /* Make the navigation bar fixed */
   width: 100%; /* Make it full width */
   top: 0; /* Stick it to the top of the screen */
+  z-index: 999;
 }
 nav a {
   color: #fff;
@@ -53,15 +63,16 @@ code {
 }
 
 svg {
-  background-color: rgb(250, 250, 250);
+  background-color: white;
 }
+
 .cell {
   stroke: white;
   stroke-width: 1px;
 }
 .label {
   text-anchor: middle;
-  fill: white;
+  fill: black;
 }
 
 .label > .name {
@@ -70,4 +81,62 @@ svg {
 
 .label > .value {
   dominant-baseline: text-before-edge;
+}
+
+/* BEGIN INDEX HTML */
+.simpleVoronoi {
+  display: flex;
+  padding-left: 20px;
+}
+
+.centerText {
+  display: grid;
+  padding-top: 40px;
+  padding-left: 20px;
+  font-size: 1.5rem;
+}
+
+.centerText h2 {
+  font-size: 1.3rem;
+  display: grid;
+}
+
+.centerText p {
+  font-size: 1rem;
+  max-width: 900px;
+}
+
+/* Footer */
+footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 100px 0 10px 0;
+}
+
+/* END INDEX HTML */
+
+/* BEGIN CODETUTORIAL HTML*/
+.codeTitle {
+  padding: auto;
+  padding-top: 50px;
+  font-size: 1.2rem;
+  padding-left: 20px;
+}
+
+.codeIntro {
+  padding: auto;
+  padding-top: 5px;
+  font-size: 1rem;
+  max-width: 900px;
+  padding-left: 20px;
+}
+
+/* END CODETUTORIAL HTML*/
+
+/* BEGIN VORONOITREEMAPS HTML */
+.complexVoronoi {
+  display: grid;
+  place-content: center;
+  padding-top: 50px;
 }

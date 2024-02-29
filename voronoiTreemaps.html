@@ -17,63 +17,63 @@
       <body>
         <div id="navbar"></div>
 
-        <style>
-          svg {
-          }
+        <div class="complexVoronoi">
+          <style>
+            svg {
+            }
+            #title {
+              letter-spacing: 4px;
+              font-weight: 700;
+              font-size: x-large;
+            }
 
-          #title {
-            letter-spacing: 4px;
-            font-weight: 700;
-            font-size: x-large;
-          }
+            text.tiny {
+              font-size: 10pt;
+            }
+            text.light {
+              fill: black;
+            }
 
-          text.tiny {
-            font-size: 10pt;
-          }
-          text.light {
-            fill: lightgrey;
-          }
+            .world {
+              stroke: black;
+              stroke-width: 3px;
+            }
 
-          .world {
-            stroke: lightgrey;
-            stroke-width: 4px;
-          }
+            .cell {
+              stroke: black;
+              stroke-width: 1.5px;
+            }
 
-          .cell {
-            stroke: white;
-            stroke-width: 1px;
-          }
+            .label {
+              text-anchor: middle;
+              fill: black;
+            }
 
-          .label {
-            text-anchor: middle;
-            fill: white;
-          }
+            .label > .name {
+              dominant-baseline: text-after-edge;
+            }
 
-          .label > .name {
-            dominant-baseline: text-after-edge;
-          }
+            .label > .value {
+              dominant-baseline: text-before-edge;
+            }
 
-          .label > .value {
-            dominant-baseline: text-before-edge;
-          }
+            .hoverer {
+              fill: transparent;
+              stroke: darkcyan;
+              stroke-width: 0px;
+            }
 
-          .hoverer {
-            fill: transparent;
-            stroke: black;
-            stroke-width: 0px;
-          }
+            .hoverer:hover {
+              stroke-width: 3px;
+            }
 
-          .hoverer:hover {
-            stroke-width: 3px;
-          }
-
-          .legend-color {
-            stroke-width: 1px;
-            stroke: darkgrey;
-          }
-        </style>
-        <script src="./voronoiTreemaps.js"></script>
-        <svg></svg>
+            .legend-color {
+              stroke-width: 1px;
+            }
+          </style>
+          <script src="./voronoiTreemaps.js"></script>
+          <svg></svg>
+        </div>
         <script>
           fetch("./navbar.html")
             .then((response) => response.text())
