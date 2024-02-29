@@ -26,6 +26,7 @@ let flare;
 // Add any other variables for filters here
 let selectViolence = "All";
 let selectProtestDemand = "All";
+let selectStateResponse = "All";
 
 window.onload = async () => {
   flare = await d3.csv("./reduced_protest_data.csv");
@@ -42,6 +43,12 @@ window.onload = async () => {
      selectProtestDemand = this.value;
      updateChart();
   }); 
+
+  d3.select('#stateresponseDropdown')
+  .on('change', function() {
+   selectStateResponse = this.value;
+   updateChart();
+}); 
   
   updateChart("All");
 }
@@ -66,7 +73,7 @@ function updateChart() {
           // }
 
           // Violence or not
-          if(selectViolence === "All" && selectProtestDemand === "All") {
+          if(selectViolence === "All" && selectProtestDemand === "All" && selectStateResponse === "All") {
             return d;
           }
 
@@ -75,8 +82,10 @@ function updateChart() {
           // Check if the data point matches the protest demand filter
           const demandMatch = selectProtestDemand === "All" || d["protesterdemand1"] === selectProtestDemand;
 
+          const stateResponseMatch = selectStateResponse === "All" || d["stateresponse1"] === selectStateResponse;
+
           // Include the data point if it matches both filters
-          return violenceMatch && demandMatch ? d : null;
+          return violenceMatch && demandMatch && stateResponseMatch? d : null;
         })
       }))
     ]
