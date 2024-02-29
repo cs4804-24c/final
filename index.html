@@ -67,7 +67,7 @@
 
         /* width: 1920px; */
 
-        width: 67%;
+        width: 100%;
         height: 100%;
 
         margin-left: 20px;
@@ -79,7 +79,7 @@
       #map2,
       #map3,
       #map4 {
-        width: 400px; /* Adjust this value as needed */
+        width: 400px;
         height: 300px;
         margin: 25px;
         /* border: 3px solid black;
@@ -122,7 +122,7 @@
         display: flex;
         flex-direction: column;
         margin-top: 4rem;
-        width: 11%;
+        width: 30%;
         /* font-family: sans-serif; */
       }
 
@@ -176,11 +176,28 @@
       }
 
       .newspaper-body {
-        margin-left: 130px;
-        margin-right: 130px;
+        margin-left: 300px;
+        margin-right: 300px;
         font-family: 'Libre Baskerville', serif;
         font-size: 18px;
         text-align: center;
+        font-weight: normal;
+    }
+
+    .newspaper-body-left {
+        margin-left: 55px;
+        margin-right: 130px;
+        font-family: 'Libre Baskerville', serif;
+        font-size: 18px;
+        text-align: left;
+        font-weight: normal;
+    }
+    .newspaper-smaller {
+        margin-left: 0px;
+        margin-right: 130px;
+        font-family: 'Libre Baskerville', serif;
+        font-size: 16px;
+        text-align: left;
         font-weight: normal;
     }
 
@@ -197,68 +214,79 @@
 
         <div id="title">
           <h1 class="newspaper-title">Greenhouse Gas Emissions Over a Decade (2010-2020)</h1>
-          <h1 class="newspaper-body">Greenhouse gases are gases that absorb infrared radiation such as carbon dioxide and methane. When emitted into
+          <h1 class="newspaper-body">"Greenhouse gases" are gases that absorb infrared radiation such as carbon dioxide and methane. When emitted into
             our atmosphere, these gases trap the sun's heat, leading to global warming and climate change. This article will help you to 
-            understand what countries have been emitting the highest concentration of these gases, and how their emissions levels have changed
+            understand what countries have been emitting the highest concentrations of these gases, and how their emissions levels have changed
             over the last decade. We will later zoom in to focus on the United States to understand which states have the highest emissions.
           </h1>
         </div>
 
-        <h1 class="newspaper-subheading">How does the United States compare to other countries?</h1>
+        <h1 class="newspaper-subheading">What countries have the highest emissions?</h1>
+        <h1 class="newspaper-body">China, the United States, India, Russia, and Japan were the 5 countries with the highest greehouse gas emissions in the world in the decade 2010-2020.
+          The graph below shows how total greehouse gas emissions in each of these countries have changed over time. Hover over each of the dots on the graph to uncover some interesting trends in the data.
+        </h1>
         <div id="linegraph">
           <!-- <svg id="linegraphSvg" width="1200" height="0"></svg> -->
         </div>
 
     <h1 class="newspaper-subheading" style="margin-top: 50px">
-        In 2022, roughly 62% of global CO2 emissions came from those 5 countries
+        What about the rest of the world?
+    </h1>
+
+    <h1 class="newspaper-body">The combined greehouse gas emissions in the 5 countries of China, the United States, India, Russia, and Japan
+      have made up 48-52% of all global greenhouse gas emissions throughout the decade of 2010-2020, with the top country of China making up for 22-27% of
+      global emissions alone. The graph below shows the breakdown of greenhouse gas emissions around the globe for the year 2020.
     </h1>
     <div id="treemap">
       <!-- <svg id="treemap" width="600" height="0"></svg> -->
     </div>
 
+    <h1 class="newspaper-subheading">Breakdown of emissions in the United States.</h1>
+    <h1 class="newspaper-body"> In 2010, the Greenhouse Gas Reporting Program (GHGRP) began collecting emissions data from the 
+      largest greenhouse gas emitting facilities in the U.S. This data is publicly available through the U.S. Environmental Protection
+      Agency (EPA). While this data does not track greenhouse gas emissions from every source, looking at this data can help us understand 
+      which states are the largest contributors to greenhouse gas emissions. Following the standards of the EPA, greenhouse gases 
+      are broken down into four main types: Carbon Dioxide, Methane, Nitrous Oxide, and Fluorinated Gases.
+    </h1>
+
     <div id="container">
       <div id="maps">
         <div id="firstRowOfMaps">
           <div id="map1OuterDiv">
-            <p>CO2 (Carbon Dioxide) in Metric Tons</p>
+            <h1 class="newspaper-body-left">CO2 (Carbon Dioxide) in Metric Tons</h1>
             <div id="map1">
-              <svg id="map1svg" width="300" height="300"></svg>
+              <svg id="map1svg" width="400" height="400"></svg>
             </div>
           </div>
 
           <div id="map2OuterDiv">
-            <p>CH4 (Methane) in Metric Tons</p>
+            <p class="newspaper-body-left">CH4 (Methane) in Metric Tons</p>
             <div id="map2">
-              <svg id="map2svg" width="600" height="600"></svg>
+              <svg id="map2svg" width="400" height="400"></svg>
             </div>
           </div>
         </div>
 
         <div id="secondRowOfMaps">
           <div id="map3OuterDiv">
-            <p>N2O (Nitrous Oxide) in Metric Tons</p>
+            <p class="newspaper-body-left">N2O (Nitrous Oxide) in Metric Tons</p>
             <div id="map3">
-              <svg id="map3svg" width="600" height="600"></svg>
+              <svg id="map3svg" width="400" height="400"></svg>
             </div>
           </div>
 
           <div id="map4OuterDiv">
-            <p>Fluorinated Gases in Metric Tons</p>
+            <p class="newspaper-body-left">Fluorinated Gases in Metric Tons</p>
             <div id="map4">
-              <svg id="map4svg" width="600" height="600"></svg>
+              <svg id="map4svg" width="400" height="400"></svg>
             </div>
           </div>
         </div>
       </div>
 
-      <div id="yearSelector">
+      <div class="newspaper-smaller" id="yearSelector">
         <label style="margin-bottom: 1rem">Year Selector</label>
-        <!-- <div class="select select--multiple">
-          <select id="multi-select" multiple></select>
-          <span class="focus"></span>
-        </div> -->
         <div class="yearOptions">
-          <!-- Year options as check boxes will go here -->
         </div>
         <label style="margin-top: 1rem"
           >Note: Fluorinated Gases have a disproportionately large impact on the
@@ -266,6 +294,15 @@
         >
       </div>
     </div>
+
+    <h1 class="newspaper-subheading">How have emissions of these gases changed over time in the United States?.</h1>
+    <h1 class="newspaper-body"> By plotting the emissions of each of these gases over the last decade, we can see that the United
+      States has made some consistent progress in reducing both Carbon Dioxide and Nitrous Oxide. Reductions in carbon dioxide can
+      be attributed to the United States' commitment to reducing carbon pollution. This has been done through various efforts including
+      increased natural gas use and growth of renewable energy sources including wind and solar power. Decreases in Nitrous Oxide emissions
+      can be attributed to imporved agricultural practices, the implementation of emissions reduction technologies, and other measures 
+      being put in place by the U.S. government.
+    </h1>
 
     <div id="radialPlots">
       <div id="radialPlot1"></div>
@@ -849,8 +886,8 @@
       // Define a function to create the area chart
       function createAreaChart(csvFilePath, svgId, color, title, yAx) {
         d3.csv(csvFilePath, function (data) {
-          const width = 700;
-          const height = 400;
+          const width = 500;
+          const height = 300;
           const margin = {top: 45, right: 70, bottom: 45, left: 70};
           const svg = d3
                   .select(svgId) // Select the correct div for the radial plot
@@ -896,6 +933,7 @@
           svg.append("path")
                   .datum(avgCO2Data)
                   .attr("fill", color)
+                  .attr("opacity", 0.6)
                   .attr("d", area);
 
           // Append x axis
@@ -914,6 +952,8 @@
           // Append x-axis label
           svg.append("text")
                   .attr("transform", `translate(${width / 2},${height})`)
+                  .style("font-family", "Libre Baskerville")
+                  .style("font-size", "10px")
                   .style("text-anchor", "middle")
                   .text("Year");
 
@@ -923,6 +963,8 @@
                   .attr("y", 0)
                   .attr("x", 0 - height / 2)
                   .attr("dy", "1em")
+                  .style("font-family", "Libre Baskerville")
+                  .style("font-size", "10px")
                   .style("text-anchor", "middle")
                   .text(yAx);
 
@@ -930,17 +972,18 @@
                   .attr("x", width / 2)
                   .attr("y", margin.top / 2)
                   .attr("text-anchor", "middle")
-                  .style("font-size", "16px")
+                  .style("font-family", "Libre Baskerville")
+                  .style("font-size", "20px")
                   .text(title);
 
         });
       }
 
       // Call the function for each CSV file
-      createAreaChart("./Data Sources/CO2 Only All Years.csv", "#radialPlot1", "#41b6c4", "C02 Emissions", "CO2 Emissions (Metric Tons)");
-      createAreaChart("./Data Sources/CH4 Only All Years.csv", "#radialPlot2", "#fe9929", "CH4 Emissions", "CH4 Emissions (Metric Tons)");
-      createAreaChart("./Data Sources/N2O Only All Years.csv", "#radialPlot3", "#78c679", "N2O Emissions", "NO2 Emissions (Metric Tons)");
-      createAreaChart("./Data Sources/Fluorinated GHGs Only All Years.csv", "#radialPlot4", "#f768a1", "Fluorinated GHGs Emissions", "Fluorinated GHGs Emissions (Metric Tons)");
+      createAreaChart("./Data Sources/CO2 Only All Years.csv", "#radialPlot1", "#040273", "CO2 Emissions", "CO2 Emissions (Metric Tons)");
+      createAreaChart("./Data Sources/CH4 Only All Years.csv", "#radialPlot2", "#720000", "CH4 Emissions", "CH4 Emissions (Metric Tons)");
+      createAreaChart("./Data Sources/N2O Only All Years.csv", "#radialPlot3", "#154f30", "N2O Emissions", "NO2 Emissions (Metric Tons)");
+      createAreaChart("./Data Sources/Fluorinated GHGs Only All Years.csv", "#radialPlot4", "#ff69b4", "Fluorinated GHGs Emissions", "Fluorinated GHGs Emissions (Metric Tons)");
 
 
       // Creating a line graph of top 5 countries CO2 emissons from 2010-2022
@@ -1019,6 +1062,7 @@
             .append("text")
             .attr("transform", `translate(${width / 2},${height + margin.top})`)
             .style("text-anchor", "middle")
+            .attr("font-family", "Libre Baskerville")
             .style("font-size", "20px")
             .text("Year");
 
@@ -1030,6 +1074,7 @@
             .attr("x", 0 - height / 2)
             .attr("dy", "1em")
             .style("text-anchor", "middle")
+            .attr("font-family", "Libre Baskerville")
             .style("font-size", "20px")
             .text("CO2 Emissions (Excluding Land Use)");
 
@@ -1039,6 +1084,7 @@
             .attr("x", width / 2)
             .attr("y", 0 - margin.top / 2)
             .attr("text-anchor", "middle")
+            .attr("font-family", "Libre Baskerville")
             .style("font-size", "24px")
             .text("CO2 Emissions by Country (2010-2020)");
 
@@ -1132,14 +1178,14 @@
             {
               x: 400,
               y: 38,
-              text: "While other countries have seen steady decreases in greenhouse gas emissions, China is still on the rise.",
+              text: "While the greenhouse gas emissons have decreased in the United States from 2010 to 2022, emissions in China are still on the rise.",
             },
             {
               x: 350,
               y: 286,
-              text: "The United States has been the country with the second highest greenhouse gas emissions in thoughout the decade 2010-2020.",
+              text: "The United States has been the country with the second highest greenhouse gas emissions in the world thoughout the decade 2010-2020.",
             },
-            { x: 602, y: 300, text: "More drastic dip due to COVID pandemic." },
+            { x: 602, y: 300, text: "The United States saw a dramatic drop in greenhouse gas emissions during the COVID pandemic in 2020." },
           ];
 
           // Append circles for the points
@@ -1171,19 +1217,24 @@
               const tooltipText = svg
                 .append("foreignObject")
                 .attr("class", "tooltip")
-                .attr("x", d.x - 40) // Adjust the x position as needed
+                .attr("x",d === points[0]
+                    ? d.x -100
+                    : d === points[1]
+                    ? d.x - 125
+                    : d.x -140)
                 .attr(
                   "y",
                   d === points[0]
                     ? d.y + 22
                     : d === points[1]
-                    ? d.y - 105
-                    : d.y + 25
+                    ? d.y - 125
+                    : d.y - 120
                 )
-                .attr("width", 250) // Adjust the width of the box as needed
+                .attr("width", 250)
                 .attr("height", 100)
                 .append("xhtml:div")
-                .style("font-size", "18px")
+                .style("font-family", "Libre Baskerville")
+                .style("font-size", "15px")
                 .style("text-align", "center")
                 .html(d.text);
 
@@ -1309,7 +1360,8 @@
               return d.data.country;
             })
             .attr("fill", "white")
-            .style("font-size", "20px");
+            .attr("font-family", "Libre Baskerville")
+            .style("font-size", "17px");
 
           svg
             .append("image")
@@ -1332,6 +1384,23 @@
             .attr("href", "./Flag Images/india-flag.png")
             .attr("x", 60)
             .attr("y", 460)
+            .attr("width", 60)
+            .attr("height", 60);
+
+
+          svg
+            .append("image")
+            .attr("href", "./Flag Images/russia-flag.png")
+            .attr("x", 355)
+            .attr("y", -5)
+            .attr("width", 60)
+            .attr("height", 60);
+
+          svg
+            .append("image")
+            .attr("href", "./Flag Images/japan-flag.png")
+            .attr("x", 560)
+            .attr("y", -7)
             .attr("width", 60)
             .attr("height", 60);
 
