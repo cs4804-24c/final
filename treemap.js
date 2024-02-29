@@ -1,7 +1,7 @@
 // set the dimensions and margins of the graph
-var margin = { top: 10, right: 10, bottom: 10, left: 10 },
-  width = 445 - margin.left - margin.right,
-  height = 445 - margin.top - margin.bottom;
+var margin = { top: 10, right: 10, bottom: 10, left: 0 },
+  width = 980 - margin.left - margin.right,
+  height = 520 - margin.top - margin.bottom;
 
 // append the svg object to the body of the page
 var svg = d3
@@ -32,7 +32,7 @@ d3.csv("./treemap.csv", function (data) {
 
   // Then d3.treemap computes the position of each element of the hierarchy
   // The coordinates are added to the root object above
-  d3.treemap().size([width, height]).padding(4)(root);
+  d3.treemap().size([width, height]).padding(10)(root);
 
   console.log(root.leaves());
   // use this information to add rectangles:

@@ -10,7 +10,7 @@ div {
 }
 
 h1 {
-  margin: 20px 0;
+  margin: 20px 0 0 0;
 }
 
 nav {
@@ -84,6 +84,13 @@ svg {
 }
 
 /* BEGIN INDEX HTML */
+.homeTitleText {
+  padding: auto;
+  padding-top: 40px;
+  font-size: 1.2rem;
+  padding-left: 20px;
+}
+
 .simpleVoronoi {
   display: flex;
   padding-left: 20px;
@@ -91,7 +98,7 @@ svg {
 
 .centerText {
   display: grid;
-  padding-top: 40px;
+  padding-top: 20px;
   padding-left: 20px;
   font-size: 1.5rem;
 }
