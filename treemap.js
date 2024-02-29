@@ -12,31 +12,18 @@ var svg = d3
   .append("g")
   .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-// Read data
-d3.csv(
-  "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/data_hierarchy_1level.csv",
+// read json data
+d3.json(
+  "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/data_dendrogram_full.json",
   function (data) {
-    // stratify the data: reformatting for d3.js
-    var root = d3
-      .stratify()
-      .id(function (d) {
-        return d.name;
-      }) // Name of the entity (column name is name in csv)
-      .parentId(function (d) {
-        return d.parent;
-      })(
-      // Name of the parent (column name is parent in csv)
-      data
-    );
-    root.sum(function (d) {
-      return +d.value;
-    }); // Compute the numeric value for each entity
+    // Give the data to this cluster layout:
+    var root = d3.hierarchy(data).sum(function (d) {
+      return d.value;
+    }); // Here the size of each leave is given in the 'value' field in input data
 
     // Then d3.treemap computes the position of each element of the hierarchy
-    // The coordinates are added to the root object above
-    d3.treemap().size([width, height]).padding(4)(root);
+    d3.treemap().size([width, height]).padding(2)(root);
 
-    console.log(root.leaves());
     // use this information to add rectangles:
     svg
       .selectAll("rect")
@@ -56,7 +43,7 @@ d3.csv(
         return d.y1 - d.y0;
       })
       .style("stroke", "black")
-      .style("fill", "#69b3a2");
+      .style("fill", "slateblue");
 
     // and to add the text labels
     svg
@@ -65,7 +52,7 @@ d3.csv(
       .enter()
       .append("text")
       .attr("x", function (d) {
-        return d.x0 + 10;
+        return d.x0 + 5;
       }) // +10 to adjust position (more right)
       .attr("y", function (d) {
         return d.y0 + 20;

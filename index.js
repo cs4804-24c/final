@@ -18,7 +18,7 @@ const data = [
   { name: "Hong Kong", weight: 0.42, color: "#ccff99" },
 ];
 
-let svg = document.getElementById("simpleVoronoi");
+var svg = d3;
 
 const TREEMAP_RADIUS = Math.min(HALF_WIDTH, HALF_HEIGHT);
 
@@ -56,7 +56,7 @@ function computeCirclingPolygon() {
 
 function initLayout() {
   svg = d3
-    .select("svg")
+    .select("#simpleVoronoi")
     .attr("width", WIDTH)
     .attr("height", HEIGHT)
     .attr("transform", "translate(0, 30)");
