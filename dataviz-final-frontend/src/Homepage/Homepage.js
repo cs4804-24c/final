@@ -62,6 +62,7 @@ export default function Homepage() {
                     })
                 }
             </div>
+            <button onClick={() => navigate('/parallelplot')}>Show me the Stats!</button>
         </div>
     )
 }

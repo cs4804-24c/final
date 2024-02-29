@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
 import "./ParallelPlotPage.css"
 import PlayerTable from "./Components/PlayerTable";
+import Banner from "../Banner";
 
 export default function ParallelPlotPage() {
     const svgRef = useRef(null);
@@ -297,24 +298,27 @@ export default function ParallelPlotPage() {
   }, [data, selectedSeason]);
 
     return (
-        <div className="container">
-            <div className="dropdown-container">
-                <select
-                    value={selectedSeason}
-                    onChange={e => setSelectedSeason(e.target.value)}
-                >
-                    {data.length > 0 && (
-                        [...new Set(data.map(d => d.SEASON_ID))]
-                            .sort((a, b) => b.localeCompare(a)) // Descending order
-                            .map(season => (
-                                <option key={season} value={season}>{season}</option>
-                            ))
-                    )}
-                </select>
-            </div>
-            <div id="parallel-plot-container" className="parallel-plot-container"></div>
-            <div id="hold-table" className="hold-table-container">
-                {careerData && <PlayerTable tableTitle={getPlayerName(careerData.PLAYER_ID)} playerData={careerData}/>}
+        <div>
+            <Banner/>
+            <div className="container">
+                <div className="dropdown-container">
+                    <select
+                        value={selectedSeason}
+                        onChange={e => setSelectedSeason(e.target.value)}
+                    >
+                        {data.length > 0 && (
+                            [...new Set(data.map(d => d.SEASON_ID))]
+                                .sort((a, b) => b.localeCompare(a)) // Descending order
+                                .map(season => (
+                                    <option key={season} value={season}>{season}</option>
+                                ))
+                        )}
+                    </select>
+                </div>
+                <div id="parallel-plot-container" className="parallel-plot-container"></div>
+                <div id="hold-table" className="hold-table-container">
+                    {careerData && <PlayerTable tableTitle={getPlayerName(careerData.PLAYER_ID)} playerData={careerData}/>}
+                </div>
             </div>
         </div>
     );
