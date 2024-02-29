@@ -1,22 +1,22 @@
 function colorMap(d) {
   // Replace with actual column
-  switch(d["protesterdemand1"]) {
-    case "political behavior, process":
+  switch(d["region"]) {
+    case "North America":
       return "#6929c4";
-    case "land farm issue":
+    case "South America":
       return "#1192e8";
-    case "police brutality":
+    case "Europe":
       return "#005d5d"
-    case "price increases, tax policy":
+    case "Central America":
       return "#9f1853";
-    case "labor wage dispute":
+    case "Africa":
       return "#fa4d56";
-    case "removal of politician":
+    case "MENA":
       return "#570408";
-    case "social restrictions":
+    case "Asia":
       return "#198038";
     default:
-      console.log(d["protesterdemand1"]);
+      console.log(d["region"]);
       return "#000000";
   }
 };

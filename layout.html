@@ -130,12 +130,23 @@
   <div id="chart-display"></div>
   <div id="side-panel">
   <div id="info-box">
-    <h2>Global Protest Data by Region</h2>
+    <h2>Timeline of Global Protest Data by Region</h2>
     <p>Andrew Salls, Neha Kuchipudi, Samuel Darer, Shivali Mani</p>
     <p>CS 4804 Final Project</p>
   </div>
   <div id="filter-box">
     <h2>Filters</h2>
+    <p>Region</p>
+    <select id="regionDropdown">
+      <option value="All">All</option>
+      <option value="North America">North America</option>
+      <option value="South America">South America</option>
+      <option value="Europe">Europe</option>
+      <option value="Central America">Central America</option>
+      <option value="Africa">Africa</option>
+      <option value="MENA">MENA</option>
+      <option value="Asia">Asia</option>
+    </select>
     <p>Protester Violence</p>
     <select id="violenceDropdown">
       <option value="All">All</option>
@@ -169,31 +180,31 @@
     <h2>Legend</h2>
     <div class="legend-item">
       <span class="legend-circle" style="background-color: #6929c4;"></span>
-      <span class="legend-label">Political Behavior, Process</span>
+      <span class="legend-label">North America</span>
     </div>
     <div class="legend-item">
       <span class="legend-circle" style="background-color: #1192e8;"></span>
-      <span class="legend-label">Land Farm Issue</span>
+      <span class="legend-label">South America</span>
     </div>
     <div class="legend-item">
       <span class="legend-circle" style="background-color: #005d5d;"></span>
-      <span class="legend-label">Police Brutality</span>
+      <span class="legend-label">Europe</span>
     </div>
     <div class="legend-item">
       <span class="legend-circle" style="background-color: #9f1853;"></span>
-      <span class="legend-label">Price Increases, Tax Policy</span>
+      <span class="legend-label">Central America</span>
     </div>
     <div class="legend-item">
       <span class="legend-circle" style="background-color: #fa4d56;"></span>
-      <span class="legend-label">Labor Wage Dispute</span>
+      <span class="legend-label">Africa</span>
     </div>
     <div class="legend-item">
       <span class="legend-circle" style="background-color: #570408;"></span>
-      <span class="legend-label">Removal of Politician</span>
+      <span class="legend-label">MENA</span>
     </div>
     <div class="legend-item">
       <span class="legend-circle" style="background-color: #198038;"></span>
-      <span class="legend-label">Social Restrictions</span>
+      <span class="legend-label">Asia</span>
     </div>
     <p>
       Size of plotted data points is based on the reported number of participants in the protest.
