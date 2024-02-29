@@ -83,14 +83,14 @@ function updateChart() {
   }
 
   const plot = Plot.plot({
-    height: screen.height * 8,
-    width: screen.width * 0.5,
+    height: screen.height * 4,
+    width: screen.width / 4,
     y: {domain: [1990, 2020.3], ticks: d3.ticks(1990, 2020, 2020 - 1990), tickFormat: (t) => `${t}`, line: true, reverse: true, label: null, axis: "left"},
     marks: [
       Plot.dotY(flare, Plot.dodgeX({
         y: flare.map(d => parseFloat(d["endfrac"])),
         sort: "endfrac",
-        r: flare.map(d => (d["participantsizeindicator"] / 2) + 1),
+        r: flare.map(d => (d["participantsizeindicator"] / 2) + 5),
         title: "name",
         fill: flare.map(d => colorMap(d)),
         filter: (d => {
