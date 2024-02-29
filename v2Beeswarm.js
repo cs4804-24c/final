@@ -47,6 +47,7 @@ let flare;
 // Add any other variables for filters here
 let selectViolence = "All";
 let selectProtestDemand = "All";
+let selectStateResponse = "All";
 
 window.onload = async () => {
   d3.csv("./reduced_protest_dataV2.csv").then(
@@ -67,6 +68,12 @@ d3.select('#protestdemandDropdown')
   .on('change', function() {
    selectProtestDemand = this.value;
    updateChart();
+}); 
+
+d3.select('#stateresponseDropdown')
+.on('change', function() {
+ selectStateResponse = this.value;
+ updateChart();
 }); 
 }
 
@@ -94,7 +101,7 @@ function updateChart() {
           // }
 
           // Violence or not
-          if(selectViolence === "All" && selectProtestDemand === "All") {
+          if(selectViolence === "All" && selectProtestDemand === "All" && selectStateResponse === "All") {
             return d;
           }
 
@@ -103,8 +110,10 @@ function updateChart() {
           // Check if the data point matches the protest demand filter
           const demandMatch = selectProtestDemand === "All" || d["protesterdemand1"] === selectProtestDemand;
 
+          const stateResponseMatch = selectStateResponse === "All" || d["stateresponse1"] === selectStateResponse;
+
           // Include the data point if it matches both filters
-          return violenceMatch && demandMatch ? d : null;
+          return violenceMatch && demandMatch && stateResponseMatch? d : null;
         }),
         title: (d) => 
         `${d.region} \n ${d.country}, ${d.location} \n ${d.startdate} - ${d.enddate} \n ${d.participants} ${d.protesteridentity}` + violenceTooltip(d.protesterviolence) + `\n Protestor Demand 1: ${d.protesterdemand1}` + toolBuild(d.protesterdemand2, `Protestor Demand 2:`) + toolBuild(d.protesterdemand3, `Protestor Demand 3:`) + toolBuild(d.protesterdemand4, `Protestor Demand 4:`) + `\n State Response 1: ${d.stateresponse1}` + toolBuild(d.stateresponse2, `State Response 2:`) + toolBuild(d.stateresponse3, `State Response 3:`) + toolBuild(d.stateresponse4, `State Response 4:`) + toolBuild(d.stateresponse5, `State Response 5:`) + toolBuild(d.stateresponse6, `State Response 6:`) + toolBuild(d.stateresponse7, `State Response 7:`)
