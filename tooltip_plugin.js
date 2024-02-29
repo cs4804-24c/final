@@ -2,7 +2,7 @@
 
 //All plots have to be encapsulated in an addTooltips function, ex: addTooltips(Plot.plot(...))
 
-addTooltips = (chart, styles) => {
+function addTooltips(chart, styles) {
   const stroke_styles = { stroke: "blue", "stroke-width": 3 };
   const fill_styles = { fill: "blue", opacity: 0.5 };
 
@@ -88,16 +88,16 @@ addTooltips = (chart, styles) => {
   wrapper.on("touchstart", () => tip.selectAll("*").remove());
 
   // Define the styles
-  chart.appendChild(html`<style>
-  .${id} .has-title { cursor: pointer;  pointer-events: all; }
-  .${id} .has-title:hover { ${Object.entries(styles).map(([key, value]) => `${key}: ${value};`).join(" ")} }`);
+  const tooltipStyle = document.createElement("style");
+  tooltipStyle.innerHTML = `.${id} .has-title { cursor: pointer;  pointer-events: all; }` + 
+  `.${id} .has-title:hover { ${Object.entries(styles).map(([key, value]) => `${key}: ${value};`).join(" ")} }`;
 
   return chart;
 };
 
 
 // Function to position the tooltip
-hover = (tip, pos, text) => {
+function hover(tip, pos, text) {
   const side_padding = 10;
   const vertical_padding = 5;
   const vertical_offset = 30;
@@ -115,7 +115,8 @@ hover = (tip, pos, text) => {
     .join("text")
     .style("dominant-baseline", "ideographic")
     .text((d) => d)
-    .attr("y", (d, i) => (i - (text.length - 1)) * 15 - vertical_offset)
+    .attr("y", (d, i) => (i - (text.length - 1)) * 20 - vertical_offset)
+    .style("font-size", "12pt")
     .style("font-weight", (d, i) => (i === 0 ? "bold" : "normal"));
 
   const bbox = tip.node().getBBox();
@@ -134,7 +135,7 @@ hover = (tip, pos, text) => {
 
 
 // To generate a unique ID for each chart so that they styles only apply to that chart
-id_generator = () => {
+function id_generator() {
   var S4 = function () {
     return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
   };

@@ -86,16 +86,10 @@ function updateChart() {
 
           // Include the data point if it matches both filters
           return violenceMatch && demandMatch && stateResponseMatch? d : null;
-
-
         })
       }))
-      
     ]
   });
-
-
-  
   
   const displayDiv = document.querySelector("#chart-display");
   const divWrapper = document.createElement("div");

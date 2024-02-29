@@ -1,23 +1,20 @@
-//Can probably remove this, though will need to add <script src="https://observablehq.com/@mkfreeman/plot-tooltip"></script> to html file
-import {Plot} from "@mkfreeman/plot-tooltip";
-
 function colorMap(d) {
   // Replace with actual column
   switch(d["protesterdemand1"]) {
     case "political behavior, process":
-      return "#8A3FFC";
+      return "#6929c4";
     case "land farm issue":
-      return "#007D79";
+      return "#1192e8";
     case "police brutality":
-      return "#007D79";
+      return "#005d5d"
     case "price increases, tax policy":
-      return "#FF7EB6";
+      return "#9f1853";
     case "labor wage dispute":
-      return "#FA4D56";
+      return "#fa4d56";
     case "removal of politician":
-      return "#FFF1F1";
+      return "#570408";
     case "social restrictions":
-      return "#6FDC8C";
+      return "#198038";
     default:
       console.log(d["protesterdemand1"]);
       return "#000000";
@@ -25,7 +22,7 @@ function colorMap(d) {
 };
 
 // Helps build tooltip
-toolBuild = (val, valTitle) => {
+function toolBuild(val, valTitle) {
   if (val == "") {
     return ""
   }
@@ -35,7 +32,7 @@ toolBuild = (val, valTitle) => {
 }
 
 // Helps build tooltip
-violenceTooltip = (val) => {
+function violenceTooltip(val) {
   if (val == 0){
     return `\n No Violence`
   }
@@ -46,28 +43,49 @@ violenceTooltip = (val) => {
 
 
 let flare;
+d3.csv("./reduced_protest_dataV2.csv").then(
+  r => {
+    flare = r;
+    updateChart();
+  }
+);
 
 // Add any other variables for filters here
 let selectViolence = "All";
+let selectProtestDemand = "All";
+let selectStateResponse = "All";
 
 window.onload = async () => {
-  flare = await d3.csv("./reduced_protest_data.csv");
-
   // For other filters, copy this and change variable and select tag to match the HTML for the new filter
   d3.select('#violenceDropdown')
-    .on('change', function() {
-     selectViolence = this.value;
-     updateChart();
-  }); 
-  
-  updateChart("All");
+  .on('change', function() {
+   selectViolence = this.value;
+   updateChart();
+}); 
+
+d3.select('#protestdemandDropdown')
+  .on('change', function() {
+   selectProtestDemand = this.value;
+   updateChart();
+}); 
+
+d3.select('#stateresponseDropdown')
+.on('change', function() {
+ selectStateResponse = this.value;
+ updateChart();
+}); 
 }
 
 function updateChart() {
+  // If data hasn't loaded yet
+  if(!flare) {
+    return;
+  }
+
   const plot = Plot.plot({
-    width: 3000,
-    height: 900,
-    y: {line: true, ticks: 0, label: null, axis: "left"},
+    height: screen.height * 8,
+    width: screen.width * 0.5,
+    y: {domain: [1990, 2020.3], ticks: d3.ticks(1990, 2020, 2020 - 1990), tickFormat: (t) => `${t}`, line: true, reverse: true, label: null, axis: "left"},
     marks: [
       Plot.dotY(flare, Plot.dodgeX({
         y: flare.map(d => parseFloat(d["endfrac"])),
@@ -82,20 +100,30 @@ function updateChart() {
           // }
 
           // Violence or not
-          if(selectViolence === "All") {
+          if(selectViolence === "All" && selectProtestDemand === "All" && selectStateResponse === "All") {
             return d;
           }
-          return (d["protesterviolence"] === selectViolence) ? d : null;
+
+          const violenceMatch = selectViolence === "All" || d["protesterviolence"] === selectViolence;
+
+          // Check if the data point matches the protest demand filter
+          const demandMatch = selectProtestDemand === "All" || d["protesterdemand1"] === selectProtestDemand;
+
+          const stateResponseMatch = selectStateResponse === "All" || d["stateresponse1"] === selectStateResponse;
+
+          // Include the data point if it matches both filters
+          return violenceMatch && demandMatch && stateResponseMatch? d : null;
         }),
         title: (d) => 
         `${d.region} \n ${d.country}, ${d.location} \n ${d.startdate} - ${d.enddate} \n ${d.participants} ${d.protesteridentity}` + violenceTooltip(d.protesterviolence) + `\n Protestor Demand 1: ${d.protesterdemand1}` + toolBuild(d.protesterdemand2, `Protestor Demand 2:`) + toolBuild(d.protesterdemand3, `Protestor Demand 3:`) + toolBuild(d.protesterdemand4, `Protestor Demand 4:`) + `\n State Response 1: ${d.stateresponse1}` + toolBuild(d.stateresponse2, `State Response 2:`) + toolBuild(d.stateresponse3, `State Response 3:`) + toolBuild(d.stateresponse4, `State Response 4:`) + toolBuild(d.stateresponse5, `State Response 5:`) + toolBuild(d.stateresponse6, `State Response 6:`) + toolBuild(d.stateresponse7, `State Response 7:`)
       }))
     ]
   });
+  addTooltips(plot);
   
   const displayDiv = document.querySelector("#chart-display");
   const divWrapper = document.createElement("div");
-  divWrapper.className = "left-chart";
+  // divWrapper.className = "left-chart";
 
   divWrapper.append(plot);
 

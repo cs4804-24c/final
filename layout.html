@@ -6,9 +6,16 @@
   <title>Beeswarm Graph with D3.js</title>
   <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
   <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6"></script>
-  <script type="module" src="./vBeeswarm.js" defer></script>
+  <script src="./tooltip_plugin.js"></script>
+  <script type="module" src="./v2Beeswarm.js" defer></script>
   <style>
     /* Add any custom styling for your graph here */
+    #side-panel {
+      position: fixed;
+      left: 10px;
+      top: 10px;
+    }
+
     .dot {
       opacity: 0.7;
     }
@@ -24,6 +31,7 @@
       padding: 10px;
       margin-left: 20px; /* Adjust the margin as needed */
       width: 200px; /* Adjust the width as needed */
+      border-radius: 10px 10px 0 0;
     }
 
     /* Style for the title text */
@@ -57,6 +65,10 @@
       margin-top: 0;
     }
 
+    #filter-box select {
+      border-radius: 5px;
+    }
+
     #filter-box p {
       font-size: 14px;
       font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -68,6 +80,7 @@
       padding: 10px;
       margin-left: 20px; /* Adjust the margin as needed */
       width: 200px; /* Adjust the width as needed */
+      border-radius: 0 0 10px 10px;
     }
 
     /* Style for the title text */
@@ -103,8 +116,12 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
-
-
+    #chart-display {
+      position: absolute;
+      left: 260px;
+      max-width: 70%;
+      width: 70%;
+    }
   </style>
 </head>
 <body>
