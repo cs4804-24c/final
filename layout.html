@@ -57,6 +57,11 @@
       margin-top: 0;
     }
 
+    #filter-box p {
+      font-size: 14px;
+      font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
     #legend-box {
       background-color: #f0f0f0;
       border: 1px solid #ccc;
@@ -114,11 +119,13 @@
   </div>
   <div id="filter-box">
     <h2>Filters</h2>
+    <p>Protester Violence</p>
     <select id="violenceDropdown">
       <option value="All">All</option>
       <option value="1">Protester Violence</option>
       <option value="0">No Violence</option>
     </select>
+    <p>Protest Demand</p>
     <select id="protestdemandDropdown">
       <option value="All">All</option>
       <option value="political behavior, process">Political Behavior, Process</option>
@@ -128,6 +135,17 @@
       <option value="labor wage dispute">Labor Wage Dispute</option>
       <option value="removal of politician">Removal of Politician</option>
       <option value="social restrictions">Social Restrictions</option>
+    </select>
+    <p>State Response</p>
+    <select id="stateresponseDropdown">
+      <option value="All">All</option>
+      <option value="ignore">Ignore</option>
+      <option value="accomodation">Accomodation</option>
+      <option value="crowd dispersal">Crowd Dispersal</option>
+      <option value="arrests">Arrests</option>
+      <option value="shootings">Shootings</option>
+      <option value="beatings">Beatings</option>
+      <option value="killings">Killings</option>
     </select>
   </div>
   <div id="legend-box">
