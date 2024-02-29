@@ -83,7 +83,7 @@ function drawTreemap(hierarchy) {
     .classed("cell", true)
     .attr("d", (d) => `M${d.polygon.join(",")}z`)
     .style("stroke", "black")
-    .style("stroke-width", "10px")
+    .style("stroke-width", "4px")
     .style("fill", (d) => d.data.color);
 
   const labels = treemapContainer
@@ -98,7 +98,7 @@ function drawTreemap(hierarchy) {
       "transform",
       (d) => `translate(${d.polygon.site.x}, ${d.polygon.site.y})`
     )
-    .style("font-size", (d) => fontScale(d.data.weight));
+    .style("font-size", (d) => fontScale(d.data.weight)*1.8);
 
   labels
     .append("text")
