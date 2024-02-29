@@ -11,14 +11,23 @@
     <script src="https://rawcdn.githack.com/Kcnarf/d3-voronoi-treemap/v1.1.1/build/d3-voronoi-treemap.js"></script>
 
     <title>Home page</title>
+
+    <style>
+      /* Your CSS styles go here */
+      code {
+        background-color: #f4f4f4;
+        padding: 2px 4px;
+        border-radius: 4px;
+      }
+    </style>
   </head>
   <body>
     <script src="index.js"></script>
 
     <div id="navbar"></div>
 
-    <div class="centerText">
-      <h1>Home</h1>
+    <div class="homeTitleText">
+      <h1>Voronoi Treemap</h1>
     </div>
 
     <!-- Your page content goes here -->
@@ -70,9 +79,213 @@
           });
       </script>
     </div>
-    <!-- <script src="./regTreemap.js"></script> -->
+
+    <div class="codeTitle">
+      <!-- Title -->
+      <h1>Creating a Simple Voronoi Treemap with D3.js</h1>
+    </div>
+
+    <!-- Introduction -->
+    <div class="codeIntro">
+      <p>
+        In order to create a simple Voronoi treemap using D3.js, follow these
+        steps:
+      </p>
+    </div>
+
+    <!-- Step 1: Initialize the HTML Structure -->
+    <ol>
+      <li>
+        <h2>Initialize the HTML Structure:</h2>
+        <p>
+          Set up the HTML structure with an SVG container where the treemap will
+          be rendered.
+        </p>
+        <code>&lt;svg id="simpleVoronoi"&gt;&lt;/svg&gt;</code>
+        <p>
+          The <code>&lt;svg&gt;</code> element with the ID "simpleVoronoi"
+          serves as the container for the Voronoi treemap.
+        </p>
+      </li>
+
+      <!-- Step 2: Import D3.js Library -->
+      <li>
+        <h2>Import D3.js Library:</h2>
+        <p>
+          Import the D3.js library by adding the following script tag just
+          before your custom script:
+        </p>
+        <code
+          >&lt;script
+          src="https://d3js.org/d3.v7.min.js"&gt;&lt;/script&gt;</code
+        >
+        <p>
+          This script tag imports the D3.js library from the official CDN,
+          making D3.js functionalities available in your project.
+        </p>
+      </li>
+
+      <!-- Step 3: Initialize the Voronoi Treemap -->
+      <li>
+        <h2>Initialize the Voronoi Treemap:</h2>
+        <p>
+          Define constants for SVG dimensions, data, and necessary variables.
+          Initialize the Voronoi treemap by calling functions to set up data,
+          layout, and drawing.
+        </p>
+        <pre><code>
+const HEIGHT = 500;
+const WIDTH = 960;
+const HALF_WIDTH = WIDTH / 2;
+const HALF_HEIGHT = HEIGHT / 2;
+
+// Define your data array here
+const data = [/* Your data array */];
+
+// Initialize SVG container
+const svg = d3.select("#simpleVoronoi")
+  .attr("width", WIDTH)
+  .attr("height", HEIGHT);
+
+const TREEMAP_RADIUS = Math.min(HALF_WIDTH, HALF_HEIGHT);
+
+const _voronoiTreemap = d3.voronoiTreemap();
+let hierarchy, circlingPolygon;
+
+const fontScale = d3.scaleLinear();
+
+function init(rootData) {
+  initData();
+  initLayout();
+  hierarchy = d3.hierarchy({ children: rootData }).sum((d) => d.weight);
+  _voronoiTreemap.clip(circlingPolygon)(hierarchy);
+
+  drawTreemap(hierarchy);
+}
+
+init(data);
+      </code></pre>
+        <p>
+          This block of code initializes constants, sets up the SVG container,
+          and prepares data and layout for the Voronoi treemap.
+        </p>
+        <p>
+          Constants like <code>HEIGHT</code> and <code>WIDTH</code> define the
+          dimensions of the SVG container. Data, such as country names, weights,
+          and colors, are stored in the <code>data</code> array. The
+          <code>init</code> function initializes the treemap by calling other
+          functions to set up data, layout, and drawing.
+        </p>
+      </li>
+
+      <!-- Step 4: Initialize Data and Layout -->
+      <li>
+        <h2>Initialize Data and Layout:</h2>
+        <p>
+          Define functions to initialize data and layout settings for the
+          treemap.
+        </p>
+        <pre><code>
+function initData() {
+  circlingPolygon = computeCirclingPolygon();
+  fontScale.domain([3, 20]).range([8, 20]).clamp(true);
+}
+
+function computeCirclingPolygon() {
+  return [
+    [0, 0],
+    [WIDTH, 0],
+    [WIDTH, HEIGHT],
+    [0, HEIGHT],
+  ];
+}
+
+function initLayout() {
+  const drawingArea = svg.append("g").classed("drawingArea", true);
+  const treemapContainer = drawingArea.append("g").classed("treemap-container", true);
+
+  treemapContainer
+    .append("path")
+    .classed("world", true)
+    .attr("transform", `translate(${-TREEMAP_RADIUS}, ${-TREEMAP_RADIUS})`)
+    .attr("d", `M${circlingPolygon.join(",")}Z`);
+}
+      </code></pre>
+        <p>
+          These functions initialize data and layout settings for the treemap,
+          including the circling polygon and font scale.
+        </p>
+        <p>
+          The <code>initData</code> function calculates the circling polygon and
+          sets the font scale based on the provided data. The
+          <code>computeCirclingPolygon</code> function calculates the vertices
+          of the circling polygon, while the <code>initLayout</code> function
+          sets up the SVG container and draws the circling polygon.
+        </p>
+      </li>
+
+      <!-- Step 5: Draw the Treemap -->
+      <li>
+        <h2>Draw the Treemap:</h2>
+        <p>
+          Create a function to draw the Voronoi treemap based on the provided
+          data and layout.
+        </p>
+        <pre><code>
+function drawTreemap(hierarchy) {
+  const leaves = hierarchy.leaves();
+
+  const cells = svg.select(".treemap-container")
+    .append("g")
+    .classed("cells", true)
+    .selectAll(".cell")
+    .data(leaves)
+    .enter()
+    .append("path")
+    .classed("cell", true)
+    .attr("d", (d) => `M${d.polygon.join(",")}z`)
+    .style("stroke", "black")
+    .style("stroke-width", "10px")
+    .style("fill", (d) => d.data.color);
+
+  const labels = svg.select(".treemap-container")
+    .append("g")
+    .classed("labels", true)
+    .selectAll(".label")
+    .data(leaves)
+    .enter()
+    .append("g")
+    .classed("label", true)
+    .attr("transform", (d) => `translate(${d.polygon.site.x}, ${d.polygon.site.y})`)
+    .style("font-size", (d) => fontScale(d.data.weight));
+
+  labels
+    .append("text")
+    .classed("name", true)
+    .html((d) => d.data.name);
+
+  labels
+    .append("text")
+    .classed("value", true)
+    .text((d) => `${d.data.weight}%`);
+}
+      </code></pre>
+        <p>
+          This function draws the Voronoi treemap based on the provided data and
+          layout settings, including cells and labels.
+        </p>
+        <p>
+          The <code>drawTreemap</code> function creates cells and labels for
+          each data point in the treemap. It appends SVG elements for cells and
+          labels, styles them accordingly, and positions them based on the
+          calculated data. The cells represent the Voronoi regions, while the
+          labels display country names and weights.
+        </p>
+      </li>
+    </ol>
   </body>
 
+  <div id="navbar"></div>
   <footer>
     <p>© 2024 Voronoi Treemaps</p>
   </footer>
