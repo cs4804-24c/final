@@ -201,7 +201,7 @@ export default function ParallelPlotPage() {
             
             // Function for handling clicks on axes
             const handleAxisClick = (event, dimension) => {
-                const clickedValue = y[dimension].invert(event.layerY - margin.top);
+                const clickedValue = y[dimension].invert(event.layerY - margin.top - 96);
                 //console.log(clickedValue) //TODO: Debugging
             
                 // Initialize the list for selected axis if it doesn't exist
