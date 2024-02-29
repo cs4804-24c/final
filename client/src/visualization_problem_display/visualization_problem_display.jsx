@@ -131,9 +131,14 @@ function VisualizationProblemDisplay() {
         </h1>
     );
 
+    const InformationText = () => (
+        <label className={`label is-size-6 is-family-monospace has-text-weight-light ${questionNumber % 2 === 0 && "is-hidden"}`} >
+            The red people icons represent those who will get the disease and the black people icons represent those who will not get the disease.
+        </label>
+    )
+
     /** Text for the current question */
     const QuestionText = () => (
-        //((questionNumber - 1) % 3)
         <label className="label is-size-6 is-family-monospace has-text-weight-light" >
             {questions[questionNumber - 1]}
         </label>
@@ -208,6 +213,7 @@ function VisualizationProblemDisplay() {
                     <svg id={questionNumber % 2 === 0 ? "control-text" : "icon-array"}/>
                     <div className="media-content">
                         <div className="content">
+                            <InformationText />
                             <QuestionText />
                             <div className="field">
                                 <div className="control">
