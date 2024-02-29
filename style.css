@@ -10,7 +10,7 @@ div {
 }
 
 h1 {
-  margin: 20px 0 0 0;
+  margin: 0px 0 0 0;
 }
 
 nav {
@@ -86,7 +86,8 @@ svg {
 /* BEGIN INDEX HTML */
 .homeTitleText {
   padding: auto;
-  padding-top: 40px;
+  padding-top: 50px;
+  padding-bottom: 20px;
   font-size: 1.2rem;
   padding-left: 20px;
 }
@@ -98,7 +99,7 @@ svg {
 
 .centerText {
   display: grid;
-  padding-top: 20px;
+  padding-top: 0px;
   padding-left: 20px;
   font-size: 1.5rem;
 }
@@ -118,7 +119,7 @@ footer {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 100px 0 10px 0;
+  padding: 50px 0 10px 0;
 }
 
 /* END INDEX HTML */
@@ -126,7 +127,7 @@ footer {
 /* BEGIN CODETUTORIAL HTML*/
 .codeTitle {
   padding: auto;
-  padding-top: 50px;
+  padding-top: 120px;
   font-size: 1.2rem;
   padding-left: 20px;
 }
