@@ -17,13 +17,19 @@
   <div id="navbar"></div>
   <body>
     <div class="codeTitle">
+      <!-- Title -->
       <h1>Creating a Simple Voronoi Treemap with D3.js</h1>
     </div>
-    <p>
-      In order to create a simple Voronoi treemap using D3.js, follow these
-      steps:
-    </p>
 
+    <!-- Introduction -->
+    <div class="codeIntro">
+      <p>
+        In order to create a simple Voronoi treemap using D3.js, follow these
+        steps:
+      </p>
+    </div>
+
+    <!-- Step 1: Initialize the HTML Structure -->
     <ol>
       <li>
         <h2>Initialize the HTML Structure:</h2>
@@ -37,6 +43,8 @@
           serves as the container for the Voronoi treemap.
         </p>
       </li>
+
+      <!-- Step 2: Import D3.js Library -->
       <li>
         <h2>Import D3.js Library:</h2>
         <p>
@@ -52,6 +60,8 @@
           making D3.js functionalities available in your project.
         </p>
       </li>
+
+      <!-- Step 3: Initialize the Voronoi Treemap -->
       <li>
         <h2>Initialize the Voronoi Treemap:</h2>
         <p>
@@ -95,7 +105,16 @@ init(data);
           This block of code initializes constants, sets up the SVG container,
           and prepares data and layout for the Voronoi treemap.
         </p>
+        <p>
+          Constants like <code>HEIGHT</code> and <code>WIDTH</code> define the
+          dimensions of the SVG container. Data, such as country names, weights,
+          and colors, are stored in the <code>data</code> array. The
+          <code>init</code> function initializes the treemap by calling other
+          functions to set up data, layout, and drawing.
+        </p>
       </li>
+
+      <!-- Step 4: Initialize Data and Layout -->
       <li>
         <h2>Initialize Data and Layout:</h2>
         <p>
@@ -132,7 +151,16 @@ function initLayout() {
           These functions initialize data and layout settings for the treemap,
           including the circling polygon and font scale.
         </p>
+        <p>
+          The <code>initData</code> function calculates the circling polygon and
+          sets the font scale based on the provided data. The
+          <code>computeCirclingPolygon</code> function calculates the vertices
+          of the circling polygon, while the <code>initLayout</code> function
+          sets up the SVG container and draws the circling polygon.
+        </p>
       </li>
+
+      <!-- Step 5: Draw the Treemap -->
       <li>
         <h2>Draw the Treemap:</h2>
         <p>
@@ -181,6 +209,13 @@ function drawTreemap(hierarchy) {
         <p>
           This function draws the Voronoi treemap based on the provided data and
           layout settings, including cells and labels.
+        </p>
+        <p>
+          The <code>drawTreemap</code> function creates cells and labels for
+          each data point in the treemap. It appends SVG elements for cells and
+          labels, styles them accordingly, and positions them based on the
+          calculated data. The cells represent the Voronoi regions, while the
+          labels display country names and weights.
         </p>
       </li>
     </ol>

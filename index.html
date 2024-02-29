@@ -17,9 +17,12 @@
 
     <div id="navbar"></div>
 
-    <!-- Your page content goes here -->
     <div class="centerText">
       <h1>Home</h1>
+    </div>
+
+    <!-- Your page content goes here -->
+    <div class="centerText">
       <h2>What are Voronoi Treemaps?</h2>
       <p>
         Voronoi Treemaps are methods of visualizing hierarchical data, where
@@ -33,15 +36,16 @@
 
     <div class="centerText">
       <h2>Traditional Treemap</h2>
-      <p>
-        This is a Traditional Treemap. Notice how the rectangles are used to
-        represent the data. This can lead to a more rigid and less organic
-        representation of the data.
-      </p>
+      <div class="innerSection">
+        <p>
+          This is a Traditional Treemap. Notice how the rectangles are used to
+          represent the data. This can lead to a more rigid and less organic
+          representation of the data.
+        </p>
+        <div id="my_dataviz"></div>
+        <script src="./treemap.js"></script>
+      </div>
     </div>
-
-    <div id="my_dataviz"></div>
-    <script src="./treemap.js"></script>
 
     <div class="centerText">
       <h2>Voronoi Treemap</h2>
