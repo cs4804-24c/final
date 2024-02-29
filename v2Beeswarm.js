@@ -1,6 +1,3 @@
-//Can probably remove this, though will need to add <script src="https://observablehq.com/@mkfreeman/plot-tooltip"></script> to html file
-import {Plot} from "@mkfreeman/plot-tooltip";
-
 function colorMap(d) {
   // Replace with actual column
   switch(d["protesterdemand1"]) {
@@ -51,16 +48,19 @@ let flare;
 let selectViolence = "All";
 
 window.onload = async () => {
-  flare = await d3.csv("./reduced_protest_data.csv");
+  d3.csv("./reduced_protest_data.csv").then(
+    r => {
+      flare = r;
+      updateChart("All");
+    }
+  );
 
   // For other filters, copy this and change variable and select tag to match the HTML for the new filter
   d3.select('#violenceDropdown')
     .on('change', function() {
      selectViolence = this.value;
      updateChart();
-  }); 
-  
-  updateChart("All");
+  });
 }
 
 function updateChart() {
