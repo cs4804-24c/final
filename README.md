@@ -123,3 +123,9 @@ References
 ---
 
 - This final project is adapted from https://www.dataviscourse.net/2020/project/
+- Data for this project was sourced from https://dataverse.harvard.edu/dataverse/MMdata
+- [Observable](https://observablehq.com/) was used to code much of the visualization
+- The code used was based on the mirrored beeswarm graph example on Observable at https://observablehq.com/@d3/beeswarm-mirrored/2
+- The code for the tooltip was sourced from an Observable notebook by Mike Freeman at https://observablehq.com/@mkfreeman/plot-tooltip
+
+- 
