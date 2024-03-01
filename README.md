@@ -96,11 +96,6 @@ export async function sendAnswer(answer, user) {
 `getCurrentUserRecord()` simply returns the document associated with the currently signed-in user, and `getAllUserRecords()` returns an array of every user record in the database.
 
 ## The Server
-The React client is hosted by a simple express server in the root directory. The server listens on port `4804` ;)You can visit the page at www.icons.joed.dev
+The React client is hosted by a simple express server in the root directory. The server listens on port `4804` ;)You can visit the page at www.final.joed.dev
 
-## Design Achievements
-
-
-
-## Technical Achievements
 
