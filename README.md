@@ -24,6 +24,14 @@ Project Features
 
 All the code used to create the visualization is present in the main Github page, layout.html being the html code that implements that visualization, the code v2Beeswarm.js and tooltip_plugin.js generating the graphs with the data being pulled from reduced_protest_dataV2.csv. The folder Previous Versions includes past versions of code and data files that are currently not in use while the Code Sample folder holds short files that included snippets of code that were used to incorporate various features piecemeal over time.
 
+Design Achievements
+---
+- Utilized Figma to create a mockup/prototype of visualization
+- Utilized guidelines from IBM's Carbon Design System for data visualization color palletes to ensure that the visualization is accessible
+
+Technical Achievements
+---
+- Utilized Observable to expedite the process of creating visualization code
 
 GitHub Details
 ---
