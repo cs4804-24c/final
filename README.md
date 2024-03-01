@@ -9,6 +9,8 @@ https://audreymongillo.github.io/final/
  https://youtu.be/aTDuD9MLifI 
 
 # Process Book
+The process book is also available in PDF form.
+
 https://wpi0-my.sharepoint.com/:p:/g/personal/ajmongillo_wpi_edu/EfyKxI4Kh3lJiDiybVoUwt0BbvumwAor7xm9TxpVrejbuQ?e=VW9ezG
 
 # Description
@@ -17,12 +19,11 @@ greenhouse gases in the United States and the rest of the world has changed over
 are emitted into our atmosphere, they trap the sun's heat, leading to global warming and climate change. We feel that it 
 is important for our readers to understand where the highest concentrations of these gases have been coming from.
 
-# Code Description
+# Description of Files/ Folders
 All the code for our website can be found in index.html. We did not use any libraries other than d3 to complete this 
-project. Other folders within the repo contain materials for the process book, extra  materials used
-within the code, and our data sources (both original downloaded files and any new files we created when cleaning the data). 
-Our process book in the form of a PDF is included in this repo as well. For our data cleanup we wrote a python script and used the Pandas library. This
-code can be found in the repo as well. 
+project. Other folders within the repo contain materials for the process book, extra materials used
+within the code (flag images), and our data sources (both original downloaded files and any new files we created when cleaning and exploring the data). 
+Our process book in the form of a PDF is included in this repo as well. For our data cleanup and exploration we wrote a python script and used the Pandas library. This code can be found in the repo as well inside the 'Python Code' folder. 
 
 # Special Features
 There are a couple features within our visualization that may not be obvious. Within the first graph, you can hover over
