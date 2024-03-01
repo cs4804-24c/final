@@ -46,8 +46,8 @@ const BarChart = ({ data, width = 600, height = 400 }) => {
             .attr('class', 'bar')
             .attr('x', d => xScale(d.name))
             .attr('width', xScale.bandwidth())
-            .attr('y', chartHeight) // Start from the bottom
-            .attr('height', 0) // Start with height of 0
+            .attr('y', chartHeight)
+            .attr('height', 0)
             .attr('fill', (d, i) => colorScale(i))
             .on('mouseover', (event, d) => {
                 tooltip.transition()
@@ -65,7 +65,7 @@ const BarChart = ({ data, width = 600, height = 400 }) => {
             // Animation transition
             .transition()
             .duration(750)
-            .attr('y', d => yScale(d.value)) // Move to final y position
+            .attr('y', d => yScale(d.value))
             .attr('height', d => chartHeight - yScale(d.value));
 
 
