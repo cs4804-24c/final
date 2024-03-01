@@ -3,6 +3,7 @@ import Papa from "papaparse";
 import * as d3 from 'd3';
 import ScatterPlot from "./components/ScatterPlot";
 import BarChart from "./components/BarChart";
+import PieChart from "./components/PieChart";
 import './App.css'; 
 
 const statCategories = ['W', 'L', 'W_PCT', 'PTS', 'REB', 'AST'];
