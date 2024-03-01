@@ -1,7 +1,7 @@
 # Description
 This project is about visualizing Data from the 2022 American Time Use Survey
 
-The code it in index.html
+The code it in index.html and the python notebook is for helping clean the data
 
 The data is in dataFinal.csv
 
