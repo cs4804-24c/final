@@ -29,7 +29,7 @@ h1 {
 }
 
 nav {
-  background-color: #203039;
+  background-color: #494949;
   opacity: 0.98;
   color: #ededed;
   text-align: center;
@@ -40,14 +40,14 @@ nav {
   z-index: 999;
 }
 nav a {
-  color: #f8f8f8;
+  color: #d2d2d2;
   text-decoration: none;
   padding: 0 15px;
   font-size: 1.2rem;
 }
 nav a:hover {
   /* background-color: #555; */
-  color: #bed1dc;
+  color: white;
   transition: color 0.1s ease-in-out;
 }
 .container {

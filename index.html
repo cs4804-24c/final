@@ -290,9 +290,59 @@ function drawTreemap(hierarchy) {
         </li>
         <!-- Background Processes Section -->
         <li>
-          <h2>Background Processes</h2>
+          <h2>Additional Info: Background Processes</h2>
           <p>
-            You will notice in the tutorials that there are multiple functions that are not included in d3, that is because the operations necessary for the Voronoi treemap are imported via the d3-voronoi-treemap plugin. The documentation and installation instructions of which can be found using this link: https://github.com/Kcnarf/d3-voronoi-treemap. This plugin hosts the relevant function calls to build a visualization of this model. d3.voronoiTreemap() literally creates a new voronoiTreemap with the default configuration values and functions , clip, extent, size, convergenceRatio, maxIterationCount, minWeightRatio, and prng. Some of these standard methods are used in the tutorial and are fairly self explanitory; they all play their part in the process for creating a Voronoi treemap whether it be through setting the size of the treemap, the maximum number of iterations, or the minimum weight ratio. The clip method is used to set the clipping polygon for the treemap, and the extent method is used to set the extent of the treemap. The prng method is used to set the random number generator for the treemap. The convergenceRatio method is used to set the convergence ratio for the treemap, and the maxIterationCount method is used to set the maximum number of iterations for the treemap. The minWeightRatio method is used to set the minimum weight ratio for the treemap.  
+            You will notice in the tutorials that there are multiple functions
+            that are not included in d3, that is because the operations
+            necessary for the Voronoi treemap are imported via the
+            d3-voronoi-treemap plugin. The documentation and installation
+            instructions of which can be found using this link:
+            <a href="https://github.com/Kcnarf/d3-voronoi-treemap"> here</a>.
+            This plugin hosts the relevant function calls to build a
+            visualization of this model.
+          </p>
+          <p>
+            <code>d3.voronoiTreemap()</code> literally creates a new
+            voronoiTreemap with the default configuration values and functions,
+            including <code>clip</code>, <code>extent</code>, <code>size</code>,
+            <code>convergenceRatio</code>, <code>maxIterationCount</code>,
+            <code>minWeightRatio</code>, and <code>prng</code>. Some of these
+            standard methods are used in the tutorial and are fairly
+            self-explanatory; they all play their part in the process for
+            creating a Voronoi treemap.
+          </p>
+          <ul>
+            <li>
+              <strong>clip:</strong> Used to set the clipping polygon for the
+              treemap.
+            </li>
+            <li>
+              <strong>extent:</strong> Used to set the extent of the treemap.
+            </li>
+            <li><strong>size:</strong> Specifies the size of the treemap.</li>
+            <li>
+              <strong>convergenceRatio:</strong> Sets the convergence ratio for
+              the treemap.
+            </li>
+            <li>
+              <strong>maxIterationCount:</strong> Sets the maximum number of
+              iterations for the treemap.
+            </li>
+            <li>
+              <strong>minWeightRatio:</strong> Sets the minimum weight ratio for
+              the treemap.
+            </li>
+            <li>
+              <strong>prng:</strong> Sets the random number generator for the
+              treemap.
+            </li>
+          </ul>
+          <p>
+            These methods are essential for configuring various aspects of the
+            Voronoi treemap, such as the size, convergence behavior, and
+            clipping boundaries. Understanding and properly configuring these
+            parameters are crucial for effectively visualizing data using the
+            Voronoi treemap technique.
           </p>
         </li>
       </ol>
