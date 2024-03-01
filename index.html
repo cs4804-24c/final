@@ -396,9 +396,10 @@ function drawTreemap(hierarchy) {
           </p>
         </ol>
       </div>
-      <div class="centerText hidden">
+      <div class="centerText">
         <h2>How Voronoi Treemaps are generated</h2>
         <iframe
+          class="hidden"
           width="560"
           height="315"
           src="https://www.youtube.com/embed/3Qd56UBDKQE?si=NQOUv_da485C4PIw"
@@ -408,10 +409,10 @@ function drawTreemap(hierarchy) {
           allowfullscreen
         ></iframe>
       </div>
-      <div class="codeTitle hidden">
+      <div class="codeTitle">
         <h1>The d3-voronoi-treemap.js library</h1>
       </div>
-      <div class="codeIntro hidden">
+      <div class="codeIntro">
         <p>
           This
           <a
@@ -425,15 +426,15 @@ function drawTreemap(hierarchy) {
           passes these dependencies to the factory function.
         </p>
         <p>
-          `_voronoiTreemap` is the main function representing the Voronoi
-          treemap algorithm. Additional functions are defined on _voronoiTreemap
-          to get or set various parameters such as convergence ratio, max
-          iteration count, etc.
+          <code>_voronoiTreemap</code> is the main function representing the
+          Voronoi treemap algorithm. Additional functions are defined on
+          _voronoiTreemap to get or set various parameters such as convergence
+          ratio, max iteration count, etc.
         </p>
         <p>
-          `recurse` is a private function used internally to generate the
-          Voronoi treemap recursively. It assigns the clipping polygon to the
-          node and computes the Voronoi map for its children recursively.
+          <code>recurse</code> is a private function used internally to generate
+          the Voronoi treemap recursively. It assigns the clipping polygon to
+          the node and computes the Voronoi map for its children recursively.
         </p>
         <pre class="hidden"><code>
 (function (global, factory) {
