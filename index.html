@@ -134,18 +134,18 @@ const HALF_HEIGHT = HEIGHT / 2;
 
 // Define your data array here
 const data = [
-  { name: "China", weight: 14.84, color: "#ffffcc" },
-  { name: "Japan", weight: 5.91, color: "#ffcc99" },
-  { name: "India", weight: 2.83, color: "#ffcccc" },
-  { name: "South Korea", weight: 1.86, color: "#ff99cc" },
-  { name: "Russia", weight: 1.8, color: "#ffccff" },
-  { name: "Indonesia", weight: 1.16, color: "#cc99ff" },
-  { name: "Turkey", weight: 0.97, color: "#ccccff" },
-  { name: "Saudi Arabia", weight: 0.87, color: "#99ccff" },
-  { name: "Iran", weight: 0.57, color: "#ccffff" },
-  { name: "Thaïland", weight: 0.53, color: "#99ffcc" },
-  { name: "UAE", weight: 0.5, color: "#ccffcc" },
-  { name: "Hong Kong", weight: 0.42, color: "#ccff99" },
+{ name: "China", weight: 46.0, color: "#ffffcc" },
+  { name: "Japan", weight: 18.32, color: "#ffcc99" },
+  { name: "India", weight: 8.77, color: "#ffcccc" },
+  { name: "South Korea", weight: 5.77, color: "#ff99cc" },
+  { name: "Russia", weight: 5.58, color: "#ffccff" },
+  { name: "Indonesia", weight: 3.6, color: "#cc99ff" },
+  { name: "Turkey", weight: 3.01, color: "#ccccff" },
+  { name: "Saudi Arabia", weight: 2.7, color: "#99ccff" },
+  { name: "Iran", weight: 1.77, color: "#ccffff" },
+  { name: "Thaïland", weight: 1.64, color: "#99ffcc" },
+  { name: "UAE", weight: 1.55, color: "#ccffcc" },
+  { name: "Hong Kong", weight: 1.3, color: "#ccff99" },
 ];
 
 // Initialize SVG container
@@ -290,7 +290,7 @@ function drawTreemap(hierarchy) {
         </li>
         <!-- Background Processes Section -->
         <li>
-          <h2>Additional Info: Background Processes</h2>
+          <h2>Additional Info:</h2>
           <p>
             You will notice in the tutorials that there are multiple functions
             that are not included in d3, that is because the operations
@@ -302,8 +302,8 @@ function drawTreemap(hierarchy) {
             visualization of this model.
           </p>
           <p>
-            <code>d3.voronoiTreemap()</code> literally creates a new
-            voronoiTreemap with the default configuration values and functions,
+            <code>d3.voronoiTreemap()</code> creates a new voronoiTreemap with a
+            set of default configuration values, functions, and algorithms,
             including <code>clip</code>, <code>extent</code>, <code>size</code>,
             <code>convergenceRatio</code>, <code>maxIterationCount</code>,
             <code>minWeightRatio</code>, and <code>prng</code>. Some of these
@@ -346,6 +346,52 @@ function drawTreemap(hierarchy) {
           </p>
         </li>
       </ol>
+      <div>
+        <ol>
+          <h2>
+            <h1 style="padding-top: 30px">
+              Voronoi General Background Processes
+            </h1>
+          </h2>
+          <li>
+            <h2>Scatter Plot:</h2>
+            <p>
+              A voronoi diagram starts with a set of 2d coordinate points
+              plotted on a plane.
+            </p>
+            <img
+              class="hidden"
+              style="width: 900px; height: auto; margin: auto"
+              src="./img/voronoiStep1.png"
+              alt="Voronoi1"
+            />
+          </li>
+          <li>
+            <h2>Delaunay triangulation:</h2>
+            <p>
+              run a Delaunay triangulation on the set of two-dimensional points
+            </p>
+            <img
+              class="hidden"
+              style="width: 900px; height: auto; margin: auto"
+              src="./img/voronoiStep2.png"
+              alt="Voronoi2"
+            />
+          </li>
+          <li>
+            <h2>Circumcenters:</h2>
+            <p>
+              join the circumcenters of each triangle to get the voronoi diagram
+            </p>
+            <img
+              class="hidden"
+              style="width: 900px; height: auto; margin: auto"
+              src="./img/voronoiStep3.png"
+              alt="Voronoi3"
+            />
+          </li>
+        </ol>
+      </div>
     </div>
   </body>
 
