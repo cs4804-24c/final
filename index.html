@@ -1388,6 +1388,23 @@
                           "#898c8a",
                         ]);
 
+                function getCountryMessage(country) {
+                  if (country === 'China') {
+                    return 'China has the largest GHG emissions because they are the world\'s largest coal producer';
+                  } else if (country === 'United States') {
+                    return 'The United States emits many GHGs because Americans tend to drive more, emitting many fossil fuels from cars';
+                  } else if (country == 'India') {
+                    return 'Most of India\'s GHG emissions come from an abundance of coal power plants';
+                  } else if (country == 'Russia') {
+                    return '60% of Russia\'s GHG emissions come from fossil fuel operations' ;
+                  } else if (country == 'Japan') {
+                    return '90% of Japan\'s GHG emissions come from fossil fuel combustion';
+                  } else {
+                    return 'All countries produce GHGs, with some of the biggest sources of GHG emissions being electricity and heat production';
+                  }
+                }
+
+
                 // Making the rectangles with tooltip text
                 svg.selectAll("rect")
                         .data(root.leaves())
@@ -1399,8 +1416,10 @@
                         .attr("height", function (d) { return d.y1 - d.y0; })
                         .attr("fill", function (d) { return colors(d.data.country); })
                         .append("title") // Append a title element for the tooltip
-                        .text(function(d) { return `Country: ${d.data.country}\nTotal GHG Emissions: ${d.data.total_ghg}`; }); // Set the text for the tooltip
-
+                        .text(function(d) {
+                          const countryMessage = getCountryMessage(d.data.country);
+                          return `Country: ${d.data.country}\nTotal GHG Emissions: ${d.data.total_ghg}\n${countryMessage}`;
+                        });
 
                 // Adding the country names
                 svg.selectAll("text")
