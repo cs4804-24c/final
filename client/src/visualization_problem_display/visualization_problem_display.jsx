@@ -10,6 +10,9 @@ import neutralFigure from "../randomizations/img/neutral_figure.png";
 /** Number of questions to show the user */
 const numQuestions = 6;
 
+let totalNumberOfIcons = null;
+let totalNumberOfRedIcons = null;
+
 function VisualizationProblemDisplay() {
     const [screenWidth, setScreenWidth] = useState(window.innerWidth) //We may not need screenWidth anymore.
     const visualizationTitles = ["Lake Disease Icon Array", "Swamp Disease", "Cavern Disease Icon Array", "Jungle Disease", "Mountain Disease Icon Array", "Ocean Disease"]
@@ -19,9 +22,6 @@ function VisualizationProblemDisplay() {
     const [currentQuestionState, setCurrentQuestionState] = useState(null)
     const [currentQuestionAnswered, setCurrentQuestionAnswered] = useState(false)
     const [answerFeedback, setAnswerFeedback] = useState("")
-    // const [currentCorrectAnswer, setCurrentCorrectAnswer] = useState(null)
-    const [totalNumberOfIcons, setTotalNumberOfIcons] = useState(null)
-    const [totalNumberOfRedIcons, setTotalNumberOfRedIcons] = useState(null)
     const navigate = useNavigate()
 
     const questions = [
@@ -61,8 +61,8 @@ function VisualizationProblemDisplay() {
             : [10, 15, 20, 25][Math.floor(Math.random() * 4)] // Random number of highlighted people
         const sumOfIcons = numberOfIconsPerRow * numberOfRows // Total number of people icons
 
-        setTotalNumberOfRedIcons(numberOfRedIcons)
-        setTotalNumberOfIcons(sumOfIcons)
+        totalNumberOfRedIcons = numberOfRedIcons;
+        totalNumberOfIcons = sumOfIcons;
 
         const svgWidth = numberOfIconsPerRow * 20 + 45 // Width of the SVG container
         const svgHeight = (sumOfIcons / numberOfIconsPerRow) * 50 + 45 // Height of the SVG container
