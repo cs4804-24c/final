@@ -23,3 +23,10 @@
   border: 1px solid #ccc;
   background-color: white;
 }
+
+.stat-selectors {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: white;
+}
