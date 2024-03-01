@@ -1,7 +1,7 @@
 Final Project - Interactive Data Visualization  
 ===
 ## Links
-Website - http://BradyA25.github.io/final/index.html
+Website - https://bradya25.github.io/final/
 Youtube Video - https://www.youtube.com/watch?v=5SPrY1ti-Js&t=1s&ab_channel=AaronBrady 
 
 ## File Breakdown
