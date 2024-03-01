@@ -1,11 +1,11 @@
 # Assignment 3 - Replicating a Classic Experiment  
 *By: Matthew McAlarney, Priyanka Narasimhan, Joe Dobbelaar, and Randy Huang*
 
-## Working link to our web application
+## Working Link to our Web Application
 
 
 
-## Link to project screencast
+## Link to Project Screencast
 
 
 
