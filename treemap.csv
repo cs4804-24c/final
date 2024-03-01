@@ -1,18 +1,14 @@
 name,parent,value
 Origin,,
-CN,Origin,14.84
-JP,Origin,5.91
-IN,Origin,2.83
-KR,Origin,1.86
-RU,Origin,1.8
-ID,Origin,1.16
-TR,Origin,0.97
-SA,Origin,0.87
-IR,Origin,0.57
-TH,Origin,0.53
-AE,Origin,0.5
-HK,Origin,0.42
-IL,Origin,0.4
-MY,Origin,0.4
-SG,Origin,0.39
-PH,Origin,0.39
+China,Origin,46.0
+Japan,Origin,18.32
+India,Origin,8.77
+South Korea,Origin,5.77
+Russia,Origin,5.58
+Indonesia,Origin,3.6
+Turkey,Origin,3.01
+SA,Origin,2.7
+Iran,Origin,1.77
+Thailand,Origin,1.64
+UAE,Origin,1.55
+Hong Kong,Origin,1.3
