@@ -7,7 +7,7 @@ https://final.joed.dev/
 
 ## Link to Project Screencast
 
-
+https://www.loom.com/share/bb2549e8a21d4a7981b1962f8682de3d
 
 ## Link to Process Book PDF
 
@@ -20,7 +20,7 @@ https://final.joed.dev/
 - **UI, React component setup, and refactors**: *Matthew McAlarney, Joe Dobbelaar, and Randy Huang*
 - **Icon array data randomization**: *Randy Huang and Priyanka Narasimhan*
 - **Experiment question setup and visualizations**: *Priyanka Narasimhan and Matthew McAlarney*
-- **Master csv functionality**: *Randy Huang*
+- **Master csv functionality and confidence intervals**: *Randy Huang*
 
 ## Firebase: Database & Authenticaton
 User authentication and database are handled by Firebase: Google's mobile and web application development platform. Firebase configuration information is in `api/firebase.js`:
