@@ -39,8 +39,8 @@ const PieChart = ({ data }) => {
                 .attr('stroke', 'white')
                 .style('stroke-width', '2px')
                 .style('opacity', 0.7)
-                .transition() // Initialize transition
-                .duration(1000) // Duration in ms
+                .transition()
+                .duration(1000)
                 .attrTween('d', function(d) {
                     const i = d3.interpolate(d.startAngle+0.1, d.endAngle);
                     return function(t) {
