@@ -101,6 +101,10 @@ Store the following in your GitHub repository:
 - Process Book- Your Process Book in PDF format.
 - README - The README file must give an overview of what you are handing in: which parts are your code, which parts are libraries, and so on. The README must contain URLs to your project websites and screencast videos. The README must also explain any non-obvious features of your interface.
 
+
+All the code used to create the visualization is present in the main Github page, layout.html being the html code that implements that visualization, the code v2Beeswarm.js and tooltip_plugin.js generating the graphs with the data being pulled from reduced_protest_dataV2.csv. The folder Previous Versions includes past versions of code and data files that are currently not in use while the Code Sample folder holds short files that included snippets of code that were used to incorporate various features piecemeal over time.
+
+
 GitHub Details
 ---
 
@@ -127,5 +131,3 @@ References
 - [Observable](https://observablehq.com/) was used to code much of the visualization
 - The code used was based on the mirrored beeswarm graph example on Observable at https://observablehq.com/@d3/beeswarm-mirrored/2
 - The code for the tooltip was sourced from an Observable notebook by Mike Freeman at https://observablehq.com/@mkfreeman/plot-tooltip
-
-- 
