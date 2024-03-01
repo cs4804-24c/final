@@ -1150,7 +1150,6 @@
             .domain(data.map((d) => d.country))
             .range(colors);
 
-          // lines for the graph
           const line = d3
             .line()
             .x((d) => xScale(d.year))
