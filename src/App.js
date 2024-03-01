@@ -1,39 +1,33 @@
 import React, { useEffect, useState } from "react";
 import Papa from "papaparse";
-
+import * as d3 from 'd3';
+import ScatterPlot from "./components/ScatterPlot";
 import BarChart from "./components/BarChart";
 import './App.css'; 
 
-
 const statCategories = ['W', 'L', 'W_PCT', 'PTS', 'REB', 'AST'];
+
 function App() {
     const [team1, setTeam1] = useState("");
     const [team2, setTeam2] = useState("");
     const [selectedStat, setSelectedStat] = useState(statCategories[0]);
     const [teamsList, setTeamsList] = useState([]);
+    const [data, setData] = useState([]);
 
     useEffect(() => {
-      const loadTeamsList = () => {
-          fetch('/team_stats.csv')
-              .then(response => response.text())
-              .then(csvText => {
-                  Papa.parse(csvText, {
-                      header: true,
-                      complete: (results) => {
-                          const teams = results.data.map(team => ({
-                              teamId: team.TEAM_ID,
-                              fullName: team.TEAM_NAME,
-                              ...team
-                          }));
-                          setTeamsList(teams);
-                      },
-                  });
-              })
-              .catch(error => console.error("Failed to load teams list:", error));
-      };
-
-      loadTeamsList();
-  }, []);
+        d3.csv("/2022_team_stats.csv").then((d) => {
+          const teams = d.map(row => ({
+            ...row,
+            teamId: row.TEAM_ID,
+            fullName: row.TEAM_NAME,
+            FG_PCT: parseFloat(row.FG_PCT),
+            W_PCT: parseFloat(row.W_PCT)
+          }));
+          setTeamsList(teams);
+          setData(teams);
+        });
+      }, []);
+      
 
   const renderVisualization = () => {
     const selectedTeams = teamsList.filter(team => 
@@ -57,7 +51,7 @@ function App() {
     return (
         <div className="app-container">
         <header className="app-header">
-            <h1>NBA Shot Chart Comparison</h1>
+            <h1>2022-23 Season NBA Team Stats Comparison</h1>
         </header>
         <div className="team-selectors">
                 <select className="team-selector" value={team1} onChange={(e) => setTeam1(e.target.value)}>
@@ -90,7 +84,7 @@ function App() {
                 {team1 || team2 ? renderVisualization() : "Select teams to see the stats"}
             </div>
             <BarChart data={barChartData} width={600} height={400} />
-            
+            <ScatterPlot  data={data.filter(team => team.teamId === team1 || team.teamId === team2)} />
         </div>
     );
 }
