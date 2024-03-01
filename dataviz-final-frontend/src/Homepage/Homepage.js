@@ -29,8 +29,10 @@ export default function Homepage() {
 
     //Recent Games
     useEffect( () => {
-        let date = new Date(Date.now())
-        fetch(`/api/leaguegamefinder?LeagueID=00&PlayerOrTeam=T&DateFrom=${date.getMonth()+1}/${date.getDate()-1}/${date.getFullYear()}`)
+        let adjustedDate = Date.now()/1000-86400
+        let date = new Date(0)
+        date.setUTCSeconds(adjustedDate)
+        fetch(`/api/leaguegamefinder?LeagueID=00&PlayerOrTeam=T&DateFrom=${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`)
             .then(res => res.json())
             .then( data => {
                 setTodaysGames(data['LeagueGameFinderResults'])
