@@ -712,7 +712,6 @@
                           return "";
                   }
                 }
-
                 let tooltipText = "Name: " + d['Name'] + "<br/>Damage: " + d['DMG'] + "<br/>Penetration Power: " + d['Penetration Power'];
                 tooltipText += "<br/>Class 1: " + armorText(d['1']);
                 tooltipText += "<br/>Class 2: " + armorText(d['2']);
@@ -822,6 +821,8 @@
                     .style("opacity", 0);
                 tooltip2.transition()
                     .style("opacity", 0);
+                tooltip2.html("");
+                tooltip2.selectAll("svg").remove();
             });
 
         svg.selectAll(".label")
