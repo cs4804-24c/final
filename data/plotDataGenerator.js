@@ -69,11 +69,18 @@ importDataFromCSV(filePath)
         }
 
         // Output data to console
-        console.log({
+        const outputData = {
             visualizationNames,
             means,
             lowerBounds,
             upperBounds
+        };
+        fs.writeFile('output.json', JSON.stringify(outputData, null, 2), (err) => {
+            if (err) {
+            console.error('Error writing to JSON:', err);
+            } else {
+            console.log('Data successfully written to output.json');
+            }
         });
     })
     .catch(error => console.error('Error reading CSV:', error));

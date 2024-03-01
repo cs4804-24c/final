@@ -8,16 +8,9 @@ const csvStream = csv.format({ headers: true });
 fs.createReadStream('raw_data.csv')
     .pipe(csv.parse({ headers: true }))
     .on('data', (row) => {
-        // Calculate the error
-        const error = Math.log2(1 + Math.abs((parseInt(row.UserAnswer) - parseInt(row.CorrectAnswer)) / 8));
-        // Set log-base-2 error to 0 for exact guesses
-        if (parseInt(row.UserAnswer) === parseInt(row.CorrectAnswer)) {
-            row.LogError = 0;
-        } else {
-            row.LogError = error;
-        }
         // Remove the first two columns
-        delete row.UserID;
+        row.LogError = row.RelativeError;
+        delete row.RelativeError;
         delete row.UserName;
         delete row.AnswerTime;
         // Push the updated row to the output array
