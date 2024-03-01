@@ -14,3 +14,4 @@ to show our data. We created react components for Barcharts, PieCharts, and the 
 
 nba_api link: https://github.com/swar/nba_api
 video link: https://youtu.be/EhA3zXA6wOE
+link to page: https://eramadani3.github.io/final/
