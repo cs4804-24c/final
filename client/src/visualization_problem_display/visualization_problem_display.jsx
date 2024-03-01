@@ -19,7 +19,7 @@ function VisualizationProblemDisplay() {
     const [currentQuestionState, setCurrentQuestionState] = useState(null)
     const [currentQuestionAnswered, setCurrentQuestionAnswered] = useState(false)
     const [answerFeedback, setAnswerFeedback] = useState("")
-    const [currentCorrectAnswer, setCurrentCorrectAnswer] = useState(null)
+    // const [currentCorrectAnswer, setCurrentCorrectAnswer] = useState(null)
     const [totalNumberOfIcons, setTotalNumberOfIcons] = useState(null)
     const [totalNumberOfRedIcons, setTotalNumberOfRedIcons] = useState(null)
     const navigate = useNavigate()
@@ -48,20 +48,6 @@ function VisualizationProblemDisplay() {
         window.addEventListener("resize", handleResize);
         return () => { window.removeEventListener("resize", handleResize); };
     }, []); //Runs only on the first render.
-
-    function determineCorrectAnswer() {
-        if (questionNumber === 1 || questionNumber === 3) {
-            setCurrentCorrectAnswer(totalNumberOfRedIcons)
-        } else if (questionNumber === 5) {
-            setCurrentCorrectAnswer(totalNumberOfIcons - totalNumberOfRedIcons)
-        } else if (questionNumber === 2) {
-            setCurrentCorrectAnswer(2)
-        } else if (questionNumber === 4) {
-            setCurrentCorrectAnswer(20)
-        } else if (questionNumber === 6) {
-            setCurrentCorrectAnswer(10)
-        }
-    }
     
     function clearSVG() { d3.select("#icon-array").selectAll("*").remove() }
 
@@ -143,7 +129,9 @@ function VisualizationProblemDisplay() {
     const StartScreen = () => {
         if (currentQuestionState) { return; }
 
-        function startQuiz() { setCurrentQuestionState(new QuestionState(questionNumber, currentCorrectAnswer)); }
+        function startQuiz() { 
+            setCurrentQuestionState(new QuestionState(questionNumber, determineCorrectAnswer())); 
+        }
 
         return (
             <section className={`is-centered has-text-centered section`}>
@@ -154,23 +142,38 @@ function VisualizationProblemDisplay() {
             </section>
         )
     }
-
-    function moveToNextScreen() {
-        // Guard clauses
-        if (questionNumber === numQuestions) { navigate("/thank_you"); return; } // Navigate to /thank_you if there are no more questions
-        clearSVG()
-        const nextQuestionNumber = questionNumber + 1
-        setQuestionNumber(nextQuestionNumber)
-        generateVisual()
-        determineCorrectAnswer()
-        setVisualizationTitle(visualizationTitles[visualizationTitles.indexOf(visualizationTitle) + 1])
-        setCurrentQuestionAnswered(false)
-        setAnswerFeedback("")
-        document.getElementById("userAnswer").value = ""
-        setCurrentQuestionState(new QuestionState(nextQuestionNumber, currentCorrectAnswer))
+        
+    function determineCorrectAnswer() {
+        if (questionNumber === 1 || questionNumber === 3) {
+            return(totalNumberOfRedIcons)
+        } else if (questionNumber === 5) {
+            return(totalNumberOfIcons - totalNumberOfRedIcons)
+        } else if (questionNumber === 2) {
+            return(2)
+        } else if (questionNumber === 4) {
+            return(20)
+        } else if (questionNumber === 6) {
+            return(10)
+        }
     }
 
     const SubmitButton = () => {
+        
+        function moveToNextScreen() {
+            // Guard clauses
+            if (questionNumber === numQuestions) { navigate("/thank_you"); return; } // Navigate to /thank_you if there are no more questions
+            clearSVG()
+            const nextQuestionNumber = questionNumber + 1
+            setQuestionNumber(nextQuestionNumber)
+            generateVisual()
+            determineCorrectAnswer()
+            setVisualizationTitle(visualizationTitles[visualizationTitles.indexOf(visualizationTitle) + 1])
+            setCurrentQuestionAnswered(false)
+            setAnswerFeedback("")
+            document.getElementById("userAnswer").value = ""
+            setCurrentQuestionState(new QuestionState(nextQuestionNumber, determineCorrectAnswer()))
+        }
+
         function handleSubmitPress() {
             // Guard clauses
             if (currentQuestionAnswered) { setAnswerFeedback("Can only submit one answer"); return; } // Escape if this question has been answered before
