@@ -3,12 +3,14 @@
 
 <script src="https://d3js.org/d3.v6.js"></script>
 <script src="https://d3js.org/d3-brush.v6.js"></script>
-
+<head>
+    <h2>Distributions of How Americans Spend Their Time According to The 2022 American Time Use Survey</h2>
+</head>
+<body>
 <div id="container">
     <div id="left-section">
       <div id="small_multiples"></div>
       <div id="density_plot"></div>
-
       <div id="total_selected_info"></div>
       <div id="tooltip"></div>
 
@@ -43,8 +45,16 @@
         <button id="confirm" onclick="main()">Confirm</button> 
       </div>
     </div>
+    
     <div id="movers"></div>
   </div>
+</div>
+Process Book:
+  https://docs.google.com/document/d/1CSo9Ukb2GhEpKZZlulQ7B7ffx-03VZOz2pCHxCfE9wk/edit?usp=sharing
+
+</div>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/z_KpN_8cdlI?si=Dkzmfagnf69XUq6x" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+</body>
 
 
 
@@ -81,6 +91,7 @@
 
   body {
     display: flex;
+    flex-direction: column;
     height: 100vh;
     margin: 0;
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
@@ -196,7 +207,7 @@
         "Unemployed - on layoff": "#A14DA0"
       };
 
-    let timeUseColumns = ["Personal Care"]; 
+    let timeUseColumns = ["Personal Care"]; //initial density plot
     const maxAllowedSelections = 3;
   
     function handleCheckboxChange() {
@@ -205,10 +216,10 @@
         alert("You can only select up 3");
         this.checked = false; 
       } else if (this.checked) {
-        timeUseColumns.push(this.value); // Add to selected columns
+        timeUseColumns.push(this.value);
       } else {
         const index = timeUseColumns.indexOf(this.value);
-        timeUseColumns.splice(index, 1); // Remove from selected columns
+        timeUseColumns.splice(index, 1); 
       }
     }
   
@@ -235,8 +246,7 @@ function main(){d3.csv("dataFinal.csv").then(function(data) {// ATUS survey data
     document.getElementById("density_plot").innerHTML = "";
     document.getElementById("total_selected_info").innerHTML = "";
     d3.select("#tooltip").style("position", "absolute").style("background-color", "#ffffff").style("padding", "5px").style("box-shadow", "0px 0px 3px 0px #E6E6E6")
-        //.style("visibility", "hidden")
-        //.text("I'm a circle!");
+       
 
     // Columns for the small multiples
     const columnsToVisualize = ["REGION", "FAMINCOME_BINNED", "GENERATION", "SEX", "RACE_COMBINED", "MARST", "CITIZEN", "HEALTH", "HEIGHT_BINNED", "WEIGHT_BINNED", "EDUC_BINNED", "EMPSTAT"];
@@ -277,7 +287,7 @@ function main(){d3.csv("dataFinal.csv").then(function(data) {// ATUS survey data
 
                 d3.select(this.parentNode) // Select the parent SVG of the clicked donut chart
                     .transition().duration(500) 
-                    .attr('width', width * 2.7) // Increase width so there is room for legend
+                    .attr('width', width * 3.55) // Increase width so there is room for legend
                     .attr('height', height * 1);
 
                 svg.selectAll(".legend-circles")
@@ -424,7 +434,7 @@ function main(){d3.csv("dataFinal.csv").then(function(data) {// ATUS survey data
     
     const path = densitySvg.append("path")
         .datum(density)
-        .attr("fill", "#69b3a2")
+        .attr("fill", "#FF6C19")
         .attr("opacity", ".8")
         .attr("stroke", "#000")
         .attr("stroke-width", 1)
@@ -469,7 +479,7 @@ function main(){d3.csv("dataFinal.csv").then(function(data) {// ATUS survey data
         .attr("x", densityPlotWidth)
         .attr("y", densityPlotHeight - 45);
 
-    function updateMovers(selectedData) {
+    function updateMovers(selectedData) {// function to determin the changes in percentages and update it.
             const moversData = {};
 
             columnsToVisualize.forEach(column => {
@@ -492,7 +502,7 @@ function main(){d3.csv("dataFinal.csv").then(function(data) {// ATUS survey data
             
             const moversHTML = columnsToVisualize.map(column => {
                 const movementInfo = Object.entries(moversData[column]).map(([key, movement]) => {
-                    const colorClass = movement >= 0 ? "green" : "red";
+                    const colorClass = movement >= 0 ? "green" : "red"; // making it green or rad based on if it went up or down
                     return `<p class="${colorClass}">${key}: ${movement >= 0 ? '+' : ''}${movement.toFixed(2)}%</p>`;
                 });
             
@@ -603,6 +613,7 @@ function main(){d3.csv("dataFinal.csv").then(function(data) {// ATUS survey data
 
 
 
+// resting donut charts
     function resetSmallMultiple(svg) {
         d3.selectAll('.legend-labels').remove();
         d3.selectAll('.legend-circles').remove();
