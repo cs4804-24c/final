@@ -32,25 +32,16 @@ Your process book should include the following topics. Depending on your project
 As this will be your only chance to describe your project in detail make sure that your process book is a standalone document that fully describes your results and the final design. 
 [Here](http://dataviscourse.net/2015/assets/process_books/bansal_cao_hou.pdf) are a [few examples](http://dataviscourse.net/2015/assets/process_books/walsh_trevino_bett.pdf) of process books from a similar course final.
 
-Tip: Start your process book on Day 1. Make entries after each meeting, and trim / edit as needed towards the end of the project. Many folks use either slides software (like PowerPoint) or Google Docs to make this book, as both allow for flexible layouts and export to PDF.
 
 
-### Project Website
 
-
-Your process book and data should be linked from the web site as well. 
-Also embed your interactive visualization and your screen-cast in your website. 
 
 ### Project Screen-Cast
 
 Each team will create a two minute screen-cast with narration showing a demo of your visualization and/or some slides. 
 
 You can use any screencast tool of your choice, such as Camtasia or Loom (new and recommended). 
-Please make sure that the sound quality of your video is good -- it may be worthwhile to invest in an external USB microphone-- campus IT should have some you can borrow. 
-Upload the video to an online video-platform such as YouTube or Vimeo and embed it into your project web page. 
-For our final project presentation day, we will show as many videos in class as possible, and ask teams to field questions.
 
-We will strictly enforce the two minute time limit for the video, so please make sure you are not running longer. 
 Use principles of good storytelling and presentations to get your key points across. Focus the majority of your screencast on your main contributions rather than on technical details. 
 What do you feel is the best part of your project? 
 What insights did you gain? 
