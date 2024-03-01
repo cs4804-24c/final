@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width">
     <title>Final</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/dark.css">
     <style type="text/css">
        body {
             display: flex;
@@ -23,8 +24,8 @@
           display: none;
           position: absolute;
           width: 300px;
-          background-color: white;
-          border: 1px solid #ccc;
+          background-color: #161f27;
+          border: 1px solid #06080a;
           z-index: 999; /* Ensure it's above other content */
         }
         .suggestion {
@@ -32,22 +33,238 @@
           cursor: pointer;
         }
         .suggestion:hover {
-          background-color: #f0f0f0;
+          background-color: #06080a;
+        }
+
+        .popup-menu {
+            position: relative;
+            display: inline-block;
+            margin-left: 10px;
+        }
+
+        .popup-menu-content {
+            display: none;
+            position: absolute;
+            background-color: #161f27;
+            min-width: 300px; /* Adjust the width as needed */
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            padding: 12px;
+            z-index: 1;
+            column-count: 3; /* Display checkboxes in three columns */
+            column-gap: 30px; /* Adjust the gap between columns */
+        }
+
+        .popup-menu-content label {
+            display: block;
+            margin-bottom: 6px;
+            height: 60px; /* Set a fixed height for all labels */
+            line-height: 20px; /* Center align the text vertically */
+            border: 1px solid #ccc; /* Add border around each checkbox div */
+            padding: 6px; /* Add padding for spacing */
+            text-align:center;
+        }
+
+        .popup-menu-content label input[type="checkbox"] {
+            float: left;
+            margin-right: 5px; /* Adjust the spacing between checkbox and label */
+        }
+
+        .size {
+            width: 20px; /* Adjust the width as needed */
+        }
+
+        .labels {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-wrap: wrap;
+        }
+
+        .label-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 10px; /* Adjust margin as needed */
+        }
+
+        .chart-and-rectangles {
+          display: flex;
+          align-items: flex-start;
+          margin-top: 20px;
+        }
+
+        .rectangles {
+          display: flex;
+          flex-direction: column;
+          margin-left: 20px; /* Adjust as needed for spacing */
+        }
+
+        .rectangle {
+          width: 200px; /* Adjust the width of the rectangle */
+          height: 40px; /* Adjust the height of the rectangle */
+          background-color: rgba(91,19,20,0.3); /* Adjust the color as needed */
+          margin-bottom: 10px; /* Adjust as needed for spacing */
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .rectangle span {
+          font-weight: bold; /* Make the text bold */
+          color: white; /* Set the text color to white */
+          opacity: 0.3; /* Set the opacity of the text to fully opaque */
+        }
+
+        .search-container {
+            display: flex;
+            justify-content: center; /* Center the search bar horizontally */
+            align-items: center; /* Center items vertically */
+            margin-bottom: 20px;
+        }
+
+        .reload-button {
+            margin-right: 10px; /* Adjust margin as needed */
+        }
+
+        #toggleButton {
+          width: 140px;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-  <div class="box" id="searchBar">
+  <div class="search-container">
+    <div class="reload-button">
+        <button id="reloadButton">Reload</button>
+    </div>
+    <div class="box" id="searchBar">
       <input type="text" id="searchInput" placeholder="Search...">
       <div id="suggestions"></div>
+    </div>
+    <div class="popup-menu">
+      <button id="popupButton">Quest Menu</button>
+      <div class="popup-menu-content" id="popupMenu">
+        <div><input type="checkbox" value="You've Got Mail" id="You've Got Mail"><label for="You've Got Mail">You've Got Mail</label></div>
+        <div><input type="checkbox" value="The Bunker - Part 1" id="The Bunker - Part 1"><label for="The Bunker - Part 1">The Bunker - Part 1</label></div>
+        <div><input type="checkbox" value="Broadcast - Part 4" id="Broadcast - Part 4"><label for="Broadcast - Part 4">Broadcast - Part 4</label></div>
+        <div><input type="checkbox" value="Import" id="Import"><label for="Import">Import</label></div>
+        <div><input type="checkbox" value="Gunsmith - Part 9" id="Gunsmith - Part 9"><label for="Gunsmith - Part 9">Gunsmith - Part 9</label></div>
+        <div><input type="checkbox" value="Scrap Metal" id="Scrap Metal"><label for="Scrap Metal">Scrap Metal</label></div>
+        <div><input type="checkbox" value="Delivery From the Past" id="Delivery From the Past"><label for="Delivery From the Past">Delivery From the Past</label></div>
+        <div><input type="checkbox" value="Calibration" id="Calibration"><label for="Calibration">Calibration</label></div>
+        <div><input type="checkbox" value="Humanitarian Supplies" id="Humanitarian Supplies"><label for="Humanitarian Supplies">Humanitarian Supplies</label></div>
+        <div><input type="checkbox" value="Tigr Safari" id="Tigr Safari"><label for="Tigr Safari">Tigr Safari</label></div>
+        <div><input type="checkbox" value="The Punisher - Part 1" id="The Punisher - Part 1"><label for="The Punisher - Part 1">The Punisher - Part 1</label></div>
+        <div><input type="checkbox" value="Revision - Lighthouse" id="Revision - Lighthouse"><label for="Revision - Lighthouse">Revision - Lighthouse</label></div>
+        <div><input type="checkbox" value="Supplier" id="Supplier"><label for="Supplier">Supplier</label></div>
+        <div><input type="checkbox" value="The Punisher - Part 6" id="The Punisher - Part 6"><label for="The Punisher - Part 6">The Punisher - Part 6</label></div>
+        <div><input type="checkbox" value="Capturing Outposts" id="Capturing Outposts"><label for="Capturing Outposts">Capturing Outposts</label></div>
+      </div>
+    </div>
   </div>
 
-  <div class="box" id="chartPlaceholder"></div>
+  <div class="labels">
+    <div class="label-item">
+      <label for="Prapor">Prapor</label>
+      <select id="Prapor" name="Prapor">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+      </select>
+    </div>
+    <div class="label-item">
+      <label for="Skier">Skier</label>
+      <select id="Skier" name="Skier">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+      </select>
+    </div>
+    <div class="label-item">
+      <label for="Peacekeeper">Peacekeeper</label>
+      <select id="Peacekeeper" name="Peacekeeper">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+      </select>
+    </div>
+    <div class="label-item">
+      <label for="Mechanic">Mechanic</label>
+      <select id="Mechanic" name="Mechanic">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+      </select>
+    </div>
+    <div class="label-item">
+      <label for="Jaeger">Jaeger</label>
+      <select id="Jaeger" name="Jaeger">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+      </select>
+    </div>
+    <div>
+      <button id="toggleButton" onclick="toggleState()" data-state="on">Buyable</button>
+    </div>
+  </div>
+
+  <div class="selected"><h1 id="selected"></h1></div>
+  <div class="chart-and-rectangles">
+    <div class="box" id="chartPlaceholder"></div>
+    <div class="rectangles">
+      <div><h3>Armor Class</h3></div>
+      <div class="rectangle" id="6"><span>6</span></div>
+      <div class="rectangle" id="5"><span>5</span></div>
+      <div class="rectangle" id="4"><span>4</span></div>
+      <div class="rectangle" id="3"><span>3</span></div>
+      <div class="rectangle" id="2"><span>2</span></div>
+      <div class="rectangle" id="1"><span>1</span></div>
+    </div>
+  </div>
 </div>
 
 <script type="text/javascript">
+    function toggleState() {
+      var button = document.getElementById("toggleButton");
+      if (button.getAttribute("data-state") === "on") {
+        button.setAttribute("data-state", "off");
+        button.textContent = "Unbuyable";
+        generateChart()
+      } else {
+        button.setAttribute("data-state", "on");
+        button.textContent = "Buyable";
+        generateChart()
+      }
+    }
+
+    function togglePopupMenu() {
+        var popupMenu = document.getElementById("popupMenu");
+        popupMenu.style.display = popupMenu.style.display === "block" ? "none" : "block";
+    }
+
+    document.getElementById("popupButton").addEventListener("click", togglePopupMenu);
+
+    window.onclick = function(event) {
+        var popupMenu = document.getElementById("popupMenu");
+        var popupButton = document.getElementById("popupButton");
+        if (popupMenu.style.display === "block" && event.target !== popupButton && !popupMenu.contains(event.target)) {
+            popupMenu.style.display = "none";
+        }
+    }
+
+    document.querySelectorAll('#popupMenu input[type="checkbox"]').forEach(function(checkbox) {
+        checkbox.addEventListener('click', function(event) {
+            event.stopPropagation();
+        });
+    });
+
     const listOfGuns = [
       "AK-12",
       "AK-101",
@@ -198,43 +415,105 @@
       "20/70"
     ];
 
+    let listOfQuests = [] 
+
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            if (this.checked) {
+                listOfQuests.push(this.value);
+            } else {
+                const index = listOfQuests.indexOf(this.value);
+                if (index !== -1) {
+                    listOfQuests.splice(index, 1);
+                }
+            }
+            generateChart();
+            console.log(listOfQuests);
+        });
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("Prapor").addEventListener("change", function() {
+            generateChart();
+        });
+        document.getElementById("Skier").addEventListener("change", function() {
+            generateChart();
+        });
+        document.getElementById("Peacekeeper").addEventListener("change", function() {
+            generateChart();
+        });
+        document.getElementById("Mechanic").addEventListener("change", function() {
+            generateChart();
+        });
+        document.getElementById("Jaeger").addEventListener("change", function() {
+            generateChart();
+        });
+    });
+
+
     let selectedGun = ''
+
+    document.getElementById("reloadButton").addEventListener("click", function() {
+        selectedGun = '';
+        generateChart();
+        document.getElementById("searchInput").value = "";
+    });
 
     const searchInput = document.getElementById("searchInput");
     const suggestions = document.getElementById("suggestions");
 
+    document.addEventListener('click', function(event) {
+        const isClickInsideSearchInput = searchInput.contains(event.target);
+        const isClickInsideSuggestions = suggestions.contains(event.target);
+
+        if (!isClickInsideSearchInput && !isClickInsideSuggestions) {
+            suggestions.style.display = 'none';
+        }
+    });
+
     function updateSuggestions() {
-      const inputValue = searchInput.value.trim().toLowerCase().replace(/[-.'()""\s]/g, '');
-      if (inputValue === '') {
-        suggestions.style.display = 'none';
-        return;
-      }
-      
-      const filteredWords = [...listOfCalibers, ...listOfGuns].filter(word => {
-        const sanitizedWord = word.toLowerCase().replace(/[-.'()""\s]/g, '');
-        return sanitizedWord.includes(inputValue);
-      });
-
-      const suggestionHTML = filteredWords.map(word => {
-        return `<div class="suggestion">${word}</div>`;
-      }).join('');
-      suggestions.innerHTML = suggestionHTML;
-      suggestions.style.display = 'block';
-      
-      const inputRect = searchInput.getBoundingClientRect();
-      suggestions.style.top = `${inputRect.bottom + window.scrollY}px`;
-      suggestions.style.left = `${inputRect.left + window.scrollX}px`;
-
-      const suggestionElements = document.querySelectorAll('.suggestion');
-      suggestionElements.forEach(suggestion => {
-        suggestion.addEventListener('click', () => {
-          searchInput.value = suggestion.innerText;
-          selectedGun = suggestion.innerText;
-          generateChart();
-          suggestions.style.display = 'none';
-          searchInput.blur();
+        const inputValue = searchInput.value.trim().toLowerCase().replace(/[-.'()""\s]/g, '');
+        if (inputValue === '') {
+            suggestions.style.display = 'none';
+            return;
+        }
+        
+        let filteredWords = [...listOfCalibers, ...listOfGuns].filter(word => {
+            const sanitizedWord = word.toLowerCase().replace(/[-.'()""\s]/g, '');
+            return sanitizedWord.includes(inputValue);
         });
-      });
+
+        // Limit to the first 10 suggestions
+        filteredWords = filteredWords.slice(0, 10);
+
+        const suggestionHTML = filteredWords.map(word => {
+            return `<div class="suggestion">${word}</div>`;
+        }).join('');
+        suggestions.innerHTML = suggestionHTML;
+
+        const suggestionCount = filteredWords.length;
+        const suggestionHeight = suggestionCount > 0 ? suggestionCount * 30 : 0; // Assuming each suggestion is 30px tall, adjust as needed
+
+        suggestions.style.display = 'block';
+        suggestions.style.height = `${suggestionHeight}px`; // Set the height based on the number of suggestions
+        suggestions.style.overflowY = 'auto'; // Always enable scrolling
+        
+        const inputRect = searchInput.getBoundingClientRect();
+        suggestions.style.top = `${inputRect.bottom + window.scrollY}px`;
+        suggestions.style.left = `${inputRect.left + window.scrollX}px`;
+
+        const suggestionElements = document.querySelectorAll('.suggestion');
+        suggestionElements.forEach(suggestion => {
+            suggestion.addEventListener('click', () => {
+                searchInput.value = suggestion.innerText;
+                selectedGun = suggestion.innerText;
+                generateChart();
+                suggestions.style.display = 'none';
+                searchInput.blur();
+            });
+        });
     }
 
     searchInput.addEventListener("input", updateSuggestions);
@@ -256,13 +535,19 @@
       searchInput.value = '';
     });
 
-    const margin = { top: 20, right: 20, bottom: 50, left: 50 };
+    const margin = { top: 20, right: 20, bottom: 50, left: 70 };
     const width = 600 - margin.left - margin.right;
     const height = 400 - margin.top - margin.bottom;
     
     //d3.select('#chartPlaceholder').selectAll('*').remove();
 
     function generateChart() {
+      if(selectedGun === ''){
+        document.getElementById("selected").textContent = 'All Ammo';
+      }
+      else {
+        document.getElementById("selected").textContent = selectedGun;
+      }
       d3.select('#chartPlaceholder').selectAll('*').remove();
       
       var svg = d3.select('#chartPlaceholder')
@@ -271,17 +556,31 @@
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
-
-      d3.csv("TarkovAmmo.csv").then(data => {
-        let filteredData = data.filter(d => 
-            d['Guns'].includes(selectedGun) || 
-            d['Caliber'].includes(selectedGun)
-        );
-
-        filteredData.forEach(d => {
-          d['DMG'] = parseDamage(d['DMG']);
-          d['Penetration Power'] = +d['Penetration Power'];
-        });
+        
+        d3.csv("TarkovAmmo.csv").then(data => {
+          let filteredData = data.filter(d => {
+              if ((d['Quest Name'].trim() === '' || listOfQuests.includes(d['Quest Name'].trim()))) {
+                  if (d['Shop'].includes('Prapor') && parseInt(document.getElementById('Prapor').value) >= parseInt(d['Shop'].match(/\d+/)[0])) {
+                      return (d['Guns'].includes(selectedGun) || d['Caliber'].includes(selectedGun));
+                  } else if (d['Shop'].includes('Skier') && parseInt(document.getElementById('Skier').value) >= parseInt(d['Shop'].match(/\d+/)[0])) {
+                      return (d['Guns'].includes(selectedGun) || d['Caliber'].includes(selectedGun));
+                  } else if (d['Shop'].includes('Peacekeeper') && parseInt(document.getElementById('Peacekeeper').value) >= parseInt(d['Shop'].match(/\d+/)[0])) {
+                      return (d['Guns'].includes(selectedGun) || d['Caliber'].includes(selectedGun));
+                  } else if (d['Shop'].includes('Mechanic') && parseInt(document.getElementById('Mechanic').value) >= parseInt(d['Shop'].match(/\d+/)[0])) {
+                      return (d['Guns'].includes(selectedGun) || d['Caliber'].includes(selectedGun));
+                  } else if (d['Shop'].includes('Jaeger') && parseInt(document.getElementById('Jaeger').value) >= parseInt(d['Shop'].match(/\d+/)[0])) {
+                      return (d['Guns'].includes(selectedGun) || d['Caliber'].includes(selectedGun));
+                  } else if (d['Shop'] === '' && document.getElementById("toggleButton").getAttribute("data-state") === "off") {
+                      
+                      return (d['Guns'].includes(selectedGun) || d['Caliber'].includes(selectedGun));
+                  }
+              }
+          });
+          
+            filteredData.forEach(d => {
+                d['DMG'] = parseDamage(d['DMG']);
+                d['Penetration Power'] = +d['Penetration Power'];
+            });
 
         function parseDamage(damageString) {
           if (damageString.includes('x')) {
@@ -310,14 +609,138 @@
         svg.append("g")
           .call(yAxis);
 
+        const colorScale = d3.scaleOrdinal()
+          .domain(listOfCalibers)
+          .range(d3.schemeCategory10);
+
         svg.selectAll("circle")
           .data(filteredData)
           .enter()
           .append("circle")
           .attr("cx", d => xScale(d['Penetration Power']))
           .attr("cy", d => yScale(d['DMG']))
-          .attr("r", 5)
-          .style("fill", "steelblue");
+          .attr("r", 8)
+          .style("fill", d => colorScale(d['Caliber']))
+          .style("opacity", 0.7);
+
+          var tooltip = d3.select("body")
+                .append("div")
+                .style("opacity", 0)
+                .attr("class", "tooltip")
+                .style("position", "absolute")
+                .style("background-color", "#161f27")
+                .style("border", "solid")
+                .style("border-width", "1px")
+                .style("border-radius", "5px")
+                .style("padding", "10px");
+
+          var rectangleTimeouts = [];
+
+          svg.selectAll("circle")
+            .on("mouseover", function (event, d) {
+                var mouseX = event.offsetX;
+                var mouseY = event.offsetY;
+
+                d3.select(this)
+                  .transition()
+                  .duration(200)
+                  .attr("r", 12) // Increase size
+                  .style("opacity", 1); // Increase opacity
+                
+
+                  for (var i = 1; i <= 6; i++) {
+                    (function(index) {
+                        var timeoutId = setTimeout(function() {
+                            let rectangle = document.getElementById(index.toString());
+                            let span = rectangle.querySelector("span");
+                            span.style.opacity = "1";
+                            switch (d[index.toString()]) {
+                                case "0":
+                                    rectangle.style.backgroundColor = "rgba(91,19,20,1)";
+                                    break;
+                                case "1":
+                                    rectangle.style.backgroundColor = "rgba(112,27,27,1)";
+                                    break;
+                                case "2":
+                                    rectangle.style.backgroundColor = "rgba(120,56,9,1)";
+                                    break;
+                                case "3":
+                                    rectangle.style.backgroundColor = "rgba(88,53,2,1)";
+                                    break;
+                                case "4":
+                                    rectangle.style.backgroundColor = "rgba(127,79,8,1)";
+                                    break;
+                                case "5":
+                                    rectangle.style.backgroundColor = "rgba(1,51,1,1)";
+                                    break;
+                                case "6":
+                                    rectangle.style.backgroundColor = "rgba(1,78,1,1)";
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }, index * 50); // Change color every 200 milliseconds
+                        rectangleTimeouts.push(timeoutId);
+                    })(i);
+                }
+
+                function armorText(value) {
+                  switch (value) {
+                      case "0":
+                          return "Pointless";
+                      case "1":
+                          return "It's possible, but...";
+                      case "2":
+                          return "Magdump only";
+                      case "3":
+                          return "Slightly effective";
+                      case "4":
+                          return "Effective";
+                      case "5":
+                          return "Very effective";
+                      case "6":
+                          return "Usually ignores";
+                      default:
+                          return "";
+                  }
+                }
+
+                let tooltipText = "Name: " + d['Name'] + "<br/>Damage: " + d['DMG'] + "<br/>Penetration Power: " + d['Penetration Power'];
+                tooltipText += "<br/>Class 1: " + armorText(d['1']);
+                tooltipText += "<br/>Class 2: " + armorText(d['2']);
+                tooltipText += "<br/>Class 3: " + armorText(d['3']);
+                tooltipText += "<br/>Class 4: " + armorText(d['4']);
+                tooltipText += "<br/>Class 5: " + armorText(d['5']);
+                tooltipText += "<br/>Class 6: " + armorText(d['6']);
+
+                tooltip.transition()
+                    .style("opacity", .9);
+                tooltip.html(tooltipText)
+                    .style("left", (event.pageX - tooltip.node().offsetWidth / 2) + "px") 
+                    .style("top", (event.pageY + 20) + "px")
+                    .style("pointer-events", "none");
+            })
+            .on("mouseout", function (d) {
+              rectangleTimeouts.forEach(function(timeoutId) {
+                  clearTimeout(timeoutId);
+              });
+              rectangleTimeouts = [];
+
+                d3.select(this)
+                    .transition()
+                    .duration(200)
+                    .attr("r", 8) // Restore size
+                    .style("opacity", 0.7); // Restore opacity
+
+                for (var i = 1; i <= 6; i++) {
+                    let rectangle = document.getElementById(i.toString());
+                    rectangle.style.backgroundColor = "rgba(91,19,20,0.3)"
+                    let span = rectangle.querySelector("span");
+                    span.style.opacity = "0.3";
+                }
+                tooltip.transition()
+                    .style("opacity", 0);
+            });
 
         svg.selectAll(".label")
           .data(filteredData)
@@ -325,25 +748,27 @@
           .append("text")
           .attr("class", "label")
           .attr("x", d => xScale(d['Penetration Power']))
-          .attr("y", d => yScale(d['DMG']) - 10)
+          .attr("y", d => yScale(d['DMG']) - 15)
           .text(d => d['Name'])
           .attr("text-anchor", "middle")
-          .attr("font-size", "10px")
-          .attr("fill", "black")
+          .attr("font-size", "15px")
+          .attr("fill", "white")
           .style("pointer-events", "none");
-              });
+      });
 
       svg.append("text")
         .attr("x", width / 2)
         .attr("y", height + margin.top + 20)
         .style("text-anchor", "middle")
+        .style("fill", "white")
         .text("Penetration");
 
       svg.append("text")
         .attr("transform", "rotate(-90)")
         .attr("x", -height / 2)
-        .attr("y",-margin.left+10)
+        .attr("y",-margin.left+25)
         .style("text-anchor", "middle")
+        .style("fill", "white")
         .text("Damage");
     }
     generateChart()
