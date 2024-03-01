@@ -8,26 +8,38 @@
     <div id="left-section">
       <div id="small_multiples"></div>
       <div id="density_plot"></div>
-      <p></p>
+
       <div id="total_selected_info"></div>
       <div id="tooltip"></div>
-      <p></p>
 
       <div id="checkboxes">
-        <input type="checkbox" id="work-related" name="time-use" value="Work-related Activities">
-        <label for="work-related">Work-related Activities</label><br>
-        <input type="checkbox" id="household" name="time-use" value="Household Responsibilities">
-        <label for="household">Household Responsibilities</label><br>
-        <input type="checkbox" id="personal-care" name="time-use" value="Personal Care" checked>
-        <label for="personal-care">Personal Care</label><br>
-        <input type="checkbox" id="leisure" name="time-use" value="Leisure and Social Activities">
-        <label for="leisure">Leisure and Social Activities</label><br>
-        <input type="checkbox" id="education" name="time-use" value="Education and Learning">
-        <label for="education">Education and Learning</label><br>
-        <input type="checkbox" id="volunteering" name="time-use" value="Volunteering and Community Engagement">
-        <label for="volunteering">Volunteering and Community Engagement</label><br>
-        <input type="checkbox" id="other" name="time-use" value="Other">
-        <label for="Other(Shoping,Telephone,Traveling,Caring,CivicDuties)">Other(Shoping,Telephone,Traveling,Caring,CivicDuties)</label><br><br>
+        <label for="work-related">
+            <input type="checkbox" id="work-related" name="time-use" value="Work-related Activities">
+            Work-related Activities
+        </label><br>
+        <label for="household">
+            <input type="checkbox" id="household" name="time-use" value="Household Responsibilities">
+            Household Responsibilities
+        </label><br>
+        <label for="personal-care">
+            <input type="checkbox" id="personal-care" name="time-use" value="Personal Care" checked>
+            Personal Care
+        </label><br>
+        <label for="leisure">
+            <input type="checkbox" id="leisure" name="time-use" value="Leisure and Social Activities">
+            Leisure and Social Activities
+        </label><br>
+        <label for="education">
+            <input type="checkbox" id="education" name="time-use" value="Education and Learning">
+            Education and Learning
+        </label><br>
+        <label for="volunteering"><input type="checkbox" id="volunteering" name="time-use" value="Volunteering and Community Engagement">
+            Volunteering and Community Engagement
+        </label><br>
+        <label for="Other(Shoping,Telephone,Traveling,Caring,CivicDuties)">
+            <input type="checkbox" id="other" name="time-use" value="Other">
+            Other(Shoping,Telephone,Traveling,Caring,CivicDuties)
+        </label><br><br>
         <button id="confirm" onclick="main()">Confirm</button> 
       </div>
     </div>
@@ -48,7 +60,14 @@
   #checkboxes {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     gap: 10px;
+    margin:25px;
+    width: 70vw;
+  }
+  
+  #density_plot {
+    margin: 60px;
   }
 
   #checkboxes input,
@@ -56,10 +75,15 @@
     margin-right: 10px;
   }
 
+  button {
+    font-size: 18px;
+  }
+
   body {
     display: flex;
     height: 100vh;
     margin: 0;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   }
 
   #container {
@@ -68,16 +92,17 @@
   }
 
   #left-section {
-    width: 85%;
+    width: 90%;
     padding: 20px;
   }
 
   #movers {
-    position: absolute;
+    position: relative;
+    float: right;
     top: 0;
     right: 0;
-    width: 200px;
-    height: 350px;
+    width: 100%;
+    height: 60vh;
     border: 1px solid black;
     padding: 10px;
     background-color: #f2f2f2; 
@@ -103,72 +128,72 @@
 
     const basePercentages = {};
     const colorMapping = {
-        "Northeast": "#98abc5",
-        "Midwest": "#8a89a6",
-        "West": "#7b6888",
-        "South": "#6b486b",
-        "Less than $10,000": "#98abc5",
-        "$10,000 - $30,000": "#8a89a6",
-        "$30,000 - $50,000": "#7b6888",
-        "$50,000 - $75,000": "#6b486b",
-        "$75,000 - $100,000": "#a05d56",
-        "$100,000 - $150,000": "#d0743c",
-        "$150,000 and over": "#ff8c00",
-        "Generation Z (7-22)": "#98abc5",
-        "Millennials (23-38)": "#8a89a6",
-        "Generation X (39-54)": "#7b6888",
-        "Boomers (55-73)": "#6b486b",
-        "Silent (74-91)": "#a05d56",
-        "Female": "#98abc5",
-        "Male": "#8a89a6",
-        "White only": "#98abc5",
-        "Asian only": "#8a89a6",
-        "Black only": "#7b6888",
-        "Mixed": "#6b486b",
-        "American Indian, Alaskan Native": "#a05d56",
-        "Hawaiian Pacific Islander only": "#d0743c",
-        "Married - spouse present": "#98abc5",
-        "Widowed": "#8a89a6",
-        "Divorced": "#7b6888",
-        "Never married": "#6b486b",
-        "Separated": "#a05d56",
-        "Married - spouse absent": "#d0743c",
-        "Native, born in United States": "#98abc5",
-        "Foreign born, not a U.S. citizen": "#8a89a6",
-        "Foreign born, U.S. citizen by naturalization": "#7b6888",
-        "Native, born abroad of American parent or parents": "#6b486b",
-        "Native, born in Puerto Rico or U.S. Outlying Area": "#a05d56",
-        "Good": "#98abc5",
-        "Very good": "#8a89a6",
-        "Excellent": "#7b6888",
-        "Fair": "#6b486b",
-        "Poor": "#a05d56",
-        "Other (Refused, Dont know, NIU)": "#d0743c",
-        "0-5 feet": "#98abc5",
-        "5-5.5 feet": "#8a89a6",
-        "5.5-6 feet": "#7b6888",
-        "6-6.5 feet": "#6b486b",
-        "": "ccc",
-        "<100": "#98abc5",
-        "100-120": "#8a89a6",
-        "120-140": "#7b6888",
-        "140-160": "#6b486b",
-        "160-180": "#a05d56",
-        "180-200": "#d0743c",
-        "200-300": "#ff8c00",
-        ">300": "#ffbf00",
-        "Middle School or Less": "#98abc5",
-        "Some High School": "#8a89a6",
-        "Graduated High School": "#7b6888",
-        "Some College": "#6b486b",
-        "Associate Degree": "#a05d56",
-        "Bachelor's Degree": "#d0743c",
-        "Master's or Doctoral Degree": "#ff8c00",
-        "Employed - at work": "#98abc5",
-        "Employed - absent": "#8a89a6",
-        "Not in labor force": "#7b6888",
-        "Unemployed - looking": "#6b486b",
-        "Unemployed - on layoff": "#a05d56"
+        "Northeast": "#D66B19",
+        "Midwest": "#AB0E45",
+        "West": "#0B6909",
+        "South": "#A14DA0",
+        "Less than $10,000": "#D66B19",
+        "$10,000 - $30,000": "#999999",
+        "$30,000 - $50,000": "#12B2FE",
+        "$50,000 - $75,000": "#AB0E45",
+        "$75,000 - $100,000": "#0B6909",
+        "$100,000 - $150,000": "#DEDA10",
+        "$150,000 and over": "#A14DA0",
+        "Generation Z (7-22)": "#12B2FE",
+        "Millennials (23-38)": "#AB0E45",
+        "Generation X (39-54)": "#0B6909",
+        "Boomers (55-73)": "#DEDA10",
+        "Silent (74-91)": "#A14DA0",
+        "Female": "#12B2FE",
+        "Male": "#0B6909",
+        "White only": "#12B2FE",
+        "Asian only": "#AB0E45",
+        "Black only": "#0B6909",
+        "Mixed": "#DEDA10",
+        "American Indian, Alaskan Native": "#A14DA0",
+        "Hawaiian Pacific Islander only": "#D66B19",
+        "Married - spouse present": "#999999",
+        "Widowed": "#12B2FE",
+        "Divorced": "#AB0E45",
+        "Never married": "#0B6909",
+        "Separated": "#DEDA10",
+        "Married - spouse absent": "#A14DA0",
+        "Native, born in United States": "#12B2FE",
+        "Foreign born, not a U.S. citizen": "#AB0E45",
+        "Foreign born, U.S. citizen by naturalization": "#0B6909",
+        "Native, born abroad of American parent or parents": "#DEDA10",
+        "Native, born in Puerto Rico or U.S. Outlying Area": "#A14DA0",
+        "Good": "#12B2FE",
+        "Very good": "#AB0E45",
+        "Excellent": "#0B6909",
+        "Fair": "#DEDA10",
+        "Poor": "#A14DA0",
+        "Other (Refused, Dont know, NIU)": "#323232",
+        "0-5 feet": "#12B2FE",
+        "5-5.5 feet": "#AB0E45",
+        "5.5-6 feet": "#0B6909",
+        "6-6.5 feet": "#DEDA10",
+        "": "323232",
+        "<100": "#D66B19",
+        "100-120": "#323232",
+        "120-140": "#999999",
+        "140-160": "#12B2FE",
+        "160-180": "#AB0E45",
+        "180-200": "#0B6909",
+        "200-300": "#DEDA10",
+        ">300": "#A14DA0",
+        "Middle School or Less": "#12B2FE",
+        "Some High School": "#AB0E45",
+        "Graduated High School": "#0B6909",
+        "Some College": "#DEDA10",
+        "Associate Degree": "#A14DA0",
+        "Bachelor's Degree": "#323232",
+        "Master's or Doctoral Degree": "#999999",
+        "Employed - at work": "#12B2FE",
+        "Employed - absent": "#AB0E45",
+        "Not in labor force": "#0B6909",
+        "Unemployed - looking": "#DEDA10",
+        "Unemployed - on layoff": "#A14DA0"
       };
 
     let timeUseColumns = ["Personal Care"]; 
@@ -215,6 +240,7 @@ function main(){d3.csv("dataFinal.csv").then(function(data) {// ATUS survey data
 
     // Columns for the small multiples
     const columnsToVisualize = ["REGION", "FAMINCOME_BINNED", "GENERATION", "SEX", "RACE_COMBINED", "MARST", "CITIZEN", "HEALTH", "HEIGHT_BINNED", "WEIGHT_BINNED", "EDUC_BINNED", "EMPSTAT"];
+    const columnNames = {"REGION": "Region", "FAMINCOME_BINNED": "Income Bracket", "GENERATION": "Generation", "SEX": "Sex", "RACE_COMBINED": "Race", "MARST": "Marital Status", "CITIZEN": "Citizenship Status", "HEALTH": "Health Status", "HEIGHT_BINNED": "Height Bracket", "WEIGHT_BINNED": "Weight Bracket", "EDUC_BINNED": "Education", "EMPSTAT": "Employement Status"}
 
     columnsToVisualize.forEach(column => {
         const types = d3.rollup(data, v => v.length, d => d[column]);
@@ -237,7 +263,7 @@ function main(){d3.csv("dataFinal.csv").then(function(data) {// ATUS survey data
     multiplesContainer.each(function(column) {
         const svg = d3.select(this) // creating svg for donut chart
             .append("svg")
-            .attr("width", width)
+            .attr("width", width+20)
             .attr("height", height)
             .append("g")
             .attr("transform", `translate(${width / 2},${height / 2})`)
@@ -251,7 +277,7 @@ function main(){d3.csv("dataFinal.csv").then(function(data) {// ATUS survey data
 
                 d3.select(this.parentNode) // Select the parent SVG of the clicked donut chart
                     .transition().duration(500) 
-                    .attr('width', width * 2.2) // Increase width so there is room for legend
+                    .attr('width', width * 2.7) // Increase width so there is room for legend
                     .attr('height', height * 1);
 
                 svg.selectAll(".legend-circles")
@@ -305,7 +331,7 @@ function main(){d3.csv("dataFinal.csv").then(function(data) {// ATUS survey data
             .attr('fill', d => color(d.data[0]))
             .attr("stroke", "black")
             .style("stroke-width", "2px")
-            .style("opacity", 0.7)
+            .style("opacity", '0.7')
 
         svg.selectAll('path')
             .on('mouseover', function (i, d) {
@@ -327,8 +353,8 @@ function main(){d3.csv("dataFinal.csv").then(function(data) {// ATUS survey data
         // Add a title to graph based on column name can add map later for better title names
         svg.append("text")
             .attr("text-anchor", "middle")
-            .attr("y", height / 2)
-            .text(column);
+            .attr("y", (height / 2) - 3)
+            .text(columnNames[column]);
     });
 
 
@@ -470,7 +496,7 @@ function main(){d3.csv("dataFinal.csv").then(function(data) {// ATUS survey data
                     return `<p class="${colorClass}">${key}: ${movement >= 0 ? '+' : ''}${movement.toFixed(2)}%</p>`;
                 });
             
-                return `<div class="column-info"><h3>${column}</h3>${movementInfo.join("")}</div>`;
+                return `<div class="column-info"><h3>${columnNames[column]}</h3>${movementInfo.join("")}</div>`;
             }).join("");
             
             document.getElementById("movers").innerHTML = moversHTML;
@@ -595,7 +621,7 @@ function main(){d3.csv("dataFinal.csv").then(function(data) {// ATUS survey data
             .attr("transform", "translate(0,0)");
 
         svg.selectAll("text")
-            .attr("y", height / 2)
+            .attr("y", (height / 2) - 3)
             .attr("transform", "translate(0,0)");
 
     }
