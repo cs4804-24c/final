@@ -27,6 +27,9 @@ div {
 h1 {
   margin: 0px 0 0 0;
 }
+a:visited {
+  color: rgb(191, 191, 191); 
+}
 
 nav {
   background-color: #494949;
@@ -44,6 +47,9 @@ nav a {
   text-decoration: none;
   padding: 0 15px;
   font-size: 1.2rem;
+}
+nav a:visited {
+  color: #d2d2d2;
 }
 nav a:hover {
   /* background-color: #555; */
