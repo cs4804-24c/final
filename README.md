@@ -15,11 +15,11 @@
 
 ## Division of Labor
 - **README**: *Matthew McAlarney*
-- **Process Book**" *Matthew McAlarney and Priyanka Narasimhan*
+- **Process Book**: *Matthew McAlarney and Priyanka Narasimhan*
 - **Database, authentication, and web server**: *Joe Dobbelaar*
 - **UI, React component setup, and refactors**: *Matthew McAlarney, Joe Dobbelaar, and Randy Huang*
-- **Icon Array Data Randomization**: *Randy Huang and Priyanka Narasimhan*
-- **Experiment Question Setup and Visualizations**: *Priyanka Narasimhan and Matthew McAlarney*
+- **Icon array data randomization**: *Randy Huang and Priyanka Narasimhan*
+- **Experiment question setup and visualizations**: *Priyanka Narasimhan and Matthew McAlarney*
 - **Master csv functionality**: *Randy Huang*
 
 ## Firebase: Database & Authenticaton
