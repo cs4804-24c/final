@@ -35,6 +35,12 @@ Youtube Video - https://www.youtube.com/watch?v=5SPrY1ti-Js&t=1s&ab_channel=Aaro
 You can drag the nodes vertically and place them where you want.
 Year filter applies to the stacked bar chart.
 
+### Technical achievement
+I believe I have achieved the technical aspect of this project with the development of a custom web scraper along with all the two interactive filters applied to the visual. The two of these aspects required a lot of data manipulation which brings along a lot of data validation.
+
+### Design achievement
+I believe I have achieved the design aspect of this project with the customization of colors and the overall website design.
+
 
 ## References
 ---
