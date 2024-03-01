@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
+import '../tooltip.css';
 
 const PieChart = ({ data }) => {
     const d3Container = useRef(null);
@@ -29,6 +30,10 @@ const PieChart = ({ data }) => {
                 .innerRadius(0)
                 .outerRadius(radius);
 
+            const tooltip = d3.select('body').append('div')
+                .attr('class', 'tooltip')
+                .style('opacity', 0);
+
             // Animation setup
             svg.selectAll('whatever')
                 .data(data_ready)
@@ -39,6 +44,19 @@ const PieChart = ({ data }) => {
                 .attr('stroke', 'white')
                 .style('stroke-width', '2px')
                 .style('opacity', 0.7)
+                .on('mouseover', (event, d) => {
+                    tooltip.transition()
+                        .duration(200)
+                        .style('opacity', 0.9);
+                    tooltip.html(`Name: ${d.data.teamName}<br>Value: ${d.data.value}`)
+                        .style('left', (event.pageX + 10) + 'px')
+                        .style('top', (event.pageY - 28) + 'px');
+                })
+                .on('mouseout', () => {
+                    tooltip.transition()
+                        .duration(500)
+                        .style('opacity', 0);
+                })
                 .transition()
                 .duration(1000)
                 .attrTween('d', function(d) {

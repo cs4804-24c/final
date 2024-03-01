@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
-import '../BarChart.css';
+import '../tooltip.css';
 
 const BarChart = ({ data, width = 600, height = 400 }) => {
     const ref = useRef();
