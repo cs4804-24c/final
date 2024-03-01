@@ -3,7 +3,7 @@ All About D3 Voronoi Treemaps
 
 Website Link: https://azzhang3.github.io/final/
 
-Video: https://www.loom.com/share/9ee96bf9055e4b108f51c01c3d59ff3f?sid=fb131bfb-e7f7-4dcd-87ea-8d0f4ef83900
+Video: https://www.loom.com/share/9ee96bf9055e4b108f51c01c3d59ff3f?sid=5064df93-40a4-4107-aa99-fec39562a32a
 
 For our final project we decided to delve into and explore the world of Voronoi Treemaps. We did that by creating a website and a video which showcases it.
 
