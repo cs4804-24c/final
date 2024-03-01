@@ -76,7 +76,7 @@ const selectedTeamsData = teamsList
                     ))}
                 </select>
                 <div className="stat-selectors">
-                    <select className="stat-selector" value={selectedStat} onChange={(e) => setSelectedStat(e.target.value)}>
+                    <select className="stat-selectors" value={selectedStat} onChange={(e) => setSelectedStat(e.target.value)}>
                         {statCategories.map((stat, index) => (
                             <option key={index} value={stat}>
                                 {stat}
