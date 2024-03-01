@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Final</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/dark.css">
+    <style type="text/css">
+       body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center; 
+        }
+
+        #searchInput {
+          padding: 10px;
+          width: 300px;
+          font-size: 16px;
+        }
+        #suggestions {
+          display: none;
+          position: absolute;
+          width: 300px;
+          background-color: #161f27;
+          border: 1px solid #06080a;
+          z-index: 999;
+        }
+        .suggestion {
+          padding: 5px;
+          cursor: pointer;
+        }
+        .suggestion:hover {
+          background-color: #06080a;
+        }
+
+        .popup-menu {
+            position: relative;
+            display: inline-block;
+            margin-left: 10px;
+        }
+
+        .popup-menu-content {
+            display: none;
+            position: absolute;
+            background-color: #161f27;
+            min-width: 300px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            padding: 12px;
+            z-index: 1;
+            column-count: 3; 
+            column-gap: 30px; 
+        }
+
+        .popup-menu-content label {
+            display: block;
+            margin-bottom: 6px;
+            height: 60px; 
+            line-height: 20px; 
+            border: 1px solid #ccc; 
+            padding: 6px; 
+            text-align:center;
+        }
+
+        .popup-menu-content label input[type="checkbox"] {
+            float: left;
+            margin-right: 5px; 
+        }
+
+        .size {
+            width: 20px; 
+        }
+
+        .labels {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-wrap: wrap;
+        }
+
+        .label-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 10px; 
+        }
+
+        .chart-and-rectangles {
+          display: flex;
+          align-items: flex-start;
+          margin-top: 20px;
+        }
+
+        .rectangles {
+          display: flex;
+          flex-direction: column;
+          margin-left: 20px; 
+        }
+
+        .rectangle {
+          width: 200px; 
+          height: 40px; 
+          background-color: rgba(91,19,20,0.3); 
+          margin-bottom: 10px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .rectangle span {
+          font-weight: bold; 
+          color: white; 
+          opacity: 0.3;
+        }
+
+        .search-container {
+            display: flex;
+            justify-content: center; 
+            align-items: center; 
+            margin-bottom: 20px;
+        }
+
+        .reload-button {
+            margin-right: 10px; 
+        }
+
+        #toggleButton {
+          width: 140px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="search-container">
+    <div class="reload-button">
+        <button id="reloadButton">Reload</button>
+    </div>
+    <div class="box" id="searchBar">
+      <input type="text" id="searchInput" placeholder="Search...">
+      <div id="suggestions"></div>
+    </div>
+    <div class="popup-menu">
+      <button id="popupButton">Quest Menu</button>
+      <div class="popup-menu-content" id="popupMenu">
+        <div><input type="checkbox" value="You've Got Mail" id="You've Got Mail"><label for="You've Got Mail">You've Got Mail</label></div>
+        <div><input type="checkbox" value="The Bunker - Part 1" id="The Bunker - Part 1"><label for="The Bunker - Part 1">The Bunker - Part 1</label></div>
+        <div><input type="checkbox" value="Broadcast - Part 4" id="Broadcast - Part 4"><label for="Broadcast - Part 4">Broadcast - Part 4</label></div>
+        <div><input type="checkbox" value="Import" id="Import"><label for="Import">Import</label></div>
+        <div><input type="checkbox" value="Gunsmith - Part 9" id="Gunsmith - Part 9"><label for="Gunsmith - Part 9">Gunsmith - Part 9</label></div>
+        <div><input type="checkbox" value="Scrap Metal" id="Scrap Metal"><label for="Scrap Metal">Scrap Metal</label></div>
+        <div><input type="checkbox" value="Delivery From the Past" id="Delivery From the Past"><label for="Delivery From the Past">Delivery From the Past</label></div>
+        <div><input type="checkbox" value="Calibration" id="Calibration"><label for="Calibration">Calibration</label></div>
+        <div><input type="checkbox" value="Humanitarian Supplies" id="Humanitarian Supplies"><label for="Humanitarian Supplies">Humanitarian Supplies</label></div>
+        <div><input type="checkbox" value="Tigr Safari" id="Tigr Safari"><label for="Tigr Safari">Tigr Safari</label></div>
+        <div><input type="checkbox" value="The Punisher - Part 1" id="The Punisher - Part 1"><label for="The Punisher - Part 1">The Punisher - Part 1</label></div>
+        <div><input type="checkbox" value="Revision - Lighthouse" id="Revision - Lighthouse"><label for="Revision - Lighthouse">Revision - Lighthouse</label></div>
+        <div><input type="checkbox" value="Supplier" id="Supplier"><label for="Supplier">Supplier</label></div>
+        <div><input type="checkbox" value="The Punisher - Part 6" id="The Punisher - Part 6"><label for="The Punisher - Part 6">The Punisher - Part 6</label></div>
+        <div><input type="checkbox" value="Capturing Outposts" id="Capturing Outposts"><label for="Capturing Outposts">Capturing Outposts</label></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="labels">
+    <div class="label-item">
+      <label for="Prapor">Prapor</label>
+      <select id="Prapor" name="Prapor">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+      </select>
+    </div>
+    <div class="label-item">
+      <label for="Skier">Skier</label>
+      <select id="Skier" name="Skier">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+      </select>
+    </div>
+    <div class="label-item">
+      <label for="Peacekeeper">Peacekeeper</label>
+      <select id="Peacekeeper" name="Peacekeeper">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+      </select>
+    </div>
+    <div class="label-item">
+      <label for="Mechanic">Mechanic</label>
+      <select id="Mechanic" name="Mechanic">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+      </select>
+    </div>
+    <div class="label-item">
+      <label for="Jaeger">Jaeger</label>
+      <select id="Jaeger" name="Jaeger">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+      </select>
+    </div>
+    <div>
+      <button id="toggleButton" onclick="toggleState()" data-state="on">Buyable</button>
+    </div>
+  </div>
+
+  <div class="selected"><h1 id="selected"></h1></div>
+  <div class="chart-and-rectangles">
+    <div class="box" id="chartPlaceholder"></div>
+    <div class="rectangles">
+      <div><h3>Armor Class</h3></div>
+      <div class="rectangle" id="6"><span>6</span></div>
+      <div class="rectangle" id="5"><span>5</span></div>
+      <div class="rectangle" id="4"><span>4</span></div>
+      <div class="rectangle" id="3"><span>3</span></div>
+      <div class="rectangle" id="2"><span>2</span></div>
+      <div class="rectangle" id="1"><span>1</span></div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+    function toggleState() {
+      var button = document.getElementById("toggleButton");
+      if (button.getAttribute("data-state") === "on") {
+        button.setAttribute("data-state", "off");
+        button.textContent = "Unbuyable";
+        generateChart()
+      } else {
+        button.setAttribute("data-state", "on");
+        button.textContent = "Buyable";
+        generateChart()
+      }
+    }
+
+    function togglePopupMenu() {
+        var popupMenu = document.getElementById("popupMenu");
+        popupMenu.style.display = popupMenu.style.display === "block" ? "none" : "block";
+    }
+
+    document.getElementById("popupButton").addEventListener("click", togglePopupMenu);
+
+    window.onclick = function(event) {
+        var popupMenu = document.getElementById("popupMenu");
+        var popupButton = document.getElementById("popupButton");
+        if (popupMenu.style.display === "block" && event.target !== popupButton && !popupMenu.contains(event.target)) {
+            popupMenu.style.display = "none";
+        }
+    }
+
+    document.querySelectorAll('#popupMenu input[type="checkbox"]').forEach(function(checkbox) {
+        checkbox.addEventListener('click', function(event) {
+            event.stopPropagation();
+        });
+    });
+
+    const listOfGuns = [
+      "AK-12",
+      "AK-101",
+      "AK-102",
+      "AK-103",
+      "AK-104",
+      "AK-105",
+      "AK-74",
+      "AK-74M",
+      "AK-74N",
+      "AKM",
+      "AKMN",
+      "AKMS",
+      "AKMSN",
+      "AKS-74",
+      "AKS-74N",
+      "AKS-74U",
+      "AKS-74UB",
+      "AKS-74UN",
+      "AS VAL",
+      "ASh-12",
+      "AUG A1",
+      "AUG A3",
+      "DT MDR 5.56x45",
+      "DT MDR 7.62x51",
+      "HK 416A5",
+      "HK G36",
+      "M4A1",
+      "MCX",
+      "MCX SPEAR",
+      "Mk47",
+      "RD-704",
+      "SA-58",
+      "SCAR-H",
+      "SCAR-L",
+      "9A-91",
+      "ADAR 2-15",
+      "AVT-40",
+      "OP-SKS",
+      "RFB",
+      "SAG AK",
+      "SAG AK Short",
+      "SKS",
+      "SVT-40",
+      "TX-15 DML",
+      "VPO-101",
+      "VPO-136",
+      "VPO-209",
+      "VSK-94",
+      "PKM",
+      "PKP",
+      "RPD",
+      "RPDN",
+      "RPK-16",
+      "MP5",
+      "MP5K-N",
+      "MP7A1",
+      "MP7A2",
+      "MP9",
+      "MP9-N",
+      "MPX",
+      "P90",
+      "PP-19-01 Vityaz-SN",
+      "PP-9 \"Klin\"",
+      "PP-91 \"Kedr\"",
+      "PP-91-01 \"Kedr-B\"",
+      "PPSh-41",
+      "Saiga-9",
+      "SR-2M",
+      "STM-9",
+      "UMP 45",
+      "Vector .45",
+      "Vector 9x19",
+      "KS-23M",
+      "M3 Super 90",
+      "M590A1",
+      "M870",
+      "MP-18",
+      "MP-133",
+      "MP-153",
+      "MP-155",
+      "MP-43-1C",
+      "MTs-255-12",
+      "Saiga-12K",
+      "TOZ-106",
+      "HK G28",
+      "M1A",
+      "Mk-18",
+      "RSASS",
+      "SR-25",
+      "SVDS",
+      "VSS Vintorez",
+      "AXMC",
+      "DVL-10",
+      "M700",
+      "Mosin (Infantry)",
+      "Mosin (Sniper)",
+      "SV-98",
+      "T-5000",
+      "VPO-215",
+      "FN40GL",
+      "M32A1",
+      "APB",
+      "APS",
+      "FN 5-7",
+      "Glock 17",
+      "Glock 18C",
+      "Glock 19X",
+      "M1911A1",
+      "M45A1",
+      "M9A3",
+      "MP-443 \"Grach\"",
+      "P226R",
+      "PB pistol",
+      "PL-15",
+      "PM (t) pistol",
+      "PM pistol",
+      "SR-1MP Gyurza",
+      "TT pistol",
+      "TT pistol (gold)",
+      "USP .45",
+      "CR 200DS",
+      "CR 50DS",
+      "RSh-12"
+    ];
+
+    const listOfCalibers = [
+      "7.62x25mm Tokarev",
+      "9x18mm Makarov",
+      "9x19mm Parabellum",
+      "9x21mm Gyurza",
+      ".357 Magnum",
+      ".45 ACP",
+      "4.6x30mm HK",
+      "5.7x28mm FN",
+      "5.45x39mm",
+      "5.56x45mm NATO",
+      "6.8x51mm",
+      ".300 Blackout",
+      "7.62x39mm",
+      "7.62x51mm NATO",
+      "7.62x54mmR",
+      ".338 Lapua Magnum",
+      "9x39mm",
+      ".366 TKM",
+      "12.7x55mm STs-130",
+      "12/70",
+      "20/70"
+    ];
+
+    let listOfQuests = [] 
+
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            if (this.checked) {
+                listOfQuests.push(this.value);
+            } else {
+                const index = listOfQuests.indexOf(this.value);
+                if (index !== -1) {
+                    listOfQuests.splice(index, 1);
+                }
+            }
+            generateChart();
+            console.log(listOfQuests);
+        });
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("Prapor").addEventListener("change", function() {
+            generateChart();
+        });
+        document.getElementById("Skier").addEventListener("change", function() {
+            generateChart();
+        });
+        document.getElementById("Peacekeeper").addEventListener("change", function() {
+            generateChart();
+        });
+        document.getElementById("Mechanic").addEventListener("change", function() {
+            generateChart();
+        });
+        document.getElementById("Jaeger").addEventListener("change", function() {
+            generateChart();
+        });
+    });
+
+
+    let selectedGun = ''
+
+    document.getElementById("reloadButton").addEventListener("click", function() {
+        selectedGun = '';
+        generateChart();
+        document.getElementById("searchInput").value = "";
+    });
+
+    const searchInput = document.getElementById("searchInput");
+    const suggestions = document.getElementById("suggestions");
+
+    document.addEventListener('click', function(event) {
+        const isClickInsideSearchInput = searchInput.contains(event.target);
+        const isClickInsideSuggestions = suggestions.contains(event.target);
+
+        if (!isClickInsideSearchInput && !isClickInsideSuggestions) {
+            suggestions.style.display = 'none';
+        }
+    });
+
+    function updateSuggestions() {
+        const inputValue = searchInput.value.trim().toLowerCase().replace(/[-.'()""\s]/g, '');
+        if (inputValue === '') {
+            suggestions.style.display = 'none';
+            return;
+        }
+        
+        let filteredWords = [...listOfCalibers, ...listOfGuns].filter(word => {
+            const sanitizedWord = word.toLowerCase().replace(/[-.'()""\s]/g, '');
+            return sanitizedWord.includes(inputValue);
+        });
+
+        filteredWords = filteredWords.slice(0, 10);
+
+        const suggestionHTML = filteredWords.map(word => {
+            return `<div class="suggestion">${word}</div>`;
+        }).join('');
+        suggestions.innerHTML = suggestionHTML;
+
+        const suggestionCount = filteredWords.length;
+        const suggestionHeight = suggestionCount > 0 ? suggestionCount * 30 : 0;
+
+        suggestions.style.display = 'block';
+        suggestions.style.height = `${suggestionHeight}px`;
+        suggestions.style.overflowY = 'auto';
+        
+        const inputRect = searchInput.getBoundingClientRect();
+        suggestions.style.top = `${inputRect.bottom + window.scrollY}px`;
+        suggestions.style.left = `${inputRect.left + window.scrollX}px`;
+
+        const suggestionElements = document.querySelectorAll('.suggestion');
+        suggestionElements.forEach(suggestion => {
+            suggestion.addEventListener('click', () => {
+                searchInput.value = suggestion.innerText;
+                selectedGun = suggestion.innerText;
+                generateChart();
+                suggestions.style.display = 'none';
+                searchInput.blur();
+            });
+        });
+    }
+
+    searchInput.addEventListener("input", updateSuggestions);
+
+    searchInput.addEventListener("keydown", function(event) {
+      if (event.key === 'Enter') {
+        const firstSuggestion = suggestions.querySelector('.suggestion');
+        if (firstSuggestion) {
+          searchInput.value = firstSuggestion.innerText;
+          selectedGun = firstSuggestion.innerText;
+          generateChart();
+          suggestions.style.display = 'none';
+          searchInput.blur();
+        }
+      }
+    });
+
+    searchInput.addEventListener("focus", function() {
+      searchInput.value = '';
+    });
+
+    const margin = { top: 20, right: 20, bottom: 50, left: 70 };
+    const width = 600 - margin.left - margin.right;
+    const height = 400 - margin.top - margin.bottom;
+
+    function generateChart() {
+      if(selectedGun === ''){
+        document.getElementById("selected").textContent = 'All Ammo';
+      }
+      else {
+        document.getElementById("selected").textContent = selectedGun;
+      }
+      d3.select('#chartPlaceholder').selectAll('*').remove();
+      
+      var svg = d3.select('#chartPlaceholder')
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", `translate(${margin.left},${margin.top})`);
+        
+        d3.csv("TarkovAmmo.csv").then(data => {
+          let filteredData = data.filter(d => {
+              if ((d['Quest Name'].trim() === '' || listOfQuests.includes(d['Quest Name'].trim()))) {
+                  if (d['Shop'].includes('Prapor') && parseInt(document.getElementById('Prapor').value) >= parseInt(d['Shop'].match(/\d+/)[0])) {
+                      return (d['Guns'].includes(selectedGun) || d['Caliber'].includes(selectedGun));
+                  } else if (d['Shop'].includes('Skier') && parseInt(document.getElementById('Skier').value) >= parseInt(d['Shop'].match(/\d+/)[0])) {
+                      return (d['Guns'].includes(selectedGun) || d['Caliber'].includes(selectedGun));
+                  } else if (d['Shop'].includes('Peacekeeper') && parseInt(document.getElementById('Peacekeeper').value) >= parseInt(d['Shop'].match(/\d+/)[0])) {
+                      return (d['Guns'].includes(selectedGun) || d['Caliber'].includes(selectedGun));
+                  } else if (d['Shop'].includes('Mechanic') && parseInt(document.getElementById('Mechanic').value) >= parseInt(d['Shop'].match(/\d+/)[0])) {
+                      return (d['Guns'].includes(selectedGun) || d['Caliber'].includes(selectedGun));
+                  } else if (d['Shop'].includes('Jaeger') && parseInt(document.getElementById('Jaeger').value) >= parseInt(d['Shop'].match(/\d+/)[0])) {
+                      return (d['Guns'].includes(selectedGun) || d['Caliber'].includes(selectedGun));
+                  } else if (d['Shop'] === '' && document.getElementById("toggleButton").getAttribute("data-state") === "off") {
+                      
+                      return (d['Guns'].includes(selectedGun) || d['Caliber'].includes(selectedGun));
+                  }
+              }
+          });
+          
+            filteredData.forEach(d => {
+                d['DMG'] = parseDamage(d['DMG']);
+                d['Penetration Power'] = +d['Penetration Power'];
+            });
+
+        function parseDamage(damageString) {
+          if (damageString.includes('x')) {
+            const parts = damageString.split('x').map(Number);
+            return parts.reduce((total, part) => total * part, 1);
+          } else {
+            return +damageString;
+          }
+        }
+
+        const yScale = d3.scaleLinear()
+          .domain([d3.min(filteredData, d => d['DMG'] - 5), d3.max(filteredData, d => d['DMG'] + 5)])
+          .range([height, 0]);
+
+        const xScale = d3.scaleLinear()
+          .domain([d3.min(filteredData, d => d['Penetration Power'] - 5), d3.max(filteredData, d => d['Penetration Power'] + 5)])
+          .range([0, width]);
+
+        const xAxis = d3.axisBottom(xScale);
+        const yAxis = d3.axisLeft(yScale);
+
+        svg.append("g")
+          .attr("transform", `translate(0, ${height})`)
+          .call(xAxis);
+
+        svg.append("g")
+          .call(yAxis);
+
+        const colorScale = d3.scaleOrdinal()
+          .domain(listOfCalibers)
+          .range(d3.schemeCategory10);
+
+        svg.selectAll("circle")
+          .data(filteredData)
+          .enter()
+          .append("circle")
+          .attr("cx", d => xScale(d['Penetration Power']))
+          .attr("cy", d => yScale(d['DMG']))
+          .attr("r", 8)
+          .style("fill", d => colorScale(d['Caliber']))
+          .style("opacity", 0.7);
+
+          var tooltip1 = d3.select("body")
+                .append("div")
+                .style("opacity", 0)
+                .attr("class", "tooltip")
+                .style("position", "absolute")
+                .style("background-color", "#161f27")
+                .style("border", "solid")
+                .style("border-width", "1px")
+                .style("border-radius", "5px")
+                .style("padding", "10px");
+
+          var tooltip2 = d3.select("body")
+                .append("div")
+                .style("opacity", 0)
+                .attr("class", "tooltip")
+                .style("position", "absolute")
+                .style("background-color", "#161f27")
+                .style("border", "solid")
+                .style("border-width", "1px")
+                .style("border-radius", "5px")
+                .style("padding", "10px");
+
+          var rectangleTimeouts = [];
+
+          svg.selectAll("circle")
+            .on("mouseover", function (event, d) {
+                var mouseX = event.offsetX;
+                var mouseY = event.offsetY;
+
+                d3.select(this)
+                  .transition()
+                  .duration(200)
+                  .attr("r", 12)
+                  .style("opacity", 1); 
+                
+
+                  for (var i = 1; i <= 6; i++) {
+                    (function(index) {
+                        var timeoutId = setTimeout(function() {
+                            let rectangle = document.getElementById(index.toString());
+                            let span = rectangle.querySelector("span");
+                            span.style.opacity = "1";
+                            switch (d[index.toString()]) {
+                                case "0":
+                                    rectangle.style.backgroundColor = "rgba(91,19,20,1)";
+                                    break;
+                                case "1":
+                                    rectangle.style.backgroundColor = "rgba(112,27,27,1)";
+                                    break;
+                                case "2":
+                                    rectangle.style.backgroundColor = "rgba(120,56,9,1)";
+                                    break;
+                                case "3":
+                                    rectangle.style.backgroundColor = "rgba(88,53,2,1)";
+                                    break;
+                                case "4":
+                                    rectangle.style.backgroundColor = "rgba(127,79,8,1)";
+                                    break;
+                                case "5":
+                                    rectangle.style.backgroundColor = "rgba(1,51,1,1)";
+                                    break;
+                                case "6":
+                                    rectangle.style.backgroundColor = "rgba(1,78,1,1)";
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }, index * 50);
+                        rectangleTimeouts.push(timeoutId);
+                    })(i);
+                }
+
+                function armorText(value) {
+                  switch (value) {
+                      case "0":
+                          return "Pointless";
+                      case "1":
+                          return "It's possible, but...";
+                      case "2":
+                          return "Magdump only";
+                      case "3":
+                          return "Slightly effective";
+                      case "4":
+                          return "Effective";
+                      case "5":
+                          return "Very effective";
+                      case "6":
+                          return "Usually ignores";
+                      default:
+                          return "";
+                  }
+                }
+                let tooltipText = "Name: " + d['Name'] + "<br/>Damage: " + d['DMG'] + "<br/>Penetration Power: " + d['Penetration Power'];
+                tooltipText += "<br/>Class 1: " + armorText(d['1']);
+                tooltipText += "<br/>Class 2: " + armorText(d['2']);
+                tooltipText += "<br/>Class 3: " + armorText(d['3']);
+                tooltipText += "<br/>Class 4: " + armorText(d['4']);
+                tooltipText += "<br/>Class 5: " + armorText(d['5']);
+                tooltipText += "<br/>Class 6: " + armorText(d['6']);
+
+                tooltip1.transition()
+                    .style("opacity", .9);
+                tooltip1.html(tooltipText)
+                    .style("left", (event.pageX - tooltip1.node().offsetWidth / 2) + "px") 
+                    .style("top", (event.pageY + 20) + "px")
+                    .style("pointer-events", "none");
+
+
+                tooltip2.transition()
+                    .duration(200)
+                    .style("opacity", 0.9);
+                
+                tooltip2.html("<svg id='gauge' width='200' height='200'></svg>")
+                    .style("left", (event.pageX - tooltip1.node().offsetWidth / 2) + "px") 
+                    .style("top", (event.pageY - 250) + "px")
+                    .style("pointer-events", "none");
+
+                var gauge = d3.select("#gauge");
+                var width = +gauge.attr("width");
+                var height = +gauge.attr("height");
+                var radius = Math.min(width, height) / 2;
+                var value = 100;
+                var minValue = 0;
+                var maxValue = 1000;
+
+                var arc = d3.arc()
+                    .innerRadius(radius * 0.7)
+                    .outerRadius(radius * 0.9)
+                    .startAngle(-Math.PI / 2);
+
+                var background = gauge.append("g")
+                    .attr("transform", `translate(${width / 2},${height / 2})`)
+                    .append("path")
+                    .datum({ endAngle: Math.PI / 2 })
+                    .style("fill", "#ddd")
+                    .attr("d", arc);
+
+                var foreground = gauge.append("g")
+                    .attr("transform", `translate(${width / 2},${height / 2})`)
+                    .append("path")
+                    .datum({ endAngle: -Math.PI / 2 })
+                    .style("fill", "steelblue")
+                    .attr("d", arc);
+
+                var minValueLabel = gauge.append("text")
+                    .attr("x", width / 2 - radius * 0.8)
+                    .attr("y", height / 2 + 20)
+                    .attr("text-anchor", "middle")
+                    .attr("fill", "white")
+                    .text(minValue);
+
+                var speedLabel = gauge.append("text")
+                    .attr("x", width / 2)
+                    .attr("y", height / 2 + 20)
+                    .attr("text-anchor", "middle")
+                    .attr("fill", "red")
+                    .text(d['Speed m/s'] + " m/s");
+
+                var maxValueLabel = gauge.append("text")
+                    .attr("x", width / 2 + radius * 0.8)
+                    .attr("y", height / 2 + 20)
+                    .attr("text-anchor", "middle")
+                    .attr("fill", "white")
+                    .text(maxValue);
+
+                function updateGauge(newValue) {
+                    foreground.transition()
+                        .duration(1000)
+                        .attrTween("d", function (d) {
+                            var interpolate = d3.interpolate(-Math.PI / 2, (Math.PI / 2) * (newValue / maxValue) - Math.PI / 2);
+                            return function (t) {
+                                d.endAngle = interpolate(t);
+                                return arc(d);
+                            };
+                        });
+                }
+
+                updateGauge(d['Speed m/s']*2);
+            })
+            .on("mouseout", function (d) {
+              rectangleTimeouts.forEach(function(timeoutId) {
+                  clearTimeout(timeoutId);
+              });
+              rectangleTimeouts = [];
+
+                d3.select(this)
+                    .transition()
+                    .duration(200)
+                    .attr("r", 8) 
+                    .style("opacity", 0.7);
+
+                for (var i = 1; i <= 6; i++) {
+                    let rectangle = document.getElementById(i.toString());
+                    rectangle.style.backgroundColor = "rgba(91,19,20,0.3)"
+                    let span = rectangle.querySelector("span");
+                    span.style.opacity = "0.3";
+                }
+                tooltip1.transition()
+                    .style("opacity", 0);
+                tooltip2.transition()
+                    .style("opacity", 0);
+                tooltip2.html("");
+                tooltip2.selectAll("svg").remove();
+            });
+
+        svg.selectAll(".label")
+          .data(filteredData)
+          .enter()
+          .append("text")
+          .attr("class", "label")
+          .attr("x", d => xScale(d['Penetration Power']))
+          .attr("y", d => yScale(d['DMG']) - 15)
+          .text(d => d['Name'])
+          .attr("text-anchor", "middle")
+          .attr("font-size", "15px")
+          .attr("fill", "white")
+          .style("pointer-events", "none");
+      });
+
+      svg.append("text")
+        .attr("x", width / 2)
+        .attr("y", height + margin.top + 20)
+        .style("text-anchor", "middle")
+        .style("fill", "white")
+        .text("Penetration");
+
+      svg.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("x", -height / 2)
+        .attr("y",-margin.left+25)
+        .style("text-anchor", "middle")
+        .style("fill", "white")
+        .text("Damage");
+    }
+    generateChart()
+</script>
+</body>
+</html>
