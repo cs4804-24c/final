@@ -32,5 +32,5 @@ can select one or multiple years to see how the data effects just one or a span 
 # References
 To complete this project we used the help of Data Is Plural, United Sates Environmental Protection Agency, ChatGPT, 
 European Environment Agency, and NASA. These resources both gave us the data we needed to create our visualizations and 
-any coding help we needed to produce them. 
+any coding help we needed to produce them.
 
