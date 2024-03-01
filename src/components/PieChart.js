@@ -29,26 +29,6 @@ const PieChart = ({ data }) => {
                 .innerRadius(0)
                 .outerRadius(radius);
 
-            // Animation setup
-            svg.selectAll('whatever')
-                .data(data_ready)
-                .enter()
-                .append('path')
-                .attr('d', arc)
-                .attr('fill', (d, i) => d3.schemeCategory10[i % d3.schemeCategory10.length])
-                .attr('stroke', 'white')
-                .style('stroke-width', '2px')
-                .style('opacity', 0.7)
-                .transition()
-                .duration(1000)
-                .attrTween('d', function(d) {
-                    const i = d3.interpolate(d.startAngle+0.1, d.endAngle);
-                    return function(t) {
-                        d.endAngle = i(t);
-                        return arc(d);
-                    };
-                });
-
             // Add labels
             svg.selectAll('text')
                 .data(data_ready)
