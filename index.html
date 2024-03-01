@@ -17,7 +17,7 @@
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
-        margin-top: 50px;
+        margin-top: 0px;
         /* make sure the wrapped divs start at the left */
         justify-content: center;
         align-items: flex-start;
@@ -139,7 +139,7 @@
       }
 
       #treemap {
-        margin-left: 20px;
+        margin-left: 60px;
         width: 100%;
         height: 100%;
         background-color: #f5f5f5;
@@ -168,7 +168,7 @@
       }
 
       .newspaper-body {
-        margin-left: 375px;
+        margin-left: 400px;
         margin-right: 375px;
         font-family: 'Libre Baskerville', serif;
         font-size: 18px;
@@ -216,6 +216,12 @@
           font-weight: bold;
       }
 
+    .tooltip {
+        font-family: 'Libre Baskerville', seriff;
+        font-size: 12px;
+    }
+
+
 
 
     </style>
@@ -242,12 +248,15 @@
       have made up 48-52% of all global greenhouse gas emissions throughout the decade of 2010-2020, with the top country of China making up for 22-27% of
       global emissions alone.
     </h1>
+    <h1 class="newspaper-body"> <br>
+    </h1>
+    
     <div id="treemap">
       <!-- <svg id="treemap" width="600" height="0"></svg> -->
     </div>
 
     <h1 class="newspaper-subheading">Breakdown of emissions in the United States.</h1>
-    <h1 class="newspaper-body"> From 2010 to 2022, the Greenhouse Gas Reporting Program (GHGRP) collected greenhouse gas emissions data from the
+    <h1 class="newspaper-body"> From 2010 to 2020, the Greenhouse Gas Reporting Program (GHGRP) collected greenhouse gas emissions data from the
       largest emitting facilities in the U.S. While this data does include emissions from every source, it shows
       which states are the largest contributors.
     </h1>
@@ -298,9 +307,9 @@
       </div>
     </div>
 
-    <h1 class="newspaper-subheading">How have emissions of these gases changed over time in the United States?</h1>
+    <h1 class="newspaper-subheading">How have emissions changed over time in the United States?</h1>
     <h1 class="newspaper-body"> The United States has made some consistent progress in reducing greenhouse gas emissions.
-      For most gases, emissions have dropped in the past decade.
+      Among the most abundant greenhouse gases in the U.S. throughout the decade were carbon dioxide, methane, nitrous oxide, and fluorinated gases.
     </h1>
 
     <div id="areaCharts">
@@ -313,11 +322,11 @@
         <br>
         <br>
         <br>
-        <h1 class="newspaper-subheading">Why Should We Care About Greenhouse Gasses?</h1>
+        <h1 class="newspaper-subheading">Why Should We Care About Greenhouse Gases?</h1>
         <br>
         <h1 class="newspaper-body"> Greenhouse gases are the primary driver of climate change. Climate change is detrimental
           to our world as we know it because it leads to a rise in earth's temperature, an increase in severe weather events, rising sea levels,
-          and much more. These changes can have major implications for life on earth, such as human health and agricultural productivity.
+          and much more. These changes can have major implications for life on Earth, such as human health and agricultural productivity.
           If we don't continue to reduce greenhouse gas emissions, the impacts of climate change will be felt worldwide.
         </h1>
         <br>
@@ -679,14 +688,14 @@
               let legendSvg = svg;
               legendSvg
                 .append("svg")
-                .attr("width", 350)
+                .attr("width", 300)
                 .attr("height", 50)
                 .attr("class", "legend-svg" + i);
 
               // Define legend parameters
               let legendWidth = 350;
               let legendHeight = 20;
-              let numTicks = 6;
+              let numTicks = 5;
 
               // Create color scale legend
               let legendGradient = legendSvg
@@ -887,21 +896,7 @@
       }
 
       gatherDataAndDraw();
-
-      // Add event listener to the multi-select element
-      //   multiSelect.addEventListener("change", function () {
-      //     let selectedYears = Array.from(this.selectedOptions).map(
-      //       (option) => option.value
-      //     );
-
-      //     if (selectedYears.length == 0) {
-      //       selectedYears = [2022];
-      //     }
-
-      //     drawMaps(selectedYears, stateTotalsByYear);
-      //   });
-
-      // Draw maps for the selected years whenever a checkbox is clicked
+      
       let checkboxes = document.querySelectorAll("input[type=checkbox]");
       checkboxes.forEach((checkbox) => {
         dummy = function () {
@@ -928,6 +923,10 @@
                   .attr("width", width)
                   .attr("height", height);
 
+                  data = data.filter(function(d) {
+                    return +d.YEAR >= 2010 && +d.YEAR <= 2020;
+                  });
+
           data.forEach(function (d) {
             d["GHG QUANTITY (METRIC TONS CO2e)"] = +d["GHG QUANTITY (METRIC TONS CO2e)"];
           });
@@ -944,7 +943,7 @@
           // Actually calculating the average
           const avgCO2Data = Object.keys(avgCO2byYear).map(year => ({
             year: +year,
-            value: d3.mean(avgCO2byYear[year])
+            value: d3.sum(avgCO2byYear[year])
           }));
 
           const xScale = d3.scaleBand()
@@ -979,8 +978,18 @@
 
           // Append y axis
           svg.append("g")
-                  .attr("transform", `translate(${margin.left},0)`)
-                  .call(d3.axisLeft(yScale));
+            .attr("transform", `translate(${margin.left},0)`)
+            .call(d3.axisLeft(yScale)
+            .ticks(3)
+            .tickFormat(function(d) {
+              if (d >= 1000000) {
+                return d3.format(".1s")(d).replace("M", "M");
+              } else if (d >= 1000) {
+                return d3.format(".1s")(d).replace("k", "k");
+              } else {
+                return d;
+              }
+            }));
 
           // Append x-axis label
           svg.append("text")
@@ -1001,10 +1010,19 @@
                   .style("text-anchor", "middle")
                   .text(yAx);
 
+          svg.append("text")
+                  .attr("class", "title")
+                  .attr("x", width / 2)
+                  .attr("y", 20)
+                  .attr("text-anchor", "middle")
+                  .style("font-size", "20px")
+                  .attr("font-family", "Libre Baskerville")
+                  .text(title);
+
           const points = [
             {
               x: 230,
-              y: 100,
+              y: 125,
               text: toolTip,
             },
           ]
@@ -1028,9 +1046,9 @@
                     const tooltipBox = svg
                             .append("foreignObject")
                             .attr("class", "tooltip-box")
-                            .attr("x", d.x - 30) // Adjust the x position as needed
+                            .attr("x", d.x - 30)
                             .attr("y", d === points[0] ? d.y + 10 : d.y - 20)
-                            .attr("width", 120) // Adjust the width of the box as needed
+                            .attr("width", 120)
                             .attr("height", 100)
                             .style("fill", "white")
                             .style("stroke", "black")
@@ -1047,7 +1065,7 @@
                             .attr(
                                     "y",
                                     d === points[0]
-                                            ? d.y + 22
+                                            ? d.y + 27
                                             : d === points[1]
                                                     ? d.y - 125
                                                     : d.y - 120
@@ -1056,16 +1074,16 @@
                             .attr("height", 100)
                             .append("xhtml:div")
                             .style("font-family", "Libre Baskerville")
-                            .style("font-size", "15px")
+                            .style("font-size", "14px")
                             .style("text-align", "center")
                             .html(d.text);
 
                     const textHeight = tooltipText.node();
-                    //   .getBBox().height;
+
 
                     tooltipBox
-                            .attr("height", textHeight + 20) // Adjust the height of the box based on the text height
-                            .attr("y", d === points[0] ? d.y + 10 : d.y - 20); // Re-adjust the y position based on the text height
+                            .attr("height", textHeight + 20)
+                            .attr("y", d === points[0] ? d.y + 10 : d.y - 20);
                   })
 
                   .on("mouseout", function () {
@@ -1079,14 +1097,14 @@
       const g1txt = "Carbon Dioxide has decreased due to the efforts of the US to reduce carbon pollution"
       const g2txt =  "Methane emissions have remained steady as they primarily come from agriculture, fossil fuels, and decomposition of landfill waste";
       const g3txt = "Nitrous Oxide has decreased due to improved agricultural practices and emissions reduction technologies in the US";
-      const g4txt = "Fluorinated GHGs had a drastic drop in emissions in 2009 due to the economic recession and the increase of renewable energy";
+      const g4txt = "Fluorinated GHGs had a drastic drop in emissions in after 2009 due to the economic recession and the increase of renewable energy";
 
 
       // Call the function for each CSV file
       createAreaChart("./Data Sources/CO2 Only All Years.csv", "#areaChart1", "#040273", "CO2 Emissions", "CO2 Emissions (Metric Tons)", g1txt);
       createAreaChart("./Data Sources/CH4 Only All Years.csv", "#areaChart2", "#720000", "CH4 Emissions", "CH4 Emissions (Metric Tons)", g2txt);
       createAreaChart("./Data Sources/N2O Only All Years.csv", "#areaChart3", "#154f30", "N2O Emissions", "NO2 Emissions (Metric Tons)", g3txt);
-      createAreaChart("./Data Sources/Fluorinated GHGs Only All Years.csv", "#areaChart4", "#ff69b4", "Fluorinated GHGs Emissions", "Fluorinated GHGs Emissions (Metric Tons)", g4txt);
+      createAreaChart("./Data Sources/Fluorinated GHGs Only All Years.csv", "#areaChart4", "#ff69b4", "Fluorinated GHG Emissions", "Fluorinated GHGs Emissions (Metric Tons)", g4txt);
 
 
     // Creating a line graph of top 5 countries CO2 emissons from 2010-2020
@@ -1178,7 +1196,7 @@
             .style("text-anchor", "middle")
             .attr("font-family", "Libre Baskerville")
             .style("font-size", "20px")
-            .text("CO2 Emissions (Excluding Land Use)");
+            .text("CO2 Emissions (in Million Tonnes)");
 
           // add a title
           svg
@@ -1280,7 +1298,7 @@
             {
               x: 400,
               y: 38,
-              text: "While the greenhouse gas emissons have decreased in the United States from 2010 to 2022, emissions in China are still on the rise.",
+              text: "While the greenhouse gas emissons have decreased in the United States from 2010 to 2020, emissions in China are still on the rise.",
             },
             {
               x: 350,
@@ -1359,9 +1377,7 @@
        // Creating a tree map to show how much of the total CO2 emissions each of these countries takes up
 
       // Importing the data and setting the height and width
-      d3.csv(
-              "./Data Sources/Our World in Data- Grouped GHG.csv",
-              function (data) {
+      d3.csv("Data Sources/Decade Emissions Country.csv", function (data) {
                 const margin = { top: 50, right: 240, bottom: 50, left: 130 };
                 const width = 1000 - margin.left - margin.right;
                 const height = 650 - margin.top - margin.bottom;
@@ -1376,6 +1392,7 @@
                                 "transform",
                                 "translate(" + margin.left + "," + margin.top + ")"
                         );
+
 
                 // Using all years
                 var filteredData = data.filter(function (d) {
@@ -1428,17 +1445,17 @@
 
                 function getCountryMessage(country) {
                   if (country === 'China') {
-                    return 'China has the largest GHG emissions because they are the world\'s largest coal producer';
+                    return 'China has the largest GHG emissions because they are the world\'s largest coal producer.';
                   } else if (country === 'United States') {
-                    return 'The United States emits many GHGs because Americans tend to drive more, emitting many fossil fuels from cars';
+                    return 'The United States emits many GHGs because Americans tend to drive more, emitting many fossil fuels from cars.';
                   } else if (country == 'India') {
-                    return 'Most of India\'s GHG emissions come from an abundance of coal power plants';
+                    return 'Most of India\'s GHG emissions come from an abundance of coal power plants.';
                   } else if (country == 'Russia') {
-                    return '60% of Russia\'s GHG emissions come from fossil fuel operations' ;
+                    return '60% of Russia\'s GHG emissions come from fossil fuel operations.' ;
                   } else if (country == 'Japan') {
-                    return '90% of Japan\'s GHG emissions come from fossil fuel combustion';
+                    return '90% of Japan\'s GHG emissions come from fossil fuel combustion.';
                   } else {
-                    return 'All countries produce GHGs, with some of the biggest sources of GHG emissions being electricity and heat production';
+                    return 'All countries produce GHGs, with some of the biggest sources of GHG emissions being electricity and heat production.';
                   }
                 }
 
@@ -1453,10 +1470,10 @@
                         .attr("width", function (d) { return d.x1 - d.x0; })
                         .attr("height", function (d) { return d.y1 - d.y0; })
                         .attr("fill", function (d) { return colors(d.data.country); })
-                        .append("title") // Append a title element for the tooltip
+                        .append("title")
                         .text(function(d) {
                           const countryMessage = getCountryMessage(d.data.country);
-                          return `Country: ${d.data.country}\nTotal GHG Emissions: ${d.data.total_ghg}\n${countryMessage}`;
+                          return `Country: ${d.data.country}\nTotal GHG Emissions from 2010-2020: ${d.data.total_ghg} Million Tonnes\n${countryMessage}`;
                         });
 
                 // Adding the country names
@@ -1471,12 +1488,22 @@
                         .attr("font-family", "Libre Baskerville")
                         .style("font-size", "17px");
 
+                // Add title to the treemap
+                svg.append("text")
+                  .attr("class", "title")
+                  .attr("x", width / 2)
+                  .attr("y", -margin.top / 2)
+                  .attr("text-anchor", "middle")
+                  .style("font-size", "24px")
+                  .attr("font-family", "Libre Baskerville")
+                  .text("Breakdown of Total GHG Emissions from 2010-2020");
+
 
                 svg
                         .append("image")
                         .attr("href", "./Flag Images/american-flag.png")
                         .attr("x", 130)
-                        .attr("y", 320)
+                        .attr("y", 300)
                         .attr("width", 60)
                         .attr("height", 60);
 
@@ -1508,7 +1535,7 @@
                 svg
                         .append("image")
                         .attr("href", "./Flag Images/japan-flag.png")
-                        .attr("x", 560)
+                        .attr("x", 545)
                         .attr("y", -7)
                         .attr("width", 60)
                         .attr("height", 60);
