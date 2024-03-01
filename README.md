@@ -20,7 +20,8 @@ is important for our readers to understand where the highest concentrations of t
 # Code Description
 All the code for our website can be found in index.html. We did not use any libraries other than d3 to complete this 
 project. Other folders within the repo contain the process book, materials for the process book, extra  materials used
-within the code, and our data sources. 
+within the code, and our data sources. For our data cleanup we wrote a python script and used the Pandas library. This
+code can be found in the repo as well. 
 
 # Special Features
 There are a couple features within our visualization that may not be obvious. Within the first graph, you can hover over
