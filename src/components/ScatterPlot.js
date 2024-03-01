@@ -12,6 +12,8 @@ const ScatterPlot = ({ data }) => {
 
       d3.select(d3Container.current).selectAll("*").remove();
 
+      const colorScale = d3.scaleOrdinal(d3.schemeCategory10);
+
       const svg = d3.select(d3Container.current)
                     .append("svg")
                     .attr("width", width + margin.left + margin.right)
@@ -45,15 +47,15 @@ const ScatterPlot = ({ data }) => {
          .attr("x", -height/2)
          .text("Win Percentage (W_PCT)");
 
-         svg.selectAll(".dot")
-         .data(data)
-         .enter()
-         .append("circle")
-         .attr("class", "dot")
-         .attr("cx", d => x(d.FG_PCT))
-         .attr("cy", d => y(d.W_PCT))
-         .attr("r", 5)
-         .style("fill", "#69b3a2");
+      svg.selectAll(".dot")
+          .data(data)
+          .enter()
+          .append("circle")
+          .attr("class", "dot")
+          .attr("cx", function (d) { return x(d.FG_PCT); })
+          .attr("cy", function (d) { return y(d.W_PCT); })
+          .attr("r", 5)
+          .style("fill", function(d, i) { return colorScale(i); });
 
       // Add labels to each dot
       svg.selectAll(".label")
