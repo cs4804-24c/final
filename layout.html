@@ -12,8 +12,13 @@
     /* Add any custom styling for your graph here */
     #side-panel {
       position: fixed;
-      left: 10px;
-      top: 10px;
+      left: 0px;
+      top: 0px;
+      max-height: 100vh;
+    }
+
+    #side-panel>div {
+      margin-left: 0;
     }
 
     .dot {
@@ -45,6 +50,9 @@
       font-size: 14px;
       font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
+    #info-box p:last-child {
+      margin-bottom: 0;
+    }
 
     #container {
       display: flex;
@@ -71,6 +79,7 @@
 
     #filter-box p {
       font-size: 14px;
+      margin-bottom: 2px;
       font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     
@@ -81,6 +90,7 @@
       margin-left: 20px; /* Adjust the margin as needed */
       width: 200px; /* Adjust the width as needed */
       border-radius: 0 0 10px 10px;
+      padding-bottom: 20px;
     }
 
     /* Style for the title text */
@@ -93,6 +103,7 @@
     #legend-box p {
       font-size: 14px;
       font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin-bottom: 0;
     }
 
     .legend-item {

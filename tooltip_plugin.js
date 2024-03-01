@@ -64,18 +64,26 @@ function addTooltips(chart, styles) {
         d3.select(this).raise();
         // Keep within the parent horizontally
         const tipSize = tip.node().getBBox();
+        let translateX = pointer[0] + 10;
+        console.log(tipSize.x);
+        console.log(tipSize.width);
         if (pointer[0] + tipSize.x < 0)
-          tip.attr(
-            "transform",
-            `translate(${tipSize.width / 2}, ${pointer[1] + 7})`
-          );
-        else if (pointer[0] + tipSize.width / 2 > wrapper.attr("width"))
-          tip.attr(
-            "transform",
-            `translate(${wrapper.attr("width") - tipSize.width / 2}, ${
-              pointer[1] + 7
-            })`
-          );
+          translateX = tipSize.width / 2;
+        else if (pointer[0] + tipSize.x + tipSize.width > document.documentElement.clientWidth - chart.getBoundingClientRect().left) {
+          translateX = document.documentElement.clientWidth - chart.getBoundingClientRect().left - tipSize.width / 2;
+        }
+
+        // Keep within the parent vertically
+        let translateY = 0;
+        if (pointer[1] - window.scrollY < document.documentElement.clientHeight / 2)
+          translateY = pointer[1] + tipSize.height + 7 + 40; // TODO (Keep in mind): 40 = 2 * vertical_padding from hover + vertical_offset
+        else if(translateX != 0)
+          translateY = pointer[1] + 7;
+
+        tip.attr(
+          "transform",
+          `translate(${translateX}, ${translateY})`
+        );
       })
       .on("pointerout", function (event) {
         tip.selectAll("*").remove();
@@ -106,6 +114,7 @@ function hover(tip, pos, text) {
   tip.selectAll("*").remove();
 
   // Append the text
+  const shiftDirection = pos[1] + 7 +
   tip
     .style("text-anchor", "middle")
     .style("pointer-events", "none")
