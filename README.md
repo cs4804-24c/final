@@ -37,12 +37,9 @@ Tip: Start your process book on Day 1. Make entries after each meeting, and trim
 
 ### Project Website
 
-Create a public website for your project using GitHub pages or another web hosting service of your choice. 
-The web site should contain your interactive visualization, summarize the main results of the project, and tell a story. 
-Consider your audience (the site should be public if possible, unless you're running an experiment, etc.) and keep the level of discussion at the appropriate level. 
+
 Your process book and data should be linked from the web site as well. 
 Also embed your interactive visualization and your screen-cast in your website. 
-If you are not able to publish your work (e.g., due to confidential data) please let us know in your project proposal.
 
 ### Project Screen-Cast
 
