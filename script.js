@@ -1,7 +1,7 @@
 // Set dimensions and margins for the chart
 const margin = { top: 70, right: 60, bottom: 50, left: 80 };
-const width = 1100 - margin.left - margin.right;
-const height = 600 - margin.top - margin.bottom;
+const width = 900 - margin.left - margin.right;
+const height = 500 - margin.top - margin.bottom;
 
 // Set up the x and y scales
 const x = d3.scaleTime()
@@ -275,7 +275,7 @@ d3.csv("NVDA.csv").then(data => {
     .attr('width', 800)
     .attr('height', 100)
     .append('g')
-    .attr('transform', 'translate(350,30)');
+    .attr('transform', 'translate(250,30)');
 
   gRange.call(sliderRange);
 
@@ -385,7 +385,7 @@ function drawHighlightedArea(data, firstClickDate, secondClickDate) {
 d3.select("#chart-container").append("div")
   .attr("id", "price-difference-container")
   .style("position", "absolute")
-  .style("left", "60%") 
+  .style("left", "50%") 
   .style("bottom", "-180px") 
   .style("transform", "translateX(-50%)") 
   .style("padding", "10px")
