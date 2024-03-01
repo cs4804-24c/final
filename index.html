@@ -1313,15 +1313,6 @@
                 const width = 1000 - margin.left - margin.right;
                 const height = 650 - margin.top - margin.bottom;
 
-                var tooltip = d3.select("body").append("div")
-                        .attr("class", "tooltip")
-                        .style("opacity", 0)
-                        .style("font-size", "16px") // Set the font size
-                        .style("font-weight", "bold") // Set the font weight
-                        .style("background-color", "white") // Set background color
-                        .style("border", "1px solid black") // Add border
-                        .style("padding", "8px"); // Add padding
-
                 const svg = d3
                         .select("#treemap")
                         .append("svg")
