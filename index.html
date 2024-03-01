@@ -954,7 +954,7 @@
               y: 100,
               text: toolTip,
             },
-          ];
+          ]
 
           // Append circles for the points
           svg
@@ -1307,153 +1307,153 @@
 
       // Importing the data and setting the height and width
       d3.csv(
-        "./Data Sources/Our World in Data- Grouped GHG.csv",
-        function (data) {
-          const margin = { top: 50, right: 240, bottom: 50, left: 130 };
-          const width = 1000 - margin.left - margin.right;
-          const height = 650 - margin.top - margin.bottom;
+              "./Data Sources/Our World in Data- Grouped GHG.csv",
+              function (data) {
+                const margin = { top: 50, right: 240, bottom: 50, left: 130 };
+                const width = 1000 - margin.left - margin.right;
+                const height = 650 - margin.top - margin.bottom;
 
-          const svg = d3
-            .select("#treemap")
-            .append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
-            .append("g")
-            .attr(
-              "transform",
-              "translate(" + margin.left + "," + margin.top + ")"
-            );
+                var tooltip = d3.select("body").append("div")
+                        .attr("class", "tooltip")
+                        .style("opacity", 0)
+                        .style("font-size", "16px") // Set the font size
+                        .style("font-weight", "bold") // Set the font weight
+                        .style("background-color", "white") // Set background color
+                        .style("border", "1px solid black") // Add border
+                        .style("padding", "8px"); // Add padding
 
-          // Only doing 2022 for now
-          var filteredData = data.filter(function (d) {
-            return d.year === "2020";
-          });
+                const svg = d3
+                        .select("#treemap")
+                        .append("svg")
+                        .attr("width", width + margin.left + margin.right)
+                        .attr("height", height + margin.top + margin.bottom)
+                        .append("g")
+                        .attr(
+                                "transform",
+                                "translate(" + margin.left + "," + margin.top + ")"
+                        );
 
-          var treemap = d3.treemap().size([width, height]).padding(1);
+                // Only doing 2022 for now
+                var filteredData = data.filter(function (d) {
+                  return d.year === "2020";
+                });
 
-          // Group the data by country -- onlt top 5 countries then all other countries are shown
-          var nestedData = d3
-            .nest()
-            .key(function (d) {
-              return d.country;
-            })
-            .entries(filteredData);
+                var treemap = d3.treemap().size([width, height]).padding(1);
 
-          // Creating a heirarchy for the tree map
-          var root = d3
-            .hierarchy({ values: nestedData }, function (d) {
-              return d.values;
-            })
-            .sum(function (d) {
-              return +d.total_ghg;
-            });
+                // Group the data by country -- only top 5 countries then all other countries are shown
+                var nestedData = d3
+                        .nest()
+                        .key(function (d) {
+                          return d.country;
+                        })
+                        .entries(filteredData);
 
-          treemap(root);
+                // Creating a hierarchy for the tree map
+                var root = d3
+                        .hierarchy({ values: nestedData }, function (d) {
+                          return d.values;
+                        })
+                        .sum(function (d) {
+                          return +d.total_ghg;
+                        });
 
-          // creating tree map colors to correspond to the line chart
+                treemap(root);
 
-          const colors = d3
-            .scaleOrdinal()
-            .domain([
-              "China",
-              "United States",
-              "India",
-              "Russia",
-              "Japan",
-              "All Other Countries",
-            ])
-            .range([
-              "#e6b400",
-              "#0e4c92",
-              "#008500",
-              "#c21807",
-              "#7c3868",
-              "#898c8a",
-            ]);
+                // creating tree map colors to correspond to the line chart
 
-          // Making the rectangles
-          svg
-            .selectAll("rect")
-            .data(root.leaves())
-            .enter()
-            .append("rect")
-            .attr("x", function (d) {
-              return d.x0;
-            })
-            .attr("y", function (d) {
-              return d.y0;
-            })
-            .attr("width", function (d) {
-              return d.x1 - d.x0;
-            })
-            .attr("height", function (d) {
-              return d.y1 - d.y0;
-            })
-            .attr("fill", function (d) {
-              return colors(d.data.country);
-            });
+                const colors = d3
+                        .scaleOrdinal()
+                        .domain([
+                          "China",
+                          "United States",
+                          "India",
+                          "Russia",
+                          "Japan",
+                          "All Other Countries",
+                        ])
+                        .range([
+                          "#e6b400",
+                          "#0e4c92",
+                          "#008500",
+                          "#c21807",
+                          "#7c3868",
+                          "#898c8a",
+                        ]);
 
-          // Adding the country names
-          svg
-            .selectAll("text")
-            .data(root.leaves())
-            .enter()
-            .append("text")
-            .attr("x", function (d) {
-              return d.x0 + 5;
-            })
-            .attr("y", function (d) {
-              return d.y0 + 20;
-            })
-            .text(function (d) {
-              return d.data.country;
-            })
-            .attr("fill", "white")
-            .attr("font-family", "Libre Baskerville")
-            .style("font-size", "17px");
-
-          svg
-            .append("image")
-            .attr("href", "./Flag Images/american-flag.png")
-            .attr("x", 130)
-            .attr("y", 320)
-            .attr("width", 60)
-            .attr("height", 60);
-
-          svg
-            .append("image")
-            .attr("href", "./Flag Images/china-flag.png")
-            .attr("x", 60)
-            .attr("y", -10)
-            .attr("width", 70)
-            .attr("height", 70);
-
-          svg
-            .append("image")
-            .attr("href", "./Flag Images/india-flag.png")
-            .attr("x", 60)
-            .attr("y", 460)
-            .attr("width", 60)
-            .attr("height", 60);
+                // Making the rectangles with tooltip text
+                svg.selectAll("rect")
+                        .data(root.leaves())
+                        .enter()
+                        .append("rect")
+                        .attr("x", function (d) { return d.x0; })
+                        .attr("y", function (d) { return d.y0; })
+                        .attr("width", function (d) { return d.x1 - d.x0; })
+                        .attr("height", function (d) { return d.y1 - d.y0; })
+                        .attr("fill", function (d) { return colors(d.data.country); })
+                        .append("title") // Append a title element for the tooltip
+                        .text(function(d) { return `Country: ${d.data.country}\nTotal GHG Emissions: ${d.data.total_ghg}`; }); // Set the text for the tooltip
 
 
-          svg
-            .append("image")
-            .attr("href", "./Flag Images/russia-flag.png")
-            .attr("x", 355)
-            .attr("y", -5)
-            .attr("width", 60)
-            .attr("height", 60);
+                // Adding the country names
+                svg.selectAll("text")
+                        .data(root.leaves())
+                        .enter()
+                        .append("text")
+                        .attr("x", function (d) { return d.x0 + 5; })
+                        .attr("y", function (d) { return d.y0 + 20; })
+                        .text(function (d) { return d.data.country; })
+                        .attr("fill", "white")
+                        .attr("font-family", "Libre Baskerville")
+                        .style("font-size", "17px");
 
-          svg
-            .append("image")
-            .attr("href", "./Flag Images/japan-flag.png")
-            .attr("x", 560)
-            .attr("y", -7)
-            .attr("width", 60)
-            .attr("height", 60);
 
-        });
+                svg
+                        .append("image")
+                        .attr("href", "./Flag Images/american-flag.png")
+                        .attr("x", 130)
+                        .attr("y", 320)
+                        .attr("width", 60)
+                        .attr("height", 60);
+
+                svg
+                        .append("image")
+                        .attr("href", "./Flag Images/china-flag.png")
+                        .attr("x", 60)
+                        .attr("y", -10)
+                        .attr("width", 70)
+                        .attr("height", 70);
+
+                svg
+                        .append("image")
+                        .attr("href", "./Flag Images/india-flag.png")
+                        .attr("x", 60)
+                        .attr("y", 460)
+                        .attr("width", 60)
+                        .attr("height", 60);
+
+
+                svg
+                        .append("image")
+                        .attr("href", "./Flag Images/russia-flag.png")
+                        .attr("x", 355)
+                        .attr("y", -5)
+                        .attr("width", 60)
+                        .attr("height", 60);
+
+                svg
+                        .append("image")
+                        .attr("href", "./Flag Images/japan-flag.png")
+                        .attr("x", 560)
+                        .attr("y", -7)
+                        .attr("width", 60)
+                        .attr("height", 60);
+
+
+
+
+              });
+
+
 
     </script>
   </body>
