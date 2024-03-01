@@ -4,6 +4,7 @@
 ## Working Link to our Web Application
 
 https://final.joed.dev/
+Note that the first icon array on our website may not show up due to a recent bug that has come up during deployment, but the first icon array does show up when running localhost 3000 in the client directory.
 
 ## Link to Project Screencast
 
@@ -20,7 +21,7 @@ https://www.loom.com/share/bb2549e8a21d4a7981b1962f8682de3d
 - **UI, React component setup, and refactors**: *Matthew McAlarney, Joe Dobbelaar, and Randy Huang*
 - **Icon array data randomization**: *Randy Huang and Priyanka Narasimhan*
 - **Experiment question setup and visualizations**: *Priyanka Narasimhan and Matthew McAlarney*
-- **Master csv functionality and confidence intervals**: *Randy Huang*
+- **Master csv functionality and data analysis**: *Randy Huang and Matthew McAlarney*
 
 ## Firebase: Database & Authenticaton
 User authentication and database are handled by Firebase: Google's mobile and web application development platform. Firebase configuration information is in `api/firebase.js`:
