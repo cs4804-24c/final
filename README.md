@@ -6,3 +6,4 @@ script used to gather this data in stats_by_year.py. The result of the script is
 to show our data. We created react components for Barcharts, PieCharts, and the Scatterplot. We also used D3 in each of these components to visualize them. Our home page on the website provides animated and interactable charts to be used. The bar charts plot different stats like points, wins, losses, rebounds, and assists. We also used a tooltip to better format everything
 
 nba_api link: https://github.com/swar/nba_api
+video link: https://youtu.be/EhA3zXA6wOE
