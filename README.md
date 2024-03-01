@@ -1,7 +1,7 @@
 All About D3 Voronoi Treemaps
 ===
 
-Link: https://azzhang3.github.io/final/
+Website Link: https://azzhang3.github.io/final/
 
 Video: https://www.loom.com/share/9ee96bf9055e4b108f51c01c3d59ff3f?sid=fb131bfb-e7f7-4dcd-87ea-8d0f4ef83900
 
@@ -50,6 +50,7 @@ The final section provides information on the library with a link and some of th
 ### Examples:
 This page provides some examples of voronoi treemaps.
 
+
 Images of Website
 ---
 ![visual](readmeImg/pic1.png)
@@ -67,3 +68,10 @@ Images of Website
 ![visual](readmeImg/pic7.png)
 
 ![visual](readmeImg/pic8.png)
+
+
+References
+---
+https://d3-graph-gallery.com/graph/treemap_basic.html
+https://github.com/Kcnarf/d3-voronoi-treemap
+https://www.npmjs.com/package/d3-voronoi-treemap?activeTab=code
