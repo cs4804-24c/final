@@ -23,3 +23,8 @@
   border: 1px solid #ccc;
   background-color: white;
 }
+
+.visualization-container{
+  font-size: x-large;
+  font-style: italic;
+}
