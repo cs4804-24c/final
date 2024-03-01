@@ -47,7 +47,12 @@ function App() {
             name: team.fullName,
             value: +team[selectedStat],
         }));
-
+const selectedTeamsData = teamsList
+        .filter(team => team.TEAM_ID === team1 || team.TEAM_ID === team2)
+        .map(team => ({
+          value: team.W,
+          teamName: team.TEAM_NAME
+        }));
     return (
         <div className="app-container">
         <header className="app-header">
@@ -85,6 +90,7 @@ function App() {
             </div>
             <BarChart data={barChartData} width={600} height={400} />
             <ScatterPlot  data={data.filter(team => team.teamId === team1 || team.teamId === team2)} />
+            <PieChart data={selectedTeamsData} />
         </div>
     );
 }
