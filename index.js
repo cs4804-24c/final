@@ -59,7 +59,7 @@ function initLayout() {
     .select("#simpleVoronoi")
     .attr("width", WIDTH)
     .attr("height", HEIGHT)
-    .attr("transform", "translate(0, 30)");
+    .attr("transform", "translate(0, 0)");
   drawingArea = svg.append("g").classed("drawingArea", true);
   treemapContainer = drawingArea.append("g").classed("treemap-container", true);
 
@@ -98,7 +98,7 @@ function drawTreemap(hierarchy) {
       "transform",
       (d) => `translate(${d.polygon.site.x}, ${d.polygon.site.y})`
     )
-    .style("font-size", (d) => fontScale(d.data.weight)*1.8);
+    .style("font-size", (d) => fontScale(d.data.weight) * 1.8);
 
   labels
     .append("text")

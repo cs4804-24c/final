@@ -13,6 +13,7 @@
     <script src="https://rawcdn.githack.com/Kcnarf/d3-weighted-voronoi/v1.0.1/build/d3-weighted-voronoi.js"></script>
     <script src="https://rawcdn.githack.com/Kcnarf/d3-voronoi-map/v2.0.1/build/d3-voronoi-map.js"></script>
     <script src="https://rawcdn.githack.com/Kcnarf/d3-voronoi-treemap/v1.1.1/build/d3-voronoi-treemap.js"></script>
+    <script defer src="app.js"></script>
     <div class="treemapContainer">
       <body>
         <div id="navbar"></div>
@@ -59,7 +60,7 @@
 
             .hoverer {
               fill: transparent;
-              stroke: darkviolet;
+              stroke: #203039;
               stroke-width: 0px;
             }
 
@@ -73,12 +74,12 @@
           </style>
           <script src="./voronoiTreemaps.js"></script>
 
-          <div class="container">
+          <div class="container hidden">
             <h2>GDP by Country (Interactive)</h2>
             <svg></svg>
           </div>
 
-          <div class="container">
+          <div class="container hidden">
             <h2>Vornoi geography map hybrid</h2>
             <p>
               This Voronoi Treemap is from the following
@@ -93,7 +94,7 @@
               alt="usaVoronoi"
             />
           </div>
-          <div class="container">
+          <div class="container hidden">
             <h2>Nba championships</h2>
             <p>
               This Voronoi Treemap can be found
@@ -108,7 +109,7 @@
               alt="nbaVoronoi"
             />
           </div>
-          <div class="container">
+          <div class="container hidden">
             <h2>Cell size and count</h2>
             <p>
               This Voronoi Treemap can be found
@@ -124,7 +125,7 @@
             />
           </div>
         </div>
-        <div class="container">
+        <div class="container hidden">
           <h2>Land cover by country</h2>
           <p>
             This Voronoi Treemap can be found
