@@ -86,7 +86,7 @@ const selectedTeamsData = teamsList
                 </div>
             </div>
             <div className="visualization-container">
-                {team1 || team2 ? renderVisualization() : "Select teams to see the stats"}
+                {"Select 2 Teams and a Stat From The Drop Down Menu Above"}
             </div>
             <BarChart data={barChartData} width={600} height={400} />
             <ScatterPlot  data={data.filter(team => team.teamId === team1 || team.teamId === team2)} />
