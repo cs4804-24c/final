@@ -115,7 +115,13 @@ function hover(tip, pos, text) {
     .join("text")
     .style("dominant-baseline", "ideographic")
     .text((d) => d)
-    .attr("y", (d, i) => (i - (text.length - 1)) * 20 - vertical_offset)
+    .attr("y", (d, i) => {
+      if(pos[1] < window.height / 2) {
+        return (i - (text.length - 1)) * -20 + vertical_offset;
+      } else {
+        return (i - (text.length - 1)) * 20 - vertical_offset;
+      }
+    })
     .style("font-size", "12pt")
     .style("font-weight", (d, i) => (i === 0 ? "bold" : "normal"));
 
