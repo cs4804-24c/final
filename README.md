@@ -7,6 +7,11 @@ Video:
 
 For our final project we decided to delve into and explore the world of Voronoi Treemaps. We did that by creating a website and a video which showcases it.
 
+Design Achievements:
+- 
+
+Technical Achievements:
+- 
 
 Website Layout
 ---
@@ -16,6 +21,9 @@ The first section provides some background information, talking about what voron
 
 ### Creating a Simple Voronoi Treemap with D3.js
 The second section of the provides descriptions on how to create your own simple voronoi treemap with D3.js. In this section we provided a series of steps with detailed explanations and code examples, to help you get started. At the end of this section there is an Additional Info Section, which gives a basic overview of some of the major functions and algorithms that goes into making a voronoi treemap. 
+
+### Voronoi General Background Processes
+The third section pro
 
 IMG Format:
 ![visual](Write-Up_Images/ErrorPlot.png)

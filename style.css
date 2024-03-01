@@ -28,7 +28,7 @@ h1 {
   margin: 0px 0 0 0;
 }
 a:visited {
-  color: rgb(191, 191, 191); 
+  color: rgb(191, 191, 191);
 }
 
 nav {
@@ -122,6 +122,10 @@ svg {
 
 .label > .value {
   dominant-baseline: text-before-edge;
+}
+
+.links {
+  color: rgb(51, 51, 255);
 }
 
 /* BEGIN INDEX HTML */
