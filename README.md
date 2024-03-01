@@ -1,6 +1,6 @@
 Final Project - Interactive Data Visualization  
 ===
-## Final-AlyshaCreelman-ConnorEhrensperger-AudreyMongillo
+# Final-AlyshaCreelman-ConnorEhrensperger-AudreyMongillo
 
 ### GitHub Pages Link
 https://audreymongillo.github.io/final/
