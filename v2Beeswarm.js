@@ -15,6 +15,8 @@ function colorMap(d) {
       return "#570408";
     case "Asia":
       return "#198038";
+      case "Oceania":
+        return "#002d9c";
     default:
       console.log(d["region"]);
       return "#000000";
