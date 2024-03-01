@@ -1,37 +1,65 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import './App.css'; // Make sure to include the CSS file for styling
+import Papa from "papaparse";
 
+import BarChart from "./components/BarChart";
+import './App.css'; 
+
+
+const statCategories = ['W', 'L', 'W_PCT', 'PTS', 'REB', 'AST'];
 function App() {
     const [team1, setTeam1] = useState("");
     const [team2, setTeam2] = useState("");
-    const [shotChart1, setShotChart1] = useState([]);
-    const [shotChart2, setShotChart2] = useState([]);
+    const [selectedStat, setSelectedStat] = useState(statCategories[0]);
     const [teamsList, setTeamsList] = useState([]);
 
     useEffect(() => {
-        if (team1) fetchShotChart(team1, setShotChart1);
-    }, [team1]);
+      const loadTeamsList = () => {
+          fetch('/team_stats.csv')
+              .then(response => response.text())
+              .then(csvText => {
+                  Papa.parse(csvText, {
+                      header: true,
+                      complete: (results) => {
+                          const teams = results.data.map(team => ({
+                              teamId: team.TEAM_ID,
+                              fullName: team.TEAM_NAME,
+                              ...team
+                          }));
+                          setTeamsList(teams);
+                      },
+                  });
+              })
+              .catch(error => console.error("Failed to load teams list:", error));
+      };
 
-    useEffect(() => {
-        if (team2) fetchShotChart(team2, setShotChart2);
-    }, [team2]);
+      loadTeamsList();
+  }, []);
 
-    const fetchShotChart = async (teamId, setShotChartData) => {
-        try {
-            const response = await axios.get(`/shotchart/${teamId}`);
-            setShotChartData(response.data);
-        } catch (error) {
-            console.error("Failed to fetch shot chart data:", error);
-        }
+  const renderVisualization = () => {
+    const selectedTeams = teamsList.filter(team => 
+        team.teamId === team1 || team.teamId === team2
+    );
+
+    return selectedTeams.map(team => (
+        <div key={team.teamId}>
+            {team.fullName}: {team[selectedStat]}
+        </div>
+    ));
     };
+
+    const barChartData = teamsList
+        .filter(team => team.teamId === team1 || team.teamId === team2)
+        .map(team => ({
+            name: team.fullName,
+            value: +team[selectedStat],
+        }));
 
     return (
         <div className="app-container">
-            <header className="app-header">
-                <h1>NBA Shot Chart Comparison</h1>
-            </header>
-            <div className="team-selectors">
+        <header className="app-header">
+            <h1>NBA Shot Chart Comparison</h1>
+        </header>
+        <div className="team-selectors">
                 <select className="team-selector" value={team1} onChange={(e) => setTeam1(e.target.value)}>
                     <option value="">Select Team 1</option>
                     {teamsList.map((team) => (
@@ -48,11 +76,21 @@ function App() {
                         </option>
                     ))}
                 </select>
+                <div className="stat-selectors">
+                    <select className="stat-selector" value={selectedStat} onChange={(e) => setSelectedStat(e.target.value)}>
+                        {statCategories.map((stat, index) => (
+                            <option key={index} value={stat}>
+                                {stat}
+                            </option>
+                        ))}
+                    </select>
+                </div>
             </div>
-            {/* Placeholder for shot chart visualization */}
-            <div className="shot-chart-container">
-                {/* Visualization components would go here */}
+            <div className="visualization-container">
+                {team1 || team2 ? renderVisualization() : "Select teams to see the stats"}
             </div>
+            <BarChart data={barChartData} width={600} height={400} />
+            
         </div>
     );
 }
