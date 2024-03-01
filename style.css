@@ -4,6 +4,7 @@ body {
   background-color: var(--background-color);
   color: var(--text-color);
   transition: background-color 0.5s, color 0.5s;
+  line-height: 1.5rem;
 }
 
 /* Dark mode styles */
@@ -11,7 +12,8 @@ body {
   :root {
     --background-color: #333333;
     --text-color: #ffffff;
-  }}
+  }
+}
 
 body {
   font-family: Arial, sans-serif;
@@ -27,7 +29,7 @@ h1 {
 }
 
 nav {
-  background-color: #2F4858;
+  background-color: #2f4858;
   color: #ededed;
   text-align: center;
   padding: 10px 0;
@@ -56,16 +58,19 @@ nav a:hover {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.container p,.container h1,.container h2 {
+.container p,
+.container h1,
+.container h2 {
   color: #000000;
 }
 
 pre {
-  background-color: #f4f4f4;
+  background-color: #f9f9f9;
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
   overflow-x: auto; /* Enable horizontal scrollbar if needed */
+  max-width: 900px;
 }
 code {
   font-family: Consolas, monospace;
@@ -74,6 +79,7 @@ code {
   background-color: #f9f9f9;
   padding: 2px 4px;
   border-radius: 4px;
+  max-width: 900px;
 }
 
 .title {
@@ -114,7 +120,7 @@ svg {
 /* BEGIN INDEX HTML */
 .homeTitleText {
   padding: auto;
-  padding-top: 50px;
+  padding-top: 80px;
   padding-bottom: 20px;
   font-size: 1.2rem;
   padding-left: 20px;
@@ -164,8 +170,15 @@ footer {
   padding: auto;
   padding-top: 5px;
   font-size: 1rem;
-  max-width: 900px;
+  max-width: 800px;
   padding-left: 20px;
+}
+
+.codeTutorial p {
+  max-width: 900px;
+}
+
+.codeTutorial code {
 }
 
 /* END CODETUTORIAL HTML*/
