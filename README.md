@@ -19,13 +19,14 @@ is important for our readers to understand where the highest concentrations of t
 
 # Code Description
 All the code for our website can be found in index.html. We did not use any libraries other than d3 to complete this 
-project. Other folders within the repo contain the process book, materials for the process book, extra  materials used
-within the code, and our data sources. For our data cleanup we wrote a python script and used the Pandas library. This
+project. Other folders within the repo contain materials for the process book, extra  materials used
+within the code, and our data sources (both original downloaded files and any new files we created when cleaning the data). 
+Our process book in the form of a PDF is included in this repo as well. For our data cleanup we wrote a python script and used the Pandas library. This
 code can be found in the repo as well. 
 
 # Special Features
 There are a couple features within our visualization that may not be obvious. Within the first graph, you can hover over
-the circle on the graph to read more information about that point on the graph. Within the treemap, you can hover over
+the circles on the graph to read more information about that point on the graph. Within the treemap, you can hover over
 each of the rectangles and get a tool tip with information about the country. In the area graphs, you can hover over 
 each one and get information about that specific greenhouse gas. Finally, for the map section of the visualization, you 
 can select one or multiple years to see how the data effects just one or a span of years. 
