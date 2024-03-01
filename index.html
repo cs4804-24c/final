@@ -26,7 +26,7 @@
           width: 300px;
           background-color: #161f27;
           border: 1px solid #06080a;
-          z-index: 999; /* Ensure it's above other content */
+          z-index: 999;
         }
         .suggestion {
           padding: 5px;
@@ -46,31 +46,31 @@
             display: none;
             position: absolute;
             background-color: #161f27;
-            min-width: 300px; /* Adjust the width as needed */
+            min-width: 300px;
             box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
             padding: 12px;
             z-index: 1;
-            column-count: 3; /* Display checkboxes in three columns */
-            column-gap: 30px; /* Adjust the gap between columns */
+            column-count: 3; 
+            column-gap: 30px; 
         }
 
         .popup-menu-content label {
             display: block;
             margin-bottom: 6px;
-            height: 60px; /* Set a fixed height for all labels */
-            line-height: 20px; /* Center align the text vertically */
-            border: 1px solid #ccc; /* Add border around each checkbox div */
-            padding: 6px; /* Add padding for spacing */
+            height: 60px; 
+            line-height: 20px; 
+            border: 1px solid #ccc; 
+            padding: 6px; 
             text-align:center;
         }
 
         .popup-menu-content label input[type="checkbox"] {
             float: left;
-            margin-right: 5px; /* Adjust the spacing between checkbox and label */
+            margin-right: 5px; 
         }
 
         .size {
-            width: 20px; /* Adjust the width as needed */
+            width: 20px; 
         }
 
         .labels {
@@ -84,7 +84,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin: 10px; /* Adjust margin as needed */
+            margin: 10px; 
         }
 
         .chart-and-rectangles {
@@ -96,34 +96,34 @@
         .rectangles {
           display: flex;
           flex-direction: column;
-          margin-left: 20px; /* Adjust as needed for spacing */
+          margin-left: 20px; 
         }
 
         .rectangle {
-          width: 200px; /* Adjust the width of the rectangle */
-          height: 40px; /* Adjust the height of the rectangle */
-          background-color: rgba(91,19,20,0.3); /* Adjust the color as needed */
-          margin-bottom: 10px; /* Adjust as needed for spacing */
+          width: 200px; 
+          height: 40px; 
+          background-color: rgba(91,19,20,0.3); 
+          margin-bottom: 10px;
           display: flex;
           justify-content: center;
           align-items: center;
         }
 
         .rectangle span {
-          font-weight: bold; /* Make the text bold */
-          color: white; /* Set the text color to white */
-          opacity: 0.3; /* Set the opacity of the text to fully opaque */
+          font-weight: bold; 
+          color: white; 
+          opacity: 0.3;
         }
 
         .search-container {
             display: flex;
-            justify-content: center; /* Center the search bar horizontally */
-            align-items: center; /* Center items vertically */
+            justify-content: center; 
+            align-items: center; 
             margin-bottom: 20px;
         }
 
         .reload-button {
-            margin-right: 10px; /* Adjust margin as needed */
+            margin-right: 10px; 
         }
 
         #toggleButton {
@@ -485,7 +485,6 @@
             return sanitizedWord.includes(inputValue);
         });
 
-        // Limit to the first 10 suggestions
         filteredWords = filteredWords.slice(0, 10);
 
         const suggestionHTML = filteredWords.map(word => {
@@ -494,11 +493,11 @@
         suggestions.innerHTML = suggestionHTML;
 
         const suggestionCount = filteredWords.length;
-        const suggestionHeight = suggestionCount > 0 ? suggestionCount * 30 : 0; // Assuming each suggestion is 30px tall, adjust as needed
+        const suggestionHeight = suggestionCount > 0 ? suggestionCount * 30 : 0;
 
         suggestions.style.display = 'block';
-        suggestions.style.height = `${suggestionHeight}px`; // Set the height based on the number of suggestions
-        suggestions.style.overflowY = 'auto'; // Always enable scrolling
+        suggestions.style.height = `${suggestionHeight}px`;
+        suggestions.style.overflowY = 'auto';
         
         const inputRect = searchInput.getBoundingClientRect();
         suggestions.style.top = `${inputRect.bottom + window.scrollY}px`;
@@ -538,8 +537,6 @@
     const margin = { top: 20, right: 20, bottom: 50, left: 70 };
     const width = 600 - margin.left - margin.right;
     const height = 400 - margin.top - margin.bottom;
-    
-    //d3.select('#chartPlaceholder').selectAll('*').remove();
 
     function generateChart() {
       if(selectedGun === ''){
@@ -623,7 +620,18 @@
           .style("fill", d => colorScale(d['Caliber']))
           .style("opacity", 0.7);
 
-          var tooltip = d3.select("body")
+          var tooltip1 = d3.select("body")
+                .append("div")
+                .style("opacity", 0)
+                .attr("class", "tooltip")
+                .style("position", "absolute")
+                .style("background-color", "#161f27")
+                .style("border", "solid")
+                .style("border-width", "1px")
+                .style("border-radius", "5px")
+                .style("padding", "10px");
+
+          var tooltip2 = d3.select("body")
                 .append("div")
                 .style("opacity", 0)
                 .attr("class", "tooltip")
@@ -644,8 +652,8 @@
                 d3.select(this)
                   .transition()
                   .duration(200)
-                  .attr("r", 12) // Increase size
-                  .style("opacity", 1); // Increase opacity
+                  .attr("r", 12)
+                  .style("opacity", 1); 
                 
 
                   for (var i = 1; i <= 6; i++) {
@@ -679,7 +687,7 @@
                                 default:
                                     break;
                             }
-                        }, index * 50); // Change color every 200 milliseconds
+                        }, index * 50);
                         rectangleTimeouts.push(timeoutId);
                     })(i);
                 }
@@ -713,12 +721,84 @@
                 tooltipText += "<br/>Class 5: " + armorText(d['5']);
                 tooltipText += "<br/>Class 6: " + armorText(d['6']);
 
-                tooltip.transition()
+                tooltip1.transition()
                     .style("opacity", .9);
-                tooltip.html(tooltipText)
-                    .style("left", (event.pageX - tooltip.node().offsetWidth / 2) + "px") 
+                tooltip1.html(tooltipText)
+                    .style("left", (event.pageX - tooltip1.node().offsetWidth / 2) + "px") 
                     .style("top", (event.pageY + 20) + "px")
                     .style("pointer-events", "none");
+
+
+                tooltip2.transition()
+                    .duration(200)
+                    .style("opacity", 0.9);
+                
+                tooltip2.html("<svg id='gauge' width='200' height='200'></svg>")
+                    .style("left", (event.pageX - tooltip1.node().offsetWidth / 2) + "px") 
+                    .style("top", (event.pageY - 250) + "px")
+                    .style("pointer-events", "none");
+
+                var gauge = d3.select("#gauge");
+                var width = +gauge.attr("width");
+                var height = +gauge.attr("height");
+                var radius = Math.min(width, height) / 2;
+                var value = 100;
+                var minValue = 0;
+                var maxValue = 1000;
+
+                var arc = d3.arc()
+                    .innerRadius(radius * 0.7)
+                    .outerRadius(radius * 0.9)
+                    .startAngle(-Math.PI / 2);
+
+                var background = gauge.append("g")
+                    .attr("transform", `translate(${width / 2},${height / 2})`)
+                    .append("path")
+                    .datum({ endAngle: Math.PI / 2 })
+                    .style("fill", "#ddd")
+                    .attr("d", arc);
+
+                var foreground = gauge.append("g")
+                    .attr("transform", `translate(${width / 2},${height / 2})`)
+                    .append("path")
+                    .datum({ endAngle: -Math.PI / 2 })
+                    .style("fill", "steelblue")
+                    .attr("d", arc);
+
+                var minValueLabel = gauge.append("text")
+                    .attr("x", width / 2 - radius * 0.8)
+                    .attr("y", height / 2 + 20)
+                    .attr("text-anchor", "middle")
+                    .attr("fill", "white")
+                    .text(minValue);
+
+                var speedLabel = gauge.append("text")
+                    .attr("x", width / 2)
+                    .attr("y", height / 2 + 20)
+                    .attr("text-anchor", "middle")
+                    .attr("fill", "red")
+                    .text(d['Speed m/s'] + " m/s");
+
+                var maxValueLabel = gauge.append("text")
+                    .attr("x", width / 2 + radius * 0.8)
+                    .attr("y", height / 2 + 20)
+                    .attr("text-anchor", "middle")
+                    .attr("fill", "white")
+                    .text(maxValue);
+
+                function updateGauge(newValue) {
+                    foreground.transition()
+                        .duration(1000)
+                        .attrTween("d", function (d) {
+                            var interpolate = d3.interpolate(-Math.PI / 2, (Math.PI / 2) * (newValue / maxValue) - Math.PI / 2);
+                            return function (t) {
+                                d.endAngle = interpolate(t);
+                                return arc(d);
+                            };
+                        });
+                }
+
+                updateGauge(d['Speed m/s']*2);
             })
             .on("mouseout", function (d) {
               rectangleTimeouts.forEach(function(timeoutId) {
@@ -729,8 +809,8 @@
                 d3.select(this)
                     .transition()
                     .duration(200)
-                    .attr("r", 8) // Restore size
-                    .style("opacity", 0.7); // Restore opacity
+                    .attr("r", 8) 
+                    .style("opacity", 0.7);
 
                 for (var i = 1; i <= 6; i++) {
                     let rectangle = document.getElementById(i.toString());
@@ -738,7 +818,9 @@
                     let span = rectangle.querySelector("span");
                     span.style.opacity = "0.3";
                 }
-                tooltip.transition()
+                tooltip1.transition()
+                    .style("opacity", 0);
+                tooltip2.transition()
                     .style("opacity", 0);
             });
 
