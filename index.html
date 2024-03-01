@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beeswarm Graph with D3.js</title>
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6"></script>
+  <script src="./tooltip_plugin.js"></script>
+  <script type="module" src="./v2Beeswarm.js" defer></script>
+  <style>
+    /* Add any custom styling for your graph here */
+    #side-panel {
+      position: fixed;
+      left: 0px;
+      top: 0px;
+      max-height: 100vh;
+    }
+
+    #side-panel>div {
+      margin-left: 0;
+    }
+
+    .dot {
+      opacity: 0.7;
+    }
+
+    /* Add or remove this to specific charts to flip them */
+    .left-chart {
+      transform: scaleX(-1); 
+    }
+
+    #info-box {
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-left: 20px; /* Adjust the margin as needed */
+      width: 200px; /* Adjust the width as needed */
+      border-radius: 10px 10px 0 0;
+    }
+
+    /* Style for the title text */
+    #info-box h2 {
+      font-size: 16px;
+      font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin-top: 0;
+    }
+
+    #info-box p {
+      font-size: 14px;
+      font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    #info-box p:last-child {
+      margin-bottom: 0;
+    }
+
+    #container {
+      display: flex;
+      align-items: flex-start; /* Adjust alignment as needed */
+    }
+
+    #filter-box {
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-left: 20px; /* Adjust the margin as needed */
+      width: 200px; /* Adjust the width as needed */
+    }
+
+    #filter-box h2 {
+      font-size: 16px;
+      font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin-top: 0;
+    }
+
+    #filter-box select {
+      border-radius: 5px;
+    }
+
+    #filter-box p {
+      font-size: 14px;
+      margin-bottom: 2px;
+      font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    #legend-box {
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-left: 20px; /* Adjust the margin as needed */
+      width: 200px; /* Adjust the width as needed */
+      border-radius: 0 0 10px 10px;
+      padding-bottom: 20px;
+    }
+
+    /* Style for the title text */
+    #legend-box h2 {
+      font-size: 16px;
+      font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin-top: 0;
+    }
+
+    #legend-box p {
+      font-size: 14px;
+      font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin-bottom: 0;
+    }
+
+    .legend-item {
+      margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+    }
+
+/* CSS for colored circle markers */
+    .legend-circle {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 5px;
+    }
+
+/* CSS for legend labels */
+    .legend-label {
+      font-size: 14px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    #chart-display {
+      position: absolute;
+      left: 260px;
+      max-width: 70%;
+      width: 70%;
+    }
+  </style>
+</head>
+<body>
+  <!--Use this div element to display the chart. Move it anywhere, but don't change th id!-->
+  <div id="container">
+  <div id="chart-display"></div>
+  <div id="side-panel">
+  <div id="info-box">
+    <h2>Timeline of Global Protest Data by Region</h2>
+    <p>Andrew Salls, Neha Kuchipudi, Samuel Darer, Shivali Mani</p>
+    <p>CS 4804 Final Project</p>
+  </div>
+  <div id="filter-box">
+    <h2>Filters</h2>
+    <p>Region</p>
+    <select id="regionDropdown">
+      <option value="All">All</option>
+      <option value="North America">North America</option>
+      <option value="South America">South America</option>
+      <option value="Europe">Europe</option>
+      <option value="Central America">Central America</option>
+      <option value="Africa">Africa</option>
+      <option value="MENA">MENA</option>
+      <option value="Asia">Asia</option>
+      <option value="Oceania">Oceania</option>
+    </select>
+    <p>Protester Violence</p>
+    <select id="violenceDropdown">
+      <option value="All">All</option>
+      <option value="1">Protester Violence</option>
+      <option value="0">No Violence</option>
+    </select>
+    <p>Protest Demand</p>
+    <select id="protestdemandDropdown">
+      <option value="All">All</option>
+      <option value="political behavior, process">Political Behavior, Process</option>
+      <option value="land farm issue">Land Farm Issue</option>
+      <option value="police brutality">Police Brutality</option>
+      <option value="price increases, tax policy">Price Increases, Tax Policy</option>
+      <option value="labor wage dispute">Labor Wage Dispute</option>
+      <option value="removal of politician">Removal of Politician</option>
+      <option value="social restrictions">Social Restrictions</option>
+    </select>
+    <p>State Response</p>
+    <select id="stateresponseDropdown">
+      <option value="All">All</option>
+      <option value="ignore">Ignore</option>
+      <option value="accomodation">Accomodation</option>
+      <option value="crowd dispersal">Crowd Dispersal</option>
+      <option value="arrests">Arrests</option>
+      <option value="shootings">Shootings</option>
+      <option value="beatings">Beatings</option>
+      <option value="killings">Killings</option>
+    </select>
+  </div>
+  <div id="legend-box">
+    <h2>Legend</h2>
+    <div class="legend-item">
+      <span class="legend-circle" style="background-color: #6929c4;"></span>
+      <span class="legend-label">North America</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-circle" style="background-color: #1192e8;"></span>
+      <span class="legend-label">South America</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-circle" style="background-color: #005d5d;"></span>
+      <span class="legend-label">Europe</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-circle" style="background-color: #9f1853;"></span>
+      <span class="legend-label">Central America</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-circle" style="background-color: #fa4d56;"></span>
+      <span class="legend-label">Africa</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-circle" style="background-color: #570408;"></span>
+      <span class="legend-label">MENA</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-circle" style="background-color: #198038;"></span>
+      <span class="legend-label">Asia</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-circle" style="background-color: #002d9c;"></span>
+      <span class="legend-label">Oceania</span>
+    </div>
+    <p>
+      Size of plotted data points is based on the reported number of participants in the protest.
+    </p>
+  </div>
+</div>
+</div>
+</body>
+</html>
+
