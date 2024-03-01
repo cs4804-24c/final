@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Papa from "papaparse";
 import * as d3 from 'd3';
 import ScatterPlot from "./components/ScatterPlot";
 import BarChart from "./components/BarChart";

@@ -45,15 +45,29 @@ const ScatterPlot = ({ data }) => {
          .attr("x", -height/2)
          .text("Win Percentage (W_PCT)");
 
-      svg.append('g')
-         .selectAll("dot")
+         svg.selectAll(".dot")
          .data(data)
          .enter()
          .append("circle")
-           .attr("cx", function (d) { return x(d.FG_PCT); })
-           .attr("cy", function (d) { return y(d.W_PCT); })
-           .attr("r", 5)
-           .style("fill", "#69b3a2");
+         .attr("class", "dot")
+         .attr("cx", d => x(d.FG_PCT))
+         .attr("cy", d => y(d.W_PCT))
+         .attr("r", 5)
+         .style("fill", "#69b3a2");
+
+      // Add labels to each dot
+      svg.selectAll(".label")
+         .data(data)
+         .enter()
+         .append("text")
+         .attr("class", "label")
+         .attr("x", d => x(d.FG_PCT) + 10) 
+         .attr("y", d => y(d.W_PCT))
+         .text(d => d.TEAM_NAME)
+         .attr("text-anchor", "start")
+         .attr("alignment-baseline", "middle")
+         .style("font-size", "10px")
+         .style("fill", "#555");
     }
   }, [data]);
 
