@@ -1,5 +1,6 @@
 Final Project - Interactive Data Visualization
 
+This website was made using React. In order to run the application, run the 'npm start' command to see the site.
 
 Our project consisted of gathering NBA team data from the 2022-23 season. This data was collected using the nba_api repository by swar patel. The backend directory holds the python
 script used to gather this data in stats_by_year.py. The result of the script is in the public folder under the file name 2022_team_stats.csv. We also had a csv file containing each nba teams stats from 2000-2023 but the file was not used due to the complexity. From there we designed a react application
