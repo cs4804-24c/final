@@ -89,8 +89,9 @@ const selectedTeamsData = teamsList
                 {"Select 2 Teams and a Stat From The Drop Down Menu Above"}
             </div>
             <BarChart data={barChartData} width={600} height={400} />
-            <ScatterPlot  data={data.filter(team => team.teamId === team1 || team.teamId === team2)} />
             <PieChart data={selectedTeamsData} />
+            <ScatterPlot  data={data.filter(team => team.teamId === team1 || team.teamId === team2)} />
+            
         </div>
     );
 }
