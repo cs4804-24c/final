@@ -1,0 +1,83 @@
+#chart-container {
+  position: relative;
+  width: 100%; /* Adjust width as needed */
+  max-width: 1000px; /* Same as your SVG width or as per your layout */
+  margin: auto;
+}
+
+#price-difference-container {
+  position: absolute;
+  left: 50%;
+  bottom: 10px; /* Adjust distance from the bottom as needed */
+  transform: translateX(-50%);
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#calculator-container {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 70px; /* Adjust this to place it above the price-difference-container */
+  text-align: center;
+  padding: 10px;
+}
+
+#calculator-container input,
+#calculator-container button {
+  margin: 5px;
+  padding: 12px 15px;
+  border: 3px solid #ccc;
+  border-radius: 7px;
+  box-sizing: border-box; /* To include padding in width */
+}
+
+#calculator-container button {
+  cursor: pointer;
+  background-color: #85bb65; /* A color that matches your color scheme */
+  color: white;
+  border: none;
+}
+
+#calculator-container button:hover {
+  background-color: #6da556;
+}
+
+#calculation-result {
+  margin-top: 10px;
+  background-color: #f8f8f8;
+  border: 1px solid #e7e7e7;
+  padding: 10px;
+  border-radius: 5px;
+  display: inline-block; /* To fit content width */
+}
+
+#slider-range {
+  position: relative; /* Use relative positioning for the parent */
+  text-align: center; /* Center the slider within the text-align context */
+  margin: 20px 0; /* Add some vertical space around the slider */
+}
+
+/* Additional styles for the slider (if needed) */
+.d3-slider-horizontal {
+  margin: 0 auto; /* Horizontally center the inline-block or block slider */
+  display: inline-block; /* Change this as needed */
+}
+
+
+/* Additional style for tooltips and axis to maintain consistency */
+.tooltip,
+.axis path,
+.axis line {
+  font-family: 'Open Sans', sans-serif; /* Choose a font that matches your design */
+}
+
+/* Style for the tooltip */
+.tooltip {
+  pointer-events: none; /* Ignore mouse events */
+  opacity: 0.9;
+}

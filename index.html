@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NVIDIA Stock Price</title>
+  <style>
+    rect {
+      pointer-events: all;
+      fill-opacity: 0;
+      stroke-opacity: 0;
+      z-index: 1;
+    }
+
+    .tooltip {
+    position: absolute;
+    padding: 5px;
+    background-color: rgb(11, 40, 65);
+    color: white;
+    border: 0px solid white;
+    border-radius: 0px;
+    display: none;
+    opacity: .75;
+    font-size: 14px;
+  }
+
+  .tooltip-line {
+  stroke-opacity: 0.5;
+} 
+  </style>
+  <link rel="stylesheet" href="styles.css"> 
+ </head>
+
+<body>
+
+  <div id="chart-container"></div>
+  <div id="slider-range"></div>
+  <div id="calculator-container">
+    <input type="number" id="multiplier-input" placeholder="$ Initial Investment" />
+    <button id="calculate-button">Calculate</button>
+    <div id="calculation-result"></div>
+  </div>
+ 
+  
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://unpkg.com/d3-simple-slider"></script>
+  
+  <script src="script.js"></script>
+</body>
+
+</html>
