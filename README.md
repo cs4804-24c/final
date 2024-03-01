@@ -32,7 +32,7 @@ Technical Achievements:
 
 Website Layout
 ---
-# Code
+### Code:
 This page provides general explanations for voronoi treemaps.
 
 ### About Voronoi Treemaps
@@ -47,7 +47,7 @@ The third section provides information on the general background processes of vo
 ### The d3-voronoi-treemap.js library
 The final section provides information on the library with a link and some of the general code from it. Moreover, we provided explanations on two of the main functions that goes into developing and generating the voronoi treemap.
 
-## Examples
+### Examples:
 This page provides some examples of voronoi treemaps.
 
 Images of Website
