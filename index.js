@@ -4,18 +4,18 @@ const HALF_WIDTH = WIDTH / 2;
 const HALF_HEIGHT = HEIGHT / 2;
 
 const data = [
-  { name: "China", weight: 14.84, color: "#ffffcc" },
-  { name: "Japan", weight: 5.91, color: "#ffcc99" },
-  { name: "India", weight: 2.83, color: "#ffcccc" },
-  { name: "South Korea", weight: 1.86, color: "#ff99cc" },
-  { name: "Russia", weight: 1.8, color: "#ffccff" },
-  { name: "Indonesia", weight: 1.16, color: "#cc99ff" },
-  { name: "Turkey", weight: 0.97, color: "#ccccff" },
-  { name: "Saudi Arabia", weight: 0.87, color: "#99ccff" },
-  { name: "Iran", weight: 0.57, color: "#ccffff" },
-  { name: "Thaïland", weight: 0.53, color: "#99ffcc" },
-  { name: "UAE", weight: 0.5, color: "#ccffcc" },
-  { name: "Hong Kong", weight: 0.42, color: "#ccff99" },
+  { name: "China", weight: 46.0, color: "#ffffcc" },
+  { name: "Japan", weight: 18.32, color: "#ffcc99" },
+  { name: "India", weight: 8.77, color: "#ffcccc" },
+  { name: "South Korea", weight: 5.77, color: "#ff99cc" },
+  { name: "Russia", weight: 5.58, color: "#ffccff" },
+  { name: "Indonesia", weight: 3.6, color: "#cc99ff" },
+  { name: "Turkey", weight: 3.01, color: "#ccccff" },
+  { name: "Saudi Arabia", weight: 2.7, color: "#99ccff" },
+  { name: "Iran", weight: 1.77, color: "#ccffff" },
+  { name: "Thaïland", weight: 1.64, color: "#99ffcc" },
+  { name: "UAE", weight: 1.55, color: "#ccffcc" },
+  { name: "Hong Kong", weight: 1.3, color: "#ccff99" },
 ];
 
 var svg = d3;
