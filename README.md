@@ -73,7 +73,7 @@ useEffect(() => { getCurrentUser(setCurrentUser); }, [])
 ```javascript
 export async function sendAnswer(answer, user) {
   return new Promise(resolve => {
-    const userDoc = doc(db, "users", user.uid);
+    const userDoc = doc(db, "final-users", user.uid);
     getDoc(userDoc).then((docSnap) => {  // First, we get the user's document
       let newAnswers = {};
       if (docSnap.exists()) { // If this user's document exists: i.e. they've submitted an answer before, collect their previous answers

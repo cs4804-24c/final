@@ -1,6 +1,6 @@
 import { createWriteStream } from 'fs';
 import { format } from 'fast-csv';
-import { getAllUserRecords } from '../client/src/client/api/db.js';
+import { getAllUserRecords } from '../client/src/api/db.js';
 
 async function fetchDataForAllUsers() {
     try {
