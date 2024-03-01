@@ -69,6 +69,12 @@ svg {
   background-color: white;
 }
 
+.voronoiTreemap {
+  display: grid;
+  place-content: center;
+  padding-top: 50px;
+}
+
 .cell {
   stroke: white;
   stroke-width: 1px;
