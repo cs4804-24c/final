@@ -3,7 +3,7 @@ var _2PI = 2 * Math.PI;
 //end: constants
 
 //begin: layout conf.
-var svgWidth = 960,
+var svgWidth = 800,
   svgHeight = 500,
   margin = { top: 10, right: 10, bottom: 10, left: 10 },
   height = svgHeight - margin.top - margin.bottom,
