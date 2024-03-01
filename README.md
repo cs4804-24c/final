@@ -32,7 +32,7 @@ Technical Achievements:
 
 Website Layout
 ---
-## Code
+# Code
 This page provides general explanations for voronoi treemaps.
 
 ### About Voronoi Treemaps
