@@ -1,4 +1,4 @@
-# Assignment 3 - Replicating a Classic Experiment  
+# Final Project - 6-Question Icon Array Experiment  
 *By: Matthew McAlarney, Priyanka Narasimhan, Joe Dobbelaar, and Randy Huang*
 
 ## Working Link to our Web Application
