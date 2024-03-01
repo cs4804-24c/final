@@ -18,15 +18,6 @@ Technical Achievements
 ---
 - Utilized Observable to expedite the process of creating visualization code
 
-GitHub Details
----
-
-- Fork the repo. You now have a copy associated with your username.
-- Make changes to index.html to fulfill the project requirements. 
-- Make sure your "main" branch matches your "gh-pages" branch. See the GitHub Guides referenced above if you need help.
-- Edit the README.md with a link to your gh-pages or other external site: for example http://YourUsernameGoesHere.github.io/DataVisFinal/index.html
-- To submit, make a [Pull Request](https://help.github.com/articles/using-pull-requests/) on the original repository.
-
 Website
 ---
 
