@@ -29,7 +29,8 @@ h1 {
 }
 
 nav {
-  background-color: #2f4858;
+  background-color: #203039;
+  opacity: 0.98;
   color: #ededed;
   text-align: center;
   padding: 10px 0;
@@ -46,7 +47,7 @@ nav a {
 }
 nav a:hover {
   /* background-color: #555; */
-  color: #c9dce8;
+  color: #bed1dc;
   transition: color 0.1s ease-in-out;
 }
 .container {
@@ -161,7 +162,7 @@ footer {
 /* BEGIN CODETUTORIAL HTML*/
 .codeTitle {
   padding: auto;
-  padding-top: 120px;
+  padding-top: 80px;
   font-size: 1.2rem;
   padding-left: 20px;
 }
@@ -188,4 +189,13 @@ footer {
   display: grid;
   place-content: center;
   padding-top: 50px;
+}
+
+.hidden {
+  opacity: 0;
+  transition: all 1s;
+}
+
+.visible {
+  opacity: 1;
 }

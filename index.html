@@ -9,6 +9,7 @@
     <script src="https://rawcdn.githack.com/Kcnarf/d3-weighted-voronoi/v1.0.1/build/d3-weighted-voronoi.js"></script>
     <script src="https://rawcdn.githack.com/Kcnarf/d3-voronoi-map/v2.0.1/build/d3-voronoi-map.js"></script>
     <script src="https://rawcdn.githack.com/Kcnarf/d3-voronoi-treemap/v1.1.1/build/d3-voronoi-treemap.js"></script>
+    <script defer src="app.js"></script>
 
     <title>Home page</title>
   </head>
@@ -42,7 +43,7 @@
           represent the data. This can lead to a more rigid and less organic
           representation of the data.
         </p>
-        <div id="my_dataviz"></div>
+        <div class="hidden" id="my_dataviz"></div>
         <script src="./treemap.js"></script>
       </div>
     </div>
@@ -56,7 +57,7 @@
       </p>
     </div>
 
-    <div class="simpleVoronoi" id="app">
+    <div class="simpleVoronoi hidden" id="app">
       <svg width="960" height="500" id="simpleVoronoi"></svg>
       <p></p>
     </div>
@@ -125,7 +126,7 @@
             Initialize the Voronoi treemap by calling functions to set up data,
             layout, and drawing.
           </p>
-          <pre><code>
+          <pre class="hidden"><code>
 const HEIGHT = 500;
 const WIDTH = 960;
 const HALF_WIDTH = WIDTH / 2;
@@ -190,7 +191,7 @@ init(data);
             Define functions to initialize data and layout settings for the
             treemap.
           </p>
-          <pre><code>
+          <pre class="hidden"><code>
 function initData() {
   circlingPolygon = computeCirclingPolygon();
   fontScale.domain([3, 20]).range([8, 20]).clamp(true);
@@ -236,7 +237,7 @@ function initLayout() {
             Create a function to draw the Voronoi treemap based on the provided
             data and layout.
           </p>
-          <pre><code>
+          <pre class="hidden"><code>
 function drawTreemap(hierarchy) {
   const leaves = hierarchy.leaves();
 
