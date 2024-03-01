@@ -1,9 +1,11 @@
 import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
+import '../BarChart.css';
 
 const BarChart = ({ data, width = 600, height = 400 }) => {
     const ref = useRef();
     const margin = { top: 20, right: 30, bottom: 40, left: 90 };
+    const colorScale = d3.scaleOrdinal(d3.schemeCategory10);
 
     useEffect(() => {
         if (data.length === 0) {
@@ -34,16 +36,38 @@ const BarChart = ({ data, width = 600, height = 400 }) => {
             .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
         // Bars
+        const tooltip = d3.select('body').append('div')
+            .attr('class', 'tooltip')
+            .style('opacity', 0);
+
         chart.selectAll('.bar')
             .data(data)
-            .enter()
-            .append('rect')
+            .enter().append('rect')
             .attr('class', 'bar')
             .attr('x', d => xScale(d.name))
-            .attr('y', d => yScale(d.value))
             .attr('width', xScale.bandwidth())
-            .attr('height', d => chartHeight - yScale(d.value))
-            .attr('fill', 'steelblue');
+            .attr('y', chartHeight) // Start from the bottom
+            .attr('height', 0) // Start with height of 0
+            .attr('fill', (d, i) => colorScale(i))
+            .on('mouseover', (event, d) => {
+                tooltip.transition()
+                    .duration(200)
+                    .style('opacity', 0.9);
+                tooltip.html(`Name: ${d.name}<br>Value: ${d.value}`)
+                    .style('left', (event.pageX + 10) + 'px')
+                    .style('top', (event.pageY - 28) + 'px');
+            })
+            .on('mouseout', () => {
+                tooltip.transition()
+                    .duration(500)
+                    .style('opacity', 0);
+            })
+            // Animation transition
+            .transition()
+            .duration(750)
+            .attr('y', d => yScale(d.value)) // Move to final y position
+            .attr('height', d => chartHeight - yScale(d.value));
+
 
         // Labels
         chart.append('g')
