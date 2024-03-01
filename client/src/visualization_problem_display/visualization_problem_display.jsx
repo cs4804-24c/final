@@ -52,6 +52,7 @@ function VisualizationProblemDisplay() {
     function clearSVG() { d3.select("#icon-array").selectAll("*").remove() }
 
     function generateVisual() {
+        console.log("Generating visual")
         const numberOfIconsPerRow = 10
         const numberOfRows = questionNumber === 1
             ? Math.floor(Math.random() * 2 + 1)
@@ -130,7 +131,7 @@ function VisualizationProblemDisplay() {
         if (currentQuestionState) { return; }
 
         function startQuiz() { 
-            setCurrentQuestionState(new QuestionState(questionNumber, determineCorrectAnswer())); 
+            setCurrentQuestionState(new QuestionState(questionNumber, determineCorrectAnswer(1))); 
         }
 
         return (
@@ -143,16 +144,17 @@ function VisualizationProblemDisplay() {
         )
     }
         
-    function determineCorrectAnswer() {
-        if (questionNumber === 1 || questionNumber === 3) {
+    function determineCorrectAnswer(q) {
+        console.log(q)
+        if (q === 1 || q === 3) {
             return(totalNumberOfRedIcons)
-        } else if (questionNumber === 5) {
+        } else if (q === 5) {
             return(totalNumberOfIcons - totalNumberOfRedIcons)
-        } else if (questionNumber === 2) {
+        } else if (q === 2) {
             return(2)
-        } else if (questionNumber === 4) {
+        } else if (q === 4) {
             return(20)
-        } else if (questionNumber === 6) {
+        } else if (q === 6) {
             return(10)
         }
     }
@@ -166,15 +168,15 @@ function VisualizationProblemDisplay() {
             const nextQuestionNumber = questionNumber + 1
             setQuestionNumber(nextQuestionNumber)
             generateVisual()
-            determineCorrectAnswer()
             setVisualizationTitle(visualizationTitles[visualizationTitles.indexOf(visualizationTitle) + 1])
             setCurrentQuestionAnswered(false)
             setAnswerFeedback("")
             document.getElementById("userAnswer").value = ""
-            setCurrentQuestionState(new QuestionState(nextQuestionNumber, determineCorrectAnswer()))
+            setCurrentQuestionState(new QuestionState(nextQuestionNumber, determineCorrectAnswer(nextQuestionNumber)))
         }
 
         function handleSubmitPress() {
+            console.log(currentQuestionState)
             // Guard clauses
             if (currentQuestionAnswered) { setAnswerFeedback("Can only submit one answer"); return; } // Escape if this question has been answered before
             const submission = document.getElementById("userAnswer").value
