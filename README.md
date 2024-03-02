@@ -7,7 +7,7 @@ Link to website: https://rob-hub-lang.github.io/final/
 
 Other Materials
 ---
-Link to the video:
+Link to the video: https://www.youtube.com/watch?v=suRffjFKFXE
 
 Link to the process book:
 
