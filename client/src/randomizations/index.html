@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Representation</title>
+    <!-- Load D3 library -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        .person {
+            fill: #000;
+            /* Default color for person icons */
+        }
+
+        .highlighted {
+            fill: red;
+            /* Color for highlighted person icons */
+        }
+    </style>
+</head>
+<body>
+    <svg id="icon-array"></svg>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const svgWidth = 600; // Width of the SVG container
+            const svgHeight = 600; // Height of the SVG container
+            const numPeople = 10 * Math.floor(Math.random() * 10 + 1); // Total number of people icons
+
+            // Generate random number of highlighted people
+            const numHighlighted = Math.floor(Math.random() * numPeople);
+            const numInRow = 10;
+
+            // Create SVG container
+            const svg = d3.select("#icon-array")
+                .attr("width", svgWidth)
+                .attr("height", svgHeight);
+
+            // Generate array of person data
+            const peopleData = Array.from({ length: numPeople }, (_, i) => ({ id: i }));
+
+            // Append person icons
+            const people = svg.selectAll(".person")
+                .data(peopleData)
+                .enter()
+                .append("g")
+                .attr("class", "person")
+                .attr("transform", (d, i) => {
+                    const x = (i % numInRow) * 20 + 15; // Calculate x position
+                    const y = Math.floor(i / numInRow) * 50 + 50; // Calculate y position
+                    return `translate(${x}, ${y})`; // Return transformation string
+                });
+
+
+            // Append person images
+            people.append("image")
+                .attr("xlink:href", (d, i) => i < numHighlighted ? "img/active_figure.png" : "img/neutral_figure.png")
+                .attr("x", 10) // Adjust x position as needed
+                .attr("y", 10) // Adjust y position as needed
+                .attr("width", 18)
+                .attr("height", 42);
+        });
+    </script>
+</body>
+</html>
