@@ -12,7 +12,7 @@ https://www.loom.com/share/bb2549e8a21d4a7981b1962f8682de3d
 
 ## Link to Process Book PDF
 
-
+[Process Book](CS4804DataVisualizationFinalProcessBookMatthewMcAlarneyPriyankaNarasimhanJoeDobbelaarRandyHuang.pdf)
 
 ## Division of Labor
 - **README**: *Matthew McAlarney*
