@@ -108,7 +108,7 @@ The React client is hosted by a simple express server in the root directory. The
 
     1. Icon Array Data Randomization:
 
-        a. We were able to successfully use D3 to randomize both the number of dimensions of each icon array and the number of icons colored in red (the disease-positive proportion)
+        a. We were able to successfully use D3 to randomize both the number of dimensions of each icon array and the number of icons colored in red (the disease-positive proportion).
     
     2. Smoother question transition:
 
