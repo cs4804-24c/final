@@ -4,6 +4,7 @@
 ## Working Link to our Web Application
 
 https://final.joed.dev/
+
 Note that the first icon array on our website may not show up due to a recent bug that has come up during deployment, but the first icon array does show up when running localhost 3000 in the client directory.
 
 ## Link to Project Screencast
@@ -98,5 +99,11 @@ export async function sendAnswer(answer, user) {
 
 ## The Server
 The React client is hosted by a simple express server in the root directory. The server listens on port `4804` ;)You can visit the page at www.final.joed.dev
+
+## Technical Achievements
+
+
+
+## Design Achievements
 
 
