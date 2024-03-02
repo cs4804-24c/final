@@ -1,0 +1,27 @@
+{
+    "name": "world",
+    "children": [
+      {
+        "name": "Asia",
+        "color": "#f58321",
+        "children": [
+          {"name": "China", "weight": 14.84, "code": "CN"},
+          {"name": "Japan", "weight": 5.91, "code": "JP"},
+          {"name": "India", "weight": 2.83, "code": "IN"},
+          {"name": "South Korea", "weight": 1.86, "code": "KR"},
+          {"name": "Russia", "weight": 1.8, "code": "RU"},
+          {"name": "Indonesia", "weight": 1.16, "code": "ID"},
+          {"name": "Turkey", "weight": 0.97, "code": "TR"},
+          {"name": "Saudi Arabia", "weight": 0.87, "code": "SA"},
+          {"name": "Iran", "weight": 0.57, "code": "IR"},
+          {"name": "Thaïland", "weight": 0.53, "code": "TH"},
+          {"name": "United Arab Emirates", "weight": 0.5, "code": "AE"},
+          {"name": "Hong Kong", "weight": 0.42, "code": "HK"},
+          {"name": "Israel", "weight": 0.4, "code": "IL"},
+          {"name": "Malasya", "weight": 0.4, "code": "MY"},
+          {"name": "Singapore", "weight": 0.39, "code": "SG"},
+          {"name": "Philippines", "weight": 0.39, "code": "PH"}
+        ]
+      }
+    ]
+    }

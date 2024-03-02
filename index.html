@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style.css" />
+    <script src="https://d3js.org/d3.v4.js"></script>
+    <!-- <script src="https://d3js.org/d3.v6.min.js" charset="utf-8"></script> -->
+    <script src="https://rawcdn.githack.com/Kcnarf/d3-weighted-voronoi/v1.0.1/build/d3-weighted-voronoi.js"></script>
+    <script src="https://rawcdn.githack.com/Kcnarf/d3-voronoi-map/v2.0.1/build/d3-voronoi-map.js"></script>
+    <script src="https://rawcdn.githack.com/Kcnarf/d3-voronoi-treemap/v1.1.1/build/d3-voronoi-treemap.js"></script>
+    <script defer src="app.js"></script>
+
+    <title>Home page</title>
+  </head>
+  <body>
+    <script src="index.js"></script>
+
+    <div id="navbar"></div>
+
+    <div class="homeTitleText">
+      <h1>About Voronoi Treemaps</h1>
+    </div>
+
+    <!-- Your page content goes here -->
+    <div class="centerText">
+      <h2>What are Voronoi Treemaps?</h2>
+      <p>
+        Voronoi Treemaps are methods of visualizing hierarchical data, where
+        each cell represents a portion of the data and the hierarchy is encoded
+        by the nesting of cells within each other. Unlike traditional Treemaps,
+        Voronoi Tree Maps do not use rectangles to represent the data, but
+        rather use arbitrary polygons to represent the data. This allows for a
+        more organic and natural representation of the data.
+      </p>
+    </div>
+
+    <div class="centerText">
+      <h2>Traditional Treemap</h2>
+      <div class="innerSection">
+        <p>
+          This is a Traditional Treemap. Notice how the rectangles are used to
+          represent the data. This can lead to a more rigid and less organic
+          representation of the data.
+        </p>
+        <div class="hidden" id="my_dataviz"></div>
+        <script src="./treemap.js"></script>
+      </div>
+    </div>
+
+    <div class="centerText">
+      <h2>Voronoi Treemap</h2>
+      <p>
+        This is a Voronoi Treemap representing the GDP of countries in asia.
+        Notice how the polygons are used to represent the data. As you can see
+        the data seems to have a more organic and natural representation.
+      </p>
+    </div>
+
+    <div class="simpleVoronoi hidden" id="app">
+      <svg width="960" height="500" id="simpleVoronoi"></svg>
+      <p></p>
+    </div>
+    <div>
+      <script type="module" src="index.js"></script>
+      <script>
+        fetch("./navbar.html")
+          .then((response) => response.text())
+          .then((html) => {
+            document.getElementById("navbar").innerHTML = html;
+          });
+      </script>
+    </div>
+
+    <div class="codeTutorial">
+      <div class="codeTitle">
+        <!-- Title -->
+        <h1>Creating a Simple Voronoi Treemap with D3.js</h1>
+      </div>
+
+      <!-- Introduction -->
+      <div class="codeIntro">
+        <p>
+          In order to create a simple Voronoi treemap using D3.js, follow these
+          steps:
+        </p>
+      </div>
+
+      <!-- Step 1: Initialize the HTML Structure -->
+      <ol>
+        <li>
+          <h2>Initialize the HTML Structure:</h2>
+          <p>
+            Set up the HTML structure with an SVG container where the treemap
+            will be rendered.
+          </p>
+          <code>&lt;svg id="simpleVoronoi"&gt;&lt;/svg&gt;</code>
+          <p>
+            The <code>&lt;svg&gt;</code> element with the ID "simpleVoronoi"
+            serves as the container for the Voronoi treemap.
+          </p>
+        </li>
+
+        <!-- Step 2: Import D3.js Library -->
+        <li>
+          <h2>Import D3.js Library:</h2>
+          <p>
+            Import the D3.js library by adding the following script tag just
+            before your custom script:
+          </p>
+          <code
+            >&lt;script
+            src="https://d3js.org/d3.v7.min.js"&gt;&lt;/script&gt;</code
+          >
+          <p>
+            This script tag imports the D3.js library from the official CDN,
+            making D3.js functionalities available in your project.
+          </p>
+        </li>
+
+        <!-- Step 3: Initialize the Voronoi Treemap -->
+        <li>
+          <h2>Initialize the Voronoi Treemap:</h2>
+          <p>
+            Define constants for SVG dimensions, data, and necessary variables.
+            Initialize the Voronoi treemap by calling functions to set up data,
+            layout, and drawing.
+          </p>
+          <pre class="hidden"><code>
+const HEIGHT = 500;
+const WIDTH = 960;
+const HALF_WIDTH = WIDTH / 2;
+const HALF_HEIGHT = HEIGHT / 2;
+
+// Define your data array here
+const data = [
+{ name: "China", weight: 46.0, color: "#ffffcc" },
+  { name: "Japan", weight: 18.32, color: "#ffcc99" },
+  { name: "India", weight: 8.77, color: "#ffcccc" },
+  { name: "South Korea", weight: 5.77, color: "#ff99cc" },
+  { name: "Russia", weight: 5.58, color: "#ffccff" },
+  { name: "Indonesia", weight: 3.6, color: "#cc99ff" },
+  { name: "Turkey", weight: 3.01, color: "#ccccff" },
+  { name: "Saudi Arabia", weight: 2.7, color: "#99ccff" },
+  { name: "Iran", weight: 1.77, color: "#ccffff" },
+  { name: "Thaïland", weight: 1.64, color: "#99ffcc" },
+  { name: "UAE", weight: 1.55, color: "#ccffcc" },
+  { name: "Hong Kong", weight: 1.3, color: "#ccff99" },
+];
+
+// Initialize SVG container
+const svg = d3.select("#simpleVoronoi")
+  .attr("width", WIDTH)
+  .attr("height", HEIGHT);
+
+const TREEMAP_RADIUS = Math.min(HALF_WIDTH, HALF_HEIGHT);
+
+const _voronoiTreemap = d3.voronoiTreemap();
+let hierarchy, circlingPolygon;
+
+const fontScale = d3.scaleLinear();
+
+function init(rootData) {
+  initData();
+  initLayout();
+  hierarchy = d3.hierarchy({ children: rootData }).sum((d) => d.weight);
+  _voronoiTreemap.clip(circlingPolygon)(hierarchy);
+
+  drawTreemap(hierarchy);
+}
+
+init(data);
+      </code></pre>
+          <p>
+            This block of code initializes constants, sets up the SVG container,
+            and prepares data and layout for the Voronoi treemap.
+          </p>
+          <p>
+            Constants like <code>HEIGHT</code> and <code>WIDTH</code> define the
+            dimensions of the SVG container. Data, such as country names,
+            weights, and colors, are stored in the <code>data</code> array. The
+            <code>init</code> function initializes the treemap by calling other
+            functions to set up data, layout, and drawing.
+          </p>
+        </li>
+
+        <!-- Step 4: Initialize Data and Layout -->
+        <li>
+          <h2>Initialize Data and Layout:</h2>
+          <p>
+            Define functions to initialize data and layout settings for the
+            treemap.
+          </p>
+          <pre class="hidden"><code>
+function initData() {
+  circlingPolygon = computeCirclingPolygon();
+  fontScale.domain([3, 20]).range([8, 20]).clamp(true);
+}
+
+function computeCirclingPolygon() {
+  return [
+    [0, 0],
+    [WIDTH, 0],
+    [WIDTH, HEIGHT],
+    [0, HEIGHT],
+  ];
+}
+
+function initLayout() {
+  const drawingArea = svg.append("g").classed("drawingArea", true);
+  const treemapContainer = drawingArea.append("g").classed("treemap-container", true);
+
+  treemapContainer
+    .append("path")
+    .classed("world", true)
+    .attr("transform", `translate(${-TREEMAP_RADIUS}, ${-TREEMAP_RADIUS})`)
+    .attr("d", `M${circlingPolygon.join(",")}Z`);
+}
+      </code></pre>
+          <p>
+            These functions initialize data and layout settings for the treemap,
+            including the circling polygon and font scale.
+          </p>
+          <p>
+            The <code>initData</code> function calculates the circling polygon
+            and sets the font scale based on the provided data. The
+            <code>computeCirclingPolygon</code> function calculates the vertices
+            of the circling polygon, while the <code>initLayout</code> function
+            sets up the SVG container and draws the circling polygon.
+          </p>
+        </li>
+
+        <!-- Step 5: Draw the Treemap -->
+        <li>
+          <h2>Draw the Treemap:</h2>
+          <p>
+            Create a function to draw the Voronoi treemap based on the provided
+            data and layout.
+          </p>
+          <pre class="hidden"><code>
+function drawTreemap(hierarchy) {
+  const leaves = hierarchy.leaves();
+
+  const cells = svg.select(".treemap-container")
+    .append("g")
+    .classed("cells", true)
+    .selectAll(".cell")
+    .data(leaves)
+    .enter()
+    .append("path")
+    .classed("cell", true)
+    .attr("d", (d) => `M${d.polygon.join(",")}z`)
+    .style("stroke", "black")
+    .style("stroke-width", "10px")
+    .style("fill", (d) => d.data.color);
+
+  const labels = svg.select(".treemap-container")
+    .append("g")
+    .classed("labels", true)
+    .selectAll(".label")
+    .data(leaves)
+    .enter()
+    .append("g")
+    .classed("label", true)
+    .attr("transform", (d) => `translate(${d.polygon.site.x}, ${d.polygon.site.y})`)
+    .style("font-size", (d) => fontScale(d.data.weight));
+
+  labels
+    .append("text")
+    .classed("name", true)
+    .html((d) => d.data.name);
+
+  labels
+    .append("text")
+    .classed("value", true)
+    .text((d) => `${d.data.weight}%`);
+}
+      </code></pre>
+          <p>
+            This function draws the Voronoi treemap based on the provided data
+            and layout settings, including cells and labels.
+          </p>
+          <p>
+            The <code>drawTreemap</code> function creates cells and labels for
+            each data point in the treemap. It appends SVG elements for cells
+            and labels, styles them accordingly, and positions them based on the
+            calculated data. The cells represent the Voronoi regions, while the
+            labels display country names and weights.
+          </p>
+        </li>
+        <!-- Background Processes Section -->
+        <li>
+          <h2>Additional Info:</h2>
+          <p>
+            You will notice in the tutorials that there are multiple functions
+            that are not included in d3, that is because the operations
+            necessary for the Voronoi treemap are imported via the
+            d3-voronoi-treemap plugin. The documentation and installation
+            instructions of which can be found using this link:
+            <a
+              class="links"
+              href="https://github.com/Kcnarf/d3-voronoi-treemap"
+            >
+              here</a
+            >. This plugin hosts the relevant function calls to build a
+            visualization of this model.
+          </p>
+          <p>
+            <code>d3.voronoiTreemap()</code> creates a new voronoiTreemap with a
+            set of default configuration values, functions, and algorithms,
+            including <code>clip</code>, <code>extent</code>, <code>size</code>,
+            <code>convergenceRatio</code>, <code>maxIterationCount</code>,
+            <code>minWeightRatio</code>, and <code>prng</code>. Some of these
+            standard methods are used in the tutorial and are fairly
+            self-explanatory; they all play their part in the process for
+            creating a Voronoi treemap.
+          </p>
+          <ul>
+            <li>
+              <strong>clip:</strong> Used to set the clipping polygon for the
+              treemap.
+            </li>
+            <li>
+              <strong>extent:</strong> Used to set the extent of the treemap.
+            </li>
+            <li><strong>size:</strong> Specifies the size of the treemap.</li>
+            <li>
+              <strong>convergenceRatio:</strong> Sets the convergence ratio for
+              the treemap.
+            </li>
+            <li>
+              <strong>maxIterationCount:</strong> Sets the maximum number of
+              iterations for the treemap.
+            </li>
+            <li>
+              <strong>minWeightRatio:</strong> Sets the minimum weight ratio for
+              the treemap.
+            </li>
+            <li>
+              <strong>prng:</strong> Sets the random number generator for the
+              treemap.
+            </li>
+          </ul>
+          <p>
+            These methods are essential for configuring various aspects of the
+            Voronoi treemap, such as the size, convergence behavior, and
+            clipping boundaries. Understanding and properly configuring these
+            parameters are crucial for effectively visualizing data using the
+            Voronoi treemap technique.
+          </p>
+        </li>
+      </ol>
+      <div>
+        <ol>
+          <h2>
+            <h1 style="padding-top: 30px">
+              Voronoi General Background Processes
+            </h1>
+          </h2>
+          <li>
+            <h2>Scatter Plot:</h2>
+            <p>
+              A voronoi diagram starts with a set of 2d coordinate points
+              plotted on a plane.
+            </p>
+            <img
+              class="hidden"
+              style="width: 900px; height: auto; margin: auto"
+              src="./img/voronoiStep1.png"
+              alt="Voronoi1"
+            />
+          </li>
+          <li>
+            <h2>Delaunay triangulation:</h2>
+            <p>
+              Run a Delaunay triangulation on the set of two-dimensional points
+            </p>
+            <img
+              class="hidden"
+              style="width: 900px; height: auto; margin: auto"
+              src="./img/voronoiStep2.png"
+              alt="Voronoi2"
+            />
+          </li>
+          <li>
+            <h2>Circumcenters:</h2>
+            <p>
+              Join the circumcenters of each triangle to get the voronoi diagram
+            </p>
+            <img
+              class="hidden"
+              style="width: 900px; height: auto; margin: auto"
+              src="./img/voronoiStep3.png"
+              alt="Voronoi3"
+            />
+          </li>
+          <p>
+            More details on the Voronoi diagram can be found
+            <a class="links" href="https://www.react-graph-gallery.com/voronoi"
+              >here</a
+            >.
+          </p>
+        </ol>
+      </div>
+      <div class="centerText">
+        <h2>How Voronoi Treemaps are generated</h2>
+        <iframe
+          class="hidden"
+          width="560"
+          height="315"
+          src="https://www.youtube.com/embed/3Qd56UBDKQE?si=NQOUv_da485C4PIw"
+          title="YouTube video player"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+        ></iframe>
+      </div>
+      <div class="codeTitle">
+        <h1>The d3-voronoi-treemap.js library</h1>
+      </div>
+      <div class="codeIntro">
+        <p>
+          This
+          <a
+            class="links"
+            href="https://www.npmjs.com/package/d3-voronoi-treemap?activeTab=code"
+            >code</a
+          >
+          sets up a module that can be used in both CommonJS and AMD
+          (Asynchronous Module Definition) environments. It handles dependency
+          injection, allowing the module to work with various module systems.
+          The module takes exports and d3VoronoiMap as dependencies. It then
+          passes these dependencies to the factory function.
+        </p>
+        <p>
+          <code>_voronoiTreemap</code> is the main function representing the
+          Voronoi treemap algorithm. Additional functions are defined on
+          <code>_voronoiTreemap</code> to get or set various parameters such as
+          <code>convergence ratio</code>, <code>max iteration count</code>, etc.
+        </p>
+        <p>
+          <code>recurse</code> is a private function used internally to generate
+          the Voronoi treemap recursively. It assigns the clipping polygon to
+          the node and computes the Voronoi map for its children recursively.
+        </p>
+        <pre class="hidden"><code>
+(function (global, factory) {
+typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('d3-voronoi-map')) :
+typeof define === 'function' && define.amd ? define(['exports', 'd3-voronoi-map'], factory) :
+(factory((global.d3 = global.d3 || {}),global.d3));
+}(this, function (exports,d3VoronoiMap) { 'use strict';
+
+function voronoiTreemap() {
+  //begin: constants
+  var DEFAULT_CONVERGENCE_RATIO = 0.01;
+  var DEFAULT_MAX_ITERATION_COUNT = 50;
+  var DEFAULT_MIN_WEIGHT_RATIO = 0.01;
+  var DEFAULT_PRNG = Math.random;
+  //end: constants
+
+  /////// Inputs ///////
+  var clip = [
+    [0, 0],
+    [0, 1],
+    [1, 1],
+    [1, 0],
+  ]; // clipping polygon
+  var extent = [
+    [0, 0],
+    [1, 1],
+  ]; // extent of the clipping polygon
+  var size = [1, 1]; // [width, height] of the clipping polygon
+  var convergenceRatio = DEFAULT_CONVERGENCE_RATIO; // targeted allowed error ratio; default 0.01 stops computation when cell areas error <= 1% clipping polygon's area
+  var maxIterationCount = DEFAULT_MAX_ITERATION_COUNT; // maximum allowed iteration; stops computation even if convergence is not reached; use a large amount for a sole converge-based computation stop
+  var minWeightRatio = DEFAULT_MIN_WEIGHT_RATIO; // used to compute the minimum allowed weight; default 0.01 means 1% of max weight; handle near-zero weights, and leaves enought space for cell hovering
+  var prng = DEFAULT_PRNG; // pseudorandom number generator
+
+  //begin: internals
+  var unrelevantButNeedeData = [
+    {
+      weight: 1,
+    },
+    {
+      weight: 1,
+    },
+  ];
+  var _convenientReusableVoronoiMapSimulation = d3VoronoiMap.voronoiMapSimulation(unrelevantButNeedeData).stop();
+  //end: internals
+
+  ///////////////////////
+  ///////// API /////////
+  ///////////////////////
+
+  function _voronoiTreemap(rootNode) {
+    recurse(clip, rootNode);
+  }
+
+  _voronoiTreemap.convergenceRatio = function (_) {
+    if (!arguments.length) {
+      return convergenceRatio;
+    }
+
+    convergenceRatio = _;
+    return _voronoiTreemap;
+  };
+
+  _voronoiTreemap.maxIterationCount = function (_) {
+    if (!arguments.length) {
+      return maxIterationCount;
+    }
+
+    maxIterationCount = _;
+    return _voronoiTreemap;
+  };
+
+  _voronoiTreemap.minWeightRatio = function (_) {
+    if (!arguments.length) {
+      return minWeightRatio;
+    }
+
+    minWeightRatio = _;
+    return _voronoiTreemap;
+  };
+
+  _voronoiTreemap.clip = function (_) {
+    if (!arguments.length) {
+      return clip;
+    }
+
+    //begin: use voronoiMap.clip() to handle clip/extent/size computation and borderline input (non-counterclockwise, non-convex, ...)
+    _convenientReusableVoronoiMapSimulation.clip(_);
+    //end: use voronoiMap.clip() to handle clip/extent/size computation
+    clip = _convenientReusableVoronoiMapSimulation.clip();
+    extent = _convenientReusableVoronoiMapSimulation.extent();
+    size = _convenientReusableVoronoiMapSimulation.size();
+    return _voronoiTreemap;
+  };
+
+  _voronoiTreemap.extent = function (_) {
+    if (!arguments.length) {
+      return extent;
+    }
+
+    //begin: use voronoiMap.extent() to handle clip/extent/size computation
+    _convenientReusableVoronoiMapSimulation.extent(_);
+    //end: use voronoiMap.clip() to handle clip/extent/size computation
+    clip = _convenientReusableVoronoiMapSimulation.clip();
+    extent = _convenientReusableVoronoiMapSimulation.extent();
+    size = _convenientReusableVoronoiMapSimulation.size();
+    return _voronoiTreemap;
+  };
+
+  _voronoiTreemap.size = function (_) {
+    if (!arguments.length) {
+      return size;
+    }
+
+    //begin: use voronoiMap.size() to handle clip/extent/size computation
+    _convenientReusableVoronoiMapSimulation.size(_);
+    //end: use voronoiMap.clip() to handle clip/extent/size computation
+    clip = _convenientReusableVoronoiMapSimulation.clip();
+    extent = _convenientReusableVoronoiMapSimulation.extent();
+    size = _convenientReusableVoronoiMapSimulation.size();
+    return _voronoiTreemap;
+  };
+
+  _voronoiTreemap.prng = function (_) {
+    if (!arguments.length) {
+      return prng;
+    }
+
+    prng = _;
+    return _voronoiTreemap;
+  };
+
+  ///////////////////////
+  /////// Private ///////
+  ///////////////////////
+
+  function recurse(clippingPolygon, node) {
+    var simulation;
+
+    //assign polygon to node
+    node.polygon = clippingPolygon;
+
+    if (node.height != 0) {
+      //compute one-level Voronoi map of children
+      simulation = d3VoronoiMap.voronoiMapSimulation(node.children)
+        .clip(clippingPolygon)
+        .weight(function (d) {
+          return d.value;
+        })
+        .convergenceRatio(convergenceRatio)
+        .maxIterationCount(maxIterationCount)
+        .minWeightRatio(minWeightRatio)
+        .prng(prng)
+        .stop();
+
+      var state = simulation.state(); // retrieve the Voronoï map simulation's state
+
+      //begin: manually launch each iteration until the Voronoï map simulation ends
+      while (!state.ended) {
+        simulation.tick();
+        state = simulation.state();
+      }
+      //end: manually launch each iteration until the Voronoï map simulation ends
+
+      //begin: recurse on children
+      state.polygons.forEach(function (cp) {
+        recurse(cp, cp.site.originalObject.data.originalData);
+      });
+      //end: recurse on children
+    }
+  }
+
+  return _voronoiTreemap;
+}
+
+exports.voronoiTreemap = voronoiTreemap;
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+}));
+            </code></pre>
+      </div>
+    </div>
+  </body>
+
+  <div id="navbar"></div>
+  <footer>
+    <p>© 2024 Voronoi Treemaps</p>
+  </footer>
+</html>

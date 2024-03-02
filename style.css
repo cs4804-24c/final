@@ -1,0 +1,211 @@
+/* Basic styling for the navigation bar */
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  transition: background-color 0.5s, color 0.5s;
+  line-height: 1.5rem;
+}
+
+/* Dark mode styles */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-color: #333333;
+    --text-color: #ffffff;
+  }
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+div {
+}
+
+h1 {
+  margin: 0px 0 0 0;
+}
+a:visited {
+  color: rgb(191, 191, 191);
+}
+
+nav {
+  background-color: #494949;
+  opacity: 0.98;
+  color: #ededed;
+  text-align: center;
+  padding: 10px 0;
+  position: fixed; /* Make the navigation bar fixed */
+  width: 100%; /* Make it full width */
+  top: 0; /* Stick it to the top of the screen */
+  z-index: 999;
+}
+nav a {
+  color: #d2d2d2;
+  text-decoration: none;
+  padding: 0 15px;
+  font-size: 1.2rem;
+}
+nav a:visited {
+  color: #d2d2d2;
+}
+nav a:hover {
+  /* background-color: #555; */
+  color: white;
+  transition: color 0.1s ease-in-out;
+}
+.container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.container p,
+.container h1,
+.container h2 {
+  color: #000000;
+}
+
+pre {
+  background-color: #f9f9f9;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  overflow-x: auto; /* Enable horizontal scrollbar if needed */
+  max-width: 900px;
+}
+code {
+  font-family: Consolas, monospace;
+  font-size: 14px;
+  color: #333;
+  background-color: #f9f9f9;
+  padding: 2px 4px;
+  border-radius: 4px;
+  max-width: 900px;
+}
+
+.title {
+  padding: auto;
+  padding-top: 30px;
+  display: grid;
+  place-items: center;
+  font-size: 2rem;
+}
+
+svg {
+  background-color: white;
+}
+
+.voronoiTreemap {
+  display: grid;
+  place-content: center;
+  padding-top: 50px;
+}
+
+.cell {
+  stroke: white;
+  stroke-width: 1px;
+}
+.label {
+  text-anchor: middle;
+  fill: black;
+}
+
+.label > .name {
+  dominant-baseline: text-after-edge;
+}
+
+.label > .value {
+  dominant-baseline: text-before-edge;
+}
+
+.links {
+  color: rgb(51, 51, 255);
+}
+
+/* BEGIN INDEX HTML */
+.homeTitleText {
+  padding: auto;
+  padding-top: 80px;
+  padding-bottom: 20px;
+  font-size: 1.2rem;
+  padding-left: 20px;
+}
+
+.simpleVoronoi {
+  display: flex;
+  padding-left: 20px;
+}
+
+.centerText {
+  display: grid;
+  padding-top: 0px;
+  padding-left: 20px;
+  font-size: 1.5rem;
+}
+
+.centerText h2 {
+  font-size: 1.3rem;
+  display: grid;
+}
+
+.centerText p {
+  font-size: 1rem;
+  max-width: 900px;
+}
+
+/* Footer */
+footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 0 10px 0;
+}
+
+/* END INDEX HTML */
+
+/* BEGIN CODETUTORIAL HTML*/
+.codeTitle {
+  padding: auto;
+  padding-top: 80px;
+  font-size: 1.2rem;
+  padding-left: 20px;
+}
+
+.codeIntro {
+  padding: auto;
+  padding-top: 5px;
+  font-size: 1rem;
+  max-width: 800px;
+  padding-left: 20px;
+}
+
+.codeTutorial p {
+  max-width: 900px;
+}
+
+.codeTutorial code {
+}
+
+/* END CODETUTORIAL HTML*/
+
+/* BEGIN VORONOITREEMAPS HTML */
+.complexVoronoi {
+  display: grid;
+  place-content: center;
+  padding-top: 50px;
+}
+
+.hidden {
+  opacity: 0;
+  transition: all 1s;
+}
+
+.visible {
+  opacity: 1;
+}

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="style.css" />
+    <title>d3-voronoi-treemap usage</title>
+    <meta name="description" />
+    <script src="https://d3js.org/d3.v6.min.js" charset="utf-8"></script>
+    <script src="https://rawcdn.githack.com/Kcnarf/d3-weighted-voronoi/v1.0.1/build/d3-weighted-voronoi.js"></script>
+    <script src="https://rawcdn.githack.com/Kcnarf/d3-voronoi-map/v2.0.1/build/d3-voronoi-map.js"></script>
+    <script src="https://rawcdn.githack.com/Kcnarf/d3-voronoi-treemap/v1.1.1/build/d3-voronoi-treemap.js"></script>
+    <script defer src="app.js"></script>
+    <div class="treemapContainer">
+      <body>
+        <div id="navbar"></div>
+
+        <div class="complexVoronoi">
+          <style>
+            svg {
+            }
+            #title {
+              letter-spacing: 4px;
+              font-weight: 700;
+              font-size: x-large;
+            }
+
+            text.tiny {
+              font-size: 10pt;
+            }
+            text.light {
+              fill: black;
+            }
+
+            .world {
+              stroke: black;
+              stroke-width: 3px;
+            }
+
+            .cell {
+              stroke: black;
+              stroke-width: 1.5px;
+            }
+
+            .label {
+              text-anchor: middle;
+              fill: black;
+            }
+
+            .label > .name {
+              dominant-baseline: text-after-edge;
+            }
+
+            .label > .value {
+              dominant-baseline: text-before-edge;
+            }
+
+            .hoverer {
+              fill: transparent;
+              stroke: #203039;
+              stroke-width: 0px;
+            }
+
+            .hoverer:hover {
+              stroke-width: 3px;
+            }
+
+            .legend-color {
+              stroke-width: 1px;
+            }
+          </style>
+          <script src="./voronoiTreemaps.js"></script>
+
+          <div class="container hidden">
+            <h2>GDP by Country (Interactive)</h2>
+            <svg></svg>
+          </div>
+
+          <div class="container hidden">
+            <h2>Vornoi geography map hybrid</h2>
+            <p>
+              This Voronoi Treemap is from the following
+              <a
+                class="links"
+                href="https://www.nytimes.com/2014/08/16/upshot/mapping-migration-in-the-united-states-since-1900.html?abt=0002&abg=1"
+                >article</a
+              >.
+            </p>
+            <img
+              class="exampleImage"
+              style="width: 100%; height: auto; display: block; margin: auto"
+              src="./img/usaVoronoi.png"
+              alt="usaVoronoi"
+            />
+          </div>
+          <div class="container hidden">
+            <h2>Nba championships</h2>
+            <p>
+              This Voronoi Treemap can be found
+              <a
+                class="links"
+                href="https://plotset.com/blog/creating-a-voronoi-treemap-on-nba-championships"
+                >here</a
+              >.
+            </p>
+            <img
+              class="exampleImage"
+              style="width: 80%; height: auto; display: block; margin: auto"
+              src="./img/nbaVoronoi.png"
+              alt="nbaVoronoi"
+            />
+          </div>
+          <div class="container hidden">
+            <h2>Cell size and count</h2>
+            <p>
+              This Voronoi Treemap can be found
+              <a
+                class="links"
+                href="https://www.news-medical.net/news/20230919/Mapping-the-human-body-one-cell-at-a-time-New-study-reveals-the-intricate-relationship-between-cell-size-and-count.aspx"
+                >here</a
+              >.
+            </p>
+            <img
+              class="exampleImage"
+              style="width: 100%; height: auto; display: block; margin: auto"
+              src="./img/cells.png"
+              alt="nbaVoronoi"
+            />
+          </div>
+        </div>
+        <div class="container hidden">
+          <h2>Land cover by country</h2>
+          <p>
+            This Voronoi Treemap can be found
+            <a
+              class="links"
+              href="https://public.tableau.com/app/profile/ladataviz/viz/LandOfColors/Landofcolors"
+              >here</a
+            >.
+          </p>
+          <img
+            class="exampleImage"
+            style="width: 100%; height: auto; display: block; margin: auto"
+            src="./img/land.png"
+            alt="nbaVoronoi"
+          />
+        </div>
+
+        <script>
+          fetch("./navbar.html")
+            .then((response) => response.text())
+            .then((html) => {
+              document.getElementById("navbar").innerHTML = html;
+            });
+        </script>
+      </body>
+    </div>
+  </head>
+</html>

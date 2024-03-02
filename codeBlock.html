@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style.css" />
+    <title>Code Example</title>
+  </head>
+  <body>
+    <div id="navbar"></div>
+
+    <!-- Your page content goes here -->
+
+    <div class="title">
+      <h1>All About Treemaps</h1>
+    </div>
+
+    <div class="container" id="code">
+      <h2>Inline Code Example</h2>
+      <p>
+        This is an example of <code>&lt;code&gt;</code> element for showing
+        inline code.
+      </p>
+
+      <h2>Code Block Example</h2>
+      <pre>
+          <code>
+  // This is a sample code snippet in JavaScript
+  function greet(name) {
+      console.log("Hello, " + name + "!");
+  }
+  
+  greet("World");
+          </code>
+      </pre>
+    </div>
+    <script>
+      fetch("./navbar.html")
+        .then((response) => response.text())
+        .then((html) => {
+          document.getElementById("navbar").innerHTML = html;
+        });
+    </script>
+  </body>
+</html>
