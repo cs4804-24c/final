@@ -104,10 +104,19 @@ export async function sendAnswer(answer, user) {
 ## The Server
 The React client is hosted by a simple express server in the root directory. The server listens on port `4804` ;)You can visit the page at www.final.joed.dev
 
-## Technical Achievements
+## Technical Achievements (new achievements since a3)
 
+    1. Icon Array Data Randomization:
 
+        a. We were able to successfully use D3 to randomize both the number of dimensions of each icon array and the number of icons colored in red (the disease-positive proportion)
+    
+    2. Smoother question transition:
 
-## Design Achievements
+        a. We improved our problem interface UI by removing the Next button that we had in a3, and instead, display a message for about 1500 milliseconds indicating to the user that their answer has been submitted and the application is about to transition to the next question.
 
+## Design Achievements (new achievements since a3)
+
+    1. Progress Bar:
+
+        a. After a question is completed in our experiment, a progress bar is updated at the top of the problem box. This progress bar is beneficial to the user as it lets them know how much of the experiment they have completed.
 
