@@ -15,6 +15,10 @@ https://www.loom.com/share/bb2549e8a21d4a7981b1962f8682de3d
 
 [Process Book](ProcessBook/CS4804DataVisualizationFinalProcessBookMatthewMcAlarneyPriyankaNarasimhanJoeDobbelaarRandyHuang.pdf)
 
+## Link to Icon Array Randomization Demo PDF
+
+[Icon Array Randomization Demo](IconArrayRandomizationDemo/IconArrayRandomizationDemoPDF.pdf)
+
 ## Division of Labor
 - **README**: *Matthew McAlarney*
 - **Process Book**: *Matthew McAlarney and Priyanka Narasimhan*
