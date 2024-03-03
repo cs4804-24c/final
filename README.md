@@ -9,7 +9,7 @@ Other Materials
 ---
 Link to the video: https://www.youtube.com/watch?v=suRffjFKFXE
 
-Link to the process book:
+Link to the process book: https://github.com/Rob-hub-lang/final/blob/main/Final%20Project.pdf
 
 Overview
 ---
