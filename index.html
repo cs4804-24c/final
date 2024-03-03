@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Voting Equipment used in the U.S.</title>
+    <script
+            type="text/javascript"
+            src="https://d3js.org/topojson.v3.min.js"
+    ></script>
+    <style>
+      * {
+        box-sizing: border-box;
+        padding: 0;
+        margin: 0;
+      }
+
+      body {
+        overflow: hidden;
+      }
+
+      .background {
+        fill: none;
+        pointer-events: all;
+      }
+
+      #states .active {
+        display: none;
+      }
+
+      #state-borders {
+        fill: none;
+        stroke: #fff;
+        stroke-width: 1.5px;
+        stroke-linejoin: round;
+        stroke-linecap: round;
+        pointer-events: none;
+      }
+
+      .county-boundary {
+        stroke: #fff;
+        stroke-width: 0.5px;
+      }
+
+      .county-boundary:hover,
+      .state:hover {
+        fill: orange;
+      }
+
+      .tooltip {
+        border: 1px solid #000;
+        overflow: hidden;
+        position: absolute;
+        pointer-events: none;
+        width: max-content;
+        border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+        display: none;
+      }
+
+      li {
+        list-style: none;
+      }
+
+      .selector-container {
+        margin: 20px;
+        text-align: center;
+      }
+
+      #yearSelector {
+        padding: 5px 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+      }
+
+      .tabs {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+      }
+
+      .tablinks {
+        background-color: #f1f1f1;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+        font-size: 17px;
+      }
+
+      .tablinks:hover {
+        background-color: #ddd;
+      }
+
+      .tablinks.active {
+        background-color: #ccc;
+      }
+
+      .description-content {
+        margin: 10px auto;
+        max-width: 600px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 style="text-align: center">Voting Equipment used in the U.S.</h1>
+    <div class="tabs">
+      <button class="tablinks" onclick="openTab(event, 'Map')">Map</button>
+      <button class="tablinks" onclick="openTab(event, 'Description')">
+        Description
+      </button>
+    </div>
+
+    <!-- Tab content -->
+    <div id="Map" class="tabcontent">
+      <div class="selector-container">
+        <label for="yearSelector">Select Year:</label>
+        <select id="yearSelector">
+          <option value="2006">2006</option>
+          <option value="2008">2008</option>
+          <option value="2010">2010</option>
+          <option value="2012">2012</option>
+          <option value="2014">2014</option>
+          <option value="2016">2016</option>
+          <option value="2018">2018</option>
+          <option value="2020">2020</option>
+          <option value="2022">2022</option>
+          <option value="2024" selected>2024</option>
+        </select>
+      </div>
+      <div class="map"></div>
+      <div id="tooltip" class="tooltip">
+        <div
+          style="padding: 20px 10px; background-color: #0389f0; color: white"
+        >
+          <h4 id="hovered-state">State</h4>
+
+          <div style="display: flex; gap: 20px">
+            <div
+              style="display: flex; flex-direction: column; margin-top: 10px"
+            >
+              <h4 style="font-size: 12px; text-transform: uppercase">
+                Registered voters
+              </h4>
+              <p style="font-size: 12px" id="registered-voters"></p>
+            </div>
+
+            <div
+              style="display: flex; flex-direction: column; margin-top: 10px"
+            >
+              <h4 style="font-size: 12px; text-transform: uppercase">
+                Precincts
+              </h4>
+              <p style="font-size: 12px" id="precincts"></p>
+            </div>
+          </div>
+        </div>
+
+        <div
+          id="state-body"
+          style="padding: 20px 10px; background-color: #fff; color: black"
+        >
+          <h4>Election Day Equipment</h4>
+
+          <ul id="equipment-data"></ul>
+        </div>
+        <div
+          id="tooltip-body"
+          style="padding: 20px 10px; background-color: #fff; color: black"
+        ></div>
+      </div>
+    </div>
+
+    <div id="Description" class="tabcontent description-content">
+      <h3 style="margin-bottom: 10px; text-align: center">Description</h3>
+      <p>
+        This interactive visualization provides a comprehensive overview of the
+        election day equipment used across the United States from 2006 to 2024.
+        The map visualizes data on the types of voting equipment employed in
+        each state, offering insights into the evolution of election technology
+        over the years. <br />
+
+        This visualization aims to offer a clear and engaging representation of
+        the diverse election day equipment used across the United States. By
+        combining geographic insights with temporal trends, users can gain a
+        deeper understanding of the evolution of voting technology and its
+        impact on the electoral process. <br />Whether you're a researcher,
+        policymaker, or an interested citizen, this visualization provides a
+        valuable tool for exploring the intricate details of election equipment
+        deployment, fostering informed discussions about the technological
+        aspects of the democratic process.
+      </p>
+    </div>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+
+    <script type="text/javascript">
+      function openTab(evt, tabName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+          tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+          tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(tabName).style.display = "block";
+        evt.currentTarget.className += " active";
+      }
+
+      // Open the first tab by default
+      document.addEventListener("DOMContentLoaded", function () {
+        document.querySelector(".tablinks").click();
+      });
+
+      var margin = {
+          top: 10,
+          bottom: 10,
+          left: 10,
+          right: 10,
+        },
+        width = parseInt(d3.select(".map").style("width")),
+        width = width - margin.left - margin.right,
+        mapRatio = 0.5,
+        height = width * mapRatio,
+        active = d3.select(null);
+
+      const svg = d3
+        .select(".map")
+        .append("svg")
+        .attr("class", "center-container")
+        .attr("height", height + margin.top + margin.bottom)
+        .attr("width", width + margin.left + margin.right);
+
+      svg
+        .append("rect")
+        .attr("class", "background center-container")
+        .attr("height", height + margin.top + margin.bottom)
+        .attr("width", width + margin.left + margin.right)
+        .on("click", clicked);
+
+      Promise.all([
+        d3.json("https://raw.githubusercontent.com/Rob-hub-lang/final/master/data/counties-albers-10m.json"),
+        d3.csv("https://raw.githubusercontent.com/Rob-hub-lang/final/master/data/2024/verifier-machines.csv"),
+        d3.csv("https://raw.githubusercontent.com/Rob-hub-lang/final/master/data/2024/verifier-officials.csv"),
+      ]).then(ready);
+
+      const path = d3.geoPath();
+
+      const tooltip = d3.select(".tooltip");
+
+      const g = svg
+        .append("g")
+        .attr("class", "center-container center-items us-state")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom);
+
+      yearSelector.addEventListener("change", () => {
+        const selectedYear = yearSelector.value;
+
+        Promise.all([
+          d3.json("https://raw.githubusercontent.com/Rob-hub-lang/final/master/data/counties-albers-10m.json"),
+          d3.csv(`https://raw.githubusercontent.com/Rob-hub-lang/final/master/data/${selectedYear}/verifier-machines.csv`),
+          d3.csv(`https://raw.githubusercontent.com/Rob-hub-lang/final/master/data/${selectedYear}/verifier-officials.csv`),
+        ]).then(ready);
+      });
+
+      function ready(files) {
+        //remove existing map
+        d3.select("#counties").remove();
+        d3.select("#states").remove();
+        d3.select("#state-borders").remove();
+        d3.select(".map-legend").remove();
+
+        const [us, machines, officials] = files;
+
+        const equipmentTypes = [
+          ...new Set(machines.map((d) => d["Equipment Type"])),
+        ];
+
+        const aggregatedStateData = officials.reduce((acc, cur) => {
+          if (!acc[cur.State]) {
+            acc[cur.State] = { "Total Voters": 0, "Total Precincts": 0 };
+          }
+          acc[cur.State]["Total Voters"] += +cur["Total Registration"];
+          acc[cur.State]["Total Precincts"] += +cur["Precincts"];
+          return acc;
+        }, {});
+
+        const equipmentByCounty = {};
+
+        // Aggregate equipment data by county
+        machines.forEach((d) => {
+          const countyFIPS = d["FIPS code"]?.toString().slice(0, 5);
+          const equipmentType = d["Equipment Type"];
+          if (!equipmentByCounty[countyFIPS]) {
+            equipmentByCounty[countyFIPS] = { [equipmentType]: 1 };
+          } else {
+            equipmentByCounty[countyFIPS][equipmentType] =
+              (equipmentByCounty[countyFIPS][equipmentType] || 0) + 1;
+          }
+        });
+        // Determine the predominant equipment type for each county
+        const predominantEquipmentByCounty = {};
+        Object.keys(equipmentByCounty).forEach((fips) => {
+          const types = Object.keys(equipmentByCounty[fips]);
+          const predominantType = types.reduce((a, b) =>
+            equipmentByCounty[fips][a] > equipmentByCounty[fips][b] ? a : b
+          );
+          predominantEquipmentByCounty[fips] = predominantType;
+        });
+
+        const aggregateEquipment = (data) => {
+          return data.reduce((acc, cur) => {
+            if (!acc[cur.State]) {
+              acc[cur.State] = [];
+            }
+            let equipment = acc[cur.State].find(
+              (e) => e["Equipment Type"] === cur["Equipment Type"]
+            );
+            if (equipment) {
+              equipment.Total += 1;
+            } else {
+              acc[cur.State].push({
+                "Equipment Type": cur["Equipment Type"],
+                Total: 1,
+              });
+            }
+            return acc;
+          }, {});
+        };
+
+        const aggregateEquipmentByState = aggregateEquipment(machines);
+
+        const d3_category20 = [
+          "#1f77b4",
+          "#aec7e8",
+          "#ff7f0e",
+          "#ffbb78",
+          "#2ca02c",
+          "#98df8a",
+          "#d62728",
+          "#ff9896",
+          "#9467bd",
+          "#c5b0d5",
+          "#8c564b",
+          "#c49c94",
+          "#e377c2",
+          "#f7b6d2",
+          "#7f7f7f",
+          "#c7c7c7",
+          "#bcbd22",
+          "#dbdb8d",
+          "#17becf",
+          "#9edae5",
+        ];
+
+        const colorScale = d3
+          .scaleOrdinal()
+          .domain(equipmentTypes)
+          .range(d3_category20);
+
+        const legend = svg
+          .append("g")
+          .attr("class", "map-legend")
+          .attr(
+            "transform",
+            `translate(${width - 480}, ${height - 35 * equipmentTypes.length})`
+          );
+
+        equipmentTypes.forEach((type, index) => {
+          legend
+            .append("rect")
+            .attr("x", 0)
+            .attr("y", index * 20)
+            .attr("width", 14)
+            .attr("height", 14)
+            .style("fill", colorScale(type));
+
+          legend
+            .append("text")
+            .attr("x", 18)
+            .attr("y", index * 20 + 7)
+            .attr("dy", ".35em")
+            .style("text-anchor", "start")
+            .style("font-size", "12px")
+            .text(type);
+        });
+
+        g.append("g")
+          .attr("id", "counties")
+          .selectAll("path")
+          .data(topojson.feature(us, us.objects.counties).features)
+          .enter()
+          .append("path")
+          .attr("d", path)
+          .attr("class", "county-boundary")
+          .attr("cursor", "pointer")
+          .style("fill", (d) => {
+            const countyFIPS = d.id.toString().padStart(5, "0");
+            const equipmentType = predominantEquipmentByCounty[countyFIPS];
+            return equipmentType
+              ? colorScale(equipmentType)
+              : colorScale(equipmentTypes[0]);
+          })
+          .on("mouseover", function (event, d) {
+            const county = d.properties.name;
+            const urlParams = new URLSearchParams(window.location.search);
+            const clickedState = urlParams.get("state");
+
+            if (!clickedState) return;
+            tooltip.select("#tooltip-body").style("display", "block");
+            const countyMachineData = machines.filter(
+              (machine) =>
+                machine["FIPS code"]?.toString().slice(0, 5) ===
+                d.id.toString().padStart(5, "0")
+            );
+
+            const countyOfficialsData = officials.filter(
+              (official) =>
+                official["FIPS code"]?.toString().slice(0, 5) ===
+                d.id.toString().padStart(5, "0")
+            );
+
+            const countyFIPS = d.id.toString().padStart(5, "0");
+            const equipmentType = predominantEquipmentByCounty[countyFIPS];
+
+            tooltip.select("#state-body").style("display", "none");
+
+            tooltip.select("#hovered-state").text(county + " County");
+
+            tooltip
+              .select("#registered-voters")
+              .text(
+                d3.format(",")(
+                  countyOfficialsData.reduce(
+                    (acc, cur) => acc + +cur["Total Registration"],
+                    0
+                  )
+                )
+              );
+
+            tooltip
+              .select("#precincts")
+              .text(
+                d3.format(",")(
+                  countyOfficialsData.reduce(
+                    (acc, cur) => acc + +cur["Precincts"],
+                    0
+                  )
+                )
+              );
+
+            tooltip
+              .select("#tooltip-body")
+              .style("background-color", "#fff")
+              .style("color", "black")
+              .html(
+                `<h4>Marking Method</h4>
+                <p>${equipmentType}</p>`
+              );
+
+            tooltip
+              .transition()
+              .duration(200)
+              .style("opacity", 0.9)
+              .style("display", "block");
+
+            tooltip
+              .style("left", event.pageX + 20 + "px")
+              .style("top", event.pageY - 28 + "px");
+          })
+          .on("mousemove", function (event, d) {
+            tooltip
+              .style("left", event.pageX + 20 + "px")
+              .style("top", event.pageY - 28 + "px");
+          })
+          .on("mouseout", function (event, d) {
+            // d3.select(this)
+            tooltip.select("#state-body").style("display", "block");
+            tooltip.transition().duration(500).style("opacity", 0);
+          })
+          .on("click", reset);
+
+        g.append("g")
+          .attr("id", "states")
+          .selectAll("path")
+          .data(topojson.feature(us, us.objects.states).features)
+          .enter()
+          .append("path")
+          .attr("d", path)
+          .attr("class", "state")
+          .attr("fill", "#aaa")
+          .attr("fill-opacity", "0.1")
+          .attr("cursor", "pointer")
+          .on("mouseover", function (event, d) {
+            tooltip
+              .transition()
+              .duration(200)
+              .style("opacity", 0.9)
+              .style("display", "block");
+
+            const state = d.properties.name;
+
+            tooltip.select("#hovered-state").text(state);
+
+            tooltip
+              .select("#registered-voters")
+              .text(d3.format(",")(aggregatedStateData[state]["Total Voters"]));
+
+            tooltip
+              .select("#precincts")
+              .text(
+                d3.format(",")(aggregatedStateData[state]["Total Precincts"])
+              );
+
+            const equipmentData = aggregateEquipmentByState[state];
+
+            const equipmentList = tooltip
+              .select("#equipment-data")
+              .selectAll("li")
+              .data(equipmentData, (d) => d["Equipment Type"]);
+
+            equipmentList.exit().remove();
+
+            equipmentList
+              .enter()
+              .append("li")
+              .merge(equipmentList)
+              .html(
+                (d) =>
+                  `<span style="color: ${colorScale(
+                    d["Equipment Type"]
+                  )}">&#9632;</span><strong> ${
+                    d["Equipment Type"]
+                  }: </strong> ${d3.format(",")(d.Total)} (${d3.format(".2%")(
+                    d.Total /
+                      equipmentData.reduce((acc, cur) => acc + cur.Total, 0)
+                  )})
+                    `
+              );
+
+            tooltip
+              .style("left", event.pageX + 20 + "px")
+              .style("top", event.pageY - 28 + "px");
+          })
+          .on("mousemove", function (event, d) {
+            tooltip
+              .style("left", event.pageX + 20 + "px")
+              .style("top", event.pageY - 28 + "px");
+          })
+          .on("mouseout", function (event, d) {
+            // d3.select(this)
+            tooltip.transition().duration(500).style("opacity", 0);
+
+            tooltip.select("#tooltip-body").style("display", "none");
+
+            const equipmentList = tooltip.select("#equipment-data").html("");
+          })
+          .on("click", clicked);
+
+        g.append("path")
+          .datum(
+            topojson.mesh(us, us.objects.states, function (a, b) {
+              return a !== b;
+            })
+          )
+          .attr("id", "state-borders")
+          .attr("d", path);
+      }
+
+      function clicked(event, d) {
+        if (d3.select(".background").node() === this) return reset();
+
+        if (d3.select(".background").node() !== this) {
+          d3.select(".map-legend").transition().style("display", "none");
+        }
+
+        if (active.node() === this) return reset();
+
+        active.classed("active", false);
+        active = d3.select(this).classed("active", true);
+
+        d3.selectAll(".state:not(.active)")
+          .style("fill", "#cccccc")
+          .attr("fill-opacity", "1");
+
+        const bounds = path.bounds(d),
+          dx = bounds[1][0] - bounds[0][0],
+          dy = bounds[1][1] - bounds[0][1],
+          x = (bounds[0][0] + bounds[1][0]) / 2,
+          y = (bounds[0][1] + bounds[1][1]) / 2,
+          scale = 0.9 / Math.max(dx / width, dy / height),
+          translate = [width / 2 - scale * x, height / 2 - scale * y];
+
+        g.transition()
+          .duration(750)
+          .style("stroke-width", 1.5 / scale + "px")
+          .attr(
+            "transform",
+            "translate(" + translate + ")scale(" + scale + ")"
+          );
+
+        if (d && d.properties) {
+          const stateName = d.properties.name;
+          const newUrl =
+            window.location.protocol +
+            "//" +
+            window.location.host +
+            window.location.pathname +
+            "?state=" +
+            encodeURIComponent(stateName);
+          window.history.pushState({ path: newUrl }, "", newUrl);
+        }
+      }
+
+      function reset() {
+        tooltip.select("#tooltip-body").style("display", "none");
+        active.classed("active", false);
+        active = d3.select(null);
+
+        d3.selectAll(".state")
+          .transition()
+          .duration(500)
+          .style("fill", "#aaa")
+          .attr("fill-opacity", "0.1");
+
+        g.transition()
+          .delay(100)
+          .duration(500)
+          .style("stroke-width", "1.5px")
+          .attr(
+            "transform",
+            "translate(" + margin.left + "," + margin.top + ")"
+          );
+
+        d3.select(".map-legend")
+          .transition()
+          .delay(700)
+          .style("display", "block");
+
+        const originalUrl =
+          window.location.protocol +
+          "//" +
+          window.location.host +
+          window.location.pathname;
+        window.history.pushState({ path: originalUrl }, "", originalUrl);
+      }
+    </script>
+  </body>
+</html>
