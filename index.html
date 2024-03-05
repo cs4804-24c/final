@@ -1,0 +1,1565 @@
+<!DOCTYPE html>
+<html lang="en" style="width: 97%; background-color: #f5f5f5">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Comatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Final Project</title>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville&display=swap" rel="stylesheet">
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.min.js"
+      charset="utf-8"
+    ></script>
+    <!-- Get CSS Style for muli select from file -->
+    <link rel="stylesheet" href="style.css" />
+    <style type="text/css">
+      #areaCharts {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        margin-top: 0px;
+        /* make sure the wrapped divs start at the left */
+        justify-content: center;
+        align-items: flex-start;
+
+        /* width: 1920px; */
+
+        width: 100%;
+        height: 100%;
+
+        margin-left: 20px;
+
+        background-color: #f5f5f5;
+      }
+
+      #areaChart1,
+      #areaChart2,
+      #areaChart3,
+      #areaChart4 {
+        margin: 30px;
+        /* box-sizing: border-box; Include padding and border in element's total width and height */
+      }
+
+      #areaChart1 {
+        background-color: #f5f5f5;
+      }
+
+      #areaChart2 {
+        background-color: #f5f5f5;
+      }
+
+      #areaChart3 {
+        background-color: #f5f5f5;
+      }
+
+      #areaChart4 {
+        background-color: #f5f5f5;
+      }
+
+      #maps {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        margin-top: 50px;
+        /* make sure the wrapped divs start at the left */
+        justify-content: center;
+        align-items: flex-start;
+
+        /* width: 1920px; */
+
+        width: 100%;
+        height: 100%;
+
+        margin-left:250px;
+
+        background-color: #f5f5f5;
+      }
+
+      #map1,
+      #map2,
+      #map3,
+      #map4 {
+        width: 400px;
+        height: 300px;
+        margin: 10px;
+        /* border: 3px solid black;
+        border-radius: 10px;
+        background-color: #cccccc; */
+        margin-top: 10px;
+
+        /* box-sizing: border-box; Include padding and border in element's total width and height */
+      }
+
+      #firstRowOfMaps,
+      #secondRowOfMaps {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        margin-top: 0px;
+        /* make sure the wrapped divs start at the left */
+        justify-content: left;
+        align-items: flex-start;
+
+        /* width: 1920px; */
+
+        width: 100%;
+        height: 100%;
+
+        margin-left: 20px;
+
+        background-color: #f5f5f5;
+      }
+
+      #container {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-content: center;
+        width: 103%;
+      }
+
+      #yearSelector {
+        display: flex;
+        flex-direction: column;
+        margin-top: 5rem;
+        /*width: 30%;*/
+        /*margin-left: 30px;*/
+        width: 200px;
+        /* font-family: sans-serif; */
+      }
+
+      #linegraph {
+        display: flex;
+        justify-content: center;
+        margin-top: 50px;
+        margin-left: 20px;
+        width: 100%;
+        height: 100%;
+        background-color: #f5f5f5;
+      }
+
+      #treemap {
+        margin-left: 60px;
+        width: 100%;
+        height: 100%;
+        background-color: #f5f5f5;
+        display: flex;
+        justify-content: center;
+      }
+
+
+      p {
+        margin: 0;
+        margin-left: 26px;
+      }
+
+      #title {
+        margin-top: 50px;
+        margin-left: 20px;
+        width: 100%;
+        height: 100%;
+        background-color: #f5f5f5;
+      }
+
+      .newspaper-title {
+          font-family: 'Libre Baskerville', serif;
+          font-size: 50px;
+          text-align: center;
+      }
+
+      .newspaper-body {
+        margin-left: 400px;
+        margin-right: 375px;
+        font-family: 'Libre Baskerville', serif;
+        font-size: 18px;
+        text-align: left;
+        font-weight: normal;
+    }
+
+    .newspaper-body-left {
+        margin-left: 55px;
+        margin-right: 130px;
+        font-family: 'Libre Baskerville', serif;
+        font-size: 16px;
+        text-align: left;
+        font-weight: normal;
+    }
+    .newspaper-smaller {
+        margin-left: 0px;
+        margin-right: 130px;
+        font-family: 'Libre Baskerville', serif;
+        font-size: 16px;
+        text-align: left;
+        font-weight: normal;
+    }
+
+    .newspaper-subheading {
+        font-family: 'Libre Baskerville', serif;
+        font-size: 25px;
+        text-align: center;
+    }
+
+      #endButtons {
+          text-align: center;
+      }
+
+      .buttons {
+          margin: 0 15px; /* Adjust margin as needed */
+          font-size: 16px;
+          width: 100px;
+          height: 60px;
+          background-color: #dd7973;
+          font-family: 'Libre Baskerville', serif;
+          color: #000000;
+          border: none;
+          cursor: pointer;
+          font-weight: bold;
+      }
+
+    .tooltip {
+        font-family: 'Libre Baskerville', seriff;
+        font-size: 12px;
+    }
+
+
+
+
+    </style>
+  </head>
+  <body>
+        <h1 class="newspaper-title">Greenhouse Gas Emissions <br>Over a Decade (2010-2020)</h1>
+        <h1 class="newspaper-body">Greenhouse gases are gases that absorb infrared radiation such as carbon dioxide and methane. When emitted into
+            our atmosphere, these gases trap the sun's heat, leading to global warming and climate change.
+          </h1>
+        <br>
+        <br>
+        <h1 class="newspaper-subheading">What countries have the highest emissions?</h1>
+        <h1 class="newspaper-body">China, the United States, India, Russia, and Japan were the 5 countries with the highest greenhouse gas emissions in the world in the decade 2010-2020.
+        </h1>
+        <div id="linegraph">
+          <!-- <svg id="linegraphSvg" width="1200" height="0"></svg> -->
+        </div>
+
+    <h1 class="newspaper-subheading" style="margin-top: 50px">
+        What about the rest of the world?
+    </h1>
+
+    <h1 class="newspaper-body">The combined greehouse gas emissions in the 5 countries of China, the United States, India, Russia, and Japan
+      have made up 48-52% of all global greenhouse gas emissions throughout the decade of 2010-2020, with the top country of China making up for 22-27% of
+      global emissions alone.
+    </h1>
+    <h1 class="newspaper-body"> <br>
+    </h1>
+    
+    <div id="treemap">
+      <!-- <svg id="treemap" width="600" height="0"></svg> -->
+    </div>
+
+    <h1 class="newspaper-subheading">Breakdown of emissions in the United States.</h1>
+    <h1 class="newspaper-body"> From 2010 to 2020, the Greenhouse Gas Reporting Program (GHGRP) collected greenhouse gas emissions data from the
+      largest emitting facilities in the U.S. While this data does not include emissions from every source, it shows
+      which states are the largest contributors.
+    </h1>
+
+    <div id="container">
+      <div id="maps">
+        <div id="firstRowOfMaps">
+          <div id="map1OuterDiv">
+            <h1 class="newspaper-body-left">CO2 (Carbon Dioxide) in Metric Tons</h1>
+            <div id="map1">
+              <svg id="map1svg" width="400" height="400"></svg>
+            </div>
+          </div>
+
+          <div id="map2OuterDiv">
+            <p class="newspaper-body-left">CH4 (Methane) in Metric Tons</p>
+            <div id="map2">
+              <svg id="map2svg" width="400" height="400"></svg>
+            </div>
+          </div>
+        </div>
+
+        <div id="secondRowOfMaps">
+          <div id="map3OuterDiv">
+            <p class="newspaper-body-left">N2O (Nitrous Oxide) in Metric Tons</p>
+            <div id="map3">
+              <svg id="map3svg" width="400" height="400"></svg>
+            </div>
+          </div>
+
+          <div id="map4OuterDiv">
+            <p class="newspaper-body-left">Fluorinated Gases in Metric Tons</p>
+            <div id="map4">
+              <svg id="map4svg" width="400" height="400"></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="newspaper-smaller" id="yearSelector">
+        <label style="margin-bottom: 1rem">Year Selector</label>
+        <div class="yearOptions">
+        </div>
+        <label style="margin-top: 1rem"
+          >Note: Fluorinated Gases have a disproportionately large impact on the
+          environment, so a small amount has large impact.</label
+        >
+      </div>
+    </div>
+
+    <h1 class="newspaper-subheading">How have emissions changed over time in the United States?</h1>
+    <h1 class="newspaper-body"> The United States has made some consistent progress in reducing greenhouse gas emissions.
+      Among the most abundant greenhouse gases in the U.S. throughout the decade were carbon dioxide, methane, nitrous oxide, and fluorinated gases.
+    </h1>
+
+    <div id="areaCharts">
+      <div id="areaChart1"></div>
+      <div id="areaChart2"></div>
+      <div id="areaChart3"></div>
+      <div id="areaChart4"></div>
+    </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <h1 class="newspaper-subheading">Why Should We Care About Greenhouse Gases?</h1>
+        <br>
+        <h1 class="newspaper-body"> Greenhouse gases are the primary driver of climate change. Climate change is detrimental
+          to our world as we know it because it leads to a rise in earth's temperature, an increase in severe weather events, rising sea levels,
+          and much more. These changes can have major implications for life on Earth, such as human health and agricultural productivity.
+          If we don't continue to reduce greenhouse gas emissions, the impacts of climate change will be felt worldwide.
+        </h1>
+        <br>
+        <br>
+        <br>
+        <br>
+        <h1 class="newspaper-subheading">Sources</h1>
+        <h1 class="newspaper-body">
+          Our World in Data, Data Is Plural, United Sates Environmental Protection Agency, ChatGPT, European Environment Agency, NASA
+        </h1>
+        <br>
+        <br>
+        <br>
+        <br>
+        <h1 class="newspaper-subheading">Details</h1>
+        <div id="endButtons">
+            <button class="buttons" id="processButton">Process Book</button>
+            <button class="buttons" id="dataButton">Data Source</button>
+            <button class="buttons" id="screenCastButton">Screen Cast</button>
+        </div>
+        <br><br>
+        <br><br>
+        <br><br>
+        <br><br>
+        <br><br>
+
+    <script type="text/javascript">
+      // Set up dimensions for the map
+      let width = 960;
+      let height = 600;
+
+      let yearMin = 2010;
+      let yearMax = 2022;
+
+      let dummy;
+
+      // From: https://stackoverflow.com/questions/36754940/check-multiple-checkboxes-with-click-drag
+      var mouseDown = 0;
+      document.body.onmousedown = function () {
+        ++mouseDown;
+      };
+      document.body.onmouseup = function () {
+        --mouseDown;
+      };
+      //   let multiSelect = document.getElementById("multi-select");
+
+      //   for (let i = yearMin; i <= yearMax; i++) {
+      //     let option = document.createElement("option");
+      //     option.value = i;
+      //     option.text = i;
+      //     multiSelect.appendChild(option);
+      //   }
+
+      let multiSelect = document.querySelector(".yearOptions");
+      for (let i = yearMin; i <= yearMax - 2; i++) {
+        let input = document.createElement("input");
+        input.type = "checkbox";
+        input.id = i;
+        input.value = i;
+
+        
+        //make the input invisible so we can style the checkbox
+        input.style.display = "none";
+
+        //add a span to style the checkbox
+        let span = document.createElement("span");
+        span.className = "checkbox";
+        span.style.width = "20px";
+        span.style.height = "20px";
+        span.style.border = "2px solid black";
+        span.style.display = "inline-block";
+        span.style.cursor = "pointer";
+        span.style.textAlign = "center";
+        span.style.margin = "5px";
+        span.style.backgroundColor = "white";
+        
+        if(i == 2020){
+          input.checked = true;
+            span.innerHTML = "✓";
+        }
+        // add checkmark to span if input is checked
+        input.onchange = function () {
+          console.log("input changed");
+          if (input.checked) {
+            span.innerHTML = "✓";
+          } else {
+            span.innerHTML = "";
+          }
+
+          dummy();
+        };
+
+        // make the span and its children unselectable
+        span.style.userSelect = "none";
+        span.style.webkitUserSelect = "none";
+        span.style.MozUserSelect = "none";
+        span.style.msUserSelect = "none";
+        span.onclick = function () {
+          input.checked = !input.checked;
+          input.onchange();
+        };
+
+        //make it so the check mark in the span doesn't change the spacing
+        span.style.lineHeight = "20px";
+
+        // Create a div to put the input, span, and label in
+        let divContainer = document.createElement("div");
+        divContainer.style.display = "flex";
+        divContainer.style.alignItems = "center";
+        divContainer.style.margin = "5px";
+
+        divContainer.appendChild(input);
+        divContainer.appendChild(span);
+
+        let label = document.createElement("label");
+        // make label un-selectable
+        label.style.userSelect = "none";
+        label.htmlFor = i;
+        label.appendChild(document.createTextNode(i));
+        divContainer.appendChild(label);
+        multiSelect.appendChild(divContainer);
+        //give each an onmouseover event
+        // From: https://stackoverflow.com/questions/36754940/check-multiple-checkboxes-with-click-drag
+        input.onmouseover = function (box) {
+          if (mouseDown) {
+            box.srcElement.checked = 1 - box.srcElement.checked;
+            console.log(box);
+            input.onchange();
+            // box.checked = 1;
+            // ^ If you only want to turn them on, use this.
+          }
+        };
+
+        label.onmouseover = function (e) {
+          if (mouseDown) {
+            input.checked = 1 - input.checked;
+            input.onchange();
+          }
+        };
+
+        span.onmouseover = function (e) {
+          if (mouseDown) {
+            input.checked = 1 - input.checked;
+            input.onchange();
+          }
+        };
+      }
+
+      let numYears = 13;
+
+      let firstTimeDrawingMap = [true, true, true, true];
+
+      // Create an SVG element
+      let svg = d3.select("#map1svg");
+
+      // Set up projection
+      let projection = d3
+        .geoAlbersUsa()
+        .translate([width / 100 + 200, height / 100 + 160])
+        .scale(400);
+
+      let path = d3.geoPath().projection(projection);
+
+      // Generated using ColorBrewer with 9 colors
+      let colors = [
+        [
+          "#ffffd9",
+          "#edf8b1",
+          "#c7e9b4",
+          "#7fcdbb",
+          "#41b6c4",
+          "#1d91c0",
+          "#225ea8",
+          "#253494",
+          "#081d58",
+        ],
+        [
+          "#ffffe5",
+          "#fff7bc",
+          "#fee391",
+          "#fec44f",
+          "#fe9929",
+          "#ec7014",
+          "#cc4c02",
+          "#993404",
+          "#662506",
+        ],
+        [
+          "#ffffe5",
+          "#f7fcb9",
+          "#d9f0a3",
+          "#addd8e",
+          "#78c679",
+          "#41ab5d",
+          "#238443",
+          "#006837",
+          "#004529",
+        ],
+        [
+          "#fff7f3",
+          "#fde0dd",
+          "#fcc5c0",
+          "#fa9fb5",
+          "#f768a1",
+          "#dd3497",
+          "#ae017e",
+          "#7a0177",
+          "#49006a",
+        ],
+      ];
+
+      // Define color scale
+      let colorScaler = d3
+        .scaleLinear()
+        .domain([0, 141477787])
+        .range([0, colors.length - 1]);
+      // .interpolator(t => d3.interpolateViridis(1 - t)); // Reverse the interpolation
+
+      let colorScale = function (value) {
+        return colors[0][Math.floor(colorScaler(value))];
+      };
+
+      let stateTotalsByYear = [{}, {}, {}, {}];
+      let jsonData = {};
+
+      async function loadJsonData() {
+    return new Promise((resolve, reject) => {
+        d3.json("us_states.json", function (error, us) {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(us);
+            }
+        });
+    });
+}
+
+      
+     async function drawMaps(years, stateTotalsByYearInput) {
+        let aggregatedData = [];
+        
+        // Only load from json if it's the first time drawing the map
+        if (firstTimeDrawingMap) {
+        try {
+            jsonData = await loadJsonData();
+            console.log('JSON data loaded:', jsonData);
+        } catch (error) {
+            console.error('Error loading JSON data:', error);
+            return; // Exit the function if JSON data loading fails
+        }
+    }
+      console.log(jsonData);
+        for (let i = 0; i < 4; i++) {
+          let emissionsByState = {};
+
+          years.forEach((year) => {
+            for (const [state, data] of Object.entries(
+              stateTotalsByYearInput[i]
+            )) {
+              if (!emissionsByState[state]) {
+                emissionsByState[state] = 0;
+              }
+              if (data[year - 2010]) {
+                emissionsByState[state] += data[year - 2010];
+              }
+            }
+          });
+
+          aggregatedData.push(emissionsByState);
+        }
+
+        for (let i = 0; i < 4; i++) {
+          (function (i, svg) {
+            if (i == 0) {
+              svg = d3.select("#map1svg");
+            } else if (i == 1) {
+              svg = d3.select("#map2svg");
+            } else if (i == 2) {
+              svg = d3.select("#map3svg");
+            } else {
+              svg = d3.select("#map4svg");
+            }
+
+            svg.attr("width", "100%").attr("height", "100%");
+
+            
+              jsonData.features.forEach(function (feature) {
+                let stateName = feature.properties.NAME;
+                if (aggregatedData[i][stateName]) {
+                  feature.properties.emission = aggregatedData[i][stateName];
+                } else {
+                  feature.properties.emission = 0;
+                }
+              });
+              //   let min = d3.min(us.features, function (d) {
+              //     return d.properties.emission;
+              //   });
+
+              //   let max = d3.max(us.features, function (d) {
+              //     return d.properties.emission;
+              //   });
+
+              let min = d3.min(Object.values(aggregatedData[i]));
+              let max = d3.max(Object.values(aggregatedData[i]));
+
+              console.log("MIN AND MAX");
+              console.log(min, max);
+
+              let colorScale2 = function (value) {
+                return colors[i][
+                  Math.floor(
+                    d3
+                      .scaleLinear()
+                      .domain([min, max])
+                      .range([0, colors[i].length - 1])(value)
+                  )
+                ];
+              };
+
+              if (firstTimeDrawingMap[i]) {
+                firstTimeDrawingMap[i] = false;
+                // Create the map based on the merged data with smooth color transitions
+                svg
+                  .selectAll("path")
+                  .data(jsonData.features)
+                  .enter()
+                  .append("path")
+                  .attr("d", path)
+                  .attr("class", "class" + i)
+                  .style("stroke", "#000000")
+                  .style("stroke-width", "1")
+                  .transition() // Add transition for smooth color change
+                  .duration(1) // Duration of the transition in milliseconds
+                  .style("fill", function (d) {
+                    let emission = d.properties.emission;
+                    return emission ? colorScale2(emission) : "#f5f5f5"; // If emission value is undefined, use default color
+                  });
+              } else {
+                // Update existing paths with smooth color transitions
+                svg
+                  .selectAll("path." + ("class" + i))
+                  .data(jsonData.features)
+                  .transition() // Add transition for smooth color change
+                  .duration(1000) // Duration of the transition in milliseconds
+                  .style("fill", function (d) {
+                    let emission = d.properties.emission;
+                    return emission ? colorScale2(emission) : "#f5f5f5"; // If emission value is undefined, use default color
+                  });
+              }
+
+              // Create an SVG element for the legend
+              if (i == 0) {
+              }
+              d3.selectAll(".legend-rect" + i).remove();
+              d3.selectAll(".legend-svg" + i).remove();
+              d3.select(".legendGradient" + i).remove();
+              d3.selectAll(".legend-axis" + i).remove();
+
+              let legendSvg = svg;
+              legendSvg
+                .append("svg")
+                .attr("width", 300)
+                .attr("height", 50)
+                .attr("class", "legend-svg" + i);
+
+              // Define legend parameters
+              let legendWidth = 350;
+              let legendHeight = 20;
+              let numTicks = 7;
+
+              // Create color scale legend
+              let legendGradient = legendSvg
+                .append("defs")
+                .append("linearGradient")
+                .attr("id", "legendGradient" + i)
+                .attr("x1", "0%")
+                .attr("y1", "0%")
+                .attr("x2", "100%")
+                .attr("y2", "0%");
+
+              for (let j = 0; j <= numTicks; j++) {
+                legendGradient
+                  .append("stop")
+                  .attr("offset", (j * 100) / numTicks + "%")
+                  .attr(
+                    "stop-color",
+                    colorScale2((max - min) * (j / numTicks) + min)
+                  )
+                  .attr("stop-opacity", 1);
+
+                console.log(colorScale2((j * max) / numTicks));
+              }
+
+              // Draw the color legend rectangle
+              legendSvg
+                .append("rect")
+                .attr("x", 0)
+                .attr("y", 0)
+                .attr("width", legendWidth)
+                .attr("height", legendHeight)
+                .style("fill", "url(#legendGradient" + i + ")")
+                .attr("class", "legend-rect" + i)
+                .attr("transform", "translate(25, 20)");
+
+              let legendScale = d3
+                .scaleLinear()
+                .domain([min, max])
+                .range([0, legendWidth]);
+
+              let tickValues = legendScale.ticks(numTicks);
+              if (tickValues[tickValues.length - 1] !== max) {
+                tickValues.push(max);
+              }
+
+              if (tickValues[0] !== min) {
+                tickValues.unshift(min);
+              }
+
+              // Filter tick values to remove overlapping ticks
+              tickValues = tickValues.filter((value, index) => {
+                if (index === 0 || index === tickValues.length - 1) {
+                  return true; // Retain the first and last tick
+                }
+                const currentTickPosition = legendScale(value);
+                const nextTickPosition = legendScale(tickValues[index + 1]);
+                return Math.abs(nextTickPosition - currentTickPosition) > 20; // Adjust the threshold as needed
+              });
+
+              // Create legend axis
+              let legendAxis = d3
+                .axisBottom()
+                .scale(legendScale)
+                .tickValues(tickValues)
+                .tickFormat(d3.format(".2s"));
+
+              // Append legend axis to SVG
+              legendSvg
+                .append("g")
+                .attr("class", "legend-axis" + i)
+                .attr("transform", "translate(25," + (legendHeight + 20) + ")")
+                .call(legendAxis);
+            
+          })(i, svg);
+        }
+      }
+
+      async function loadData(fileLocation) {
+        return new Promise((resolve, reject) => {
+          d3.csv(fileLocation, (error, data) => {
+            if (error) {
+              reject(error);
+              return;
+            }
+
+            let result = {};
+            let stateFullNames = {
+              AL: "Alabama",
+              AK: "Alaska",
+              AZ: "Arizona",
+              AR: "Arkansas",
+              CA: "California",
+              CO: "Colorado",
+              CT: "Connecticut",
+              DE: "Delaware",
+              FL: "Florida",
+              GA: "Georgia",
+              HI: "Hawaii",
+              ID: "Idaho",
+              IL: "Illinois",
+              IN: "Indiana",
+              IA: "Iowa",
+              KS: "Kansas",
+              KY: "Kentucky",
+              LA: "Louisiana",
+              ME: "Maine",
+              MD: "Maryland",
+              MA: "Massachusetts",
+              MI: "Michigan",
+              MN: "Minnesota",
+              MS: "Mississippi",
+              MO: "Missouri",
+              MT: "Montana",
+              NE: "Nebraska",
+              NV: "Nevada",
+              NH: "New Hampshire",
+              NJ: "New Jersey",
+              NM: "New Mexico",
+              NY: "New York",
+              NC: "North Carolina",
+              ND: "North Dakota",
+              OH: "Ohio",
+              OK: "Oklahoma",
+              OR: "Oregon",
+              PA: "Pennsylvania",
+              RI: "Rhode Island",
+              SC: "South Carolina",
+              SD: "South Dakota",
+              TN: "Tennessee",
+              TX: "Texas",
+              UT: "Utah",
+              VT: "Vermont",
+              VA: "Virginia",
+              WA: "Washington",
+              WV: "West Virginia",
+              WI: "Wisconsin",
+              WY: "Wyoming",
+            };
+
+            data.forEach((d) => {
+              let stateAbbreviation = d.STATE;
+              let year = d.YEAR;
+              let stateFullName = stateFullNames[stateAbbreviation];
+              let emissionValue = parseFloat(
+                d["GHG QUANTITY (METRIC TONS CO2e)"]
+              );
+
+              if (!result[stateFullName]) {
+                result[stateFullName] = {};
+              }
+
+              if (result[stateFullName][year - 2010]) {
+                result[stateFullName][year - 2010] += emissionValue;
+              } else {
+                result[stateFullName][year - 2010] = emissionValue;
+              }
+            });
+
+            resolve(result);
+          });
+        });
+      }
+
+      async function gatherDataAndDraw() {
+        try {
+          let CO2dataPromise = loadData(
+            "./Data Sources/CO2 Only All Years.csv"
+          );
+          let CH4dataPromise = loadData(
+            "./Data Sources/CH4 Only All Years.csv"
+          );
+          let N2OdataPromise = loadData(
+            "./Data Sources/N2O Only All Years.csv"
+          );
+          let fluorinatedGasesDataPromise = loadData(
+            "./Data Sources/Fluorinated GHGs Only All Years.csv"
+          );
+
+          let [CO2data, CH4data, N2Odata, fluorinatedGasesData] =
+            await Promise.all([
+              CO2dataPromise,
+              CH4dataPromise,
+              N2OdataPromise,
+              fluorinatedGasesDataPromise,
+            ]);
+
+          stateTotalsByYear[0] = CO2data;
+          stateTotalsByYear[1] = CH4data;
+          stateTotalsByYear[2] = N2Odata;
+          stateTotalsByYear[3] = fluorinatedGasesData;
+
+          console.log(stateTotalsByYear);
+
+          await drawMaps([2020], stateTotalsByYear);
+        } catch (error) {
+          console.error("Error loading data:", error);
+        }
+      }
+
+      gatherDataAndDraw();
+      
+      let checkboxes = document.querySelectorAll("input[type=checkbox]");
+      checkboxes.forEach((checkbox) => {
+        dummy = function () {
+          let selectedYears = Array.from(checkboxes)
+            .filter((checkbox) => checkbox.checked)
+            .map((checkbox) => checkbox.value);
+          if (selectedYears.length != 0) {
+            drawMaps(selectedYears, stateTotalsByYear);
+          }
+        };
+      });
+
+
+
+      // Define a function to create the area chart
+      function createAreaChart(csvFilePath, svgId, color, title, yAx, toolTip) {
+        d3.csv(csvFilePath, function (data) {
+          const width = 500;
+          const height = 300;
+          const margin = {top: 45, right: 70, bottom: 45, left: 70};
+          const svg = d3
+                  .select(svgId) // Select the correct div for the area chart
+                  .append("svg") // Append an SVG element
+                  .attr("width", width)
+                  .attr("height", height);
+
+                  data = data.filter(function(d) {
+                    return +d.YEAR >= 2010 && +d.YEAR <= 2020;
+                  });
+
+          data.forEach(function (d) {
+            d["GHG QUANTITY (METRIC TONS CO2e)"] = +d["GHG QUANTITY (METRIC TONS CO2e)"];
+          });
+
+          const avgCO2byYear = {};
+          data.forEach(function (d) {
+            const year = d.YEAR;
+            if (!avgCO2byYear[year]) {
+              avgCO2byYear[year] = [];
+            }
+            avgCO2byYear[year].push(d["GHG QUANTITY (METRIC TONS CO2e)"]);
+          });
+
+          // Actually calculating the average
+          const avgCO2Data = Object.keys(avgCO2byYear).map(year => ({
+            year: +year,
+            value: d3.sum(avgCO2byYear[year])
+          }));
+
+          const xScale = d3.scaleBand()
+                  .domain(avgCO2Data.map(d => d.year))
+                  .range([margin.left, width - margin.right])
+                  .paddingInner(0.1);
+
+          const yScale = d3.scaleLinear()
+                  .domain([0, d3.max(avgCO2Data, d => d.value)])
+                  .range([height - margin.bottom, margin.top]);
+
+          // Define area generator for the first area
+          const area = d3.area()
+                  .x(d => xScale(d.year) + xScale.bandwidth() / 2)
+                  .y0(height - margin.bottom)
+                  .y1(d => yScale(d.value));
+
+          // Append area
+          svg.append("path")
+                  .datum(avgCO2Data)
+                  .attr("fill", color)
+                  .attr("opacity", 0.6)
+                  .attr("d", area);
+
+          // Append x axis
+          svg.append("g")
+                  .attr("transform", `translate(0,${height - margin.bottom})`)
+                  .call(d3.axisBottom(xScale))
+                  .selectAll("text")
+                  .attr("transform", "rotate(-45)")
+                  .style("text-anchor", "end");
+
+          // Append y axis
+          svg.append("g")
+            .attr("transform", `translate(${margin.left},0)`)
+            .call(d3.axisLeft(yScale)
+            .ticks(3)
+            .tickFormat(function(d) {
+              if (d >= 1000000) {
+                return d3.format(".1s")(d).replace("M", "M");
+              } else if (d >= 1000) {
+                return d3.format(".1s")(d).replace("k", "k");
+              } else {
+                return d;
+              }
+            }));
+
+          // Append x-axis label
+          svg.append("text")
+                  .attr("transform", `translate(${width / 2},${height})`)
+                  .style("font-family", "Libre Baskerville")
+                  .style("font-size", "10px")
+                  .style("text-anchor", "middle")
+                  .text("Year");
+
+          // Append y-axis label
+          svg.append("text")
+                  .attr("transform", "rotate(-90)")
+                  .attr("y", 0)
+                  .attr("x", 0 - height / 2)
+                  .attr("dy", "1em")
+                  .style("font-family", "Libre Baskerville")
+                  .style("font-size", "10px")
+                  .style("text-anchor", "middle")
+                  .text(yAx);
+
+          svg.append("text")
+                  .attr("class", "title")
+                  .attr("x", width / 2)
+                  .attr("y", 20)
+                  .attr("text-anchor", "middle")
+                  .style("font-size", "20px")
+                  .attr("font-family", "Libre Baskerville")
+                  .text(title);
+
+          const points = [
+            {
+              x: 230,
+              y: 125,
+              text: toolTip,
+            },
+          ]
+
+          // Append circles for the points
+          svg
+                  .selectAll(".point")
+                  .data(points)
+                  .enter()
+                  .append("circle")
+                  .attr("class", "point")
+                  .attr("cx", (d) => d.x)
+                  .attr("cy", (d) => d.y)
+                  .attr("r",220) // Adjust the radius as needed
+                  .attr("opacity", 0)
+                  .style("fill", "#f5f5f5")
+                  .style("stroke", "black")
+                  .style("stroke-width", 5)
+                  .style("cursor", "pointer")
+                  .on("mouseenter", function (d) {
+                    const tooltipBox = svg
+                            .append("foreignObject")
+                            .attr("class", "tooltip-box")
+                            .attr("x", d.x - 30)
+                            .attr("y", d === points[0] ? d.y + 10 : d.y - 20)
+                            .attr("width", 120)
+                            .attr("height", 100)
+                            .style("fill", "white")
+                            .style("stroke", "black")
+                            .style("stroke-width", 2);
+
+                    const tooltipText = svg
+                            .append("foreignObject")
+                            .attr("class", "tooltip")
+                            .attr("x",d === points[0]
+                                    ? d.x -100
+                                    : d === points[1]
+                                            ? d.x - 125
+                                            : d.x -140)
+                            .attr(
+                                    "y",
+                                    d === points[0]
+                                            ? d.y + 27
+                                            : d === points[1]
+                                                    ? d.y - 125
+                                                    : d.y - 120
+                            )
+                            .attr("width", 250)
+                            .attr("height", 100)
+                            .append("xhtml:div")
+                            .style("font-family", "Libre Baskerville")
+                            .style("font-size", "14px")
+                            .style("text-align", "center")
+                            .html(d.text);
+
+                    const textHeight = tooltipText.node();
+
+
+                    tooltipBox
+                            .attr("height", textHeight + 20)
+                            .attr("y", d === points[0] ? d.y + 10 : d.y - 20);
+                  })
+
+                  .on("mouseout", function () {
+                    // Remove the message when mouseout
+                    svg.selectAll(".tooltip").remove();
+                    svg.selectAll(".tooltip-box").remove();
+                  });
+        });
+      }
+
+      const g1txt = "Carbon Dioxide has decreased due to the efforts of the US to reduce carbon pollution"
+      const g2txt =  "Methane emissions have remained steady as they primarily come from agriculture, fossil fuels, and decomposition of landfill waste";
+      const g3txt = "Nitrous Oxide has decreased due to improved agricultural practices and emissions reduction technologies in the US";
+      const g4txt = "Fluorinated GHGs have decreased in emissions due to the increase of renewable energy";
+
+
+      // Call the function for each CSV file
+      createAreaChart("./Data Sources/CO2 Only All Years.csv", "#areaChart1", "#040273", "CO2 Emissions", "CO2 Emissions (Metric Tons)", g1txt);
+      createAreaChart("./Data Sources/CH4 Only All Years.csv", "#areaChart2", "#720000", "CH4 Emissions", "CH4 Emissions (Metric Tons)", g2txt);
+      createAreaChart("./Data Sources/N2O Only All Years.csv", "#areaChart3", "#154f30", "N2O Emissions", "NO2 Emissions (Metric Tons)", g3txt);
+      createAreaChart("./Data Sources/Fluorinated GHGs Only All Years.csv", "#areaChart4", "#ff69b4", "Fluorinated GHG Emissions", "Fluorinated GHGs Emissions (Metric Tons)", g4txt);
+
+    // Creating a line graph of top 5 countries CO2 emissons from 2010-2020
+
+      // Importing the data and setting the height and width
+      d3.csv(
+        "./Data Sources/Our World in Data- GHG Emissions by Country.csv",
+        function (data) {
+          const margin = { top: 50, right: 240, bottom: 50, left: 130 };
+          const width = 1000 - margin.left - margin.right;
+          const height = 650 - margin.top - margin.bottom; // Adjusted height to fit at the top
+
+          const svg = d3
+            .select("#linegraph")
+            .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr(
+              "transform",
+              "translate(" + margin.left + "," + margin.top + ")"
+            ); // Removed margin adjustment
+
+          // x axis will be for years (2010 to 2020 only because those are the years in the data above)
+          const xScale = d3
+            .scaleLinear()
+            .domain([2010, 2020])
+            .range([0, width]);
+
+          // y axis will be for ghg
+          const yScale = d3.scaleLinear().domain([0, 12000]).range([height, 0]);
+
+          const colors = [
+            "#e6b400",
+            "#0e4c92",
+            "#008500",
+            "#c21807",
+            "#7c3868",
+          ];
+
+          // creating a color scale to color the lines for each country
+          const colorScale = d3
+            .scaleOrdinal()
+            .domain(data.map((d) => d.country))
+            .range(colors);
+
+          const line = d3
+            .line()
+            .x((d) => xScale(d.year))
+            .y((d) => yScale(d.total_ghg));
+
+          // need to sort the data by year so that the line is smooth
+          data.sort((a, b) => a.year - b.year);
+
+          data.forEach((countryData) => {
+            svg
+              .append("path")
+              .datum(data.filter((d) => d.country === countryData.country))
+              .attr("fill", "none")
+              .attr("stroke", colorScale(countryData.country))
+              .attr("stroke-width", 3)
+              .attr("d", line);
+          });
+
+          svg
+            .append("g")
+            .attr("transform", `translate(0,${height})`)
+            .call(d3.axisBottom(xScale).tickFormat(d3.format("d")));
+
+          svg.append("g").call(d3.axisLeft(yScale));
+
+          // adding x axis label
+          svg
+            .append("text")
+            .attr("transform", `translate(${width / 2},${height + margin.top})`)
+            .style("text-anchor", "middle")
+            .attr("font-family", "Libre Baskerville")
+            .style("font-size", "20px")
+            .text("Year");
+
+          // adding y axis label
+          svg
+            .append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 0 - margin.left + 60)
+            .attr("x", 0 - height / 2)
+            .attr("dy", "1em")
+            .style("text-anchor", "middle")
+            .attr("font-family", "Libre Baskerville")
+            .style("font-size", "20px")
+            .text("CO2 Emissions (in Million Tonnes)");
+
+          // add a title
+          svg
+            .append("text")
+            .attr("x", width / 2)
+            .attr("y", 0 - margin.top / 2)
+            .attr("text-anchor", "middle")
+            .attr("font-family", "Libre Baskerville")
+            .style("font-size", "24px")
+            .text("GHG Emissions by Country (2010-2020)");
+
+          // adding a legend
+          const legend = svg
+            .append("g")
+            .attr("transform", `translate(${width - 10},${10})`);
+
+          const legendItems = legend
+            .selectAll(".legend")
+            .data(Array.from(new Set(data.map((d) => d.country)))) // added this because countries kept repeating in the legend
+            .enter()
+            .append("g")
+            .attr("class", "legend")
+            .attr("transform", (d, i) => `translate(0,${i * 20})`);
+
+          legendItems
+            .append("rect")
+            .attr("x", 115)
+            .attr("width", 18)
+            .attr("height", 18)
+            .style("fill", (d) => colorScale(d));
+
+          legendItems
+            .append("text")
+            .attr("x", 140)
+            .attr("y", 9)
+            .attr("dy", ".35em")
+            .style("text-anchor", "start")
+            .text((d) => d);
+
+          // adding a flag to the end of each line
+
+          // United States Flag
+          const usLoc = data.find((d) => d.country === "United States");
+
+          svg
+            .append("image")
+            .attr("href", "./Flag Images/american-flag.png")
+            .attr("x", xScale(usLoc.year) + 635)
+            .attr("y", yScale(usLoc.total_ghg) + 5)
+            .attr("width", 50)
+            .attr("height", 50);
+
+          // China Flag
+          const chinaLoc = data.find((d) => d.country === "China");
+
+          svg
+            .append("image")
+            .attr("href", "./Flag Images/china-flag.png")
+            .attr("x", xScale(chinaLoc.year) + 630)
+            .attr("y", yScale(chinaLoc.total_ghg) - 140)
+            .attr("width", 60)
+            .attr("height", 60);
+
+          // India Flag
+          const indiaLoc = data.find((d) => d.country === "India");
+
+          svg
+            .append("image")
+            .attr("href", "./Flag Images/india-flag.png")
+            .attr("x", xScale(indiaLoc.year) + 635)
+            .attr("y", yScale(indiaLoc.total_ghg) - 57)
+            .attr("width", 50)
+            .attr("height", 50);
+
+          // Russia Flag
+          const russiaLoc = data.find((d) => d.country === "Russia");
+
+          svg
+            .append("image")
+            .attr("href", "./Flag Images/russia-flag.png")
+            .attr("x", xScale(russiaLoc.year) + 635)
+            .attr("y", yScale(russiaLoc.total_ghg) - 35)
+            .attr("width", 50)
+            .attr("height", 50);
+
+          // Japan flag
+          const japanLoc = data.find((d) => d.country === "Japan");
+
+          svg
+            .append("image")
+            .attr("href", "./Flag Images/japan-flag.png")
+            .attr("x", xScale(japanLoc.year) + 635)
+            .attr("y", yScale(japanLoc.total_ghg) - 15)
+            .attr("width", 50)
+            .attr("height", 50);
+
+          // Define the positions and messages for each point
+          const points = [
+            {
+              x: 400,
+              y: 38,
+              text: "While the greenhouse gas emissons have decreased in the United States from 2010 to 2020, emissions in China are still on the rise.",
+            },
+            {
+              x: 350,
+              y: 286,
+              text: "The United States has been the country with the second highest greenhouse gas emissions in the world thoughout the decade 2010-2020.",
+            },
+            { x: 602, y: 300, text: "The United States saw a dramatic drop in greenhouse gas emissions during the COVID pandemic in 2020." },
+          ];
+
+          // Append circles for the points
+          svg
+            .selectAll(".point")
+            .data(points)
+            .enter()
+            .append("circle")
+            .attr("class", "point")
+            .attr("cx", (d) => d.x)
+            .attr("cy", (d) => d.y)
+            .attr("r", 10) // Adjust the radius as needed
+            .style("fill", "#f5f5f5")
+            .style("stroke", "black")
+            .style("stroke-width", 5)
+            .style("cursor", "pointer")
+            .on("mouseenter", function (d) {
+              const tooltipBox = svg
+                .append("foreignObject")
+                .attr("class", "tooltip-box")
+                .attr("x", d.x - 30) // Adjust the x position as needed
+                .attr("y", d === points[0] ? d.y + 10 : d.y - 20)
+                .attr("width", 120) // Adjust the width of the box as needed
+                .attr("height", 100)
+                .style("fill", "white")
+                .style("stroke", "black")
+                .style("stroke-width", 2);
+
+              const tooltipText = svg
+                .append("foreignObject")
+                .attr("class", "tooltip")
+                .attr("x",d === points[0]
+                    ? d.x -100
+                    : d === points[1]
+                    ? d.x - 125
+                    : d.x -140)
+                .attr(
+                  "y",
+                  d === points[0]
+                    ? d.y + 22
+                    : d === points[1]
+                    ? d.y - 125
+                    : d.y - 120
+                )
+                .attr("width", 250)
+                .attr("height", 100)
+                .append("xhtml:div")
+                .style("font-family", "Libre Baskerville")
+                .style("font-size", "15px")
+                .style("text-align", "center")
+                .html(d.text);
+
+              const textHeight = tooltipText.node();
+            //   .getBBox().height;
+
+              tooltipBox
+                .attr("height", textHeight + 20) // Adjust the height of the box based on the text height
+                .attr("y", d === points[0] ? d.y + 10 : d.y - 20); // Re-adjust the y position based on the text height
+            })
+
+            .on("mouseout", function () {
+              // Remove the message when mouseout
+              svg.selectAll(".tooltip").remove();
+              svg.selectAll(".tooltip-box").remove();
+            });
+        }
+      );
+
+       // Creating a tree map to show how much of the total CO2 emissions each of these countries takes up
+
+      // Importing the data and setting the height and width
+      d3.csv("Data Sources/Decade Emissions Country.csv", function (data) {
+                const margin = { top: 50, right: 240, bottom: 50, left: 130 };
+                const width = 1000 - margin.left - margin.right;
+                const height = 650 - margin.top - margin.bottom;
+
+                const svg = d3
+                        .select("#treemap")
+                        .append("svg")
+                        .attr("width", width + margin.left + margin.right)
+                        .attr("height", height + margin.top + margin.bottom)
+                        .append("g")
+                        .attr(
+                                "transform",
+                                "translate(" + margin.left + "," + margin.top + ")"
+                        );
+
+
+                // Using all years
+                var filteredData = data.filter(function (d) {
+                    return d.year === "2010-2020";
+                });
+
+                var treemap = d3.treemap().size([width, height]).padding(1);
+
+                // Group the data by country -- only top 5 countries then all other countries are shown
+                var nestedData = d3
+                        .nest()
+                        .key(function (d) {
+                          return d.country;
+                        })
+                        .entries(filteredData);
+
+                // Creating a hierarchy for the tree map
+                var root = d3
+                        .hierarchy({ values: nestedData }, function (d) {
+                          return d.values;
+                        })
+                        .sum(function (d) {
+                          return +d.total_ghg;
+                        });
+
+                treemap(root);
+
+                // creating tree map colors to correspond to the line chart
+
+                const colors = d3
+                        .scaleOrdinal()
+                        .domain([
+                          "China",
+                          "United States",
+                          "India",
+                          "Russia",
+                          "Japan",
+                          "All Other Countries",
+                        ])
+                        .range([
+                          "#e6b400",
+                          "#0e4c92",
+                          "#008500",
+                          "#c21807",
+                          "#7c3868",
+                          "#898c8a",
+                        ]);
+
+
+
+                function getCountryMessage(country) {
+                  if (country === 'China') {
+                    return 'China has the largest GHG emissions because they are the world\'s largest coal producer.';
+                  } else if (country === 'United States') {
+                    return 'The United States emits many GHGs because Americans tend to drive more, emitting many fossil fuels from cars.';
+                  } else if (country == 'India') {
+                    return 'Most of India\'s GHG emissions come from an abundance of coal power plants.';
+                  } else if (country == 'Russia') {
+                    return '60% of Russia\'s GHG emissions come from fossil fuel operations.' ;
+                  } else if (country == 'Japan') {
+                    return '90% of Japan\'s GHG emissions come from fossil fuel combustion.';
+                  } else {
+                    return 'All countries produce GHGs, with some of the biggest sources of GHG emissions being electricity and heat production.';
+                  }
+                }
+
+
+                // Making the rectangles with tooltip text
+                svg.selectAll("rect")
+                        .data(root.leaves())
+                        .enter()
+                        .append("rect")
+                        .attr("x", function (d) { return d.x0; })
+                        .attr("y", function (d) { return d.y0; })
+                        .attr("width", function (d) { return d.x1 - d.x0; })
+                        .attr("height", function (d) { return d.y1 - d.y0; })
+                        .attr("fill", function (d) { return colors(d.data.country); })
+                        .append("title")
+                        .text(function(d) {
+                          const countryMessage = getCountryMessage(d.data.country);
+                          return `Country: ${d.data.country}\nTotal GHG Emissions from 2010-2020: ${d.data.total_ghg} Million Tonnes\n${countryMessage}`;
+                        });
+
+                // Adding the country names
+                svg.selectAll("text")
+                        .data(root.leaves())
+                        .enter()
+                        .append("text")
+                        .attr("x", function (d) { return d.x0 + 5; })
+                        .attr("y", function (d) { return d.y0 + 20; })
+                        .text(function (d) { return d.data.country; })
+                        .attr("fill", "white")
+                        .attr("font-family", "Libre Baskerville")
+                        .style("font-size", "17px");
+
+                // Add title to the treemap
+                svg.append("text")
+                  .attr("class", "title")
+                  .attr("x", width / 2)
+                  .attr("y", -margin.top / 2)
+                  .attr("text-anchor", "middle")
+                  .style("font-size", "24px")
+                  .attr("font-family", "Libre Baskerville")
+                  .text("Breakdown of Total GHG Emissions from 2010-2020");
+
+
+                svg
+                        .append("image")
+                        .attr("href", "./Flag Images/american-flag.png")
+                        .attr("x", 130)
+                        .attr("y", 300)
+                        .attr("width", 60)
+                        .attr("height", 60);
+
+                svg
+                        .append("image")
+                        .attr("href", "./Flag Images/china-flag.png")
+                        .attr("x", 60)
+                        .attr("y", -10)
+                        .attr("width", 70)
+                        .attr("height", 70);
+
+                svg
+                        .append("image")
+                        .attr("href", "./Flag Images/india-flag.png")
+                        .attr("x", 60)
+                        .attr("y", 460)
+                        .attr("width", 60)
+                        .attr("height", 60);
+
+
+                svg
+                        .append("image")
+                        .attr("href", "./Flag Images/russia-flag.png")
+                        .attr("x", 355)
+                        .attr("y", -5)
+                        .attr("width", 60)
+                        .attr("height", 60);
+
+                svg
+                        .append("image")
+                        .attr("href", "./Flag Images/japan-flag.png")
+                        .attr("x", 545)
+                        .attr("y", -7)
+                        .attr("width", 60)
+                        .attr("height", 60);
+
+
+
+
+              });
+
+      document.getElementById("processButton").addEventListener("click", function() {
+          const url = "https://wpi0-my.sharepoint.com/:p:/g/personal/ajmongillo_wpi_edu/EfyKxI4Kh3lJiDiybVoUwt0BbvumwAor7xm9TxpVrejbuQ?e=VW9ezG";
+          window.open(url);
+      });
+
+      document.getElementById("dataButton").addEventListener("click", function() {
+          const url = "https://ghgdata.epa.gov/ghgp/main.do#/facility/?q=Find%20a%20Facility%20or%20Location&st=&bs=&et=&fid=&sf=11001100&lowE=-20000&highE=23000000&g1=1&g2=1&g3=1&g4=1&g5=1&g6=0&g7=1&g8=1&g9=1&g10=1&g11=1&g12=1&s1=1&s2=1&s3=1&s4=1&s5=1&s6=1&s7=1&s8=1&s9=1&s10=1&s201=1&s202=1&s203=1&s204=1&s301=1&s302=1&s303=1&s304=1&s305=1&s306=1&s307=1&s401=1&s402=1&s403=1&s404=1&s405=1&s601=1&s602=1&s701=1&s702=1&s703=1&s704=1&s705=1&s706=1&s707=1&s708=1&s709=1&s710=1&s711=1&s801=1&s802=1&s803=1&s804=1&s805=1&s806=1&s807=1&s808=1&s809=1&s810=1&s901=1&s902=1&s903=1&s904=1&s905=1&s906=1&s907=1&s908=1&s909=1&s910=1&s911=1&si=&ss=&so=0&ds=E&yr=2022&tr=current&cyr=2022&ol=0&sl=0&rs=ALL"
+          window.open(url);
+      });
+
+      document.getElementById("screenCastButton").addEventListener("click", function() {
+          const url = "https://youtu.be/aTDuD9MLifI"
+          window.open(url);
+      });
+
+
+
+    </script>
+  </body>
+</html>
