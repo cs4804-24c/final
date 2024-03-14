@@ -7,7 +7,7 @@ Final Project Materials
 
 [process book](https://docs.google.com/document/d/1-sA1N3YTr06SqPqPOmjCeu4PWiKs25JrIchbX4j8Xd8/edit?usp=sharing)
 
-
+[project website](https://joselinb.github.io/final/)
 
 References
 ---
