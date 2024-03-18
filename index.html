@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="style.css" media="screen and (orientation:portrait)"/>
+    <meta name="viewport" content="width=device-width, user-scalable=no"/>
+    <title> COLOR ASSN </title>
+</head>
+
+<body>
+    <!-- HTML5 article tag for content -->
+    <div id="content">
+   
+    <header>COLOR ASSOCIATION TEST</header>
+
+   <h1>Welcome to Color Association Test</h1>
+    </div>
+    <div id="questionnaire">
+        <p>If you feel comfortable, please consider filling out the following pre-test questionnaire. If you are finished or do not wish to do so, then please click the "Skip" or "Submit" buttons to load the test and instructions.</p>
+        <p>The following test was created by Arjun Vyavaharkar. If you have any questions, feel free to send an email at the address, '<a href="mailto:apvyavaharkar@wpi.edu">apvyavaharkar@wpi.edu</a>.'</p>
+        
+        <button type="button" id="skip">Skip</button>
+        <br>
+        <fieldset>
+            <legend>Please enter your first and last initials:</legend>
+            <input id="name"/>
+        </fieldset>
+
+        <fieldset>
+            <legend>What is your gender identity/sexual orientation? (select all that apply)</legend>
+            <input type="checkbox" value="Prefer not to say" class="gender">Prefer not to say</input>
+            <br>
+            <input type="checkbox" value="Questioning" class="gender">Questioning</input>
+            <br>
+            <input type="checkbox" value="Male" class="gender">Male</input>
+            <br>
+            <input type="checkbox" value="Masculine" class="gender">Masculine</input>
+            <br>
+            <input type="checkbox" value="Female" class="gender">Female</input>
+            <br>
+            <input type="checkbox" value="Feminine" class="gender">Feminine</input>
+            <br>
+            <input type="checkbox" value="Cisgender" class="gender">Cisgender</input>
+            <br>
+            <input type="checkbox" value="Transgender" class="gender">Transgender</input>
+            <br>
+            <input type="checkbox" value="Nonbinary" class="gender">Nonbinary</input>
+            <br>
+            <input type="checkbox" value="Bigender" class="gender">Bigender</input>
+            <br>
+            <input type="checkbox" value="Multigender" class="gender">Multigender</input>
+            <br>
+            <input type="checkbox" value="Pangender" class="gender">Pangender</input>
+            <br>
+            <input type="checkbox" value="Agender" class="gender">Agender</input>
+            <br>
+            <input type="checkbox" value="Genderfluid" class="gender">Genderfluid</input>
+            <br>
+            <input type="checkbox" value="Genderqueer" class="gender">Genderqueer</input>
+            <br>
+            <input type="checkbox" value="Two-Spirit" class="gender">Two-Spirit</input>
+            <br>
+            <input type="checkbox" value="Heterosexual" class="gender">Heterosexual</input>
+            <br>
+            <input type="checkbox" value="Homosexual" class="gender">Homosexual</input>
+            <br>
+            <input type="checkbox" value="Bisexual" class="gender">Bisexual</input>
+            <br>
+            <input type="checkbox" value="Multisexual" class="gender">Multisexual</input>
+            <br>
+            <input type="checkbox" value="Pansexual" class="gender">Pansexual</input>
+            <br>
+            <input type="checkbox" value="Asexual" class="gender">Asexual</input>
+            <br>
+            <input type="checkbox" value="Aromantic" class="gender">Aromantic</input>
+            <br>
+            <input type="checkbox" value="Polyamorous" class="gender">Polyamorous</input>
+            <br>
+            <input type="checkbox" value="Queer" class="gender">Queer</input>
+            <br>
+            <input type="checkbox" value="Intersex" class="gender">Intersex</input>
+            <br>
+            <input type="checkbox" class="gender">Other (not listed): <input id="otherGender" /></input>
+            <br>
+        </fieldset>
+
+        <fieldset>
+            <legend>What is your racial/ethnic identity? (select all that apply)</legend>
+            <input type="checkbox" value="White" class="race">White</input>
+            <br>
+            <input type="checkbox" value="Caucasian" class="race">Caucasian</input>
+            <br>
+            <input type="checkbox" value="European" class="race">European</input>
+            <br>
+            <input type="checkbox" value="Latin American" class="race">Latin American</input>
+            <br>
+            <input type="checkbox" value="Middle Eastern" class="race">Middle Eastern</input>
+            <br>
+            <input type="checkbox" value="North African" class="race">North African</input>
+            <br>
+            <input type="checkbox" value="Eurasian" class="race">Eurasian</input>
+            <br>
+            <input type="checkbox" value="Central Asian" class="race">Central Asian</input>
+            <br>
+            <input type="checkbox" value="Black" class="race">Black</input>
+            <br>
+            <input type="checkbox" value="African American" class="race">African American</input>
+            <br>
+            <input type="checkbox" value="Afro-Caribbean" class="race">Afro-Caribbean</input>
+            <br>
+            <input type="checkbox" value="Black Hispanic" class="race">Black Hispanic</input>
+            <br>
+            <input type="checkbox" value="Sub-Saharan African" class="race">Sub-Saharan African</input>
+            <br>
+            <input type="checkbox" value="Indigenous Australian" class="race">Indigenous Australian</input>
+            <br>
+            <input type="checkbox" value="Melanesian" class="race">Melanesian</input>
+            <br>
+            <input type="checkbox" value="Andamanese" class="race">Andamanese</input>
+            <br>
+            <input type="checkbox" value="Malagasy" class="race">Malagasy</input>
+            <br>
+            <input type="checkbox" value="Asian" class="race">Asian</input>
+            <br>
+            <input type="checkbox" value="South Asian" class="race">South Asian</input>
+            <br>
+            <input type="checkbox" value="East Asian" class="race">East Asian</input>
+            <br>
+            <input type="checkbox" value="Southeast Asian" class="race">Southeast Asian</input>
+            <br>
+            <input type="checkbox" value="Pacific Islander" class="race">Pacific Islander</input>
+            <br>
+            <input type="checkbox" value="Indigenous American" class="race">Indigenous American</input>
+            <br>
+            <input type="checkbox" value="Native American" class="race">Native American</input>
+            <br>
+            <input type="checkbox" value="Inuit" class="race">Inuit</input>
+            <br>
+            <input type="checkbox" value="First Nations" class="race">First Nations</input>
+            <br>
+            <input type="checkbox" value="Mesoamerican" class="race">Mesoamerican</input>
+            <br>
+            <input type="checkbox" value="Multiracial" class="race">Multiracial</input>
+            <br>
+            <input type="checkbox" class="race">Other (not listed): <input id="otherRace" /></input>
+        </fieldset>
+
+        <fieldset>
+            <legend>What is your religious identity? (select all that apply)</legend>
+            <input type="checkbox" value="Unaffiliated" class="religion">Unaffiliated</input>
+            <br>
+            <input type="checkbox" value="Atheism" class="religion">Atheism</input>
+            <br>
+            <input type="checkbox" value="Agnosticism" class="religion">Agnosticism</input>
+            <br>
+            <input type="checkbox" value="Christianity" class="religion">Christianity</input>
+            <br>
+            <input type="checkbox" value="Islam" class="religion">Islam</input>
+            <br>
+            <input type="checkbox" value="Judaism" class="religion">Judaism</input>
+            <br>
+            <input type="checkbox" value="Paganism" class="religion">Paganism</input>
+            <br>
+            <input type="checkbox" value="Satanism" class="religion">Satanism</input>
+            <br>
+            <input type="checkbox" value="Hinduism" class="religion">Hinduism</input>
+            <br>
+            <input type="checkbox" value="Buddhism" class="religion">Buddhism</input>
+            <br>
+            <input type="checkbox" value="Sikhism" class="religion">Sikhism</input>
+            <br>
+            <input type="checkbox" value="Confucianism" class="religion">Confucianism</input>
+            <br>
+            <input type="checkbox" value="Taoism" class="religion">Taoism</input>
+            <br>
+            <input type="checkbox" value="Chinese Folk Religion" class="religion">Chinese Folk Religion</input>
+            <br>
+            <input type="checkbox" class="religion">Other (not listed): <input id="otherReligion" /></input>
+        </fieldset>
+        <br>
+        <button type="button" id="submit">Submit</button>
+    </div>
+
+    <script type="module">
+        document.getElementById("results").style.display='none';
+        
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+        // Documentation: https://firebase.google.com/docs/web/setup#available-libraries
+      
+        // Firebase configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyD9iR4okBA8TRKZZtOGd_F57CF54kQpExQ",
+          authDomain: "colorassn.firebaseapp.com",
+          databaseURL: "https://colorassn-default-rtdb.firebaseio.com/",
+          projectId: "colorassn",
+          storageBucket: "colorassn.appspot.com",
+          messagingSenderId: "820973011771",
+          appId: "1:820973011771:web:80d213bbd5a510cc2d2d1e"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+
+        // Initialize Realtime Database and get a reference to the service
+        const database = getDatabase(app);
+
+        document.getElementById("canvas").style.display = "none";
+        document.getElementById("test").style.display = "none";
+
+        // Button functions
+        function skip(userId) {
+            var name = "";
+            var userGender = ["Prefer not to say"];
+            var userRace = ["Nondescript"];
+            var userReligion = ["Unaffiliated"];
+
+            const db = getDatabase();
+            set(ref(db, 'users/' + userId), {
+                name: name,
+                genders: userGender,
+                races: userRace,
+                religions: userReligion
+            });
+
+            localStorage.userId = userId;
+            document.getElementById("questionnaire").style.display = "none";
+            document.getElementById("canvas").style.display = "block";
+            document.getElementById("test").style.display = "block";
+            localStorage.questionNumber = 1;
+        }
+
+        function submit(userId) {
+            var name = document.getElementById("name").value;
+            var gender = document.getElementsByClassName("gender");
+            var race = document.getElementsByClassName("race");
+            var religion = document.getElementsByClassName("religion");
+            var userGender = [];
+            var userRace = [];
+            var userReligion = [];
+            var numGenders = 0;
+            var numRaces = 0;
+            var numReligions = 0;
+
+            for (var i = 0; i < gender.length; i++) {
+                if (gender[i].checked) {
+                    if (i == gender.length - 1) {
+                        userGender.push(document.getElementById("otherGender").value);
+                    } else {
+                        userGender.push(gender[i].value);
+                    } numGenders++;
+                }
+            }
+            for (var i = 0; i < race.length; i++) {
+                if (race[i].checked) {
+                    if (i == race.length - 1) {
+                        userRace.push(document.getElementById("otherRace").value);
+                    } else {
+                        userRace.push(race[i].value);
+                    } numRaces++;
+                }
+            }
+            for (var i = 0; i < religion.length; i++) {
+                if (religion[i].checked) {
+                    if (i == religion.length - 1) {
+                        userReligion.push(document.getElementById("otherReligion").value);
+                    } else {
+                        userReligion.push(religion[i].value);
+                    } numReligions++;
+                }
+            }
+            if (numGenders == 0) {
+                userGender = ["Prefer not to say"];
+            }
+            if (numRaces == 0) {
+                userRace = ["Nondescript"];
+            }
+            if (numReligions == 0) {
+                userReligion = ["Unaffiliated"];
+            }
+
+            const db = getDatabase();
+            set(ref(db, 'users/' + userId), {
+                name: name,
+                genders: userGender,
+                races: userRace,
+                religions: userReligion
+            });
+
+            localStorage.userId = userId;
+            document.getElementById("questionnaire").style.display = "none";
+            document.getElementById("canvas").style.display = "block";
+            document.getElementById("test").style.display = "block";
+            localStorage.questionNumber = 1;
+        }
+
+        var questionnaire = document.getElementById("questionnaire");
+
+        questionnaire.querySelector("#submit").addEventListener('click', () => submit(Date.now()));
+        questionnaire.querySelector("#skip").addEventListener('click', () => skip(Date.now()));
+
+        // D3.js code block
+        import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+
+        var Lstar = Math.random()*100;
+        var astar = Math.random()*320-160;
+        var bstar = Math.random()*320-160;
+
+        var svg = d3.select('#canvas')
+            .append('svg')
+                .attr('width',200)
+                .attr('height',200);
+
+        var circle = svg.append('circle')
+            .attr('cx',100)
+            .attr('cy',100)
+            .attr('r',50)
+            .attr('fill',d3.lab(Lstar,astar,bstar))
+            .attr('stroke','black');
+
+        var test = document.getElementById("test");
+        
+        function next(userId) {
+            var beauty = test.querySelector("#beauty").value;
+            var health = test.querySelector("#health").value;
+            var temperature = test.querySelector("#temperature").value;
+            var index = localStorage.questionNumber;
+
+            const db = getDatabase();
+            set(ref(db, `users/${userId}/test/colors/${index}/`), {
+                Lstar:Lstar,
+                astar:astar,
+                bstar:bstar
+            });
+            set(ref(db, `users/${userId}/test/answers/${index}/`), {
+                beauty:beauty,
+                health:health,
+                temperature:temperature
+            });
+            
+            Lstar = Math.random()*100;
+            astar = Math.random()*320-160;
+            bstar = Math.random()*320-160;
+            test.querySelector("#beauty").value = 128;
+            test.querySelector("#health").value = 128;
+            test.querySelector("#temperature").value = 128;
+            localStorage.questionNumber++;
+            test.querySelector("#displayNumber").innerHTML = "You are on color " + localStorage.questionNumber + " of 20.";
+            circle.attr('fill',d3.lab(Lstar,astar,bstar));
+
+            if (localStorage.questionNumber > 20) {
+                test.style.display = "none";
+                document.getElementById("canvas").style.display = "none";
+                document.getElementById("finalMessage").innerHTML = "All done! Thank you for participating! You may now exit the window. If you would like to view all results, you may navigate to the link below:";
+                document.getElementById("results").style.display = "block";
+            }
+        }
+        
+        test.querySelector("#next").addEventListener('click', () => next(localStorage.userId));
+    </script>
+
+    <div id="test">
+        <p>Please use the sliders below to rate each color displayed based on how closely you believe it represents the concepts of beauty, health, and temperature.</p>
+        <p>Keep in mind that this section is purely subjective, in that there are no right or wrong answers, and be sure to take as much time as you need.</p>
+        <p>Once you are satisfied with your selection, click on "Next" in order to proceed to the next color. There are 20 in total.</p>
+        <p>Note: Upon clicking "Next," you will immediately be prompted to rate the next color. You cannot go back to the previous.</p>
+        <p>If you have any questions, do not hesitate to send an email to the address, '<a href="mailto:apvyavaharkar@wpi.edu">apvyavaharkar@wpi.edu</a>.'</p>
+
+        <div align="center">
+            <p id="displayNumber">You are on color 1 of 20.</p>
+            <br>
+            <label>Ugly</label><input type="range" min="0" max="255" step="1" value="128" id="beauty" /><label>Pretty</label>
+            <br>
+            <label>Sickly</label><input type="range" min="0" max="255" step="1" value="128" id="health"/><label>Healthy</label>
+            <br>
+            <label>Cool</label><input type="range" min="0" max="255" step="1" value="128" id="temperature"/><label>Warm</label>
+            <br>
+            <button id="next">Next</button>
+        </div>
+    </div>
+
+    <div align="center" id="canvas"></div>
+
+    <p align="center" id="finalMessage"></p>
+
+    <div id="results">
+        <a href="https://thecoolerarjun.github.io/final/results.html">https://thecoolerarjun.github.io/final/results.html</a>
+    </div>
+</body>
+</html>

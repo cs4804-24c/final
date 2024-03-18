@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="style.css" media="screen and (orientation:portrait)"/>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.29.1.min.js"></script>
+    <meta name="viewport" content="width=device-width, user-scalable=no"/>
+    <title> COLOR ASSN </title>
+</head>
+
+<body>
+    <!-- HTML5 article tag for content -->
+    <div id="content">
+   
+    <header>COLOR ASSOCIATION TEST - RESULTS</header>
+
+   <h1>Color Association Test - Results</h1>
+    </div>
+    <fieldset>
+        <legend>Select attributes to include:</legend>
+        <input type="checkbox" class="attr" checked="true">Beauty</input>
+        <br>
+        <input type="checkbox" class="attr" checked="true">Health</input>
+        <br>
+        <input type="checkbox" class="attr" checked="true">Temperature</input>
+        <br>
+    </fieldset>
+    <fieldset>
+        <legend>Select color scheme:</legend>
+        <select id="colorscheme">
+            <option value="cmy">CMY</option>
+            <option value="rgb">RGB</option>
+            <option value="bw">Black and white</option>
+        </select>
+    </fieldset>
+    <!-- <fieldset>
+        <legend>Select axes:</legend>
+        <select id="axes">
+            <option value="lab">L*a*b*</option>
+            <option value="bht">Beauty, Health, Temperature</option>
+        </select>
+    </fieldset> -->
+    <fieldset>
+        <legend>Filter by additional attributes:</legend>
+        <div id="fields">
+            <input class="field"/>
+        </div>
+        <button type="button" id="addField">Add Field</button>
+        <button type="button" id="clearAll">Clear All</button>
+    </fieldset>
+    <button type="button" id="relattr">Reload Attributes</button>
+
+    <!-- <div id="fields">
+        <button type="button" id="addField">Add Field</button>
+        <fieldset>
+            <legend>Enter a label:</legend>
+            <button type="button" id="addSub0">Add Subfield</button><button type="button" id="delField0">Delete Field</button>
+            <br>
+            <input class="label0"/><button type="button" class="delSub0">Delete Subfield</button>
+        </fieldset>
+    </div> -->
+
+    <!-- <div id="scatter"></div> -->
+
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+        // Documentation: https://firebase.google.com/docs/web/setup#available-libraries
+      
+        // Firebase configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyD9iR4okBA8TRKZZtOGd_F57CF54kQpExQ",
+          authDomain: "colorassn.firebaseapp.com",
+          databaseURL: "https://colorassn-default-rtdb.firebaseio.com/",
+          projectId: "colorassn",
+          storageBucket: "colorassn.appspot.com",
+          messagingSenderId: "820973011771",
+          appId: "1:820973011771:web:80d213bbd5a510cc2d2d1e"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+
+        // Initialize Realtime Database and get a reference to the service
+        const database = getDatabase(app);
+
+        const dbRef = ref(getDatabase());
+        get(child(dbRef, `/`)).then((snapshot) => {
+            if (snapshot.exists()) {
+                // console.log(snapshot.val().users);
+                window.userData = snapshot.val().users;
+                helper(window.userData);
+                document.body.querySelector("#relattr").addEventListener('click', () => relattr(window.userData));
+                document.body.querySelector("#addField").addEventListener('click', () => addField());
+                document.body.querySelector("#clearAll").addEventListener('click', () => function() { for (field in document.getElementsByClassName('field')) field.value='' });
+            } else {
+                console.log("No data available");
+            }
+        }).catch((error) => {
+            console.error(error);
+        });
+    </script>
+
+    <script>
+        function helper(input) {
+            var ans;
+            var lab;
+            var data;
+            var j = 0;
+
+            var colorAssn = [];
+
+            // window.labLayout = {
+            //     scene: {
+            //         xaxis: {
+            //             range: [-160,160],
+            //             nticks: 32,
+            //             title: {
+            //                 text: 'a*'
+            //             }
+            //         },
+            //         yaxis: {
+            //             range: [-160,160],
+            //             nticks: 32,
+            //             title: {
+            //                 text: 'b*'
+            //             }
+            //         },
+            //         zaxis: {
+            //             range: [0,100],
+            //             nticks: 10,
+            //             title: {
+            //                 text: 'L*'
+            //             }
+            //         }
+            //     }
+            // }
+            // window.prevLayout = window.labLayout;
+            // window.bhtLayout = {
+            //     scene: {
+            //         xaxis: {
+            //             range: [0,255],
+            //             nticks: 15,
+            //             title: {
+            //                 text: 'Beauty'
+            //             }
+            //         },
+            //         yaxis: {
+            //             range: [0,255],
+            //             nticks: 15,
+            //             title: {
+            //                 text: 'Health'
+            //             }
+            //         },
+            //         zaxis: {
+            //             range: [0,255],
+            //             nticks: 15,
+            //             title: {
+            //                 text: 'Temperature'
+            //             }
+            //         }
+            //     }
+            // };
+            var layout = {
+                width: 500,
+                height: 500,
+                margin: {
+                    l: 0,
+                    r: 0,
+                    b: 0,
+                    t: 0
+                },
+                scene: {
+                    xaxis: {
+                        range: [-160,160],
+                        nticks: 32,
+                        title: {
+                            text: 'a*'
+                        }
+                    },
+                    yaxis: {
+                        range: [-160,160],
+                        nticks: 32,
+                        title: {
+                            text: 'b*'
+                        }
+                    },
+                    zaxis: {
+                        range: [0,100],
+                        nticks: 10,
+                        title: {
+                            text: 'L*'
+                        }
+                    }
+                }
+            };
+            var name;
+            var h2;
+
+            for (uid in input) {
+                // name = input[uid]['name'].toUpperCase();
+                name = `User${j+1}`;
+                data = {
+                    x:[],y:[],z:[],
+                    type: 'scatter3d',
+                    mode: 'markers',
+                    marker: {
+                        // symbol: 'circle',
+                        size: 8,
+                        opacity: 1,
+                        color: [],
+                        line: {}
+                    },
+                    name: `${name}'s responses`,
+                    hovertemplate: []
+                }
+                h2 = Object.assign(document.createElement('h2'),{textContent:`${name}'s responses`,align:'center'});
+                document.body.appendChild(h2);
+                for (i in input[uid]['test']['answers']) {
+                    ans = input[uid]['test']['answers'][i];
+                    lab = input[uid]['test']['colors'][i];
+
+                    data['x'].push(lab['astar']);
+                    data['y'].push(lab['bstar']);
+                    data['z'].push(lab['Lstar']);
+                    
+                    data['marker']['color'].push(`rgb(${255-ans['beauty']},${255-ans['health']},${255-ans['temperature']})`);
+
+                    data['hovertemplate'].push(`<i>L</i>*: ${Math.round(lab['Lstar']*1000)/1000}<br><i>a</i>*: ${Math.round(lab['astar']*1000)/1000}<br><i>b</i>*: ${Math.round(lab['bstar']*1000)/1000}<br>Beauty: ${ans['beauty']}<br>Health: ${ans['health']}<br>Temperature: ${ans['temperature']}`);
+                } colorAssn.push(data);
+                document.body.appendChild(Object.assign(document.createElement('div'),{id:`res${j}`}));
+                Plotly.newPlot(`res${j}`,[colorAssn[j]],layout);
+                document.body.appendChild(document.createElement('br'));
+                document.getElementById(`res${j}`).labels = [];
+                for (gender in input[uid]['genders']) document.getElementById(`res${j}`).labels.push(gender);
+                for (race in input[uid]['races']) document.getElementById(`res${j}`).labels.push(race);
+                for (religion in input[uid]['religions']) document.getElementById(`res${j}`).labels.push(religion);j++;
+            } document.body.appendChild(Object.assign(document.createElement('h2'),{textContent:'All responses',align:'center'}));
+            var scatter = document.createElement('div');
+            scatter.id = 'scatter';
+            document.body.appendChild(scatter);
+            Plotly.newPlot('scatter',colorAssn,layout);
+        }
+
+        function relattr(input) {
+            var showBeauty = document.getElementsByClassName("attr")[0].checked;
+            var showHealth = document.getElementsByClassName("attr")[1].checked;
+            var showTemperature = document.getElementsByClassName("attr")[2].checked;
+
+            var ans;
+            var lab;
+            var j = 0;
+            var colorAssn = [];
+            var update;
+            // var hoverBuffer;
+            var avg;
+            var colorscheme = document.getElementById('colorscheme').value;
+            var colors;
+            // var axes = document.getElementById('axes').value;
+            var fields = document.getElementsByClassName('field');
+            var juncts = document.getElementsByClassName('junct');
+            var statement = `(genders.some(str=>str.includes(${fields[0].value}))||race.some(str=>str.includes(${fields[0].value}))||religions.some(str=>str.includes(${fields[0].value})))`;
+            for (var i=1; i < fields.length; i++) {
+                statement += `${juncts[i-1].value}(genders.some(str=>str.includes(${fields[i].value}))||race.some(str=>str.includes(${fields[i].value}))||religions.some(str=>str.includes(${fields[i].value})))`;
+            }
+            var genders;
+            var races;
+            var religions;
+
+            for (uid in input) {
+                genders = Array.prototype.slice.call(input[uid]['genders']);
+                races = Array.prototype.slice.call(input[uid]['races']);
+                religions = Array.prototype.slice.call(input[uid]['religions']);
+                if (eval(statement)) document.getElementById(`res${j}`).style.display = 'block';else document.getElementById(`res${j}`).style.display = 'none';
+
+                update = {
+                    marker: {
+                        color: []
+                    },
+                    // hovertemplate: []
+                }
+                // if ((axes == 'bht' && window.prevLayout == window.labLayout) || (axes == 'lab' && window.prevLayout == window.bhtLayout)) {
+                //     update['x'] = [];
+                //     update['y'] = [];
+                //     update['z'] = [];
+                // };
+                for (i in input[uid]['test']['answers']) {
+                    ans = input[uid]['test']['answers'][i];
+                    lab = input[uid]['test']['colors'][i];
+
+                    // hoverBuffer = '';
+                    // if (showBeauty) hoverBuffer+=`<br>Beauty: ${ans['beauty']}`;
+                    // if (showHealth) hoverBuffer+=`<br>Health: ${ans['health']}`;
+                    // if (showTemperature) hoverBuffer+=`<br>Temperature: ${ans['temperature']}`;
+
+                    avg = 255;
+                    if (showBeauty || showHealth || showTemperature) {
+                        avg = ((255-ans['beauty'])*showBeauty+(255-ans['health'])*showHealth+(255-ans['temperature'])*showTemperature)/(showBeauty+showHealth+showTemperature);
+                    }
+
+                    // if (axes == 'lab' && window.prevLayout == window.bhtLayout) {
+                    //     update['x'].push(lab['astar']);update['y'].push(lab['bstar']);update['z'].push(lab['Lstar']);
+                    // }
+                    // if (axes == 'bht' && window.prevLayout == window.labLayout) {
+                    //     update['x'].push(ans['beauty']);update['y'].push(ans['health']);update['z'].push(ans['temperature']);
+                    // }
+                    /*if (axes == 'lab')*/ update['marker']['color'].push(`rgb(${ans['beauty']*showBeauty*((colorscheme=='rgb')-(colorscheme=='cmy'))+255*(colorscheme=='cmy')+avg*(colorscheme=='bw')},${ans['health']*showHealth*((colorscheme=='rgb')-(colorscheme=='cmy'))+255*(colorscheme=='cmy')+avg*(colorscheme=='bw')},${ans['temperature']*showTemperature*((colorscheme=='rgb')-(colorscheme=='cmy'))+255*(colorscheme=='cmy')+avg*(colorscheme=='bw')})`);
+                    // if (axes == 'bht') update['marker']['color'].push(d3.lab(lab['Lstar'],lab['astar'],lab['bstar']).formatRgb());
+                    // update['hovertemplate'].push(`<i>L</i>*: ${Math.round(lab['Lstar']*1000)/1000}<br><i>a</i>*: ${Math.round(lab['astar']*1000)/1000}<br><i>b</i>*: ${Math.round(lab['bstar']*1000)/1000}`+hoverBuffer);
+                } colorAssn.push(update);
+                /*if (axes == 'lab' && window.prevLayout == window.bhtLayout) Plotly.relayout(`res${j}`,window.labLayout);if (axes == 'bht' && window.prevLayout == window.labLayout) Plotly.relayout(`res${j}`,window.bhtLayout);*/Plotly.restyle(`res${j}`,colorAssn[j]);j++;
+            } /*if (axes == 'lab' && window.prevLayout == window.bhtLayout) {window.prevLayout = window.labLayout;Plotly.relayout('scatter',window.prevLayout)};if (axes == 'bht' && window.prevLayout == window.labLayout) {window.prevLayout = window.bhtLayout;Plotly.relayout('scatter',window.prevLayout)};*/for (var k = 0; k < j; k++) Plotly.restyle('scatter',colorAssn[k],k);
+        }
+
+        // function addField() {
+        //     var fields = document.getElementById('fields');
+        //     var fieldsets = fields.getElementsByTagName('fieldset');
+
+        //     var select = fields.appendChild(Object.assign(document.createElement('select'),{classList:'junct'}));
+        //     var and = Object.assign(document.createElement('option'),{value:'and',textContent:'and'});
+        //     var or = Object.assign(document.createElement('option'),{value:'or',textContent:'or'});
+        //     select.appendChild(and);
+        //     select.appendChild(or);
+
+        //     var fieldset = document.createElement('fieldset');
+        //     var legend = Object.assign(document.createElement('legend'),{textContent:'Enter a label:'});
+        //     var addSub = Object.assign(document.createElement('button'),{type:'button',textContent:'Add Subfield'});
+        //     var delField = Object.assign(document.createElement('button'),{type:'button',textContent:'Delete Field'});
+        //     var field = Object.assign(document.createElement('input'),{classList:'label'});
+        //     var delSub = Object.assign(document.createElement('button'),{type:'button',textContent:'Delete Subfield'});
+        //     delSub.onclick = function() {
+        //         field.remove();
+        //         delSub.remove();
+        //         if (fieldset.getElementsByTagName('div') != null) {
+        //             fieldset.getElementsByTagName('select')[0].remove();
+        //             delSub = fieldset.getElementsByTagName('button')[0];
+        //             field = fieldset.getElementsByTagName('input')[0];
+        //         }
+        //     }
+        //     delField.onclick = function() {
+        //         fieldset.remove();
+        //         select.remove();
+        //     }
+        //     addSub.onclick = function() {
+        //         var sub = fieldset.appendChild(document.createElement('div'));
+        //         var subSelect = sub.appendChild(Object.assign(document.createElement('select'),{classList:'junct'}));
+        //         subSelect.appendChild(Object.assign(document.createElement('option'),{value:'and',textContent:'and'}));
+        //         subSelect.appendChild(Object.assign(document.createElement('option'),{value:'or',textContent:'or'}));
+        //         sub.appendChild(document.createElement('br'));
+        //         var subField = sub.appendChild(Object.assign(document.createElement('input'),{classList:'label'}));
+        //         var subDelSub = Object.assign(document.createElement('button'),{type:'button',textContent:'Delete Subfield'});
+        //         subDelSub.onclick = function() {
+        //             sub.remove();
+        //         }
+        //         sub.appendChild(subDelSub);
+        //     }
+
+        //     fieldset.appendChild(legend);
+        //     fieldset.appendChild(addSub);
+        //     fieldset.appendChild(delField);
+        //     fieldset.appendChild(document.createElement('br'));
+        //     fieldset.appendChild(field);
+        //     fieldset.appendChild(delSub);
+
+        //     fields.appendChild(fieldset);
+        // }
+        
+        function addField() {
+            var fields = document.getElementById('fields');
+            var div = fields.appendChild(Object.assign(document.createElement('div')));
+            var junction = div.appendChild(Object.assign(document.createElement('select'),{classList:'junct'}));
+            var con = junction.appendChild(Object.assign(document.createElement('option'),{value:'&&',textContent:'and'}));
+            var dis = junction.appendChild(Object.assign(document.createElement('option'),{value:'||',textContent:'or'}));
+            div.appendChild(document.createElement('br'));
+            var field = div.appendChild(Object.assign(document.createElement('input'),{classList:'field'}));
+            var delField = div.appendChild(Object.assign(document.createElement),{type:'button'});
+            delField.onclick = function() { div.remove() };
+        }
+    </script>
+</body>
+</html>
