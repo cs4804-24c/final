@@ -1,0 +1,15 @@
+{
+    "dependencies": {
+        "react": "latest",
+        "react-dom": "latest",
+        "survey-core": "latest",
+        "survey-react-ui": "^1.9.131"
+    },
+    "devDependencies": {
+        "react-scripts": "latest"
+    },
+    "scripts": {
+        "start": "node json.js"
+    },
+    "type":"module"
+}
